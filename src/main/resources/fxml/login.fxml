@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="1100.0" styleClass="container" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.LoginController">
+   <children>
+      <Pane fx:id="logincontainer" layoutX="600.0" layoutY="100.0" prefHeight="600.0" prefWidth="500.0" styleClass="login-container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="111.0" layoutY="84.0" prefHeight="38.0" prefWidth="281.0" text="ModcraftMC" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Label>
+            <Label fx:id="serverdesc" alignment="CENTER" contentDisplay="CENTER" layoutX="73.0" layoutY="139.0" prefHeight="23.0" prefWidth="357.0" text="modcraft.server.desc" textFill="WHITE">
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
+            <Label fx:id="accounttype" alignment="CENTER" contentDisplay="CENTER" layoutX="18.0" layoutY="168.0" prefHeight="21.0" prefWidth="462.0" text="modcraft.login.accounttype" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="emailfield" layoutX="104.0" layoutY="243.0" prefHeight="39.0" prefWidth="290.0" promptText="modcraft.login.email" styleClass="field">
+               <font>
+                  <Font size="15.0" />
+               </font></JFXTextField>
+            <JFXPasswordField fx:id="passwordfield" layoutX="106.0" layoutY="325.0" prefHeight="39.0" prefWidth="290.0" promptText="modcraft.login.password" styleClass="field">
+               <font>
+                  <Font size="15.0" />
+               </font></JFXPasswordField>
+            <Button fx:id="closeBtn" layoutX="477.0" layoutY="-2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="24.0" styleClass="close" />
+            <JFXCheckBox fx:id="logincheckbox" checkedColor="#2146a4" layoutX="106.0" layoutY="396.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="290.0" text="modcraft.keeplogin">
+               <font>
+                  <Font size="13.0" />
+               </font></JFXCheckBox>
+            <JFXButton fx:id="loginBtn" layoutX="95.0" layoutY="446.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="312.0" styleClass="login-button" text="modcraft.login.connect" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font></JFXButton>
+         </children></Pane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="1100.0" styleClass="container" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.MainController">
+   <children>
+      <Pane layoutX="714.0" layoutY="88.0" prefHeight="183.0" prefWidth="389.0" styleClass="login-container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="714.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Pane layoutX="9.0" layoutY="59.0" prefHeight="183.0" prefWidth="368.0" styleClass="userbox">
+               <children>
+                  <Label fx:id="playername" alignment="CENTER" layoutX="14.0" layoutY="7.0" prefHeight="17.0" prefWidth="340.0" text="player.username" textFill="WHITE" />
+                  <ImageView fx:id="playerhead" depthTest="DISABLE" fitHeight="80.0" fitWidth="80.0" layoutX="144.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" smooth="false">
+                     <image>
+                        <Image url="https://minotar.net/avatar/manugame" />
+                     </image></ImageView>
+                  <JFXButton fx:id="logout" layoutX="104.0" layoutY="124.0" mnemonicParsing="false" prefHeight="13.0" prefWidth="160.0" styleClass="login-button" text="main.player.logout" textFill="WHITE" />
+               </children></Pane>
+            <Pane layoutX="9.0" layoutY="260.0" prefHeight="121.0" prefWidth="368.0" styleClass="userbox">
+               <children>
+                  <Label fx:id="serverstate" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="16.0" prefHeight="25.0" prefWidth="340.0" text="server.state.online" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+                  <Separator layoutX="14.0" layoutY="59.0" prefHeight="4.0" prefWidth="340.0" />
+                  <Label fx:id="playerslabel" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="86.0" prefHeight="25.0" prefWidth="340.0" text="18/50 joueurs" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children></Pane>
+            <Button fx:id="closeBtn" layoutX="361.0" layoutY="3.0" mnemonicParsing="false" styleClass="close" />
+            <JFXButton fx:id="settings" layoutX="29.0" layoutY="423.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="329.0" styleClass="login-button" text="main.settings" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="play" layoutX="29.0" layoutY="481.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="329.0" styleClass="login-button" text="main.play" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXButton>
+            <ProgressBar fx:id="progress" layoutX="29.0" layoutY="569.0" prefHeight="17.0" prefWidth="329.0" progress="0.0" />
+            <Label fx:id="label" alignment="CENTER" layoutX="28.0" layoutY="537.0" prefHeight="17.0" prefWidth="329.0" text="Label" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" />
+            <Rectangle fx:id="hideBtn" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="4.0" layoutX="338.0" layoutY="18.0" stroke="WHITE" strokeType="INSIDE" styleClass="hide" width="16.0" />
+         </children></Pane>
+   </children>
+</AnchorPane>
