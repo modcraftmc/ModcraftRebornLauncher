@@ -101,15 +101,15 @@ public class SettingsController implements IController {
         ramSlider.setMax(16);
         System.out.println(ModcraftApplication.launcherConfig.getRam());
         ramSlider.setValue(ModcraftApplication.launcherConfig.getRam());
-        ramText.setText("Ram: " + ((int) ramSlider.getValue()));
+        ramText.setText("Ram: " + ((int)Math.floor(ramSlider.getValue())));
 
         customPathCheckbox.setSelected(ModcraftApplication.launcherConfig.getInstanceProperty().isCustomInstance());
         customPathValue.setText(ModcraftApplication.launcherConfig.getInstanceProperty().getCustomInstancePath());
 
 
         ramSlider.setOnMouseDragged(event -> {
-            ramText.setText("Ram: " + ((int) ramSlider.getValue()));
-            ModcraftApplication.launcherConfig.setRam(((int) ramSlider.getValue()));
+            ramText.setText("Ram: " + ((int)Math.floor(ramSlider.getValue()+0.5)));
+            ModcraftApplication.launcherConfig.setRam(((int)Math.floor(ramSlider.getValue()+0.5)));
         });
 
         customPathCheckbox.setOnMouseClicked(event -> {
