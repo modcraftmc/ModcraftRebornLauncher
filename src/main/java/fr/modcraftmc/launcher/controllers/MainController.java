@@ -87,7 +87,6 @@ public class MainController implements IController {
 
                     Platform.runLater(() -> playerslabel.setText(String.format("%s/%s joueurs", data.getPlayers().getOnline(), data.getPlayers().getMax())));
                 } catch (IOException e) {
-                    e.printStackTrace();
                 }
 
             }

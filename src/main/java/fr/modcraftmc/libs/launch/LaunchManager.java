@@ -18,7 +18,7 @@ public class LaunchManager {
     public static Process launch(File dir) {
 
         try {
-            NewForgeVersionDiscriminator forgeVersionDiscriminator = new NewForgeVersionDiscriminator(ModcraftApplication.FORGE_VERSION, ModcraftApplication.MC_VERSION, "net.minecraftforge", "20201102.104115");
+            NewForgeVersionDiscriminator forgeVersionDiscriminator = new NewForgeVersionDiscriminator(ModcraftApplication.FORGE_VERSION, ModcraftApplication.MC_VERSION, "net.minecraftforge", ModcraftApplication.MCP_VERSION);
             GameVersion VERSION = new GameVersion(ModcraftApplication.MC_VERSION, GameType.V1_13_HIGER_FORGE.setNewForgeVersionDiscriminator(forgeVersionDiscriminator));
             GameInfos infos = new GameInfos("modcraftmc", dir, VERSION, new GameTweak[] {});
 
