@@ -2,18 +2,25 @@ package fr.modcraftmc.launcher;
 
 import fr.modcraftmc.launcher.controllers.IController;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Utils {
 
 
     private static double xOffset = 0;
     private static double yOffset = 0;
-    public static Pane loadFxml(String file) {
 
-        ModcraftApplication.LOGGER.info("Loading fxml file  " + file);
+    private static Map<String, Scene> loadedScenes = new HashMap<>();
+    public static Scene loadFxml(String file) {
+
+        if (loadedScenes.containsKey(file)) {
+            return loadedScenes.get(file);
+        }
 
         try {
             FXMLLoader loader = new FXMLLoader(ModcraftApplication.resourcesManager.getResource(file));
@@ -29,12 +36,14 @@ public class Utils {
                 ModcraftApplication.getWindow().setX(event.getScreenX() - xOffset);
                 ModcraftApplication.getWindow().setY(event.getScreenY() - yOffset);
             });
-
-            return pane;
+            Scene scene = new Scene(pane);
+            loadedScenes.put(file, scene);
+            return scene;
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new Pane();
+
+        throw new RuntimeException();
     }
 }

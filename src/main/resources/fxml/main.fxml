@@ -48,5 +48,63 @@
             <Label fx:id="label" alignment="CENTER" layoutX="28.0" layoutY="537.0" prefHeight="17.0" prefWidth="329.0" text="Label" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" />
             <Rectangle fx:id="hideBtn" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="4.0" layoutX="338.0" layoutY="18.0" stroke="WHITE" strokeType="INSIDE" styleClass="hide" width="16.0" />
          </children></Pane>
+      <Pane fx:id="leftpane" layoutX="14.0" layoutY="14.0" prefHeight="572.0" prefWidth="703.0" visible="false">
+         <children>
+            <Label layoutX="265.0" layoutY="39.0" text="Paramètres" textFill="WHITE">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+            <VBox layoutX="19.0" layoutY="88.0" prefHeight="479.0" prefWidth="678.0">
+               <children>
+                  <Pane prefHeight="112.0" prefWidth="678.0">
+                     <children>
+                        <Label layoutX="26.0" layoutY="14.0" text="Ram" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <JFXSlider fx:id="ramSlider" layoutX="26.0" layoutY="56.0" prefHeight="15.0" prefWidth="489.0" styleClass="slideBar" stylesheets="@../css/main.css" />
+                        <Label fx:id="ramText" layoutX="533.0" layoutY="56.0" prefHeight="18.0" prefWidth="96.0" text="Ram:" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Pane layoutX="10.0" layoutY="10.0" prefHeight="116.0" prefWidth="678.0">
+                     <children>
+                        <Label layoutX="26.0" layoutY="14.0" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <JFXCheckBox fx:id="customPathCheckbox" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="207.0" text="Changer le dossier d'installation" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font></JFXCheckBox>
+                        <TextField fx:id="customPathValue" layoutX="14.0" layoutY="61.0" prefHeight="26.0" prefWidth="489.0" />
+                        <JFXButton fx:id="fidnBtn" layoutX="519.0" layoutY="56.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="122.0" styleClass="login-button" text="Parcourir" textFill="WHITE">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </Pane>
+                  <Pane layoutX="10.0" layoutY="122.0" prefHeight="62.0" prefWidth="678.0">
+                     <children>
+                        <Label layoutX="26.0" layoutY="14.0" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <JFXCheckBox fx:id="keepOpen" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="207.0" text="Laisser le launcher ouvert pendant l'execution du jeu" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </JFXCheckBox>
+                     </children>
+                  </Pane>
+               </children></VBox>         </children></Pane>
    </children>
 </AnchorPane>

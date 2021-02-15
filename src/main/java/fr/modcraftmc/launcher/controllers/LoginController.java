@@ -47,7 +47,6 @@ public class LoginController implements IController {
     @Override
     public void initialize() {
 
-
         if (ModcraftApplication.launcherConfig.isKeeplogin()) {
             try {
                 String accessToken = ModcraftApplication.launcherConfig.getAccesToken();
@@ -60,7 +59,7 @@ public class LoginController implements IController {
             } catch (Exception ignored) {}
         }
 
-        serverdesc.setText("Serveur skyblock moddé 1.15.2");
+        serverdesc.setText("Serveur skyblock moddé 1.16.2");
         accounttype.setText("Connectez-vous via votre compte mojang ou modcraftmc.fr");
 
         emailfield.setPromptText("Email");
@@ -74,7 +73,6 @@ public class LoginController implements IController {
         }));
 
         loginBtn.setOnMouseClicked((event) -> login());
-
 
             //window action
         closeBtn.setOnMouseClicked(event -> {
@@ -129,7 +127,7 @@ public class LoginController implements IController {
         TranslateTransition translateTransition = new TranslateTransition(Duration.millis(1500), logincontainer);
 
         translateTransition.setOnFinished((event -> {
-            ModcraftApplication.getWindow().setScene(ModcraftApplication.mainScene = new Scene(Utils.loadFxml("main.fxml")));
+            ModcraftApplication.getWindow().setScene(Utils.loadFxml("main.fxml"));
         }));
 
         for (Node child : logincontainer.getChildren()) {
@@ -140,6 +138,5 @@ public class LoginController implements IController {
         }
 
         translateTransition.play();
-
     }
 }

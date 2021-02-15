@@ -1,6 +1,8 @@
 package fr.modcraftmc.launcher.controllers;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXSlider;
 import fr.flowarg.flowlogger.ILogger;
 import fr.flowarg.flowupdater.download.IProgressCallback;
 import fr.flowarg.flowupdater.download.Step;
@@ -22,9 +24,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.DirectoryChooser;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,8 +55,20 @@ public class MainController implements IController {
     @FXML public Label label;
     @FXML public ProgressBar progress;
 
-    public Process launchProcess;
-    public boolean isLaunched = false;
+    @FXML public Pane leftpane;
+    private boolean showSettings = false;
+
+    @FXML public JFXSlider ramSlider;
+    @FXML public Label ramText;
+
+    @FXML public JFXCheckBox customPathCheckbox;
+    @FXML public TextField customPathValue;
+    @FXML public JFXButton fidnBtn;
+    @FXML public JFXCheckBox keepOpen;
+
+    private Process launchProcess;
+    private boolean isLaunched = false;
+
     @Override
     public void initialize() {
 
@@ -65,7 +82,6 @@ public class MainController implements IController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         logout.setText("SE DÉCONNECTER");
         settings.setText("PARAMÈTRES");
@@ -90,7 +106,7 @@ public class MainController implements IController {
                 }
 
             }
-        }, 0, 30000);
+        }, 0, 60000);
 
 
         play.setOnMouseClicked((event -> new Thread(() -> {
@@ -140,56 +156,52 @@ public class MainController implements IController {
                     label.setText("");
                 });
             }
+        }).start()));
 
-            /*
-            if (launchProcess == null || !launchProcess.isAlive()) {
-                progress.setVisible(true);
-                InstanceProperty instanceProperty = ModcraftApplication.launcherConfig.getInstanceProperty();
+        ramSlider.setMin(4);
+        ramSlider.setMax(16);
+        ramSlider.setValue(ModcraftApplication.launcherConfig.getRam());
+        ramText.setText("Ram: " + ((int)Math.floor(ramSlider.getValue())));
 
-                File path = instanceProperty.isCustomInstance() ? new File(instanceProperty.getCustomInstancePath()) : new File(FilesManager.INSTANCES_PATH, "v3files");
-                path.mkdirs();
-                GameUpdater gameUpdater = new GameUpdater("http://update.modcraftmc.fr:100", path, progress, label);
-                Task task = gameUpdater.getUpdater();
-                task.setOnSucceeded((e) -> {
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException interruptedException) {
-                        interruptedException.printStackTrace();
-                    }
-                    launchProcess = LaunchManager.launch(path);
+        customPathCheckbox.setSelected(ModcraftApplication.launcherConfig.getInstanceProperty().isCustomInstance());
+        customPathValue.setText(ModcraftApplication.launcherConfig.getInstanceProperty().getCustomInstancePath());
 
-                    if (! ModcraftApplication.launcherConfig.isKeepOpen()) System.exit(0);
-                });
-                try {
-                    gameUpdater.start().join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                Platform.runLater(() -> {
-                    label.setText("en cours");
-                    play.setText("Arrêter");
-                });
-            } else {
-                launchProcess.destroy();
-                Platform.runLater(() -> {
-                    play.setText("JOUER");
-                    progress.setVisible(false);
-                    label.setText("");
-                });
+
+        ramSlider.setOnMouseDragged(event -> {
+            ramText.setText("Ram: " + ((int)Math.floor(ramSlider.getValue()+0.5)));
+            ModcraftApplication.launcherConfig.setRam(((int)Math.floor(ramSlider.getValue()+0.5)));
+        });
+
+        customPathCheckbox.setOnMouseClicked(event -> {
+            if (!customPathCheckbox.isSelected()) {
+                customPathValue.setText("");
+                ModcraftApplication.launcherConfig.setInstanceProperty(new InstanceProperty(false, ""));
             }
 
-             */
-        }).start()));
+        });
+
+        keepOpen.setOnMouseClicked(event -> ModcraftApplication.launcherConfig.setKeepOpen(keepOpen.isSelected()));
+
+        fidnBtn.setOnMouseClicked(event -> {
+            DirectoryChooser fileChooser = new DirectoryChooser();
+            fileChooser.setTitle("Select directory");
+            fileChooser.setInitialDirectory(FilesManager.INSTANCES_PATH);
+            File path = fileChooser.showDialog(ModcraftApplication.getWindow());
+            customPathValue.setText(path.getAbsolutePath());
+
+            ModcraftApplication.launcherConfig.setInstanceProperty(new InstanceProperty(true, customPathValue.getText()));
+
+        });
 
 
         logout.setOnMouseClicked(event -> {
             ModcraftApplication.launcherConfig.setKeeplogin(false);
-            ModcraftApplication.getWindow().setScene(new Scene(Utils.loadFxml("login.fxml")));
+            ModcraftApplication.getWindow().setScene(Utils.loadFxml("login.fxml"));
         });
-        SettingsController.instance.setup(authInfos);
+        //SettingsController.instance.setup(authInfos);
 
         settings.setOnMouseClicked(event -> {
-            ModcraftApplication.getWindow().setScene(ModcraftApplication.settingsScene);
+            leftpane.setVisible(showSettings = !showSettings);
         });
 
         //window action
@@ -203,6 +215,5 @@ public class MainController implements IController {
             ModcraftApplication.getWindow().setIconified(true);
             ModcraftApplication.launcherConfig.save();
         });
-
     }
 }

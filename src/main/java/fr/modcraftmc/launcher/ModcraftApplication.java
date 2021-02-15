@@ -30,16 +30,14 @@ public class ModcraftApplication extends Application {
     public static String MCP_VERSION   = "20210115.111550";
 
     private static Stage window;
-    public static Scene mainScene;
-    public static Scene settingsScene;
-
 
     @Override
     public void start(Stage stage) throws Exception {
         LOGGER.info("ModcraftLauncher started.");
         launcherConfig = LauncherConfig.load(filesManager.getOptionsPath());
         if (launcherConfig.getInstanceProperty() == null) launcherConfig.setInstanceProperty(new InstanceProperty(false, ""));
-        settingsScene = new Scene(Utils.loadFxml("settings.fxml"));
+        Utils.loadFxml("login.fxml");
+        Utils.loadFxml("main.fxml");
         window = stage;
 
         stage.setTitle("ModcraftLauncher");
@@ -48,12 +46,10 @@ public class ModcraftApplication extends Application {
         stage.initStyle(StageStyle.UNDECORATED);
         stage.getIcons().add(new Image(resourcesManager.getResourceAsStream("favicon.png")));
 
-        stage.setScene(new Scene(Utils.loadFxml("login.fxml")));
+        stage.setScene(Utils.loadFxml("login.fxml"));
 
         stage.show();
         stage.centerOnScreen();
-
-
     }
 
     public static Stage getWindow() {
