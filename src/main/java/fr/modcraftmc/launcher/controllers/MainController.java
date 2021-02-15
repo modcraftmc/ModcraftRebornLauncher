@@ -70,7 +70,7 @@ public class MainController implements IController {
         logout.setText("SE DÉCONNECTER");
         settings.setText("PARAMÈTRES");
         play.setText("JOUER");
-        serverstate.setText("En maintenance");
+        serverstate.setText("Ouvert");
         label.setText("");
         progress.setVisible(false);
 

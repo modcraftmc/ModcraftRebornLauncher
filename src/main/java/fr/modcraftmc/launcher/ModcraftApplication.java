@@ -25,7 +25,7 @@ public class ModcraftApplication extends Application {
     public static LauncherConfig   launcherConfig;
 
     //Constants
-    public static String FORGE_VERSION = "36.0.13";
+    public static String FORGE_VERSION = "36.0.24";
     public static String MC_VERSION    = "1.16.5";
     public static String MCP_VERSION   = "20210115.111550";
 
@@ -42,13 +42,11 @@ public class ModcraftApplication extends Application {
         settingsScene = new Scene(Utils.loadFxml("settings.fxml"));
         window = stage;
 
-
         stage.setTitle("ModcraftLauncher");
         stage.setWidth(1100);
         stage.setHeight(600);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.getIcons().add(new Image(resourcesManager.getResourceAsStream("favicon.png")));
-
 
         stage.setScene(new Scene(Utils.loadFxml("login.fxml")));
 

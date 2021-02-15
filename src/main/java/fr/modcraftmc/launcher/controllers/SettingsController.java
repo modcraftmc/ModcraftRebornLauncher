@@ -93,7 +93,7 @@ public class SettingsController implements IController {
 
         logout.setText("SE DÉCONNECTER");
         returnbtn.setText("RETOUR");
-        serverstate.setText("En maintenance");
+        serverstate.setText("Ouvert");
         label.setText("");
         progress.setVisible(false);
         ramSlider.setMin(4);
