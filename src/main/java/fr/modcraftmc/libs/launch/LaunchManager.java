@@ -29,7 +29,6 @@ public class LaunchManager {
             } else {
                 JavaUtil.setJavaCommand(new File(FilesManager.JAVA_PATH, "/bin/java").getPath());
             }
-            System.out.println(ModcraftApplication.launcherConfig.getRam());
             profile.getVmArgs().add(String.format("-Xmx%sG", ModcraftApplication.launcherConfig.getRam()));
             ExternalLauncher launcher = new ExternalLauncher(profile);
 

@@ -69,10 +69,7 @@ public class MainController implements IController {
     private Process launchProcess;
     private boolean isLaunched = false;
 
-    @Override
-    public void initialize() {
-
-        AuthInfos authInfos = AccountManager.getAuthInfos();
+    public void updateUserInfos(AuthInfos authInfos) {
         playername.setText(authInfos.getUsername());
         try {
 
@@ -82,6 +79,10 @@ public class MainController implements IController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void initialize() {
 
         logout.setText("SE DÉCONNECTER");
         settings.setText("PARAMÈTRES");
@@ -198,7 +199,6 @@ public class MainController implements IController {
             ModcraftApplication.launcherConfig.setKeeplogin(false);
             ModcraftApplication.getWindow().setScene(Utils.loadFxml("login.fxml"));
         });
-        //SettingsController.instance.setup(authInfos);
 
         settings.setOnMouseClicked(event -> {
             leftpane.setVisible(showSettings = !showSettings);

@@ -14,6 +14,7 @@ import fr.theshark34.openlauncherlib.minecraft.AuthInfos;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 public class AccountManager {
 
@@ -22,84 +23,70 @@ public class AccountManager {
 
     private static AuthInfos authInfos;
 
-    public static boolean tryLogin(String username, String password) {
+    public static CompletableFuture<Boolean> tryLogin(String username, String password) {
 
-        try {
-
-            AuthResponse response = authenticator.authenticate(AuthAgent.MINECRAFT, username, password, UUID.randomUUID().toString());
-
-            authInfos = new AuthInfos(response.getSelectedProfile().getName(), response.getAccessToken(), response.getSelectedProfile().getId());
-
-
-            String tokenToSave = response.getAccessToken() + "!Tpy2B5-~9!" + response.getClientToken();
-            String crypto = Base64.getEncoder().withoutPadding().encodeToString(tokenToSave.getBytes());
-
-            ModcraftApplication.launcherConfig.setAccesToken(crypto);
-            ModcraftApplication.launcherConfig.save();
-
-            return true;
-        } catch (fr.litarvan.openauth.AuthenticationException e) {
-
+        return CompletableFuture.supplyAsync(() -> {
             try {
-                User authResponse = aZauthenticator.authenticate(username, password);
 
-                authInfos = new AuthInfos(authResponse.getUsername(), authResponse.getAccessToken(), authResponse.getUuid().toString());
+                AuthResponse response = authenticator.authenticate(AuthAgent.MINECRAFT, username, password, UUID.randomUUID().toString());
+                authInfos = new AuthInfos(response.getSelectedProfile().getName(), response.getAccessToken(), response.getSelectedProfile().getId());
 
-                String tokenToSave = authResponse.getAccessToken();
+                String tokenToSave = response.getAccessToken() + "!Tpy2B5-~9!" + response.getClientToken();
                 String crypto = Base64.getEncoder().withoutPadding().encodeToString(tokenToSave.getBytes());
 
                 ModcraftApplication.launcherConfig.setAccesToken(crypto);
-                ModcraftApplication.launcherConfig.save();
                 return true;
+            } catch (fr.litarvan.openauth.AuthenticationException e) {
 
-            } catch (IOException | AuthenticationException ioException) {
-                ioException.printStackTrace();
+                try {
+                    User authResponse = aZauthenticator.authenticate(username, password);
+
+                    authInfos = new AuthInfos(authResponse.getUsername(), authResponse.getAccessToken(), authResponse.getUuid().toString());
+
+                    String tokenToSave = authResponse.getAccessToken();
+                    String crypto = Base64.getEncoder().withoutPadding().encodeToString(tokenToSave.getBytes());
+
+                    ModcraftApplication.launcherConfig.setAccesToken(crypto);
+                    return true;
+
+                } catch (IOException | AuthenticationException ioException) {
+                    ioException.printStackTrace();
+                }
             }
-
-        }
-        return false;
-    }
-
-    public static boolean tryVerify(String accessToken) {
-
-        try {
-            String crypto = new String(Base64.getDecoder().decode(accessToken));
-            String[] split = crypto.split("!Tpy2B5-~9!");
-
-            if (split.length == 1) {
-
-                User refresh = aZauthenticator.verify(split[0]);
-                authInfos = new AuthInfos(refresh.getUsername(), refresh.getAccessToken(), refresh.getUuid().toString());
-
-                String tokenToSave = refresh.getAccessToken();
-                String tosave = Base64.getEncoder().withoutPadding().encodeToString(tokenToSave.getBytes());
-                ModcraftApplication.launcherConfig.setAccesToken(tosave);
-                ModcraftApplication.launcherConfig.save();
-
-            } else {
-
-                RefreshResponse refresh = authenticator.refresh(split[0], split[1]);
-                authInfos = new AuthInfos(refresh.getSelectedProfile().getName(), refresh.getAccessToken(), refresh.getSelectedProfile().getId());
-
-                String tokenToSave = refresh.getAccessToken() + "!Tpy2B5-~9!" + refresh.getClientToken();
-                String tosave = Base64.getEncoder().withoutPadding().encodeToString(tokenToSave.getBytes());
-                ModcraftApplication.launcherConfig.setAccesToken(tosave);
-                ModcraftApplication.launcherConfig.save();
-            }
-
-
-
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
             return false;
-        }
+        });
     }
 
-    public static boolean logout(String accesToken) {
+    public static CompletableFuture<Boolean> tryVerify(String accessToken) {
 
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                String crypto = new String(Base64.getDecoder().decode(accessToken));
+                String[] split = crypto.split("!Tpy2B5-~9!");
 
-        return false;
+                if (split.length == 1) {
+                    User refresh = aZauthenticator.verify(split[0]);
+                    authInfos = new AuthInfos(refresh.getUsername(), refresh.getAccessToken(), refresh.getUuid().toString());
+
+                    String tokenToSave = refresh.getAccessToken();
+                    String tosave = Base64.getEncoder().withoutPadding().encodeToString(tokenToSave.getBytes());
+                    ModcraftApplication.launcherConfig.setAccesToken(tosave);
+
+                } else {
+                    RefreshResponse refresh = authenticator.refresh(split[0], split[1]);
+                    authInfos = new AuthInfos(refresh.getSelectedProfile().getName(), refresh.getAccessToken(), refresh.getSelectedProfile().getId());
+
+                    String tokenToSave = refresh.getAccessToken() + "!Tpy2B5-~9!" + refresh.getClientToken();
+                    String tosave = Base64.getEncoder().withoutPadding().encodeToString(tokenToSave.getBytes());
+                    ModcraftApplication.launcherConfig.setAccesToken(tosave);
+                }
+
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        });
     }
 
     public static AuthInfos getAuthInfos() {

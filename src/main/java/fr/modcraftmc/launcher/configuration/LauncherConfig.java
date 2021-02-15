@@ -32,7 +32,7 @@ public class LauncherConfig {
     private boolean keeplogin;
     private boolean keepOpen;
     private String accesToken = "";
-    private int ram;
+    private int ram = 6;
     private InstanceProperty instanceProperty;
 
     public boolean isKeeplogin() {
@@ -107,22 +107,6 @@ public class LauncherConfig {
     public void save() {
         logger.info("Sauvegarde du fichier du configuration.");
         String jsonConfig = gsonSer.toJson(this);
-        /*
-        FileWriter writer;
-        try {
-            writer = new FileWriter(configFile);
-            writer.write(jsonConfig);
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-            logger.severe("Erreur lors de la sauvegarde du fichier du configuration.");
-            logger.severe(e.getMessage());
-            logger.severe("Merci de contacter le support.");
-
-        }
-
-         */
-
         try {
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8));
             out.write(jsonConfig);

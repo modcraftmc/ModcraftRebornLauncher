@@ -37,6 +37,7 @@ public class Utils {
                 ModcraftApplication.getWindow().setY(event.getScreenY() - yOffset);
             });
             Scene scene = new Scene(pane);
+            scene.setUserData(controller);
             loadedScenes.put(file, scene);
             return scene;
 

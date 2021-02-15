@@ -48,15 +48,11 @@ public class LoginController implements IController {
     public void initialize() {
 
         if (ModcraftApplication.launcherConfig.isKeeplogin()) {
-            try {
-                String accessToken = ModcraftApplication.launcherConfig.getAccesToken();
-
-                if (AccountManager.tryVerify(accessToken)) {
+            AccountManager.tryVerify(ModcraftApplication.launcherConfig.getAccesToken()).thenAccept((isLoggedIn) -> {
+                if (isLoggedIn) {
                     processToMainPanel();
-                    return;
                 }
-
-            } catch (Exception ignored) {}
+            });
         }
 
         serverdesc.setText("Serveur skyblock moddé 1.16.2");
@@ -98,22 +94,12 @@ public class LoginController implements IController {
 
             ModcraftApplication.LOGGER.info("Password is valid.");
 
-
-            try {
-
-                CompletableFuture<Boolean> loginProcess = CompletableFuture.supplyAsync(() -> AccountManager.tryLogin(emailfield.getText(), passwordfield.getText()));
-
-                if (loginProcess.get()) {
-
+            AccountManager.tryLogin(emailfield.getText(), passwordfield.getText()).thenAccept((isLoggedIn) -> {
+                if (isLoggedIn) {
                     ModcraftApplication.launcherConfig.setKeeplogin(logincheckbox.isSelected());
-                    ModcraftApplication.launcherConfig.save();
                     processToMainPanel();
-
                 }
-
-            }  catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
+            });
 
         } else {
             //throw
@@ -127,7 +113,9 @@ public class LoginController implements IController {
         TranslateTransition translateTransition = new TranslateTransition(Duration.millis(1500), logincontainer);
 
         translateTransition.setOnFinished((event -> {
-            ModcraftApplication.getWindow().setScene(Utils.loadFxml("main.fxml"));
+            Scene scene = Utils.loadFxml("main.fxml");
+            ((MainController) scene.getUserData()).updateUserInfos(AccountManager.getAuthInfos());
+            ModcraftApplication.getWindow().setScene(scene);
         }));
 
         for (Node child : logincontainer.getChildren()) {
