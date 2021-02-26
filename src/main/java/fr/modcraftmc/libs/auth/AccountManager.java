@@ -24,17 +24,17 @@ public class AccountManager {
     private static AuthInfos authInfos;
 
     public static CompletableFuture<Boolean> tryLogin(String username, String password) {
-
         return CompletableFuture.supplyAsync(() -> {
             try {
 
-                AuthResponse response = authenticator.authenticate(AuthAgent.MINECRAFT, username, password, UUID.randomUUID().toString());
+                AuthResponse response = authenticator.authenticate(AuthAgent.MINECRAFT, username, password, "mdcraft");
                 authInfos = new AuthInfos(response.getSelectedProfile().getName(), response.getAccessToken(), response.getSelectedProfile().getId());
 
-                String tokenToSave = response.getAccessToken() + "!Tpy2B5-~9!" + response.getClientToken();
+                String tokenToSave = response.getAccessToken();
                 String crypto = Base64.getEncoder().withoutPadding().encodeToString(tokenToSave.getBytes());
 
                 ModcraftApplication.launcherConfig.setAccesToken(crypto);
+                ModcraftApplication.launcherConfig.save();
                 return true;
             } catch (fr.litarvan.openauth.AuthenticationException e) {
 
@@ -47,6 +47,7 @@ public class AccountManager {
                     String crypto = Base64.getEncoder().withoutPadding().encodeToString(tokenToSave.getBytes());
 
                     ModcraftApplication.launcherConfig.setAccesToken(crypto);
+                    ModcraftApplication.launcherConfig.save();
                     return true;
 
                 } catch (IOException | AuthenticationException ioException) {
@@ -58,32 +59,32 @@ public class AccountManager {
     }
 
     public static CompletableFuture<Boolean> tryVerify(String accessToken) {
-
         return CompletableFuture.supplyAsync(() -> {
+            String crypto = new String(Base64.getDecoder().decode(accessToken));
             try {
-                String crypto = new String(Base64.getDecoder().decode(accessToken));
-                String[] split = crypto.split("!Tpy2B5-~9!");
+                User refresh = aZauthenticator.verify(crypto);
+                authInfos = new AuthInfos(refresh.getUsername(), refresh.getAccessToken(), refresh.getUuid().toString());
 
-                if (split.length == 1) {
-                    User refresh = aZauthenticator.verify(split[0]);
-                    authInfos = new AuthInfos(refresh.getUsername(), refresh.getAccessToken(), refresh.getUuid().toString());
+                String tokenToSave = refresh.getAccessToken();
+                String tosave = Base64.getEncoder().withoutPadding().encodeToString(tokenToSave.getBytes());
+                ModcraftApplication.launcherConfig.setAccesToken(tosave);
+
+
+                return true;
+            } catch (Exception e) {
+
+                try {
+                    RefreshResponse refresh = authenticator.refresh(crypto, "mdcraft");
+                    authInfos = new AuthInfos(refresh.getSelectedProfile().getName(), refresh.getAccessToken(), refresh.getSelectedProfile().getId());
 
                     String tokenToSave = refresh.getAccessToken();
                     String tosave = Base64.getEncoder().withoutPadding().encodeToString(tokenToSave.getBytes());
                     ModcraftApplication.launcherConfig.setAccesToken(tosave);
-
-                } else {
-                    RefreshResponse refresh = authenticator.refresh(split[0], split[1]);
-                    authInfos = new AuthInfos(refresh.getSelectedProfile().getName(), refresh.getAccessToken(), refresh.getSelectedProfile().getId());
-
-                    String tokenToSave = refresh.getAccessToken() + "!Tpy2B5-~9!" + refresh.getClientToken();
-                    String tosave = Base64.getEncoder().withoutPadding().encodeToString(tokenToSave.getBytes());
-                    ModcraftApplication.launcherConfig.setAccesToken(tosave);
+                    return true;
+                } catch (fr.litarvan.openauth.AuthenticationException authenticationException) {
+                    authenticationException.printStackTrace();
                 }
 
-                return true;
-            } catch (Exception e) {
-                e.printStackTrace();
                 return false;
             }
         });

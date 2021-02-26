@@ -197,7 +197,7 @@ public class MainController implements IController {
 
         logout.setOnMouseClicked(event -> {
             ModcraftApplication.launcherConfig.setKeeplogin(false);
-            ModcraftApplication.getWindow().setScene(Utils.loadFxml("login.fxml"));
+            ModcraftApplication.getWindow().setScene(Utils.loadFxml("login.fxml", true));
         });
 
         settings.setOnMouseClicked(event -> {

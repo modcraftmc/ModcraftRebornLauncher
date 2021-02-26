@@ -113,7 +113,7 @@ public class LoginController implements IController {
         TranslateTransition translateTransition = new TranslateTransition(Duration.millis(1500), logincontainer);
 
         translateTransition.setOnFinished((event -> {
-            Scene scene = Utils.loadFxml("main.fxml");
+            Scene scene = Utils.loadFxml("main.fxml", false);
             ((MainController) scene.getUserData()).updateUserInfos(AccountManager.getAuthInfos());
             ModcraftApplication.getWindow().setScene(scene);
         }));

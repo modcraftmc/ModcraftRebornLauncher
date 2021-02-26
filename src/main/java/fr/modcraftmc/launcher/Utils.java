@@ -16,9 +16,9 @@ public class Utils {
     private static double yOffset = 0;
 
     private static Map<String, Scene> loadedScenes = new HashMap<>();
-    public static Scene loadFxml(String file) {
+    public static Scene loadFxml(String file, boolean forceReload) {
 
-        if (loadedScenes.containsKey(file)) {
+        if (loadedScenes.containsKey(file)&& !forceReload) {
             return loadedScenes.get(file);
         }
 
