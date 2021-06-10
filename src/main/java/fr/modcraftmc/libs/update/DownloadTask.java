@@ -29,17 +29,13 @@ public class DownloadTask extends Task<Void> {
     private int  octetsDownloaded, fileDownloaded;
     private static DecimalFormat df2 = new DecimalFormat("#.##");
 
-    int simultane, threadsNumber = 0;
     ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
     public DownloadTask(String serverUrl, File directory, ProgressBar progressBar, Label label) {
-
         this.serverUrl = serverUrl;
         this.directory = directory;
         this.progressBar = progressBar;
         this.label = label;
-
     }
-
 
     double previousOctets;
     double speed;
@@ -89,24 +85,19 @@ public class DownloadTask extends Task<Void> {
         return null;
     }
 
-
     public void download(File cursor, MDFile obj) {
 
             String filePath = obj.getPath();
-
             String name = obj.getName();
 
             try {
-                threadsNumber++;
                 URL fileUrl;
                 fileUrl = new URL(this.serverUrl + "/downloads/" + filePath + name);
 
-                //System.out.println("Téléchargement du fichier: "+ fileUrl);
                 BufferedInputStream bis = new BufferedInputStream(fileUrl.openStream());
                 FileOutputStream fos = new FileOutputStream(cursor);
                 final byte[] data = new byte[4096];
                 int count;
-
 
                 while ((count = bis.read(data, 0, 32)) != -1) {
                     octetsDownloaded += count;
@@ -117,10 +108,8 @@ public class DownloadTask extends Task<Void> {
                 fos.flush();
                 fos.close();
                 fileDownloaded++;
-                threadsNumber--;
                 Platform.runLater(() -> label.setText(String.format("Téléchargement (%s/%s) (%s mo/s)", fileDownloaded, toDownload.size(), speedStr)));
                 this.updateProgress(fileDownloaded, toDownload.size());
-               // GameUpdater.LOGGER.info("Téléchargement du fichier terminé :"+ fileUrl);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -129,9 +118,7 @@ public class DownloadTask extends Task<Void> {
 
     @Override
     protected void succeeded() {
-
         Platform.runLater(() -> label.setText("Téléchargement terminé"));
-
         super.succeeded();
     }
 }

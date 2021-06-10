@@ -18,8 +18,6 @@ public class GameUpdater {
 
     private Task<Void> task;
     public static Thread update;
-    public boolean deleter = true;
-    public static boolean downloading = false;
 
     public static Logger LOGGER = LogManager.createLogger("Updater");
 
@@ -27,9 +25,7 @@ public class GameUpdater {
         //TODO: CRASH REPORTTER
         e.printStackTrace();
         //t.interrupt();
-
     };
-
 
     public GameUpdater(String url, File gameDir, ProgressBar bar, Label label){
         this.url = url;
@@ -46,9 +42,6 @@ public class GameUpdater {
     }
 
     public Task getUpdater() {
-
-        //if (task !=null) return task;
-
         task = new DownloadTask(url, gameDir, progressBar, label);
         Task verif = new VerifTask(url, gameDir, progressBar, label);
 
@@ -68,6 +61,5 @@ public class GameUpdater {
         update.setDaemon(true);
         update.setUncaughtExceptionHandler(exceptionHandler);
         return task;
-
     }
 }
