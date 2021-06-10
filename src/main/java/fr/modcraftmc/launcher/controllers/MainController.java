@@ -100,7 +100,7 @@ public class MainController implements IController {
             public void run() {
 
                 try {
-                    MinecraftPingReply data = new MinecraftPing().getPing(new MinecraftPingOptions().setHostname("vps.modcraftmc.fr").setPort(25565));
+                    MinecraftPingReply data = new MinecraftPing().getPing(new MinecraftPingOptions().setHostname("download.modcraftmc.fr").setPort(25565));
 
                     Platform.runLater(() -> playerslabel.setText(String.format("%s/%s joueurs", data.getPlayers().getOnline(), data.getPlayers().getMax())));
                 } catch (IOException e) {
@@ -109,19 +109,16 @@ public class MainController implements IController {
             }
         }, 0, 60000);
 
-
         play.setOnMouseClicked((event -> new Thread(() -> {
             progress.setVisible(true);
 
             if (!isLaunched) {
-                progress.setVisible(true);
-
                 InstanceProperty instanceProperty = ModcraftApplication.launcherConfig.getInstanceProperty();
 
-                File path = instanceProperty.isCustomInstance() ? new File(instanceProperty.getCustomInstancePath()) : new File(FilesManager.INSTANCES_PATH, "v3files");
+                File path = instanceProperty.isCustomInstance() ? new File(instanceProperty.getCustomInstancePath()) : new File(FilesManager.INSTANCES_PATH, "v4-staff");
                 path.mkdirs();
 
-                GameUpdater gameUpdater = new GameUpdater("http://update.modcraftmc.fr:100", path, progress, label);
+                GameUpdater gameUpdater = new GameUpdater("https://files.modcraftmc.fr", path, progress, label);
                 Task task = gameUpdater.getUpdater();
 
                 task.setOnSucceeded(e -> {
@@ -132,6 +129,7 @@ public class MainController implements IController {
                     }
 
                     launchProcess = LaunchManager.launch(path);
+                    isLaunched = true;
                     if (!ModcraftApplication.launcherConfig.isKeepOpen()) System.exit(0);
 
                 });
@@ -148,8 +146,8 @@ public class MainController implements IController {
                 });
 
             } else {
-
                 if (launchProcess != null) launchProcess.destroy();
+                isLaunched = false;
 
                 Platform.runLater(() -> {
                     play.setText("JOUER");
@@ -162,7 +160,7 @@ public class MainController implements IController {
         ramSlider.setMin(4);
         ramSlider.setMax(16);
         ramSlider.setValue(ModcraftApplication.launcherConfig.getRam());
-        ramText.setText("Ram: " + ((int)Math.floor(ramSlider.getValue())));
+        ramText.setText(String.format("Ram: %sGb", ((int)Math.floor(ramSlider.getValue()))));
 
         customPathCheckbox.setSelected(ModcraftApplication.launcherConfig.getInstanceProperty().isCustomInstance());
         customPathValue.setText(ModcraftApplication.launcherConfig.getInstanceProperty().getCustomInstancePath());
@@ -188,10 +186,10 @@ public class MainController implements IController {
             fileChooser.setTitle("Select directory");
             fileChooser.setInitialDirectory(FilesManager.INSTANCES_PATH);
             File path = fileChooser.showDialog(ModcraftApplication.getWindow());
-            customPathValue.setText(path.getAbsolutePath());
-
-            ModcraftApplication.launcherConfig.setInstanceProperty(new InstanceProperty(true, customPathValue.getText()));
-
+            if (path != null) {
+                customPathValue.setText(path.getAbsolutePath());
+                ModcraftApplication.launcherConfig.setInstanceProperty(new InstanceProperty(true, customPathValue.getText()));
+            }
         });
 
 
@@ -202,12 +200,12 @@ public class MainController implements IController {
 
         settings.setOnMouseClicked(event -> {
             leftpane.setVisible(showSettings = !showSettings);
+            settings.setText(showSettings ? "RETOUR" : "PARAMÈTRES");
         });
 
         //window action
         closeBtn.setOnMouseClicked(event -> {
             ModcraftApplication.getWindow().hide();
-            ModcraftApplication.launcherConfig.save();
             System.exit(0);
         });
 

@@ -23,6 +23,10 @@ public class AccountManager {
 
     private static AuthInfos authInfos;
 
+    public static enum LoginType {
+        MICROSOFT, MOJANG, MODCRAFT
+    }
+
     public static CompletableFuture<Boolean> tryLogin(String username, String password) {
         return CompletableFuture.supplyAsync(() -> {
             try {
@@ -59,6 +63,7 @@ public class AccountManager {
     }
 
     public static CompletableFuture<Boolean> tryVerify(String accessToken) {
+        if (!ModcraftApplication.launcherConfig.isKeeplogin()) return CompletableFuture.completedFuture(false);
         return CompletableFuture.supplyAsync(() -> {
             String crypto = new String(Base64.getDecoder().decode(accessToken));
             try {

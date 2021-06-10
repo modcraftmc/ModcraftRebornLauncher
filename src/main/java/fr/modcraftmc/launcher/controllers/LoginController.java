@@ -47,15 +47,7 @@ public class LoginController implements IController {
     @Override
     public void initialize() {
 
-        if (ModcraftApplication.launcherConfig.isKeeplogin()) {
-            AccountManager.tryVerify(ModcraftApplication.launcherConfig.getAccesToken()).thenAccept((isLoggedIn) -> {
-                if (isLoggedIn) {
-                    processToMainPanel();
-                }
-            });
-        }
-
-        serverdesc.setText("Serveur skyblock moddé 1.16.2");
+        serverdesc.setText("Serveur skyblock moddé 1.16.5");
         accounttype.setText("Connectez-vous via votre compte mojang ou modcraftmc.fr");
 
         emailfield.setPromptText("Email");
@@ -78,7 +70,6 @@ public class LoginController implements IController {
         });
     }
 
-
     public void login() {
 
         loginBtn.setText("CONNECTION...");
@@ -97,7 +88,11 @@ public class LoginController implements IController {
             AccountManager.tryLogin(emailfield.getText(), passwordfield.getText()).thenAccept((isLoggedIn) -> {
                 if (isLoggedIn) {
                     ModcraftApplication.launcherConfig.setKeeplogin(logincheckbox.isSelected());
+                    ModcraftApplication.launcherConfig.save();
                     processToMainPanel();
+                } else {
+                    loginBtn.setText("SE CONNECTER");
+                    //throw
                 }
             });
 

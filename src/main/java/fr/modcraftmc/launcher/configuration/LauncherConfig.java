@@ -3,6 +3,7 @@ package fr.modcraftmc.launcher.configuration;
 import com.google.gson.*;
 import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.launcher.logger.LogManager;
+import fr.modcraftmc.libs.auth.AccountManager;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -34,6 +35,7 @@ public class LauncherConfig {
     private String accesToken = "";
     private int ram = 6;
     private InstanceProperty instanceProperty;
+    private String loginType;
 
     public boolean isKeeplogin() {
         return keeplogin;
@@ -74,6 +76,14 @@ public class LauncherConfig {
 
     public void setRam(int ram) {
         this.ram = ram;
+    }
+
+    public AccountManager.LoginType getLoginType() {
+        return AccountManager.LoginType.valueOf(loginType);
+    }
+
+    public void setLoginType(AccountManager.LoginType loginType) {
+        this.loginType = loginType.name();
     }
 
     public static LauncherConfig load(File file) {

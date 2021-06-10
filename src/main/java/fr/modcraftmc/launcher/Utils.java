@@ -1,6 +1,7 @@
 package fr.modcraftmc.launcher;
 
 import fr.modcraftmc.launcher.controllers.IController;
+import fr.modcraftmc.libs.auth.AccountManager;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -8,6 +9,7 @@ import javafx.scene.layout.Pane;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Utils {
 
@@ -46,5 +48,14 @@ public class Utils {
         }
 
         throw new RuntimeException();
+    }
+
+    public static boolean checkAccount() {
+        AtomicBoolean returnValue = new AtomicBoolean(false);
+        if (ModcraftApplication.launcherConfig.isKeeplogin()) {
+            AccountManager.tryVerify(ModcraftApplication.launcherConfig.getAccesToken()).thenAccept(returnValue::set);
+        }
+
+        return returnValue.get();
     }
 }
