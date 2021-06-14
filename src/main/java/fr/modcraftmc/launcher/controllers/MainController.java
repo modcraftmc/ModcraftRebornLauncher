@@ -17,6 +17,7 @@ import fr.modcraftmc.libs.serverpinger.MinecraftPingOptions;
 import fr.modcraftmc.libs.serverpinger.MinecraftPingReply;
 import fr.modcraftmc.libs.update.GameUpdater;
 import fr.theshark34.openlauncherlib.minecraft.AuthInfos;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -30,9 +31,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.DirectoryChooser;
+import javafx.util.Duration;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -56,6 +61,11 @@ public class MainController implements IController {
     @FXML public ProgressBar progress;
 
     @FXML public Pane leftpane;
+
+    @FXML public Pane news;
+    @FXML public JFXButton news1Btn;
+    @FXML public JFXButton news2Btn;
+
     private boolean showSettings = false;
 
     @FXML public JFXSlider ramSlider;
@@ -83,29 +93,44 @@ public class MainController implements IController {
 
     @Override
     public void initialize() {
-
         logout.setText("SE DÉCONNECTER");
         settings.setText("PARAMÈTRES");
         play.setText("JOUER");
         serverstate.setText("Ouvert");
         label.setText("");
         progress.setVisible(false);
-
         playerslabel.setText("Na/Na");
 
-        Timer timer = new Timer();
+        //TODO: handle this with a news manager
+        news1Btn.setOnMouseReleased(event -> {
+            new Thread(() -> {
+                try {
+                    Desktop.getDesktop().browse(new URI("https://www.youtube.com/watch?v=dQw4w9WgXcQ"));
+                } catch (IOException | URISyntaxException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        });
 
+        news2Btn.setOnMouseReleased(event -> {
+            new Thread(() -> {
+                try {
+                    Desktop.getDesktop().browse(new URI("https://www.youtube.com/watch?v=dQw4w9WgXcQ"));
+                } catch (IOException | URISyntaxException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        });
+
+        Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-
                 try {
                     MinecraftPingReply data = new MinecraftPing().getPing(new MinecraftPingOptions().setHostname("download.modcraftmc.fr").setPort(25565));
-
                     Platform.runLater(() -> playerslabel.setText(String.format("%s/%s joueurs", data.getPlayers().getOnline(), data.getPlayers().getMax())));
                 } catch (IOException e) {
                 }
-
             }
         }, 0, 60000);
 
@@ -200,6 +225,7 @@ public class MainController implements IController {
 
         settings.setOnMouseClicked(event -> {
             leftpane.setVisible(showSettings = !showSettings);
+            news.setVisible(!showSettings);
             settings.setText(showSettings ? "RETOUR" : "PARAMÈTRES");
         });
 

@@ -106,5 +106,49 @@
                      </children>
                   </Pane>
                </children></VBox>         </children></Pane>
+      <Pane fx:id="news" layoutX="5.0" layoutY="14.0" prefHeight="572.0" prefWidth="712.0" visible="true">
+         <children>
+            <Label layoutX="263.0" layoutY="31.0" text="Informations" textFill="WHITE">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+            <VBox layoutX="17.0" layoutY="79.0" prefHeight="479.0" prefWidth="678.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="678.0" style="-fx-background-color: rgba(0, 0, 0, 0.2); background-o: ;">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="19.0" prefWidth="635.0" text="ModcraftV4 - skyblock moddé 1.16.5 !" textFill="WHITE">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="22.0" layoutY="45.0" prefHeight="103.0" prefWidth="635.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at facilisis metus. Sed sapien augue, faucibus volutpat suscipit sed, imperdiet id justo. In placerat faucibus blandit. Quisque in finibus arcu, quis efficitur dolor. Phasellus sit amet turpis dignissim, mollis libero ut, vulputate nulla. Suspendisse faucibus, sem id hendrerit cursus, urna est aliquam ligula, feugiat condimentum nibh lacus sed lorem. Donec at elit varius tellus imperdiet sollicitudin. Ut iaculis in ligula faucibus sodales. Sed at arcu urna. Donec tincidunt nulla turpis, ac tempus nisl lobortis eget. Cras quis justo maximus, faucibus arcu at, rutrum lectus. In egestas dignissim nisi, ac iaculis quam blandit vitae." textFill="WHITE" wrapText="true" />
+                        <JFXButton fx:id="news1Btn" layoutX="22.0" layoutY="160.0" mnemonicParsing="false" styleClass="login-button" stylesheets="@../css/main.css" text="Lire plus" textFill="WHITE" />
+                        <Label alignment="TOP_RIGHT" layoutX="444.0" layoutY="166.0" prefHeight="16.0" prefWidth="220.0" text="Par manugame_ le 06/06/2021" textFill="WHITE">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                        </Label>
+                     </children></Pane>
+                  <Pane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="678.0" style="-fx-background-color: rgba(0, 0, 0, 0.2); background-o: ;">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="19.0" prefWidth="635.0" text="ModcraftV4 - skyblock moddé 1.16.5 !" textFill="WHITE">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="22.0" layoutY="45.0" prefHeight="103.0" prefWidth="635.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at facilisis metus. Sed sapien augue, faucibus volutpat suscipit sed, imperdiet id justo. In placerat faucibus blandit. Quisque in finibus arcu, quis efficitur dolor. Phasellus sit amet turpis dignissim, mollis libero ut, vulputate nulla. Suspendisse faucibus, sem id hendrerit cursus, urna est aliquam ligula, feugiat condimentum nibh lacus sed lorem. Donec at elit varius tellus imperdiet sollicitudin. Ut iaculis in ligula faucibus sodales. Sed at arcu urna. Donec tincidunt nulla turpis, ac tempus nisl lobortis eget. Cras quis justo maximus, faucibus arcu at, rutrum lectus. In egestas dignissim nisi, ac iaculis quam blandit vitae." textFill="WHITE" wrapText="true" />
+                        <JFXButton fx:id="news2Btn" layoutX="22.0" layoutY="160.0" mnemonicParsing="false" styleClass="login-button" stylesheets="@../css/main.css" text="Lire plus" textFill="WHITE" />
+                        <Label alignment="TOP_RIGHT" layoutX="444.0" layoutY="166.0" prefHeight="16.0" prefWidth="220.0" text="Par manugame_ le 06/06/2021" textFill="WHITE">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+               </children>
+            </VBox>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

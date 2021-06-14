@@ -22,7 +22,6 @@ dependencies {
     compile 'com.jfoenix:jfoenix:9.0.10'
     compile 'com.google.code.gson:gson:2.8.6'
     compile 'com.azuriom:azauth:1.0-SNAPSHOT'
-    //compile 'com.github.Dansoftowner:FXTaskbarProgressBar:v11.2.7'
     compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
     compile 'org.json:json:20200518'

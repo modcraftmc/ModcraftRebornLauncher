@@ -31,9 +31,7 @@ public class VerifTask extends Task<Void> {
     }
 
     public void checkLocalFiles() {
-
         Collection<File> localFiles = FileUtils.listFiles(directory, null, true);
-        System.out.println(localFiles.size());
 
         DownloadTask.remoteContent.parallelStream()
                 .forEach(mdFile -> {
@@ -56,7 +54,7 @@ public class VerifTask extends Task<Void> {
                     localFiles.remove(lFile);
                     fileAnalyzed++;
                     this.updateProgress(fileAnalyzed, DownloadTask.remoteContent.size());
-                    Platform.runLater(() -> label.setText(String.format("Analyse (%s/%s)", fileAnalyzed - 1, DownloadTask.remoteContent.size())));
+                    Platform.runLater(() -> label.setText(String.format("Analyse des fichiers (%s/%s)", fileAnalyzed - 1, DownloadTask.remoteContent.size())));
 
                 });
 
