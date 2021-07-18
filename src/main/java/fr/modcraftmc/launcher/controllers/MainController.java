@@ -127,7 +127,7 @@ public class MainController implements IController {
             @Override
             public void run() {
                 try {
-                    MinecraftPingReply data = new MinecraftPing().getPing(new MinecraftPingOptions().setHostname("download.modcraftmc.fr").setPort(25565));
+                    MinecraftPingReply data = new MinecraftPing().getPing(new MinecraftPingOptions().setHostname("v4.modcraftmc.fr").setPort(25565));
                     Platform.runLater(() -> playerslabel.setText(String.format("%s/%s joueurs", data.getPlayers().getOnline(), data.getPlayers().getMax())));
                 } catch (IOException e) {
                 }

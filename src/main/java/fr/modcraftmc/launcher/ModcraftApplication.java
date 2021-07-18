@@ -27,7 +27,7 @@ public class ModcraftApplication extends Application {
     public static LauncherConfig   launcherConfig;
 
     //Constants
-    public static String FORGE_VERSION = "36.1.31";
+    public static String FORGE_VERSION = "36.1.62";
     public static String MC_VERSION    = "1.16.5";
     public static String MCP_VERSION   = "20210115.111550";
 

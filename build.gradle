@@ -50,4 +50,16 @@ jar {
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
+    archiveName = 'launcher.jar'
 }
+
+
+task prepareForDeploy(type:Exec) {
+    workingDir = './build/libs'
+
+    executable "sh"
+    args "-c", "md5sum launcher.jar > launcher.txt && sed -i 's/ launcher.jar/ /g' launcher.txt";
+}
+
+
+jar.finalizedBy('prepareForDeploy')
