@@ -41,9 +41,9 @@ public class GameUpdater {
 
     }
 
-    public Task getUpdater() {
+    public Task<Void> getUpdater() {
         task = new DownloadTask(url, gameDir, progressBar, label);
-        Task verif = new VerifTask(url, gameDir, progressBar, label);
+        Task<Void> verif = new VerifTask(url, gameDir, progressBar, label);
 
         verif.setOnSucceeded((e) -> new Thread(task).start());
         System.out.println(gameDir.toPath());

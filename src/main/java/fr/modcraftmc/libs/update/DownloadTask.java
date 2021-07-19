@@ -12,9 +12,7 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class DownloadTask extends Task<Void> {
 
@@ -50,38 +48,43 @@ public class DownloadTask extends Task<Void> {
 
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             previousOctets = octetsDownloaded;
-
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
             double speedBytes = octetsDownloaded - previousOctets;
-
             speed = (speedBytes) / 1000 / 1000;
             speedStr = df2.format(speed);
 
         }, 0, 1, TimeUnit.SECONDS);
 
-        System.out.println(toDownload.size());
+        CountDownLatch latch = new CountDownLatch(toDownload.size());
+        ExecutorService taskExecutor = Executors.newFixedThreadPool(20);
 
-        toDownload.parallelStream().forEach(file -> {
-            String path = file.getPath();
-            String name = file.getName();
-            File cursor = new File(new File(directory, path), name);
+        for (MDFile file : toDownload) {
+            taskExecutor.submit(() -> {
+                String path = file.getPath();
+                String name = file.getName();
+                File cursor = new File(new File(directory, path), name);
 
-            System.out.println(cursor.getAbsolutePath());
-            if (cursor.getParentFile().exists()) {
-                if (!cursor.exists()) {
+                System.out.println(cursor.getAbsolutePath());
+                if (cursor.getParentFile().exists()) {
+                    if (!cursor.exists()) {
+                        download(cursor, file);
+                    }
+                } else {
+                    cursor.getParentFile().mkdirs();
                     download(cursor, file);
                 }
-            } else {
-                cursor.getParentFile().mkdirs();
-                download(cursor, file);
-            }
-        });
+                latch.countDown();
+            });
 
+        }
+
+        latch.await();
+        taskExecutor.shutdown();
+        System.out.println("All download finished !");
         return null;
     }
 

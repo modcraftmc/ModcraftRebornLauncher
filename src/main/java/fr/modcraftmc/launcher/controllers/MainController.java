@@ -140,11 +140,11 @@ public class MainController implements IController {
             if (!isLaunched) {
                 InstanceProperty instanceProperty = ModcraftApplication.launcherConfig.getInstanceProperty();
 
-                File path = instanceProperty.isCustomInstance() ? new File(instanceProperty.getCustomInstancePath()) : new File(FilesManager.INSTANCES_PATH, "v4-staff");
+                File path = instanceProperty.isCustomInstance() ? new File(instanceProperty.getCustomInstancePath()) : new File(FilesManager.INSTANCES_PATH, "v4-survival");
                 path.mkdirs();
 
                 GameUpdater gameUpdater = new GameUpdater("https://files.modcraftmc.fr", path, progress, label);
-                Task task = gameUpdater.getUpdater();
+                Task<Void> task = gameUpdater.getUpdater();
 
                 task.setOnSucceeded(e -> {
                     try {
@@ -153,7 +153,7 @@ public class MainController implements IController {
                         interruptedException.printStackTrace();
                     }
 
-                    launchProcess = LaunchManager.launch(path);
+                    //launchProcess = LaunchManager.launch(path);
                     isLaunched = true;
                     if (!ModcraftApplication.launcherConfig.isKeepOpen()) System.exit(0);
 

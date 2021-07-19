@@ -10,6 +10,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.security.MessageDigest;
 import java.util.Collection;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class VerifTask extends Task<Void> {
 
@@ -17,7 +21,7 @@ public class VerifTask extends Task<Void> {
     public final File directory;
     public final ProgressBar progressBar;
     private final Label label;
-    private int fileAnalyzed = 0;
+    private AtomicInteger fileAnalyzed = new AtomicInteger();
 
 
     public VerifTask(String url, File gameDir, ProgressBar progressBar, Label label) {
@@ -33,31 +37,37 @@ public class VerifTask extends Task<Void> {
     public void checkLocalFiles() {
         Collection<File> localFiles = FileUtils.listFiles(directory, null, true);
 
-        DownloadTask.remoteContent.parallelStream()
-                .forEach(mdFile -> {
+        CountDownLatch latch = new CountDownLatch(DownloadTask.remoteContent.size());
+        ExecutorService taskExecutor = Executors.newFixedThreadPool(1);
 
-                    File lFile = new File(new File(directory, mdFile.getPath()), mdFile.getName());
+        for (MDFile mdFile : DownloadTask.remoteContent) {
+            taskExecutor.submit(() -> {
+                File lFile = new File(new File(directory, mdFile.getPath()), mdFile.getName());
 
-                    try {
-                        if (lFile.exists()) {
-
-                            String md5 = getFileChecksum(MessageDigest.getInstance("MD5"), lFile);
-
-                            if (!md5.equalsIgnoreCase(mdFile.getMd5())) {
-                                lFile.delete();
-                            }
+                try {
+                    if (lFile.exists()) {
+                        String md5 = getFileChecksum(MessageDigest.getInstance("MD5"), lFile);
+                        if (!md5.equalsIgnoreCase(mdFile.getMd5())) {
+                            lFile.delete();
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-                    localFiles.remove(lFile);
-                    fileAnalyzed++;
-                    this.updateProgress(fileAnalyzed, DownloadTask.remoteContent.size());
-                    Platform.runLater(() -> label.setText(String.format("Analyse des fichiers (%s/%s)", fileAnalyzed - 1, DownloadTask.remoteContent.size())));
+                localFiles.remove(lFile);
+                int current = fileAnalyzed.incrementAndGet();
+                this.updateProgress(current, DownloadTask.remoteContent.size());
+                Platform.runLater(() -> label.setText(String.format("Analyse des fichiers (%s/%s)", current, DownloadTask.remoteContent.size())));
+                latch.countDown();
+            });
+        }
 
-                });
-
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         localFiles.parallelStream().forEach(file -> {
 
