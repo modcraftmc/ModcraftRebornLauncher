@@ -29,8 +29,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.awt.*;
@@ -77,7 +81,7 @@ public class MainController implements IController {
     @FXML public JFXCheckBox keepOpen;
 
     private Process launchProcess;
-    private boolean isLaunched = false;
+    private boolean isUpdateLaunched = false;
 
     public void updateUserInfos(AuthInfos authInfos) {
         playername.setText(authInfos.getUsername());
@@ -134,53 +138,50 @@ public class MainController implements IController {
             }
         }, 0, 60000);
 
-        play.setOnMouseClicked((event -> new Thread(() -> {
-            progress.setVisible(true);
+        play.setOnMouseClicked(event -> {
 
-            if (!isLaunched) {
+            if (!isUpdateLaunched) {
+                isUpdateLaunched = true;
+                Platform.runLater(() -> {
+                    label.setVisible(true);
+                    play.setText("Arrêter");
+                    progress.setVisible(true);
+                });
+
                 InstanceProperty instanceProperty = ModcraftApplication.launcherConfig.getInstanceProperty();
-
-                File path = instanceProperty.isCustomInstance() ? new File(instanceProperty.getCustomInstancePath()) : new File(FilesManager.INSTANCES_PATH, "v4-survival");
-                path.mkdirs();
+                File path = instanceProperty.isCustomInstance() ? new File(instanceProperty.getCustomInstancePath()) : new File(FilesManager.INSTANCES_PATH, "v4-staff");
+                if (!path.exists()) path.mkdirs();
 
                 GameUpdater gameUpdater = new GameUpdater("https://files.modcraftmc.fr", path, progress, label);
-                Task<Void> task = gameUpdater.getUpdater();
 
-                task.setOnSucceeded(e -> {
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException interruptedException) {
-                        interruptedException.printStackTrace();
-                    }
+                Task<Void> updateTask = gameUpdater.getUpdater();
 
-                    //launchProcess = LaunchManager.launch(path);
-                    isLaunched = true;
+                updateTask.setOnSucceeded(onSuccess -> {
+                    launchProcess = LaunchManager.launch(path);
+                    Platform.runLater(() -> {
+                        progress.progressProperty().unbind();
+                        progress.setVisible(false);
+                        label.setVisible(false);
+                    });
                     if (!ModcraftApplication.launcherConfig.isKeepOpen()) System.exit(0);
-
                 });
 
-                try {
-                    gameUpdater.start().join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                Platform.runLater(() -> {
-                    label.setText("en cours");
-                    play.setText("Arrêter");
-                });
+                gameUpdater.start();
 
             } else {
-                if (launchProcess != null) launchProcess.destroy();
-                isLaunched = false;
+                isUpdateLaunched = false;
 
-                Platform.runLater(() -> {
-                    play.setText("JOUER");
-                    progress.setVisible(false);
-                    label.setText("");
-                });
+                if (launchProcess != null) {
+                    launchProcess.destroy();
+                    launchProcess = null;
+                    Platform.runLater(() -> {
+                        label.setText("");
+                        play.setText("JOUER");
+                        progress.setVisible(false);
+                    });
+                }
             }
-        }).start()));
+        });
 
         ramSlider.setMin(4);
         ramSlider.setMax(16);

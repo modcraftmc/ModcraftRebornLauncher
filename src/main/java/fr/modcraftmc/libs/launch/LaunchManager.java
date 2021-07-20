@@ -34,8 +34,6 @@ public class LaunchManager {
 
             Process process = launcher.launch();
 
-            Platform.runLater(() -> ModcraftApplication.getWindow().setIconified(true));
-
             return process;
         } catch (LaunchException e) {
             e.printStackTrace();
