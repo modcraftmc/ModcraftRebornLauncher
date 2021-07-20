@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.security.MessageDigest;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -35,10 +36,10 @@ public class VerifTask extends Task<Void> {
     }
 
     public void checkLocalFiles() {
-        Collection<File> localFiles = FileUtils.listFiles(directory, null, true);
+        Collection<File> localFiles = Collections.synchronizedCollection(FileUtils.listFiles(directory, null, true));
 
         CountDownLatch latch = new CountDownLatch(DownloadTask.remoteContent.size());
-        ExecutorService taskExecutor = Executors.newFixedThreadPool(1);
+        ExecutorService taskExecutor = Executors.newFixedThreadPool(20);
 
         for (MDFile mdFile : DownloadTask.remoteContent) {
             taskExecutor.submit(() -> {
