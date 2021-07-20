@@ -187,7 +187,7 @@ public class MainController implements IController {
         ramSlider.setMax(16);
         ramSlider.setValue(ModcraftApplication.launcherConfig.getRam());
         ramText.setText(String.format("Ram: %sGb", ((int)Math.floor(ramSlider.getValue()))));
-
+        keepOpen.setSelected(ModcraftApplication.launcherConfig.isKeepOpen());
         customPathCheckbox.setSelected(ModcraftApplication.launcherConfig.getInstanceProperty().isCustomInstance());
         customPathValue.setText(ModcraftApplication.launcherConfig.getInstanceProperty().getCustomInstancePath());
 
