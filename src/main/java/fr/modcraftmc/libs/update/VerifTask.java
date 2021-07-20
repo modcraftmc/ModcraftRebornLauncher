@@ -11,9 +11,7 @@ import java.io.FileInputStream;
 import java.security.MessageDigest;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class VerifTask extends Task<Void> {
@@ -36,7 +34,7 @@ public class VerifTask extends Task<Void> {
     }
 
     public void checkLocalFiles() {
-        Collection<File> localFiles = Collections.synchronizedCollection(FileUtils.listFiles(directory, null, true));
+        Collection<File> localFiles = new ConcurrentLinkedQueue<>(FileUtils.listFiles(directory, null, true));
 
         CountDownLatch latch = new CountDownLatch(DownloadTask.remoteContent.size());
         ExecutorService taskExecutor = Executors.newFixedThreadPool(20);
