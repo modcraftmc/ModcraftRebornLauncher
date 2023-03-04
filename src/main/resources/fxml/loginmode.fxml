@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1100.0" styleClass="container" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.ChoseLoginController">
+<AnchorPane prefHeight="600.0" prefWidth="1100.0" styleClass="container" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.ChoseLoginController">
    <children>
       <Pane fx:id="logincontainer" layoutX="600.0" layoutY="100.0" prefHeight="600.0" prefWidth="500.0" styleClass="login-container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -24,21 +23,21 @@
                </font>
             </Label>
             <Button fx:id="closeBtn" layoutX="477.0" layoutY="-2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="24.0" styleClass="close" />
-            <JFXButton fx:id="microsoftBtn" layoutX="93.0" layoutY="245.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="312.0" styleClass="login-button" text="Microsoft" textFill="WHITE">
+            <Button fx:id="microsoftBtn" layoutX="93.0" layoutY="245.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="312.0" styleClass="login-button" text="Microsoft" textFill="WHITE">
                <font>
                   <Font size="16.0" />
                </font>
-            </JFXButton>
-            <JFXButton fx:id="mojangBtn" layoutX="95.0" layoutY="300.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="312.0" styleClass="login-button" text="Mojang" textFill="WHITE">
+            </Button>
+            <Button fx:id="mojangBtn" layoutX="94.0" layoutY="300.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="312.0" styleClass="login-button" text="Mojang" textFill="WHITE">
                <font>
                   <Font size="16.0" />
                </font>
-            </JFXButton>
-            <JFXButton fx:id="modcraftBtn" layoutX="93.0" layoutY="355.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="312.0" styleClass="login-button" text="Modcraftmc.fr" textFill="WHITE">
+            </Button>
+            <Button fx:id="modcraftBtn" layoutX="93.0" layoutY="355.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="312.0" styleClass="login-button" text="Modcraftmc.fr" textFill="WHITE">
                <font>
                   <Font size="16.0" />
                </font>
-            </JFXButton>
+            </Button>
          </children></Pane>
    </children>
 </AnchorPane>

@@ -11,6 +11,7 @@
 .login-button {
     -fx-border-style: solid;
     -fx-border-color: white;
+    -fx-background-color: black;
 }
 
 .userbox {
@@ -26,6 +27,13 @@
 
 .field {
     -fx-text-fill: white;
+    -fx-background-color: rgba(0,0,0,0);
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: white;
+}
+
+.field:focused{
+    -fx-border-color: #2980b9;
 }
 
 .close {

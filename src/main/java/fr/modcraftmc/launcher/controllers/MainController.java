@@ -1,41 +1,27 @@
 package fr.modcraftmc.launcher.controllers;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXCheckBox;
-import com.jfoenix.controls.JFXSlider;
-import fr.flowarg.flowlogger.ILogger;
-import fr.flowarg.flowupdater.download.IProgressCallback;
-import fr.flowarg.flowupdater.download.Step;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
 import fr.modcraftmc.launcher.resources.FilesManager;
-import fr.modcraftmc.libs.auth.AccountManager;
 import fr.modcraftmc.libs.launch.LaunchManager;
 import fr.modcraftmc.libs.serverpinger.MinecraftPing;
 import fr.modcraftmc.libs.serverpinger.MinecraftPingOptions;
 import fr.modcraftmc.libs.serverpinger.MinecraftPingReply;
 import fr.modcraftmc.libs.update.GameUpdater;
 import fr.theshark34.openlauncherlib.minecraft.AuthInfos;
-import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.awt.*;
 import java.io.File;
@@ -51,10 +37,10 @@ public class MainController implements IController {
 
     @FXML public Label playername;
     @FXML public ImageView playerhead;
-    @FXML public JFXButton logout;
+    @FXML public Button logout;
 
-    @FXML public JFXButton settings;
-    @FXML public JFXButton play;
+    @FXML public Button settings;
+    @FXML public Button play;
     @FXML public Button closeBtn;
     @FXML public Rectangle hideBtn;
 
@@ -67,18 +53,18 @@ public class MainController implements IController {
     @FXML public Pane leftpane;
 
     @FXML public Pane news;
-    @FXML public JFXButton news1Btn;
-    @FXML public JFXButton news2Btn;
+    @FXML public Button news1Btn;
+    @FXML public Button news2Btn;
 
     private boolean showSettings = false;
 
-    @FXML public JFXSlider ramSlider;
+    @FXML public Slider ramSlider;
     @FXML public Label ramText;
 
-    @FXML public JFXCheckBox customPathCheckbox;
+    @FXML public CheckBox customPathCheckbox;
     @FXML public TextField customPathValue;
-    @FXML public JFXButton fidnBtn;
-    @FXML public JFXCheckBox keepOpen;
+    @FXML public Button findBtn;
+    @FXML public CheckBox keepOpen;
 
     private Process launchProcess;
     private boolean isUpdateLaunched = false;
@@ -207,7 +193,7 @@ public class MainController implements IController {
 
         keepOpen.setOnMouseClicked(event -> ModcraftApplication.launcherConfig.setKeepOpen(keepOpen.isSelected()));
 
-        fidnBtn.setOnMouseClicked(event -> {
+        findBtn.setOnMouseClicked(event -> {
             DirectoryChooser fileChooser = new DirectoryChooser();
             fileChooser.setTitle("Select directory");
             fileChooser.setInitialDirectory(FilesManager.INSTANCES_PATH);

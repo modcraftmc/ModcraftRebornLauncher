@@ -1,9 +1,9 @@
 package fr.modcraftmc.launcher.controllers;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXCheckBox;
-import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXTextField;
+//import com.jfoenix.controls.JFXButton;
+//import com.jfoenix.controls.JFXCheckBox;
+//import com.jfoenix.controls.JFXPasswordField;
+//import com.jfoenix.controls.JFXTextField;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.launcher.components.TranslateTransition;
@@ -13,8 +13,7 @@ import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
@@ -36,10 +35,10 @@ public class LoginController implements IController {
     @FXML public Label serverdesc;
     @FXML public Label accounttype;
 
-    @FXML public JFXTextField emailfield;
-    @FXML public JFXPasswordField passwordfield;
-    @FXML public JFXCheckBox logincheckbox;
-    @FXML public JFXButton loginBtn;
+    @FXML public TextField emailfield;
+    @FXML public PasswordField passwordfield;
+    @FXML public CheckBox logincheckbox;
+    @FXML public Button loginBtn;
 
     @FXML public Button closeBtn;
 

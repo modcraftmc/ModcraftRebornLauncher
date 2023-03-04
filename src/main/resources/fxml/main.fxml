@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1100.0" styleClass="container" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.MainController">
+<AnchorPane prefHeight="600.0" prefWidth="1100.0" styleClass="container" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.MainController">
    <children>
       <Pane layoutX="714.0" layoutY="88.0" prefHeight="183.0" prefWidth="389.0" styleClass="login-container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="714.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -18,7 +17,7 @@
                      <image>
                         <Image url="https://minotar.net/avatar/manugame" />
                      </image></ImageView>
-                  <JFXButton fx:id="logout" layoutX="104.0" layoutY="124.0" mnemonicParsing="false" prefHeight="13.0" prefWidth="160.0" styleClass="login-button" text="main.player.logout" textFill="WHITE" />
+                  <Button fx:id="logout" layoutX="104.0" layoutY="124.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="160.0" styleClass="login-button" text="main.player.logout" textAlignment="CENTER" textFill="WHITE" />
                </children></Pane>
             <Pane layoutX="9.0" layoutY="260.0" prefHeight="121.0" prefWidth="368.0" styleClass="userbox">
                <children>
@@ -34,16 +33,15 @@
                   </Label>
                </children></Pane>
             <Button fx:id="closeBtn" layoutX="361.0" layoutY="3.0" mnemonicParsing="false" styleClass="close" />
-            <JFXButton fx:id="settings" layoutX="29.0" layoutY="423.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="329.0" styleClass="login-button" text="main.settings" textFill="WHITE">
+            <Button fx:id="settings" layoutX="29.0" layoutY="423.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="329.0" styleClass="login-button" text="main.settings" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font size="16.0" />
                </font>
-            </JFXButton>
-            <JFXButton fx:id="play" layoutX="29.0" layoutY="481.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="329.0" styleClass="login-button" text="main.play" textFill="WHITE">
+            </Button>
+            <Button fx:id="play" layoutX="29.0" layoutY="481.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="329.0" styleClass="login-button" text="main.play" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font size="16.0" />
-               </font>
-            </JFXButton>
+               </font></Button>
             <ProgressBar fx:id="progress" layoutX="29.0" layoutY="569.0" prefHeight="17.0" prefWidth="329.0" progress="0.0" />
             <Label fx:id="label" alignment="CENTER" layoutX="28.0" layoutY="537.0" prefHeight="17.0" prefWidth="329.0" text="Label" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" />
             <Rectangle fx:id="hideBtn" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="4.0" layoutX="338.0" layoutY="18.0" stroke="WHITE" strokeType="INSIDE" styleClass="hide" width="16.0" />
@@ -64,7 +62,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <JFXSlider fx:id="ramSlider" layoutX="26.0" layoutY="56.0" prefHeight="15.0" prefWidth="489.0" styleClass="slideBar" stylesheets="@../css/main.css" />
+                        <Slider fx:id="ramSlider" layoutX="26.0" layoutY="59.0" prefHeight="15.0" prefWidth="489.0" styleClass="slideBar" />
                         <Label fx:id="ramText" layoutX="533.0" layoutY="56.0" prefHeight="18.0" prefWidth="96.0" text="Ram:" textFill="WHITE">
                            <font>
                               <Font size="14.0" />
@@ -79,16 +77,17 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <JFXCheckBox fx:id="customPathCheckbox" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="207.0" text="Changer le dossier d'installation" textFill="WHITE">
+                        <CheckBox fx:id="customPathCheckbox" layoutX="8.0" layoutY="14.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="310.0" text="Changer le dossier d'installation" textFill="WHITE">
                            <font>
                               <Font size="20.0" />
-                           </font></JFXCheckBox>
+                           </font>
+                        </CheckBox>
                         <TextField fx:id="customPathValue" layoutX="14.0" layoutY="61.0" prefHeight="26.0" prefWidth="489.0" />
-                        <JFXButton fx:id="fidnBtn" layoutX="519.0" layoutY="56.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="122.0" styleClass="login-button" text="Parcourir" textFill="WHITE">
+                        <Button fx:id="findBtn" layoutX="518.0" layoutY="53.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="122.0" styleClass="login-button" text="Parcourir" textAlignment="CENTER" textFill="WHITE">
                            <font>
                               <Font size="16.0" />
                            </font>
-                        </JFXButton>
+                        </Button>
                      </children>
                   </Pane>
                   <Pane layoutX="10.0" layoutY="122.0" prefHeight="62.0" prefWidth="678.0">
@@ -98,22 +97,22 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <JFXCheckBox fx:id="keepOpen" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="207.0" text="Laisser le launcher ouvert pendant l'execution du jeu" textFill="WHITE">
+                        <CheckBox fx:id="keepOpen" layoutX="8.0" layoutY="14.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="502.0" text="Laisser le launcher ouvert pendant l'execution du jeu" textFill="WHITE">
                            <font>
                               <Font size="20.0" />
                            </font>
-                        </JFXCheckBox>
+                        </CheckBox>
                      </children>
                   </Pane>
                </children></VBox>         </children></Pane>
-      <Pane fx:id="news" layoutX="5.0" layoutY="14.0" prefHeight="572.0" prefWidth="712.0" visible="true">
+      <Pane fx:id="news" layoutX="5.0" layoutY="14.0" prefHeight="572.0" prefWidth="712.0">
          <children>
             <Label layoutX="263.0" layoutY="31.0" text="Informations" textFill="WHITE">
                <font>
                   <Font size="30.0" />
                </font>
             </Label>
-            <VBox layoutX="17.0" layoutY="79.0" prefHeight="479.0" prefWidth="678.0">
+            <VBox layoutX="8.0" layoutY="76.0" prefHeight="479.0" prefWidth="678.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="678.0" style="-fx-background-color: rgba(0, 0, 0, 0.2);">
                      <children>
@@ -123,7 +122,7 @@
                            </font>
                         </Label>
                         <Label layoutX="22.0" layoutY="45.0" prefHeight="103.0" prefWidth="635.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at facilisis metus. Sed sapien augue, faucibus volutpat suscipit sed, imperdiet id justo. In placerat faucibus blandit. Quisque in finibus arcu, quis efficitur dolor. Phasellus sit amet turpis dignissim, mollis libero ut, vulputate nulla. Suspendisse faucibus, sem id hendrerit cursus, urna est aliquam ligula, feugiat condimentum nibh lacus sed lorem. Donec at elit varius tellus imperdiet sollicitudin. Ut iaculis in ligula faucibus sodales. Sed at arcu urna. Donec tincidunt nulla turpis, ac tempus nisl lobortis eget. Cras quis justo maximus, faucibus arcu at, rutrum lectus. In egestas dignissim nisi, ac iaculis quam blandit vitae." textFill="WHITE" wrapText="true" />
-                        <JFXButton fx:id="news1Btn" layoutX="22.0" layoutY="160.0" mnemonicParsing="false" styleClass="login-button" stylesheets="@../css/main.css" text="Lire plus" textFill="WHITE" />
+                        <Button fx:id="news1Btn" layoutX="22.0" layoutY="160.0" mnemonicParsing="false" styleClass="login-button" text="Lire plus" textFill="WHITE" />
                         <Label alignment="TOP_RIGHT" layoutX="444.0" layoutY="166.0" prefHeight="16.0" prefWidth="220.0" text="Par manugame_ le 06/06/2021" textFill="WHITE">
                            <font>
                               <Font size="10.0" />
@@ -138,7 +137,7 @@
                            </font>
                         </Label>
                         <Label layoutX="22.0" layoutY="45.0" prefHeight="103.0" prefWidth="635.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at facilisis metus. Sed sapien augue, faucibus volutpat suscipit sed, imperdiet id justo. In placerat faucibus blandit. Quisque in finibus arcu, quis efficitur dolor. Phasellus sit amet turpis dignissim, mollis libero ut, vulputate nulla. Suspendisse faucibus, sem id hendrerit cursus, urna est aliquam ligula, feugiat condimentum nibh lacus sed lorem. Donec at elit varius tellus imperdiet sollicitudin. Ut iaculis in ligula faucibus sodales. Sed at arcu urna. Donec tincidunt nulla turpis, ac tempus nisl lobortis eget. Cras quis justo maximus, faucibus arcu at, rutrum lectus. In egestas dignissim nisi, ac iaculis quam blandit vitae." textFill="WHITE" wrapText="true" />
-                        <JFXButton fx:id="news2Btn" layoutX="22.0" layoutY="160.0" mnemonicParsing="false" styleClass="login-button" stylesheets="@../css/main.css" text="Lire plus" textFill="WHITE" />
+                        <Button fx:id="news2Btn" layoutX="22.0" layoutY="160.0" mnemonicParsing="false" styleClass="login-button" text="Lire plus" textFill="WHITE" />
                         <Label alignment="TOP_RIGHT" layoutX="444.0" layoutY="166.0" prefHeight="16.0" prefWidth="220.0" text="Par manugame_ le 06/06/2021" textFill="WHITE">
                            <font>
                               <Font size="10.0" />
