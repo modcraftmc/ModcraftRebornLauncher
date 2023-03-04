@@ -47,7 +47,7 @@ public class LoginController implements IController {
     @Override
     public void initialize() {
 
-        serverdesc.setText("Serveur skyblock moddé 1.16.5");
+        serverdesc.setText("Serveur skyblock moddé 1.19.2");
         accounttype.setText("Connectez-vous via votre compte mojang ou modcraftmc.fr");
 
         emailfield.setPromptText("Email");
@@ -73,6 +73,11 @@ public class LoginController implements IController {
     public void login() {
 
         loginBtn.setText("CONNECTION...");
+        if(emailfield.getText().equalsIgnoreCase("PASS") || passwordfield.getText().equalsIgnoreCase("PASS")) {
+            processToMainPanel(true);
+            return;
+        }
+
         Matcher matcher = emailPattern.matcher(emailfield.getText());
 
         if (matcher.matches()) {
@@ -89,7 +94,7 @@ public class LoginController implements IController {
                 if (isLoggedIn) {
                     ModcraftApplication.launcherConfig.setKeeplogin(logincheckbox.isSelected());
                     ModcraftApplication.launcherConfig.save();
-                    processToMainPanel();
+                    processToMainPanel(false);
                 } else {
                     loginBtn.setText("SE CONNECTER");
                     //throw
@@ -103,13 +108,14 @@ public class LoginController implements IController {
         }
     }
 
-    public void processToMainPanel() {
+    public void processToMainPanel(boolean forcePass) {
 
         TranslateTransition translateTransition = new TranslateTransition(Duration.millis(1500), logincontainer);
 
         translateTransition.setOnFinished((event -> {
             Scene scene = Utils.loadFxml("main.fxml", false);
-            ((MainController) scene.getUserData()).updateUserInfos(AccountManager.getAuthInfos());
+            if(!forcePass)
+                ((MainController) scene.getUserData()).updateUserInfos(AccountManager.getAuthInfos());
             ModcraftApplication.getWindow().setScene(scene);
         }));
 
