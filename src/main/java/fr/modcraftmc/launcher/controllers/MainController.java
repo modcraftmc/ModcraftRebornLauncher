@@ -10,6 +10,8 @@ import fr.modcraftmc.libs.serverpinger.MinecraftPingOptions;
 import fr.modcraftmc.libs.serverpinger.MinecraftPingReply;
 import fr.modcraftmc.libs.update.GameUpdater;
 import fr.theshark34.openlauncherlib.minecraft.AuthInfos;
+import io.github.palexdev.materialfx.controls.MFXCheckbox;
+import io.github.palexdev.materialfx.controls.MFXSlider;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -58,13 +60,13 @@ public class MainController implements IController {
 
     private boolean showSettings = false;
 
-    @FXML public Slider ramSlider;
+    @FXML public MFXSlider ramSlider;
     @FXML public Label ramText;
 
-    @FXML public CheckBox customPathCheckbox;
+    @FXML public MFXCheckbox customPathCheckbox;
     @FXML public TextField customPathValue;
     @FXML public Button findBtn;
-    @FXML public CheckBox keepOpen;
+    @FXML public MFXCheckbox keepOpen;
 
     private Process launchProcess;
     private boolean isUpdateLaunched = false;

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.*?>
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
@@ -17,7 +19,7 @@
                      <image>
                         <Image url="https://minotar.net/avatar/manugame" />
                      </image></ImageView>
-                  <Button fx:id="logout" layoutX="104.0" layoutY="124.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="160.0" styleClass="login-button" text="main.player.logout" textAlignment="CENTER" textFill="WHITE" />
+                  <MFXButton fx:id="logout" layoutX="104.0" layoutY="124.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="160.0" styleClass="login-button" text="main.player.logout" textFill="WHITE" />
                </children></Pane>
             <Pane layoutX="9.0" layoutY="260.0" prefHeight="121.0" prefWidth="368.0" styleClass="userbox">
                <children>
@@ -33,15 +35,16 @@
                   </Label>
                </children></Pane>
             <Button fx:id="closeBtn" layoutX="361.0" layoutY="3.0" mnemonicParsing="false" styleClass="close" />
-            <Button fx:id="settings" layoutX="29.0" layoutY="423.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="329.0" styleClass="login-button" text="main.settings" textAlignment="CENTER" textFill="WHITE">
+            <MFXButton fx:id="settings" layoutX="29.0" layoutY="424.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="329.0" styleClass="login-button" text="main.settings" textFill="WHITE">
                <font>
                   <Font size="16.0" />
                </font>
-            </Button>
-            <Button fx:id="play" layoutX="29.0" layoutY="481.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="329.0" styleClass="login-button" text="main.play" textAlignment="CENTER" textFill="WHITE">
+            </MFXButton>
+            <MFXButton fx:id="play" layoutX="29.0" layoutY="482.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="329.0" styleClass="login-button" text="main.play" textFill="WHITE">
                <font>
                   <Font size="16.0" />
-               </font></Button>
+               </font>
+            </MFXButton>
             <ProgressBar fx:id="progress" layoutX="29.0" layoutY="569.0" prefHeight="17.0" prefWidth="329.0" progress="0.0" />
             <Label fx:id="label" alignment="CENTER" layoutX="28.0" layoutY="537.0" prefHeight="17.0" prefWidth="329.0" text="Label" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" />
             <Rectangle fx:id="hideBtn" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="4.0" layoutX="338.0" layoutY="18.0" stroke="WHITE" strokeType="INSIDE" styleClass="hide" width="16.0" />
@@ -62,7 +65,11 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Slider fx:id="ramSlider" layoutX="26.0" layoutY="59.0" prefHeight="15.0" prefWidth="489.0" styleClass="slideBar" />
+                        <MFXSlider fx:id="ramSlider" bidirectional="false" layoutX="26.0" layoutY="63.0" max="16.0" prefHeight="4.0" prefWidth="489.0" showMajorTicks="true" showMinorTicks="true" showTicksAtEdges="false" sliderMode="SNAP_TO_TICKS" style="-mfx-main: green;" tickUnit="1.0" value="4.0">
+                           <styleClass>
+                              <String fx:value="ramSlider" />
+                              <String fx:value="blue" />
+                           </styleClass></MFXSlider>
                         <Label fx:id="ramText" layoutX="533.0" layoutY="56.0" prefHeight="18.0" prefWidth="96.0" text="Ram:" textFill="WHITE">
                            <font>
                               <Font size="14.0" />
@@ -77,17 +84,17 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <CheckBox fx:id="customPathCheckbox" layoutX="8.0" layoutY="14.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="310.0" text="Changer le dossier d'installation" textFill="WHITE">
+                        <MFXCheckbox fx:id="customPathCheckbox" layoutX="14.0" layoutY="15.0" mnemonicParsing="false" styleClass="blue" text="Changer le dossier d'installation" textFill="WHITE">
                            <font>
                               <Font size="20.0" />
                            </font>
-                        </CheckBox>
+                        </MFXCheckbox>
                         <TextField fx:id="customPathValue" layoutX="14.0" layoutY="61.0" prefHeight="26.0" prefWidth="489.0" />
-                        <Button fx:id="findBtn" layoutX="518.0" layoutY="53.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="122.0" styleClass="login-button" text="Parcourir" textAlignment="CENTER" textFill="WHITE">
+                        <MFXButton fx:id="findBtn" layoutX="518.0" layoutY="53.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="122.0" styleClass="login-button" text="Parcourir" textFill="WHITE">
                            <font>
                               <Font size="16.0" />
                            </font>
-                        </Button>
+                        </MFXButton>
                      </children>
                   </Pane>
                   <Pane layoutX="10.0" layoutY="122.0" prefHeight="62.0" prefWidth="678.0">
@@ -97,11 +104,11 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <CheckBox fx:id="keepOpen" layoutX="8.0" layoutY="14.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="502.0" text="Laisser le launcher ouvert pendant l'execution du jeu" textFill="WHITE">
+                        <MFXCheckbox fx:id="keepOpen" layoutX="14.0" layoutY="17.0" mnemonicParsing="false" styleClass="blue" text="Laisser le launcher ouvert pendant l'execution du jeu" textFill="WHITE">
                            <font>
                               <Font size="20.0" />
                            </font>
-                        </CheckBox>
+                        </MFXCheckbox>
                      </children>
                   </Pane>
                </children></VBox>         </children></Pane>
@@ -122,7 +129,7 @@
                            </font>
                         </Label>
                         <Label layoutX="22.0" layoutY="45.0" prefHeight="103.0" prefWidth="635.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at facilisis metus. Sed sapien augue, faucibus volutpat suscipit sed, imperdiet id justo. In placerat faucibus blandit. Quisque in finibus arcu, quis efficitur dolor. Phasellus sit amet turpis dignissim, mollis libero ut, vulputate nulla. Suspendisse faucibus, sem id hendrerit cursus, urna est aliquam ligula, feugiat condimentum nibh lacus sed lorem. Donec at elit varius tellus imperdiet sollicitudin. Ut iaculis in ligula faucibus sodales. Sed at arcu urna. Donec tincidunt nulla turpis, ac tempus nisl lobortis eget. Cras quis justo maximus, faucibus arcu at, rutrum lectus. In egestas dignissim nisi, ac iaculis quam blandit vitae." textFill="WHITE" wrapText="true" />
-                        <Button fx:id="news1Btn" layoutX="22.0" layoutY="160.0" mnemonicParsing="false" styleClass="login-button" text="Lire plus" textFill="WHITE" />
+                        <MFXButton fx:id="news1Btn" layoutX="22.0" layoutY="161.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="69.0" styleClass="login-button" text="Lire plus" textFill="WHITE" />
                         <Label alignment="TOP_RIGHT" layoutX="444.0" layoutY="166.0" prefHeight="16.0" prefWidth="220.0" text="Par manugame_ le 06/06/2021" textFill="WHITE">
                            <font>
                               <Font size="10.0" />
@@ -137,7 +144,7 @@
                            </font>
                         </Label>
                         <Label layoutX="22.0" layoutY="45.0" prefHeight="103.0" prefWidth="635.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at facilisis metus. Sed sapien augue, faucibus volutpat suscipit sed, imperdiet id justo. In placerat faucibus blandit. Quisque in finibus arcu, quis efficitur dolor. Phasellus sit amet turpis dignissim, mollis libero ut, vulputate nulla. Suspendisse faucibus, sem id hendrerit cursus, urna est aliquam ligula, feugiat condimentum nibh lacus sed lorem. Donec at elit varius tellus imperdiet sollicitudin. Ut iaculis in ligula faucibus sodales. Sed at arcu urna. Donec tincidunt nulla turpis, ac tempus nisl lobortis eget. Cras quis justo maximus, faucibus arcu at, rutrum lectus. In egestas dignissim nisi, ac iaculis quam blandit vitae." textFill="WHITE" wrapText="true" />
-                        <Button fx:id="news2Btn" layoutX="22.0" layoutY="160.0" mnemonicParsing="false" styleClass="login-button" text="Lire plus" textFill="WHITE" />
+                        <MFXButton fx:id="news2Btn" layoutX="22.0" layoutY="161.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="69.0" styleClass="login-button" text="Lire plus" textFill="WHITE" />
                         <Label alignment="TOP_RIGHT" layoutX="444.0" layoutY="166.0" prefHeight="16.0" prefWidth="220.0" text="Par manugame_ le 06/06/2021" textFill="WHITE">
                            <font>
                               <Font size="10.0" />

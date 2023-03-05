@@ -33,7 +33,7 @@
 }
 
 .field:focused{
-    -fx-border-color: #2980b9;
+    -fx-border-color: #3c98d3;
 }
 
 .close {
@@ -44,6 +44,33 @@
 .hide {
     -fx-border-radius: 1;
 }
+
+.blue{
+    -mfx-main: #3c98d3;
+}
+
+.ramSlider{
+    -mfx-main-color: #3c98d3;
+    -mfx-main-color-hover: rgb(60, 152, 211, 0.2);
+    -mfx-main-color-pressed: rgb(60, 152, 211, 0.3);
+}
+
+/*.ramSlider .bar{*/
+/*    -mfx-main-color: blue;*/
+/*    -mfx-color: blue;*/
+/*    -fx-fill: blue;*/
+/*}*/
+/*.ramSlider .thumb{*/
+/*    -mfx-main-color: green;*/
+/*    -mfx-color: green;*/
+/*    -mfx-main-color: green;*/
+/*}*/
+/*.ramSlider .thumb-container,*/
+/*.ramSlider .thumb-radius,*/
+/*.ramSlider .track,*/
+/*.ramSlider .mfx-ripple-generator{*/
+/*    -mfx-main-color: red;*/
+/*}*/
 
 .slideBar > .colored-track {
     -fx-background-color: #2980b9;

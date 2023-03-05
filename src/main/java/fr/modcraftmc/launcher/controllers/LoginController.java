@@ -9,6 +9,8 @@ import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.launcher.components.TranslateTransition;
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
 import fr.modcraftmc.libs.auth.AccountManager;
+import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXCheckbox;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -37,8 +39,8 @@ public class LoginController implements IController {
 
     @FXML public TextField emailfield;
     @FXML public PasswordField passwordfield;
-    @FXML public CheckBox logincheckbox;
-    @FXML public Button loginBtn;
+    @FXML public MFXCheckbox logincheckbox;
+    @FXML public MFXButton loginBtn;
 
     @FXML public Button closeBtn;
 
