@@ -53,7 +53,7 @@ public class ModcraftApplication extends Application {
             launcherConfig.save();
         }));
 
-        if (AccountManager.tryVerify(launcherConfig.getAccesToken()).get()) {
+        if (AccountManager.tryVerify(launcherConfig.getRefreshToken()).get()) {
             Scene mainScene = Utils.loadFxml("main.fxml", false);
             ((MainController) mainScene.getUserData()).updateUserInfos(AccountManager.getAuthInfos());
             stage.setScene(mainScene);

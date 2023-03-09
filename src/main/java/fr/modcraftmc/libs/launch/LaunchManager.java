@@ -22,7 +22,8 @@ public class LaunchManager {
             GameVersion VERSION = new GameVersion(ModcraftApplication.MC_VERSION, GameType.V1_13_HIGER_FORGE.setNewForgeVersionDiscriminator(forgeVersionDiscriminator));
             GameInfos infos = new GameInfos("modcraftmc", dir, VERSION, new GameTweak[] {});
 
-            ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(infos, GameFolder.FLOW_UPDATER, AccountManager.getAuthInfos());
+            AuthInfos authInfos = new AuthInfos(AccountManager.getAuthInfos().getId(), "" ,AccountManager.getAuthInfos().getName());
+            ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(infos, GameFolder.FLOW_UPDATER, authInfos);
 
             if (System.getProperty("os.name").contains("windows")) {
                 JavaUtil.setJavaCommand(new File(FilesManager.JAVA_PATH, "\\bin\\java").getPath());

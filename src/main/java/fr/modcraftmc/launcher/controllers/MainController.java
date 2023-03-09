@@ -1,5 +1,6 @@
 package fr.modcraftmc.launcher.controllers;
 
+import fr.litarvan.openauth.microsoft.model.response.MinecraftProfile;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
@@ -71,11 +72,11 @@ public class MainController implements IController {
     private Process launchProcess;
     private boolean isUpdateLaunched = false;
 
-    public void updateUserInfos(AuthInfos authInfos) {
-        playername.setText(authInfos.getUsername());
+    public void updateUserInfos(MinecraftProfile authInfos) {
+        playername.setText(authInfos.getName());
         try {
 
-            Image image = new Image(new URL("https://minotar.net/avatar/" + authInfos.getUsername()).openStream(), 64, 64, false, false);
+            Image image = new Image(new URL("https://minotar.net/avatar/" + authInfos.getName()).openStream(), 64, 64, false, false);
             playerhead.setImage(image);
 
         } catch (IOException e) {
