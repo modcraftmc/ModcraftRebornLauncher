@@ -9,7 +9,8 @@ import fr.modcraftmc.libs.launch.LaunchManager;
 import fr.modcraftmc.libs.serverpinger.MinecraftPing;
 import fr.modcraftmc.libs.serverpinger.MinecraftPingOptions;
 import fr.modcraftmc.libs.serverpinger.MinecraftPingReply;
-import fr.modcraftmc.libs.update.GameUpdater;
+import fr.modcraftmc.libs.updater.GameUpdater;
+import fr.modcraftmc.libs.updater.ProgressCallback;
 import fr.theshark34.openlauncherlib.minecraft.AuthInfos;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 import io.github.palexdev.materialfx.controls.MFXSlider;
@@ -36,7 +37,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class MainController implements IController {
+public class MainController implements IController, ProgressCallback {
 
     @FXML public Label playername;
     @FXML public ImageView playerhead;
@@ -129,47 +130,52 @@ public class MainController implements IController {
 
         play.setOnMouseClicked(event -> {
 
-            if (!isUpdateLaunched) {
-                isUpdateLaunched = true;
-                Platform.runLater(() -> {
-                    label.setVisible(true);
-                    play.setText("Arrêter");
-                    progress.setVisible(true);
-                });
+            InstanceProperty instanceProperty = ModcraftApplication.launcherConfig.getInstanceProperty();
+            File instanceDirectory = instanceProperty.isCustomInstance() ? new File(instanceProperty.getCustomInstancePath()) : new File(FilesManager.INSTANCES_PATH, "v4-staff");
+            if (!instanceDirectory.exists()) instanceDirectory.mkdirs();
+            GameUpdater gameUpdater = new GameUpdater("", instanceDirectory.toPath(), this);
 
-                InstanceProperty instanceProperty = ModcraftApplication.launcherConfig.getInstanceProperty();
-                File path = instanceProperty.isCustomInstance() ? new File(instanceProperty.getCustomInstancePath()) : new File(FilesManager.INSTANCES_PATH, "v4-staff");
-                if (!path.exists()) path.mkdirs();
-
-                GameUpdater gameUpdater = new GameUpdater("https://files.modcraftmc.fr", path, progress, label);
-
-                Task<Void> updateTask = gameUpdater.getUpdater();
-
-                updateTask.setOnSucceeded(onSuccess -> {
-                    launchProcess = LaunchManager.launch(path);
-                    Platform.runLater(() -> {
-                        progress.progressProperty().unbind();
-                        progress.setVisible(false);
-                        label.setVisible(false);
-                    });
-                    if (!ModcraftApplication.launcherConfig.isKeepOpen()) System.exit(0);
-                });
-
-                gameUpdater.start();
-
-            } else {
-                isUpdateLaunched = false;
-
-                if (launchProcess != null) {
-                    launchProcess.destroy();
-                    launchProcess = null;
-                    Platform.runLater(() -> {
-                        label.setText("");
-                        play.setText("JOUER");
-                        progress.setVisible(false);
-                    });
-                }
-            }
+//            if (!isUpdateLaunched) {
+//                isUpdateLaunched = true;
+//                Platform.runLater(() -> {
+//                    label.setVisible(true);
+//                    play.setText("Arrêter");
+//                    progress.setVisible(true);
+//                });
+//
+//                InstanceProperty instanceProperty = ModcraftApplication.launcherConfig.getInstanceProperty();
+//                File path = instanceProperty.isCustomInstance() ? new File(instanceProperty.getCustomInstancePath()) : new File(FilesManager.INSTANCES_PATH, "v4-staff");
+//                if (!path.exists()) path.mkdirs();
+//
+//                GameUpdater gameUpdater = new GameUpdater("https://files.modcraftmc.fr", path, progress, label);
+//
+//                Task<Void> updateTask = gameUpdater.getUpdater();
+//
+//                updateTask.setOnSucceeded(onSuccess -> {
+//                    launchProcess = LaunchManager.launch(path);
+//                    Platform.runLater(() -> {
+//                        progress.progressProperty().unbind();
+//                        progress.setVisible(false);
+//                        label.setVisible(false);
+//                    });
+//                    if (!ModcraftApplication.launcherConfig.isKeepOpen()) System.exit(0);
+//                });
+//
+//                gameUpdater.start();
+//
+//            } else {
+//                isUpdateLaunched = false;
+//
+//                if (launchProcess != null) {
+//                    launchProcess.destroy();
+//                    launchProcess = null;
+//                    Platform.runLater(() -> {
+//                        label.setText("");
+//                        play.setText("JOUER");
+//                        progress.setVisible(false);
+//                    });
+//                }
+//            }
         });
 
         ramSlider.setMin(4);
@@ -229,5 +235,10 @@ public class MainController implements IController {
             ModcraftApplication.getWindow().setIconified(true);
             ModcraftApplication.launcherConfig.save();
         });
+    }
+
+    @Override
+    public void onProgressUpdate(String progress) {
+
     }
 }

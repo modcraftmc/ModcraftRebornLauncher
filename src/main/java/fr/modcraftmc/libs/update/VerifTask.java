@@ -29,8 +29,8 @@ public class VerifTask extends Task<Void> {
         this.progressBar = progressBar;
         this.label = label;
 
-        DownloadTask.remoteContent = DownloadUtils.getRemoteContent(serverUrl + "/content.json", label);
-        DownloadTask.ignoreList = DownloadUtils.getIgnoreList(serverUrl + "/ignore.txt");
+//        DownloadTask.remoteContent = DownloadUtils.getRemoteContent(serverUrl + "/content.json", label);
+//        DownloadTask.ignoreList = DownloadUtils.getIgnoreList(serverUrl + "/ignore.txt");
     }
 
     public void checkLocalFiles() {
