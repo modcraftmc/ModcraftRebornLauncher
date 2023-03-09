@@ -5,6 +5,9 @@ package fr.modcraftmc.libs.auth;
 //import com.azuriom.azauth.model.User;
 import fr.litarvan.openauth.AuthPoints;
 import fr.litarvan.openauth.Authenticator;
+import fr.litarvan.openauth.microsoft.MicrosoftAuthResult;
+import fr.litarvan.openauth.microsoft.MicrosoftAuthenticationException;
+import fr.litarvan.openauth.microsoft.MicrosoftAuthenticator;
 import fr.litarvan.openauth.model.AuthAgent;
 import fr.litarvan.openauth.model.response.AuthResponse;
 import fr.litarvan.openauth.model.response.RefreshResponse;
@@ -29,22 +32,34 @@ public class AccountManager {
 
     public static CompletableFuture<Boolean> tryLogin(String username, String password) {
         return CompletableFuture.supplyAsync(() -> {
+
+            MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator();
             try {
+                MicrosoftAuthResult result = authenticator.loginWithWebview();
+                ModcraftApplication.LOGGER.info(result.getProfile().getName());
 
-                AuthResponse response = authenticator.authenticate(AuthAgent.MINECRAFT, username, password, "mdcraft");
-                authInfos = new AuthInfos(response.getSelectedProfile().getName(), response.getAccessToken(), response.getSelectedProfile().getId());
-
-                String tokenToSave = response.getAccessToken();
-                String crypto = Base64.getEncoder().withoutPadding().encodeToString(tokenToSave.getBytes());
-
-                ModcraftApplication.launcherConfig.setAccesToken(crypto);
-                ModcraftApplication.launcherConfig.save();
-                return true;
-            } catch (fr.litarvan.openauth.AuthenticationException e) {
-                e.printStackTrace();
+            } catch (MicrosoftAuthenticationException e) {
+                throw new RuntimeException(e);
             }
             return false;
         });
+//        return CompletableFuture.supplyAsync(() -> {
+//            try {
+//
+//                AuthResponse response = authenticator.authenticate(AuthAgent.MINECRAFT, username, password, "mdcraft");
+//                authInfos = new AuthInfos(response.getSelectedProfile().getName(), response.getAccessToken(), response.getSelectedProfile().getId());
+//
+//                String tokenToSave = response.getAccessToken();
+//                String crypto = Base64.getEncoder().withoutPadding().encodeToString(tokenToSave.getBytes());
+//
+//                ModcraftApplication.launcherConfig.setAccesToken(crypto);
+//                ModcraftApplication.launcherConfig.save();
+//                return true;
+//            } catch (fr.litarvan.openauth.AuthenticationException e) {
+//                e.printStackTrace();
+//            }
+//            return false;
+//        });
     }
 
     public static CompletableFuture<Boolean> tryVerify(String accessToken) {

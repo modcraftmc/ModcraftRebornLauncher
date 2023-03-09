@@ -12,6 +12,7 @@ import fr.modcraftmc.libs.auth.AccountManager;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -79,34 +80,45 @@ public class LoginController implements IController {
             return;
         }
 
-        Matcher matcher = emailPattern.matcher(emailfield.getText());
-
-        if (matcher.matches()) {
-            ModcraftApplication.LOGGER.info("Email is valid.");
-
-            if (passwordfield.getText().isEmpty() || passwordfield.getText().length() < 6) {
+        AccountManager.tryLogin(emailfield.getText(), passwordfield.getText()).thenAcceptAsync((isLoggedIn) -> {
+            if (isLoggedIn) {
+                ModcraftApplication.launcherConfig.setKeeplogin(logincheckbox.isSelected());
+                ModcraftApplication.launcherConfig.save();
+                processToMainPanel(false);
+            } else {
                 loginBtn.setText("SE CONNECTER");
                 //throw
             }
+        }, Platform::runLater);
 
-            ModcraftApplication.LOGGER.info("Password is valid.");
-
-            AccountManager.tryLogin(emailfield.getText(), passwordfield.getText()).thenAccept((isLoggedIn) -> {
-                if (isLoggedIn) {
-                    ModcraftApplication.launcherConfig.setKeeplogin(logincheckbox.isSelected());
-                    ModcraftApplication.launcherConfig.save();
-                    processToMainPanel(false);
-                } else {
-                    loginBtn.setText("SE CONNECTER");
-                    //throw
-                }
-            });
-
-        } else {
-            //throw
-            ModcraftApplication.LOGGER.info("Email is invalid.");
-            loginBtn.setText("SE CONNECTER");
-        }
+//        Matcher matcher = emailPattern.matcher(emailfield.getText());
+//
+//        if (matcher.matches()) {
+//            ModcraftApplication.LOGGER.info("Email is valid.");
+//
+//            if (passwordfield.getText().isEmpty() || passwordfield.getText().length() < 6) {
+//                loginBtn.setText("SE CONNECTER");
+//                //throw
+//            }
+//
+//            ModcraftApplication.LOGGER.info("Password is valid.");
+//
+//            AccountManager.tryLogin(emailfield.getText(), passwordfield.getText()).thenAccept((isLoggedIn) -> {
+//                if (isLoggedIn) {
+//                    ModcraftApplication.launcherConfig.setKeeplogin(logincheckbox.isSelected());
+//                    ModcraftApplication.launcherConfig.save();
+//                    processToMainPanel(false);
+//                } else {
+//                    loginBtn.setText("SE CONNECTER");
+//                    //throw
+//                }
+//            });
+//
+//        } else {
+//            //throw
+//            ModcraftApplication.LOGGER.info("Email is invalid.");
+//            loginBtn.setText("SE CONNECTER");
+//        }
     }
 
     public void processToMainPanel(boolean forcePass) {
