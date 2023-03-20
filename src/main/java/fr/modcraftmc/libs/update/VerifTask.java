@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.security.MessageDigest;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -34,12 +33,13 @@ public class VerifTask extends Task<Void> {
     }
 
     public void checkLocalFiles() {
+
         Collection<File> localFiles = new ConcurrentLinkedQueue<>(FileUtils.listFiles(directory, null, true));
 
         CountDownLatch latch = new CountDownLatch(DownloadTask.remoteContent.size());
         ExecutorService taskExecutor = Executors.newFixedThreadPool(20);
 
-        for (MDFile mdFile : DownloadTask.remoteContent) {
+        for (MDFileOld mdFile : DownloadTask.remoteContent) {
             taskExecutor.submit(() -> {
                 File lFile = new File(new File(directory, mdFile.getPath()), mdFile.getName());
 
@@ -73,7 +73,7 @@ public class VerifTask extends Task<Void> {
             boolean ignore = false;
             for (String now : DownloadTask.ignoreList) {
                 if (file.toString().contains(now.replace("/", "\\"))) {
-                    GameUpdater.LOGGER.info("[IGNORE LIST] This file is ignored: " + file.getName());
+                    GameUpdaterOld.LOGGER.info("[IGNORE LIST] This file is ignored: " + file.getName());
                     ignore = true;
                 }
             }

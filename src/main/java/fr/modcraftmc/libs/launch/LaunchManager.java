@@ -19,10 +19,10 @@ public class LaunchManager {
 
         try {
             NewForgeVersionDiscriminator forgeVersionDiscriminator = new NewForgeVersionDiscriminator(ModcraftApplication.FORGE_VERSION, ModcraftApplication.MC_VERSION, "net.minecraftforge", ModcraftApplication.MCP_VERSION);
-            GameVersion VERSION = new GameVersion(ModcraftApplication.MC_VERSION, GameType.V1_13_HIGER_FORGE.setNewForgeVersionDiscriminator(forgeVersionDiscriminator));
+            GameVersion VERSION = new GameVersion(ModcraftApplication.MC_VERSION, GameType.V1_13_HIGHER_FORGE.setNFVD(forgeVersionDiscriminator));
             GameInfos infos = new GameInfos("modcraftmc", dir, VERSION, new GameTweak[] {});
 
-            AuthInfos authInfos = new AuthInfos(AccountManager.getAuthInfos().getId(), "" ,AccountManager.getAuthInfos().getName());
+            AuthInfos authInfos = new AuthInfos(AccountManager.getAuthInfos().get().uuid(), "" ,AccountManager.getAuthInfos().get().name());
             ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(infos, GameFolder.FLOW_UPDATER, authInfos);
 
             if (System.getProperty("os.name").contains("windows")) {

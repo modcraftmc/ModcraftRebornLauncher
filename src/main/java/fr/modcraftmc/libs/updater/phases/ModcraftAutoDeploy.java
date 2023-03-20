@@ -1,5 +1,7 @@
 package fr.modcraftmc.libs.updater.phases;
 
+import fr.modcraftmc.libs.updater.UpdateResult;
+
 public class ModcraftAutoDeploy implements IUpdaterPhase {
 
     @Override
@@ -8,8 +10,8 @@ public class ModcraftAutoDeploy implements IUpdaterPhase {
     }
 
     @Override
-    public boolean download() {
-        return false;
+    public UpdateResult download() {
+        return UpdateResult.success();
     }
 
     @Override

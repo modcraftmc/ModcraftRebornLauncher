@@ -4,23 +4,23 @@ package fr.modcraftmc.libs.auth;
 //import com.azuriom.azauth.AuthClient;
 //import com.azuriom.azauth.model.User;
 
-import fr.litarvan.openauth.AuthPoints;
-import fr.litarvan.openauth.Authenticator;
-import fr.litarvan.openauth.microsoft.MicrosoftAuthResult;
-import fr.litarvan.openauth.microsoft.MicrosoftAuthenticationException;
-import fr.litarvan.openauth.microsoft.MicrosoftAuthenticator;
-import fr.litarvan.openauth.microsoft.model.response.MinecraftProfile;
 import fr.modcraftmc.launcher.ModcraftApplication;
+import net.hycrafthd.minecraft_authenticator.login.AuthenticationException;
+import net.hycrafthd.minecraft_authenticator.login.AuthenticationFile;
+import net.hycrafthd.minecraft_authenticator.login.Authenticator;
+import net.hycrafthd.minecraft_authenticator.login.User;
 
+import java.io.IOException;
 import java.util.Base64;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class AccountManager {
 
     //private static AuthClient aZauthenticator = new AuthClient("https://modcraftmc.fr");
-    private static Authenticator authenticator = new Authenticator(Authenticator.MOJANG_AUTH_URL, AuthPoints.NORMAL_AUTH_POINTS);
+   // public static final Authenticator authenticator = Authenticator.ofMicrosoft().customAzureApplication()
 
-    private static MinecraftProfile authInfos;
+    private static Optional<User> authInfos;
 
     public static enum LoginType {
         MICROSOFT, MOJANG, MODCRAFT
@@ -28,17 +28,17 @@ public class AccountManager {
 
     public static CompletableFuture<Boolean> tryLogin(String username, String password) {
         return CompletableFuture.supplyAsync(() -> {
-            MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator();
             try {
-                System.out.println("tryLogin");
-                MicrosoftAuthResult result = authenticator.loginWithWebview();
-                String crypto = Base64.getEncoder().withoutPadding().encodeToString(result.getRefreshToken().getBytes());
-                ModcraftApplication.launcherConfig.setRefreshToken(crypto);
-                ModcraftApplication.launcherConfig.save();
-                authInfos = result.getProfile();
-                return true;
-            } catch (MicrosoftAuthenticationException e) {
-               e.printStackTrace();
+                Authenticator authenticator = new MicrosoftAuthentication().runInitalAuthentication();
+
+                Optional<User> user = authenticator.getUser();
+
+                System.out.println(user.isPresent());
+                authInfos = user;
+                return user.isPresent();
+
+            } catch (IOException | AuthenticationException e) {
+                e.printStackTrace();
             }
             return false;
         });
@@ -64,18 +64,18 @@ public class AccountManager {
     public static CompletableFuture<Boolean> tryVerify(String refreshToken) {
         if (!ModcraftApplication.launcherConfig.isKeeplogin()) return CompletableFuture.completedFuture(false);
         return CompletableFuture.supplyAsync(() -> {
-            try {
-                String refreshTokenDecoded = new String(Base64.getDecoder().decode(refreshToken));
-                MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator();
-                MicrosoftAuthResult result = authenticator.loginWithRefreshToken(refreshTokenDecoded);
-                String tosave = Base64.getEncoder().withoutPadding().encodeToString(result.getRefreshToken().getBytes());
-                ModcraftApplication.launcherConfig.setRefreshToken(tosave);
-                ModcraftApplication.launcherConfig.save();
-                authInfos = result.getProfile();
-                return true;
-            } catch (MicrosoftAuthenticationException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                String refreshTokenDecoded = new String(Base64.getDecoder().decode(refreshToken));
+//                MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator();
+//                MicrosoftAuthResult result = authenticator.loginWithRefreshToken(refreshTokenDecoded);
+//                String tosave = Base64.getEncoder().withoutPadding().encodeToString(result.getRefreshToken().getBytes());
+//                ModcraftApplication.launcherConfig.setRefreshToken(tosave);
+//                ModcraftApplication.launcherConfig.save();
+//                authInfos = result.getProfile();
+//                return true;
+//            } catch (MicrosoftAuthenticationException e) {
+//                e.printStackTrace();
+//            }
             return false;
         });
 //        if (!ModcraftApplication.launcherConfig.isKeeplogin()) return CompletableFuture.completedFuture(false);
@@ -97,7 +97,7 @@ public class AccountManager {
 //        });
     }
 
-    public static MinecraftProfile getAuthInfos() {
+    public static Optional<User> getAuthInfos() {
         return authInfos;
     }
 }

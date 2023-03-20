@@ -32,14 +32,7 @@ public class GameUpdater {
 
     public CompletableFuture<UpdateResult> update() {
         return CompletableFuture.supplyAsync(() -> {
-            List<IUpdaterPhase> phases = Lists.newArrayList(new FetchData(), new ModcraftAutoDeploy(), new GameDownload());
 
-            for (IUpdaterPhase phase : phases) {
-                LOGGER.info("Starting task " + phase.getFriendlyName());
-                if (!phase.isUpToDate()) {
-                    if (!phase.download()) return UpdateResult.faillure();
-                }
-            }
 
             return UpdateResult.success();
         });
@@ -55,5 +48,13 @@ public class GameUpdater {
 
     public String getUpdateServer() {
         return updateServer;
+    }
+
+    public Path getUpdateDirectory() {
+        return updateDirectory;
+    }
+
+    public ProgressCallback getProgressCallback() {
+        return progressCallback;
     }
 }

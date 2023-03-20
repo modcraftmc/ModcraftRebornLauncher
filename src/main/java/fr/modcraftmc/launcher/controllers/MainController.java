@@ -1,6 +1,5 @@
 package fr.modcraftmc.launcher.controllers;
 
-import fr.litarvan.openauth.microsoft.model.response.MinecraftProfile;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
@@ -26,6 +25,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.DirectoryChooser;
+import net.hycrafthd.minecraft_authenticator.login.User;
 
 import java.awt.*;
 import java.io.File;
@@ -73,11 +73,11 @@ public class MainController implements IController, ProgressCallback {
     private Process launchProcess;
     private boolean isUpdateLaunched = false;
 
-    public void updateUserInfos(MinecraftProfile authInfos) {
-        playername.setText(authInfos.getName());
+    public void updateUserInfos(User authInfos) {
+        playername.setText(authInfos.name());
         try {
 
-            Image image = new Image(new URL("https://minotar.net/avatar/" + authInfos.getName()).openStream(), 64, 64, false, false);
+            Image image = new Image(new URL("https://minotar.net/avatar/" + authInfos.name()).openStream(), 64, 64, false, false);
             playerhead.setImage(image);
 
         } catch (IOException e) {
@@ -239,6 +239,6 @@ public class MainController implements IController, ProgressCallback {
 
     @Override
     public void onProgressUpdate(String progress) {
-
+        label.setText(progress);
     }
 }

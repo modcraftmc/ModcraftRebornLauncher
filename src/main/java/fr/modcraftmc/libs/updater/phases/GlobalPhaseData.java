@@ -1,6 +1,6 @@
 package fr.modcraftmc.libs.updater.phases;
 
-import fr.modcraftmc.libs.update.MDFile;
+import fr.modcraftmc.libs.updater.MDFile;
 
 import java.util.List;
 

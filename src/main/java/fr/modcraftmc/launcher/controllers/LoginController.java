@@ -128,7 +128,7 @@ public class LoginController implements IController {
         translateTransition.setOnFinished((event -> {
             Scene scene = Utils.loadFxml("main.fxml", false);
             if(!forcePass)
-                ((MainController) scene.getUserData()).updateUserInfos(AccountManager.getAuthInfos());
+                ((MainController) scene.getUserData()).updateUserInfos(AccountManager.getAuthInfos().get());
             ModcraftApplication.getWindow().setScene(scene);
         }));
 
