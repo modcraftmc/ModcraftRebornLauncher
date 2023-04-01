@@ -35,6 +35,7 @@ public class ModcraftApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        System.setProperty("prism.lcdtext", "false"); // anti-aliasing thing
         LOGGER.info("ModcraftLauncher started.");
         launcherConfig = LauncherConfig.load(filesManager.getOptionsPath());
         if (launcherConfig.getInstanceProperty() == null) launcherConfig.setInstanceProperty(new InstanceProperty(false, ""));
