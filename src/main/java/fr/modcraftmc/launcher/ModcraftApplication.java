@@ -38,9 +38,7 @@ public class ModcraftApplication extends Application {
         LOGGER.info("ModcraftLauncher started.");
         launcherConfig = LauncherConfig.load(filesManager.getOptionsPath());
         if (launcherConfig.getInstanceProperty() == null) launcherConfig.setInstanceProperty(new InstanceProperty(false, ""));
-        Utils.loadFxml("login.fxml", false);
         Utils.loadFxml("main.fxml", false);
-        Utils.loadFxml("loginmode.fxml", false);
         window = stage;
 
         stage.setTitle("ModcraftLauncher");
