@@ -49,9 +49,7 @@
 .playButton {
     -fx-background-color: #FF820F;
     -fx-background-radius: 10;
-}
-
-.playText{
+    -fx-padding: 0;
     -fx-text-fill: white;
     -fx-alignment: center;
 }
