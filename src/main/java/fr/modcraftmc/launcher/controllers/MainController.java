@@ -5,6 +5,7 @@ import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.launcher.components.SizeTransition;
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
 import fr.modcraftmc.launcher.resources.FilesManager;
+import fr.modcraftmc.libs.auth.AccountManager;
 import fr.modcraftmc.libs.serverpinger.MinecraftPing;
 import fr.modcraftmc.libs.serverpinger.MinecraftPingOptions;
 import fr.modcraftmc.libs.serverpinger.MinecraftPingReply;
@@ -32,6 +33,10 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 
 public class MainController implements IController, ProgressCallback {
@@ -74,6 +79,10 @@ public class MainController implements IController, ProgressCallback {
 //    @FXML public TextField customPathValue;
 //    @FXML public Button findBtn;
 //    @FXML public MFXCheckbox keepOpen;
+
+    //Blocker
+    @FXML public Pane blocker;
+    @FXML public Label blockerText;
 
     private Process launchProcess;
     private boolean isUpdateLaunched = false;
@@ -207,7 +216,17 @@ public class MainController implements IController, ProgressCallback {
         });
 
         login.setOnMouseClicked(event -> {
-            setLogged(true);
+            block("Authentification...");
+            try {
+                CompletableFuture<Boolean> futureBoolean = AccountManager.tryLogin("", "");
+
+                if (futureBoolean.get(5, TimeUnit.SECONDS)) {
+                    setLogged(true);
+                }
+            } catch (ExecutionException | InterruptedException | TimeoutException e) {
+                throw new RuntimeException(e);
+            }
+            unblock();
         });
         //#endregion
 
@@ -312,5 +331,16 @@ public class MainController implements IController, ProgressCallback {
             }
         });
         transition.play();
+    }
+
+    public void block(String message){
+        blocker.setDisable(false);
+        blocker.setVisible(true);
+        blockerText.setText(message);
+    }
+
+    public void unblock(){
+        blocker.setDisable(true);
+        blocker.setVisible(false);
     }
 }

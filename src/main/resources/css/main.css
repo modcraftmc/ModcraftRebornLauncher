@@ -81,3 +81,7 @@
     -fx-background-color: rgba(0, 0, 0, 0.50);
     -fx-background-radius: 10;
 }
+
+.blocker{
+    -fx-background-color: rgba(0, 0, 0, 0.75);
+}

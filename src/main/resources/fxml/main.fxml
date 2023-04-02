@@ -76,7 +76,7 @@
                   <Pane prefHeight="22.0" prefWidth="22.0" styleClass="logoutIcon" />
                </graphic>
             </Button>
-            <Button fx:id="login" ellipsisString="" layoutX="66.0" layoutY="32.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="129.0" styleClass="logoutButton" text="Se connecter" textFill="WHITE" wrapText="true">
+            <Button fx:id="login" disable="true" ellipsisString="" layoutX="66.0" layoutY="32.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="129.0" styleClass="logoutButton" text="Se connecter" textFill="WHITE" wrapText="true">
                <effect>
                   <DropShadow height="16.0" offsetY="3.0" radius="7.5" width="16.0">
                      <color>
@@ -130,6 +130,14 @@
                </font>
             </Label>
          </children></Pane>
+      <Pane fx:id="blocker" disable="true" prefHeight="600.0" prefWidth="1100.0" styleClass="blocker" stylesheets="@../css/main.css" visible="false">
+         <children>
+            <Label fx:id="blockerText" contentDisplay="CENTER" layoutX="508.0" layoutY="274.0" styleClass="normalText" stylesheets="@../css/main.css" text="Label">
+               <font>
+                  <Font size="36.0" />
+               </font></Label>
+         </children>
+      </Pane>
       <Button fx:id="close" layoutX="1036.0" layoutY="14.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="closeButton">
          <cursor>
             <Cursor fx:constant="HAND" />
