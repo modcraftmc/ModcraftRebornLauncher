@@ -2,6 +2,7 @@ package fr.modcraftmc.launcher.controllers;
 
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.Utils;
+import fr.modcraftmc.launcher.components.SizeTransition;
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.libs.serverpinger.MinecraftPing;
@@ -9,14 +10,19 @@ import fr.modcraftmc.libs.serverpinger.MinecraftPingOptions;
 import fr.modcraftmc.libs.serverpinger.MinecraftPingReply;
 import fr.modcraftmc.libs.updater.GameUpdater;
 import fr.modcraftmc.libs.updater.ProgressCallback;
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
+import javafx.util.Duration;
 import net.hycrafthd.minecraft_authenticator.login.User;
 
 import java.io.File;
@@ -37,7 +43,12 @@ public class MainController implements IController, ProgressCallback {
     @FXML public Button play;
 
     //Account
+    private boolean isLogged = false;
+    @FXML public Pane accountContainer;
+    @FXML public Button login;
+    @FXML public Button logout;
     @FXML public Label playerName;
+    @FXML public Label playerRank;
     @FXML public ImageView playerHead;
 //    @FXML public Button logout;
 
@@ -189,10 +200,15 @@ public class MainController implements IController, ProgressCallback {
         //#endregion
 
         //#region account
-//        logout.setOnMouseClicked(event -> {
+        logout.setOnMouseClicked(event -> {
 //            ModcraftApplication.launcherConfig.setKeeplogin(false);
 //            ModcraftApplication.getWindow().setScene(Utils.loadFxml("login.fxml", true));
-//        });
+            setLogged(false);
+        });
+
+        login.setOnMouseClicked(event -> {
+            setLogged(true);
+        });
         //#endregion
 
         //#region window action
@@ -211,5 +227,90 @@ public class MainController implements IController, ProgressCallback {
     @Override
     public void onProgressUpdate(String progress) {
 //        progessLabel.setText(progress);
+    }
+
+    public void setLogged(boolean isLogged) {
+        this.isLogged = isLogged;
+        if (isLogged) {
+            loginAnimation();
+        } else {
+            logoutAnimation();
+        }
+    }
+
+    public void logoutAnimation() {
+        ParallelTransition transition = new ParallelTransition();
+
+        Node[] fadeOutNodes = new Node[]{logout, playerName, playerHead, playerRank};
+        Node[] fadeInNodes = new Node[]{login};
+        for (Node node : fadeOutNodes) {
+            node.setDisable(true);
+            FadeTransition fadeTransition = new FadeTransition(Duration.millis(500), node);
+            fadeTransition.setFromValue(1);
+            fadeTransition.setToValue(0);
+            transition.getChildren().add(fadeTransition);
+        }
+        for (Node node : fadeInNodes) {
+            FadeTransition fadeTransition = new FadeTransition(Duration.millis(500), node);
+            fadeTransition.setDelay(Duration.millis(900));
+            fadeTransition.setFromValue(0);
+            fadeTransition.setToValue(1);
+            transition.getChildren().add(fadeTransition);
+        }
+
+        SizeTransition scaleTransition = new SizeTransition(Duration.millis(500), accountContainer);
+        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(500), accountContainer);
+        scaleTransition.setDelay(Duration.millis(400));
+        scaleTransition.setFromValues(accountContainer.getPrefWidth(), accountContainer.getPrefHeight());
+        scaleTransition.setToValues(accountContainer.getPrefWidth(), accountContainer.getPrefHeight() * 0.5);
+        translateTransition.setDelay(Duration.millis(400));
+        translateTransition.setFromY(0);
+        translateTransition.setToY(100);
+
+        transition.getChildren().addAll(scaleTransition, translateTransition);
+        transition.setOnFinished(event -> {
+            for (Node node : fadeInNodes) {
+                node.setDisable(false);
+            }
+        });
+        transition.play();
+    }
+
+    public void loginAnimation() {
+        ParallelTransition transition = new ParallelTransition();
+
+        Node[] fadeOutNodes = new Node[]{login};
+        Node[] fadeInNodes = new Node[]{logout, playerName, playerHead, playerRank};
+        for (Node node : fadeOutNodes) {
+            node.setDisable(true);
+            FadeTransition fadeTransition = new FadeTransition(Duration.millis(500), node);
+            fadeTransition.setFromValue(1);
+            fadeTransition.setToValue(0);
+            transition.getChildren().add(fadeTransition);
+        }
+        for (Node node : fadeInNodes) {
+            FadeTransition fadeTransition = new FadeTransition(Duration.millis(500), node);
+            fadeTransition.setDelay(Duration.millis(900));
+            fadeTransition.setFromValue(0);
+            fadeTransition.setToValue(1);
+            transition.getChildren().add(fadeTransition);
+        }
+
+        SizeTransition scaleTransition = new SizeTransition(Duration.millis(500), accountContainer);
+        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(500), accountContainer);
+        scaleTransition.setDelay(Duration.millis(400));
+        scaleTransition.setFromValues(accountContainer.getPrefWidth(), accountContainer.getPrefHeight());
+        scaleTransition.setToValues(accountContainer.getPrefWidth(), accountContainer.getPrefHeight() * 2);
+        translateTransition.setDelay(Duration.millis(400));
+        translateTransition.setFromY(100);
+        translateTransition.setToY(0);
+
+        transition.getChildren().addAll(scaleTransition, translateTransition);
+        transition.setOnFinished(event -> {
+            for (Node node : fadeInNodes) {
+                node.setDisable(false);
+            }
+        });
+        transition.play();
     }
 }

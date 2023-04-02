@@ -54,14 +54,27 @@
     -fx-alignment: center;
 }
 
-.lilita {
-    -fx-font-family: 'Lilita One';
+.logoutButton{
+    -fx-background-color: #FF820F;
+    -fx-background-radius: 6;
+    -fx-padding: 0;
+    -fx-text-fill: white;
 }
 
-.testProfile {
-    -fx-background-image: url('../images/baseProfil.png');
+.logoutIcon{
+    -fx-background-image: url('../images/logout-button.png');
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
+}
+
+.loginIcon{
+    -fx-background-image: url('../images/login-button.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+
+.lilita {
+    -fx-font-family: 'Lilita One';
 }
 
 .newsBlackBlur{

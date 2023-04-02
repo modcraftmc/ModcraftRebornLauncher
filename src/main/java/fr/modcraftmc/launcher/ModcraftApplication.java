@@ -52,15 +52,19 @@ public class ModcraftApplication extends Application {
             launcherConfig.save();
         }));
 
+        Scene mainScene = Utils.loadFxml("main.fxml", false);
+        MainController mainController = (MainController) mainScene.getUserData();
+
         //Account verification
-//        if (AccountManager.tryVerify(launcherConfig.getRefreshToken()).get()) {
-//            Scene mainScene = Utils.loadFxml("main.fxml", false);
-//            ((MainController) mainScene.getUserData()).updateUserInfos(AccountManager.getAuthInfos().get());
-//            stage.setScene(mainScene);
-//        } else {
-//            stage.setScene(Utils.loadFxml("login.fxml", false));
-//        }
-        stage.setScene(Utils.loadFxml("main.fxml", false));
+        if (AccountManager.tryVerify(launcherConfig.getRefreshToken()).get()) {
+            mainController.setLogged(true);
+            mainController.updateUserInfos(AccountManager.getAuthInfos().get());
+        }
+        else {
+            mainController.setLogged(false);
+        }
+
+        stage.setScene(mainScene);
         stage.show();
         stage.centerOnScreen();
     }
