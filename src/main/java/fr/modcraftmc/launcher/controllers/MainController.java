@@ -220,8 +220,9 @@ public class MainController implements IController, ProgressCallback {
             try {
                 CompletableFuture<Boolean> futureBoolean = AccountManager.tryLogin("", "");
 
-                if (futureBoolean.get(5, TimeUnit.SECONDS)) {
+                if (futureBoolean.get(5, TimeUnit.MINUTES)) {
                     setLogged(true);
+                    updateUserInfos(AccountManager.getAuthInfos().get());
                 }
             } catch (ExecutionException | InterruptedException | TimeoutException e) {
                 throw new RuntimeException(e);
