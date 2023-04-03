@@ -82,5 +82,4 @@ jlinkZip {
     group = 'distribution'
 }
 
-
 //jar.finalizedBy('prepareForDeploy')
