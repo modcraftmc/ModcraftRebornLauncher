@@ -5,8 +5,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import javafx.application.Platform;
-import javafx.scene.control.Label;
+import fr.modcraftmc.libs.updater.MDFile;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,33 +17,13 @@ import java.util.List;
 public class DownloadUtils {
 
     private static Gson gson = new Gson();
-    private static Type listType = new TypeToken<ArrayList<MDFile>>() {}.getType();
+    private static Type listType = new TypeToken<ArrayList<MDFileOld>>() {}.getType();
 
-    public static List<MDFile> getRemoteContent(String url, Label label) {
-        Platform.runLater(() -> label.setText("Récuperation du fichier manifest"));
-
-        try (InputStreamReader streamReader = new InputStreamReader(new URL(url).openStream())) {
-
-            return gson.fromJson(streamReader, listType);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+    public static List<MDFile> getRemoteContent(String url) throws IOException {
+        return gson.fromJson(new InputStreamReader(new URL(url).openStream()), listType);
     }
 
-    public static List<String> getIgnoreList(String stdurl) {
-
-        try {
-            URL url = new URL(stdurl);
-            List<String> lines = Resources.readLines(url, Charsets.UTF_8);
-            System.out.println(lines);
-            return lines;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return new ArrayList<>();
+    public static List<String> getIgnoreList(String url) throws IOException {
+        return Resources.readLines(new URL(url), Charsets.UTF_8);
     }
 }

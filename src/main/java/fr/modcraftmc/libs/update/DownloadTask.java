@@ -21,7 +21,7 @@ public class DownloadTask extends Task<Void> {
     public final ProgressBar progressBar;
     private final Label label;
 
-    public static List<MDFile> remoteContent, toDownload = new ArrayList<>();
+    public static List<MDFileOld> remoteContent, toDownload = new ArrayList<>();
     public static List<String> ignoreList;
 
     private int  octetsDownloaded, fileDownloaded;
@@ -62,7 +62,7 @@ public class DownloadTask extends Task<Void> {
         CountDownLatch latch = new CountDownLatch(toDownload.size());
         ExecutorService taskExecutor = Executors.newFixedThreadPool(20);
 
-        for (MDFile file : toDownload) {
+        for (MDFileOld file : toDownload) {
             taskExecutor.submit(() -> {
                 String path = file.getPath();
                 String name = file.getName();
@@ -88,7 +88,7 @@ public class DownloadTask extends Task<Void> {
         return null;
     }
 
-    public void download(File cursor, MDFile obj) {
+    public void download(File cursor, MDFileOld obj) {
 
             String filePath = obj.getPath();
             String name = obj.getName();

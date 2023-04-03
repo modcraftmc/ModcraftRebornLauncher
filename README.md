@@ -1,0 +1,1 @@
+>java -jar launcher.jar --module-path javafx-sdk-17.0.6/lib --add-modules=javafx.controls,javafx.fxml,javafx.web,javafx.swing

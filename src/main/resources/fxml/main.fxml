@@ -1,154 +1,150 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1100.0" styleClass="container" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.MainController">
+<AnchorPane prefHeight="600.0" prefWidth="1100.0" styleClass="appContainer" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.MainController">
    <children>
-      <Pane layoutX="714.0" layoutY="88.0" prefHeight="183.0" prefWidth="389.0" styleClass="login-container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="714.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane layoutX="14.0" layoutY="8.0" prefHeight="94.0" prefWidth="280.0">
          <children>
-            <Pane layoutX="9.0" layoutY="59.0" prefHeight="183.0" prefWidth="368.0" styleClass="userbox">
-               <children>
-                  <Label fx:id="playername" alignment="CENTER" layoutX="14.0" layoutY="7.0" prefHeight="17.0" prefWidth="340.0" text="player.username" textFill="WHITE" />
-                  <ImageView fx:id="playerhead" depthTest="DISABLE" fitHeight="80.0" fitWidth="80.0" layoutX="144.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" smooth="false">
-                     <image>
-                        <Image url="https://minotar.net/avatar/manugame" />
-                     </image></ImageView>
-                  <JFXButton fx:id="logout" layoutX="104.0" layoutY="124.0" mnemonicParsing="false" prefHeight="13.0" prefWidth="160.0" styleClass="login-button" text="main.player.logout" textFill="WHITE" />
-               </children></Pane>
-            <Pane layoutX="9.0" layoutY="260.0" prefHeight="121.0" prefWidth="368.0" styleClass="userbox">
-               <children>
-                  <Label fx:id="serverstate" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="16.0" prefHeight="25.0" prefWidth="340.0" text="server.state.online" textAlignment="CENTER" textFill="WHITE">
-                     <font>
-                        <Font size="18.0" />
-                     </font></Label>
-                  <Separator layoutX="14.0" layoutY="59.0" prefHeight="4.0" prefWidth="340.0" />
-                  <Label fx:id="playerslabel" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="86.0" prefHeight="25.0" prefWidth="340.0" text="18/50 joueurs" textAlignment="CENTER" textFill="WHITE">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-               </children></Pane>
-            <Button fx:id="closeBtn" layoutX="361.0" layoutY="3.0" mnemonicParsing="false" styleClass="close" />
-            <JFXButton fx:id="settings" layoutX="29.0" layoutY="423.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="329.0" styleClass="login-button" text="main.settings" textFill="WHITE">
+            <Pane prefHeight="90.0" prefWidth="90.0" styleClass="logo" />
+            <Label layoutX="96.0" layoutY="11.0" prefHeight="45.0" prefWidth="180.0" text="MODCRAFTMC" textFill="#ffae00">
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Bold" size="27.0" />
                </font>
-            </JFXButton>
-            <JFXButton fx:id="play" layoutX="29.0" layoutY="481.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="329.0" styleClass="login-button" text="main.play" textFill="WHITE">
+               <styleClass>
+                  <String fx:value="specialText" />
+                  <String fx:value="lilita" />
+               </styleClass>
+            </Label>
+            <Label layoutX="97.0" layoutY="45.0" prefHeight="33.0" prefWidth="165.0" styleClass="lilita" text="SURVIE MODDE 1.19" textFill="#dedede">
                <font>
-                  <Font size="16.0" />
-               </font>
-            </JFXButton>
-            <ProgressBar fx:id="progress" layoutX="29.0" layoutY="569.0" prefHeight="17.0" prefWidth="329.0" progress="0.0" />
-            <Label fx:id="label" alignment="CENTER" layoutX="28.0" layoutY="537.0" prefHeight="17.0" prefWidth="329.0" text="Label" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" />
-            <Rectangle fx:id="hideBtn" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="4.0" layoutX="338.0" layoutY="18.0" stroke="WHITE" strokeType="INSIDE" styleClass="hide" width="16.0" />
+                  <Font name="System Bold" size="18.0" />
+               </font></Label>
          </children></Pane>
-      <Pane fx:id="leftpane" layoutX="14.0" layoutY="14.0" prefHeight="572.0" prefWidth="703.0" visible="false">
+      <Pane layoutX="14.0" layoutY="122.0" prefHeight="73.0" prefWidth="260.0" styleClass="blackContainer">
          <children>
-            <Label layoutX="265.0" layoutY="39.0" text="Paramètres" textFill="WHITE">
+            <Circle fill="#2ce41b" layoutX="25.0" layoutY="37.0" radius="11.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Label fx:id="serverState" layoutX="46.0" layoutY="12.0" prefHeight="33.0" prefWidth="200.0" styleClass="normalText" text="Joueur(s) connecté(s) :" textFill="#838383">
                <font>
-                  <Font size="30.0" />
-               </font>
-            </Label>
-            <VBox layoutX="19.0" layoutY="88.0" prefHeight="479.0" prefWidth="678.0">
-               <children>
-                  <Pane prefHeight="112.0" prefWidth="678.0">
-                     <children>
-                        <Label layoutX="26.0" layoutY="14.0" text="Ram" textFill="WHITE">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Label>
-                        <JFXSlider fx:id="ramSlider" layoutX="26.0" layoutY="56.0" prefHeight="15.0" prefWidth="489.0" styleClass="slideBar" stylesheets="@../css/main.css" />
-                        <Label fx:id="ramText" layoutX="533.0" layoutY="56.0" prefHeight="18.0" prefWidth="96.0" text="Ram:" textFill="WHITE">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </Pane>
-                  <Pane layoutX="10.0" layoutY="10.0" prefHeight="116.0" prefWidth="678.0">
-                     <children>
-                        <Label layoutX="26.0" layoutY="14.0" textFill="WHITE">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Label>
-                        <JFXCheckBox fx:id="customPathCheckbox" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="207.0" text="Changer le dossier d'installation" textFill="WHITE">
-                           <font>
-                              <Font size="20.0" />
-                           </font></JFXCheckBox>
-                        <TextField fx:id="customPathValue" layoutX="14.0" layoutY="61.0" prefHeight="26.0" prefWidth="489.0" />
-                        <JFXButton fx:id="fidnBtn" layoutX="519.0" layoutY="56.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="122.0" styleClass="login-button" text="Parcourir" textFill="WHITE">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </JFXButton>
-                     </children>
-                  </Pane>
-                  <Pane layoutX="10.0" layoutY="122.0" prefHeight="62.0" prefWidth="678.0">
-                     <children>
-                        <Label layoutX="26.0" layoutY="14.0" textFill="WHITE">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Label>
-                        <JFXCheckBox fx:id="keepOpen" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="207.0" text="Laisser le launcher ouvert pendant l'execution du jeu" textFill="WHITE">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </JFXCheckBox>
-                     </children>
-                  </Pane>
-               </children></VBox>         </children></Pane>
-      <Pane fx:id="news" layoutX="5.0" layoutY="14.0" prefHeight="572.0" prefWidth="712.0" visible="true">
-         <children>
-            <Label layoutX="263.0" layoutY="31.0" text="Informations" textFill="WHITE">
+                  <Font name="Inter Regular" size="18.0" />
+               </font></Label>
+            <Label fx:id="playersCount" layoutX="104.0" layoutY="41.0" styleClass="specialText" text="10/100" textFill="#ff7e00">
                <font>
-                  <Font size="30.0" />
-               </font>
-            </Label>
-            <VBox layoutX="17.0" layoutY="79.0" prefHeight="479.0" prefWidth="678.0">
-               <children>
-                  <Pane prefHeight="200.0" prefWidth="678.0" style="-fx-background-color: rgba(0, 0, 0, 0.2);">
-                     <children>
-                        <Label layoutX="14.0" layoutY="14.0" prefHeight="19.0" prefWidth="635.0" text="ModcraftV4 - skyblock moddé 1.16.5 !" textFill="WHITE">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="22.0" layoutY="45.0" prefHeight="103.0" prefWidth="635.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at facilisis metus. Sed sapien augue, faucibus volutpat suscipit sed, imperdiet id justo. In placerat faucibus blandit. Quisque in finibus arcu, quis efficitur dolor. Phasellus sit amet turpis dignissim, mollis libero ut, vulputate nulla. Suspendisse faucibus, sem id hendrerit cursus, urna est aliquam ligula, feugiat condimentum nibh lacus sed lorem. Donec at elit varius tellus imperdiet sollicitudin. Ut iaculis in ligula faucibus sodales. Sed at arcu urna. Donec tincidunt nulla turpis, ac tempus nisl lobortis eget. Cras quis justo maximus, faucibus arcu at, rutrum lectus. In egestas dignissim nisi, ac iaculis quam blandit vitae." textFill="WHITE" wrapText="true" />
-                        <JFXButton fx:id="news1Btn" layoutX="22.0" layoutY="160.0" mnemonicParsing="false" styleClass="login-button" stylesheets="@../css/main.css" text="Lire plus" textFill="WHITE" />
-                        <Label alignment="TOP_RIGHT" layoutX="444.0" layoutY="166.0" prefHeight="16.0" prefWidth="220.0" text="Par manugame_ le 06/06/2021" textFill="WHITE">
-                           <font>
-                              <Font size="10.0" />
-                           </font>
-                        </Label>
-                     </children></Pane>
-                  <Pane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="678.0" style="-fx-background-color: rgba(0, 0, 0, 0.2);">
-                     <children>
-                        <Label layoutX="14.0" layoutY="14.0" prefHeight="19.0" prefWidth="635.0" text="ModcraftV4 - skyblock moddé 1.16.5 !" textFill="WHITE">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="22.0" layoutY="45.0" prefHeight="103.0" prefWidth="635.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at facilisis metus. Sed sapien augue, faucibus volutpat suscipit sed, imperdiet id justo. In placerat faucibus blandit. Quisque in finibus arcu, quis efficitur dolor. Phasellus sit amet turpis dignissim, mollis libero ut, vulputate nulla. Suspendisse faucibus, sem id hendrerit cursus, urna est aliquam ligula, feugiat condimentum nibh lacus sed lorem. Donec at elit varius tellus imperdiet sollicitudin. Ut iaculis in ligula faucibus sodales. Sed at arcu urna. Donec tincidunt nulla turpis, ac tempus nisl lobortis eget. Cras quis justo maximus, faucibus arcu at, rutrum lectus. In egestas dignissim nisi, ac iaculis quam blandit vitae." textFill="WHITE" wrapText="true" />
-                        <JFXButton fx:id="news2Btn" layoutX="22.0" layoutY="160.0" mnemonicParsing="false" styleClass="login-button" stylesheets="@../css/main.css" text="Lire plus" textFill="WHITE" />
-                        <Label alignment="TOP_RIGHT" layoutX="444.0" layoutY="166.0" prefHeight="16.0" prefWidth="220.0" text="Par manugame_ le 06/06/2021" textFill="WHITE">
-                           <font>
-                              <Font size="10.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </Pane>
-               </children>
-            </VBox>
+                  <Font name="Inter Regular" size="18.0" />
+               </font></Label>
          </children>
       </Pane>
+      <Pane fx:id="accountContainer" layoutX="14.0" layoutY="291.0" prefHeight="167.0" prefWidth="260.0" styleClass="blackContainer">
+         <children>
+            <ImageView fx:id="playerHead" fitHeight="100.0" fitWidth="100.0" layoutX="14.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true" styleClass="testProfile">
+               <image>
+                  <Image url="@../images/baseProfil.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="playerName" layoutX="124.0" layoutY="25.0" prefHeight="33.0" prefWidth="129.0" styleClass="normalText" text="manugame_">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+            <Label fx:id="playerRank" layoutX="124.0" layoutY="58.0" prefHeight="23.0" prefWidth="129.0" styleClass="italicText" text="Dictateur" textAlignment="CENTER">
+               <font>
+                  <Font size="16.0" />
+               </font></Label>
+            <Button fx:id="logout" ellipsisString="" layoutX="124.0" layoutY="111.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="129.0" styleClass="logoutButton" text="Déconnexion" textFill="WHITE" wrapText="true">
+               <effect>
+                  <DropShadow height="16.0" offsetY="3.0" radius="7.5" width="16.0">
+                     <color>
+                        <Color red="1.0" green="0.4986666738986969" blue="0.05999999865889549" opacity="0.5" />
+                     </color>
+                  </DropShadow>
+               </effect>
+               <font>
+                  <Font name="Inter Semi Bold" size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <graphic>
+                  <Pane prefHeight="22.0" prefWidth="22.0" styleClass="logoutIcon" />
+               </graphic>
+            </Button>
+            <Button fx:id="login" disable="true" ellipsisString="" layoutX="66.0" layoutY="32.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="129.0" styleClass="logoutButton" text="Se connecter" textFill="WHITE" wrapText="true">
+               <effect>
+                  <DropShadow height="16.0" offsetY="3.0" radius="7.5" width="16.0">
+                     <color>
+                        <Color red="1.0" green="0.4986666738986969" blue="0.05999999865889549" opacity="0.5" />
+                     </color>
+                  </DropShadow>
+               </effect>
+               <font>
+                  <Font name="Inter Semi Bold" size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <graphic>
+                  <Pane nodeOrientation="LEFT_TO_RIGHT" prefHeight="22.0" prefWidth="22.0" styleClass="loginIcon" />
+               </graphic>
+            </Button>
+         </children>
+      </Pane>
+      <Pane layoutX="14.0" layoutY="487.0" prefHeight="84.0" prefWidth="260.0" styleClass="blackContainer">
+         <children>
+            <Button fx:id="settings" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="63.0" styleClass="settingsButton">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <Button fx:id="play" ellipsisString="" layoutX="91.0" layoutY="20.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="155.0" styleClass="playButton" text="Jouer" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <effect>
+                  <DropShadow height="16.0" offsetY="3.0" radius="7.5" width="16.0">
+                     <color>
+                        <Color red="1.0" green="0.4986666738986969" blue="0.05999999865889549" opacity="0.5" />
+                     </color>
+                  </DropShadow>
+               </effect>
+               <font>
+                  <Font name="Inter Semi Bold" size="30.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+         </children></Pane>
+      <Pane fx:id="news" layoutX="332.0" layoutY="72.0" prefHeight="442.0" prefWidth="713.0">
+         <children>
+            <Pane prefHeight="442.0" prefWidth="713.0" styleClass="newsBlackBlur">
+               <effect>
+                  <GaussianBlur radius="45.58" />
+               </effect>
+            </Pane>
+            <Label prefHeight="45.0" prefWidth="180.0" styleClass="normalText" text="Informations">
+               <font>
+                  <Font name="Inter Regular" size="30.0" />
+               </font>
+            </Label>
+         </children></Pane>
+      <Pane fx:id="blocker" disable="true" prefHeight="600.0" prefWidth="1100.0" styleClass="blocker" stylesheets="@../css/main.css" visible="false">
+         <children>
+            <Label fx:id="blockerText" contentDisplay="CENTER" layoutX="508.0" layoutY="274.0" styleClass="normalText" stylesheets="@../css/main.css" text="Label">
+               <font>
+                  <Font size="36.0" />
+               </font></Label>
+         </children>
+      </Pane>
+      <Button fx:id="close" layoutX="1036.0" layoutY="14.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="closeButton">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="minimize" layoutX="974.0" layoutY="14.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="closeButton">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
    </children>
 </AnchorPane>

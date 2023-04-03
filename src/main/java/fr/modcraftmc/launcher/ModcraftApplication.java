@@ -35,12 +35,11 @@ public class ModcraftApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        System.setProperty("prism.lcdtext", "false"); // anti-aliasing thing
         LOGGER.info("ModcraftLauncher started.");
         launcherConfig = LauncherConfig.load(filesManager.getOptionsPath());
         if (launcherConfig.getInstanceProperty() == null) launcherConfig.setInstanceProperty(new InstanceProperty(false, ""));
-        Utils.loadFxml("login.fxml", false);
         Utils.loadFxml("main.fxml", false);
-        Utils.loadFxml("loginmode.fxml", false);
         window = stage;
 
         stage.setTitle("ModcraftLauncher");
@@ -53,14 +52,19 @@ public class ModcraftApplication extends Application {
             launcherConfig.save();
         }));
 
-        if (AccountManager.tryVerify(launcherConfig.getAccesToken()).get()) {
-            Scene mainScene = Utils.loadFxml("main.fxml", false);
-            ((MainController) mainScene.getUserData()).updateUserInfos(AccountManager.getAuthInfos());
-            stage.setScene(mainScene);
-        } else {
-            stage.setScene(Utils.loadFxml("login.fxml", false));
+        Scene mainScene = Utils.loadFxml("main.fxml", false);
+        MainController mainController = (MainController) mainScene.getUserData();
+
+        //Account verification
+        if (AccountManager.tryVerify(launcherConfig.getRefreshToken()).get()) {
+            mainController.setLogged(true);
+            mainController.updateUserInfos(AccountManager.getAuthInfos().get());
+        }
+        else {
+            mainController.setLogged(false);
         }
 
+        stage.setScene(mainScene);
         stage.show();
         stage.centerOnScreen();
     }

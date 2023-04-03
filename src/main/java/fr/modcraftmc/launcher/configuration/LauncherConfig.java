@@ -32,7 +32,7 @@ public class LauncherConfig {
 
     private boolean keeplogin;
     private boolean keepOpen;
-    private String accesToken = "";
+    private String refreshToken = "";
     private int ram = 6;
     private InstanceProperty instanceProperty;
     private String loginType;
@@ -41,8 +41,8 @@ public class LauncherConfig {
         return keeplogin;
     }
 
-    public String getAccesToken() {
-        return accesToken;
+    public String getRefreshToken() {
+        return refreshToken;
     }
 
     public boolean isKeepOpen() {
@@ -62,8 +62,8 @@ public class LauncherConfig {
         this.keeplogin = keeplogin;
     }
 
-    public void setAccesToken(String accesToken) {
-        this.accesToken = accesToken;
+    public void setRefreshToken(String accesToken) {
+        this.refreshToken = accesToken;
     }
 
     public void setInstanceProperty(InstanceProperty instanceProperty) {

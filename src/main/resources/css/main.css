@@ -1,50 +1,87 @@
-.container {
-    -fx-background-image: url('../images/background.png');
+@font-face {
+    font-family: 'Lilita One';
+    src: url('../fonts/LilitaOne-Regular.ttf');
+}
+
+.appContainer {
+    -fx-background-image: url('../images/newBackground.png');
     -fx-background-repeat: none;
     -fx-background-size: cover;
 }
 
-.login-container {
-    -fx-background-color: rgba(0, 0, 0, 0.5);
+.logo {
+    -fx-background-image: url('../images/modcraftLogo.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
 }
 
-.login-button {
-    -fx-border-style: solid;
-    -fx-border-color: white;
+.blackContainer{
+    -fx-background-color: rgba(0, 0, 0, 0.75);
+    -fx-background-radius: 10;
 }
 
-.userbox {
-    -fx-border-style: solid;
-    -fx-border-color: white;
-    -fx-border-radius: 5;
+.normalText {
+    -fx-text-fill: #8B8B8B;
+    -fx-alignment: center;
 }
 
-.discord {
-    -fx-font-family: FontAwesome;
-    -fx-font-size: 16.0;
+.italicText{
+    -fx-text-fill: #8B8B8B;
+    -fx-alignment: center;
+    -fx-font-style: italic;
 }
 
-.field {
+.specialText {
+    -fx-text-fill: #FF820F;
+}
+
+.settingsButton{
+    -fx-background-color: transparent;
+    -fx-background-image: url('../images/icon_settings.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+
+.closeButton{
+    -fx-background-color: red;
+}
+
+.playButton {
+    -fx-background-color: #FF820F;
+    -fx-background-radius: 10;
+    -fx-padding: 0;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+}
+
+.logoutButton{
+    -fx-background-color: #FF820F;
+    -fx-background-radius: 6;
+    -fx-padding: 0;
     -fx-text-fill: white;
 }
 
-.close {
-    -fx-shape: "M19,6.41L17.59,5 12,10.59 6.41,5 5,6.41 10.59,12 5,17.59 6.41,19 12,13.41 17.59,19 19,17.59 13.41,12z";
-    -fx-scale-shape: false;
+.logoutIcon{
+    -fx-background-image: url('../images/logout-button.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
 }
 
-.hide {
-    -fx-border-radius: 1;
+.loginIcon{
+    -fx-background-image: url('../images/login-button.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
 }
 
-.slideBar > .colored-track {
-    -fx-background-color: #2980b9;
+.lilita {
+    -fx-font-family: 'Lilita One';
 }
 
-.slideBar > .thumb {
-    -fx-background-color: #2980b9;
+.newsBlackBlur{
+    -fx-background-color: rgba(0, 0, 0, 0.50);
+    -fx-background-radius: 10;
 }
 
-.slideBar > .animated-thumb {
-    -fx-background-color: #2980b9;
+.blocker{
+    -fx-background-color: rgba(0, 0, 0, 0.75);
 }
