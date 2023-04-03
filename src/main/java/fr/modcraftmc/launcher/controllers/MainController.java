@@ -23,6 +23,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Popup;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import net.hycrafthd.minecraft_authenticator.login.User;
 
@@ -216,18 +218,7 @@ public class MainController implements IController, ProgressCallback {
         });
 
         login.setOnMouseClicked(event -> {
-            block("Authentification...");
-            try {
-                CompletableFuture<Boolean> futureBoolean = AccountManager.tryLogin("", "");
-
-                if (futureBoolean.get(5, TimeUnit.MINUTES)) {
-                    setLogged(true);
-                    updateUserInfos(AccountManager.getAuthInfos().get());
-                }
-            } catch (ExecutionException | InterruptedException | TimeoutException e) {
-                throw new RuntimeException(e);
-            }
-            unblock();
+            triggerAuthentification();
         });
         //#endregion
 
@@ -247,6 +238,26 @@ public class MainController implements IController, ProgressCallback {
     @Override
     public void onProgressUpdate(String progress) {
 //        progessLabel.setText(progress);
+    }
+
+    public void triggerAuthentification() {
+        block("Authentication...");
+
+        CompletableFuture<Boolean> futureBoolean = AccountManager.tryLogin("", "");
+        futureBoolean.orTimeout(5, TimeUnit.MINUTES).thenAccept(success -> {
+            if (success) {
+                setLogged(true);
+                updateUserInfos(AccountManager.getAuthInfos().get());
+            } else {
+                ModcraftApplication.LOGGER.warning("Authentication failed");
+            }
+            unblock();
+        }).exceptionally(throwable -> {
+            ModcraftApplication.LOGGER.warning("Authentication timeout");
+            throwable.printStackTrace();
+            unblock();
+            return null;
+        });
     }
 
     public void setLogged(boolean isLogged) {
@@ -338,6 +349,7 @@ public class MainController implements IController, ProgressCallback {
         blocker.setDisable(false);
         blocker.setVisible(true);
         blockerText.setText(message);
+        ModcraftApplication.LOGGER.info("Blocking UI with message : " + message);
     }
 
     public void unblock(){

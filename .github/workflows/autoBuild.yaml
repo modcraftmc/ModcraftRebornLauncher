@@ -1,0 +1,26 @@
+name: Automatic Build
+on:
+    push:
+        branches:
+        - main
+jobs:
+    build:
+        runs-on: [self-hosted, linux, minecraft]
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v2
+          - name: Setup Java
+            uses: actions/setup-java@v1
+            with:
+              java-version: '17'
+          - name: Run chmod to make gradlew executable
+            run: chmod +x ./gradlew
+          - name: Build
+            uses: gradle/gradle-build-action@v3
+            with:
+              arguments: build
+          - name: Upload Artifact
+            uses: actions/upload-artifact@v2
+            with:
+              name: launcher
+              path: build/libs/launcher.jar
