@@ -2,10 +2,7 @@ name: Automatic Build
 on:
     push:
         branches:
-        - master
-    pull_request:
-        branches:
-        - master
+        - main
 jobs:
     build:
         runs-on: [self-hosted, linux, minecraft]
@@ -16,11 +13,12 @@ jobs:
             uses: actions/setup-java@v1
             with:
               java-version: '17'
+          - name: Run chmod to make gradlew executable
+            run: chmod +x ./gradlew
           - name: Build
-            run: |
-              echo "Building..."
-              gradlew build
-              echo "Done !"
+            uses: gradle/gradle-build-action@v3
+            with:
+              arguments: build
           - name: Upload Artifact
             uses: actions/upload-artifact@v2
             with:
