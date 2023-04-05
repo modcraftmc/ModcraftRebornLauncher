@@ -255,9 +255,11 @@ public class MainController implements IController, ProgressCallback {
         CompletableFuture<Boolean> futureBoolean = AccountManager.tryLogin((url, canceler) -> Platform.runLater(() -> popup.set(AuthenticationPopupController.show(url, () -> canceler.run()))));
         futureBoolean.orTimeout(5, TimeUnit.MINUTES).thenAccept(success -> {
             if (success) {
-                Platform.runLater(() -> popup.get().close());
+                Platform.runLater(() -> {
+                    popup.get().close();
+                    updateUserInfos(AccountManager.getAuthInfos().get());
+                });
                 setLogged(true);
-                updateUserInfos(AccountManager.getAuthInfos().get());
             } else {
                 ModcraftApplication.LOGGER.warning("Authentication failed");
             }
