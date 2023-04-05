@@ -1,0 +1,56 @@
+.background{
+    -fx-background-color: rgb(26, 26, 26);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 6, 0, 0, 0);
+}
+
+Button {
+
+}
+
+.cancelButton{
+    -fx-background-color: #373737;
+    -fx-border-color: #ff0000;
+    -fx-text-fill: #ff0000;
+    -fx-border-width: 2;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-background-insets: 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 0, 0, 0.6), 2, 0, 0, 1);
+}
+
+.cancelButton:hover{
+    -fx-background-color: #ff0000;
+    -fx-text-fill: #373737;
+}
+
+.copyPathButton{
+    -fx-background-color: #373737;
+    -fx-border-color: #ea780f;
+    -fx-text-fill: #ea780f;
+    -fx-border-width: 2;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-background-insets: 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(234, 120, 13, 0.5), 2, 0, 0, 1);
+}
+
+.copyPathButton:hover{
+    -fx-background-color: #ea780f;
+    -fx-text-fill: #373737;
+}
+
+.openButton{
+    -fx-background-color: #373737;
+    -fx-border-color: #FF820F;
+    -fx-text-fill: #FF820F;
+    -fx-border-width: 2;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-background-insets: 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 127, 15, 0.5), 2, 0, 0, 1);
+}
+
+.openButton:hover{
+    -fx-background-color: #FF820F;
+    -fx-text-fill: #373737;
+}

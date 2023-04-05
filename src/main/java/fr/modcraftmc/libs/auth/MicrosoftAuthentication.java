@@ -1,5 +1,6 @@
 package fr.modcraftmc.libs.auth;
 
+import fr.modcraftmc.launcher.ModcraftApplication;
 import net.hycrafthd.minecraft_authenticator.login.AuthenticationException;
 import net.hycrafthd.minecraft_authenticator.login.Authenticator;
 import net.hycrafthd.minecraft_authenticator.util.function.FunctionWithIOException;
@@ -10,6 +11,7 @@ import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 
 public class MicrosoftAuthentication {
 
@@ -23,7 +25,7 @@ public class MicrosoftAuthentication {
 
     private ServerSocket serverSocket;
     public static String redirect;
-    public Authenticator runInitalAuthentication() throws IOException, AuthenticationException {
+    public Authenticator runInitalAuthentication(Consumer<URL> onUrlGenerated) throws IOException, AuthenticationException {
         serverSocket = new ServerSocket(0);
         serverSocket.setSoTimeout(100 * 1000);
 
@@ -36,6 +38,7 @@ public class MicrosoftAuthentication {
 
         System.out.println("Open the following link and log into your microsoft account.");
         System.out.println(loginUrl);
+        onUrlGenerated.accept(loginUrl);
 //        try {
 //            Desktop.getDesktop().browse(loginUrl.toURI());
 //        } catch (URISyntaxException e) {

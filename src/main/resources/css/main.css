@@ -54,11 +54,19 @@
     -fx-alignment: center;
 }
 
+.playButton:hover{
+    -fx-background-color: #FFA500;
+}
+
 .logoutButton{
     -fx-background-color: #FF820F;
     -fx-background-radius: 6;
     -fx-padding: 0;
     -fx-text-fill: white;
+}
+
+.logoutButton:hover{
+    -fx-background-color: #FFA500;
 }
 
 .logoutIcon{

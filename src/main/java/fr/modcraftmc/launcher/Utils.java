@@ -4,18 +4,19 @@ import fr.modcraftmc.launcher.controllers.IController;
 import fr.modcraftmc.libs.auth.AccountManager;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.layout.AnchorPane;
 
+import java.awt.*;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Utils {
-
-
-    private static double xOffset = 0;
-    private static double yOffset = 0;
 
     private static Map<String, Scene> loadedScenes = new HashMap<>();
     public static Scene loadFxml(String file, boolean forceReload) {
@@ -26,18 +27,10 @@ public class Utils {
 
         try {
             FXMLLoader loader = new FXMLLoader(ModcraftApplication.resourcesManager.getResource(file));
-            Pane pane = loader.load();
+            AnchorPane pane = loader.load();
 
             IController controller = loader.getController();
-            controller.initialize();
-            pane.setOnMousePressed(event -> {
-                xOffset = event.getSceneX();
-                yOffset = event.getSceneY();
-            });
-            pane.setOnMouseDragged(event -> {
-                ModcraftApplication.getWindow().setX(event.getScreenX() - xOffset);
-                ModcraftApplication.getWindow().setY(event.getScreenY() - yOffset);
-            });
+            controller.initialize(loader);
             Scene scene = new Scene(pane);
             scene.setUserData(controller);
             loadedScenes.put(file, scene);
@@ -57,5 +50,27 @@ public class Utils {
         }
 
         return returnValue.get();
+    }
+
+    public static void copyToClipboard(String s) {
+        final Clipboard clipboard = Clipboard.getSystemClipboard();
+        final ClipboardContent content = new ClipboardContent();
+        content.putString(s);
+        clipboard.setContent(content);
+    }
+
+    public static void copyToClipboard(URL url) {
+        final Clipboard clipboard = Clipboard.getSystemClipboard();
+        final ClipboardContent content = new ClipboardContent();
+        content.putUrl(url.toString());
+        clipboard.setContent(content);
+    }
+
+    public static void openBrowser(URL url) {
+        try {
+            Desktop.getDesktop().browse(url.toURI());
+        } catch (IOException | URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -6,14 +6,16 @@ package fr.modcraftmc.libs.auth;
 
 import fr.modcraftmc.launcher.ModcraftApplication;
 import net.hycrafthd.minecraft_authenticator.login.AuthenticationException;
-import net.hycrafthd.minecraft_authenticator.login.AuthenticationFile;
 import net.hycrafthd.minecraft_authenticator.login.Authenticator;
 import net.hycrafthd.minecraft_authenticator.login.User;
 
 import java.io.IOException;
-import java.util.Base64;
+import java.net.URL;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class AccountManager {
 
@@ -26,11 +28,11 @@ public class AccountManager {
         MICROSOFT, MOJANG, MODCRAFT
     }
 
-    public static CompletableFuture<Boolean> tryLogin(String username, String password) {
-        return CompletableFuture.supplyAsync(() -> {
+    public static CompletableFuture<Boolean> tryLogin(BiConsumer<URL, Runnable> urlAndCanceler) {
+        AtomicReference<URL> url = new AtomicReference<>();
+        CompletableFuture<Boolean> completableFuture = CompletableFuture.supplyAsync(() -> {
             try {
-                Authenticator authenticator = new MicrosoftAuthentication().runInitalAuthentication();
-
+                Authenticator authenticator = new MicrosoftAuthentication().runInitalAuthentication(url::set);
                 Optional<User> user = authenticator.getUser();
 
                 System.out.println(user.isPresent());
@@ -42,6 +44,20 @@ public class AccountManager {
             }
             return false;
         });
+
+        Thread waitValue = new Thread(() -> {
+           while (url.get() == null) {
+               try {
+                   Thread.sleep(10);
+               } catch (InterruptedException e) {
+                   throw new RuntimeException(e);
+               }
+           }
+           urlAndCanceler.accept(url.get(), () -> completableFuture.complete(false));
+        });
+
+        waitValue.start();
+        return completableFuture;
 //        return CompletableFuture.supplyAsync(() -> {
 //            try {
 //

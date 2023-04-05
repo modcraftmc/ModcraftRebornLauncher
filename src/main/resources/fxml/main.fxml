@@ -106,7 +106,7 @@
                <effect>
                   <DropShadow height="16.0" offsetY="3.0" radius="7.5" width="16.0">
                      <color>
-                        <Color red="1.0" green="0.4986666738986969" blue="0.05999999865889549" opacity="0.5" />
+                        <Color red="1.0" green="0.49803921580314636" blue="0.05882352963089943" opacity="0.5" />
                      </color>
                   </DropShadow>
                </effect>

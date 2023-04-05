@@ -1,7 +1,6 @@
 package fr.modcraftmc.launcher.controllers;
 
 import fr.modcraftmc.launcher.ModcraftApplication;
-import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.launcher.components.SizeTransition;
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
 import fr.modcraftmc.launcher.resources.FilesManager;
@@ -16,32 +15,32 @@ import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.Popup;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import net.hycrafthd.minecraft_authenticator.login.User;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 public class MainController implements IController, ProgressCallback {
+
+    //Drag
+    private double xOffset = 0;
+    private double yOffset = 0;
 
     //Window
     @FXML public Button close;
@@ -102,7 +101,17 @@ public class MainController implements IController, ProgressCallback {
     }
 
     @Override
-    public void initialize() {
+    public void initialize(FXMLLoader loader) {
+        AnchorPane pane = loader.getRoot();
+        pane.setOnMousePressed(event -> {
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
+        });
+        pane.setOnMouseDragged(event -> {
+            ModcraftApplication.getWindow().setX(event.getScreenX() - xOffset);
+            ModcraftApplication.getWindow().setY(event.getScreenY() - yOffset);
+        });
+
         playersCount.setText("Na/Na");
 
         Timer timer = new Timer();
@@ -242,10 +251,11 @@ public class MainController implements IController, ProgressCallback {
 
     public void triggerAuthentification() {
         block("Authentication...");
-
-        CompletableFuture<Boolean> futureBoolean = AccountManager.tryLogin("", "");
+        AtomicReference<AuthenticationPopupController> popup = new AtomicReference<>();
+        CompletableFuture<Boolean> futureBoolean = AccountManager.tryLogin((url, canceler) -> Platform.runLater(() -> popup.set(AuthenticationPopupController.show(url, () -> canceler.run()))));
         futureBoolean.orTimeout(5, TimeUnit.MINUTES).thenAccept(success -> {
             if (success) {
+                Platform.runLater(() -> popup.get().close());
                 setLogged(true);
                 updateUserInfos(AccountManager.getAuthInfos().get());
             } else {
