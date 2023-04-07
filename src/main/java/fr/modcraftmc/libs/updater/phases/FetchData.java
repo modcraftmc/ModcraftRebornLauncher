@@ -12,6 +12,7 @@ public class FetchData {
         try {
             GlobalPhaseData.manifest = DownloadUtils.getRemoteContent(GameUpdater.get().getUpdateServer() + GameUpdater.MANIFEST_ENDPOINT);
             GlobalPhaseData.ignoreList = DownloadUtils.getIgnoreList(GameUpdater.get().getUpdateServer() + GameUpdater.IGNORELIST_ENDPOINT);
+            GlobalPhaseData.autoDeployList = DownloadUtils.getIgnoreList(GameUpdater.get().getUpdateServer() + GameUpdater.IGNORELIST_ENDPOINT);
         } catch (IOException e) {
             return UpdateResult.FAILURE;
         }

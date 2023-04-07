@@ -17,7 +17,8 @@ public class GameUpdater {
     private final ProgressCallback progressCallback;
 
     public static String MANIFEST_ENDPOINT = "/metadata/manifest.json";
-    public static String IGNORELIST_ENDPOINT = "/metadata/ignorelist.json";
+    public static String IGNORELIST_ENDPOINT = "/metadata/ignorelist.txt";
+    public static String AUTODEPLOY_LIST = "/metadata/autodeploy.txt";
 
     public static Logger LOGGER = LogManager.createLogger("Updater");
     public GameUpdater(String updateServer, Path updateDirectory, ProgressCallback progressCallback) {
