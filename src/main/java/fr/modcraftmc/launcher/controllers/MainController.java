@@ -5,6 +5,7 @@ import fr.modcraftmc.launcher.components.SizeTransition;
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.libs.auth.AccountManager;
+import fr.modcraftmc.libs.launch.LaunchManager;
 import fr.modcraftmc.libs.serverpinger.MinecraftPing;
 import fr.modcraftmc.libs.serverpinger.MinecraftPingOptions;
 import fr.modcraftmc.libs.serverpinger.MinecraftPingReply;
@@ -128,10 +129,19 @@ public class MainController implements IController, ProgressCallback {
 
         play.setOnMouseClicked(event -> {
 
+//            LaunchManager.launch(new File(FilesManager.INSTANCES_PATH, "v4-staff"));
+//            if (true) {
+//                return;
+//            }
+
             InstanceProperty instanceProperty = ModcraftApplication.launcherConfig.getInstanceProperty();
             File instanceDirectory = instanceProperty.isCustomInstance() ? new File(instanceProperty.getCustomInstancePath()) : new File(FilesManager.INSTANCES_PATH, "v4-staff");
             if (!instanceDirectory.exists()) instanceDirectory.mkdirs();
             GameUpdater gameUpdater = new GameUpdater("", instanceDirectory.toPath(), this);
+
+            gameUpdater.update().thenRun(() -> {
+                LaunchManager.launch(instanceDirectory);
+            });
 
 //            if (!isUpdateLaunched) {
 //                isUpdateLaunched = true;

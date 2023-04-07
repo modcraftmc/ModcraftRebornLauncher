@@ -40,6 +40,7 @@ dependencies {
     implementation 'io.github.typhon0:AnimateFX:1.2.2'
     implementation 'com.github.marianobarrios:tls-channel:0.4.0'
     implementation "net.hycrafthd:minecraft_authenticator:3.0.4"
+    implementation 'fr.flowarg:flowupdater:1.7.4' // needed
 
 }
 

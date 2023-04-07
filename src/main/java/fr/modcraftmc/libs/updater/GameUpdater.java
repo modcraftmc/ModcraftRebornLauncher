@@ -1,14 +1,11 @@
 package fr.modcraftmc.libs.updater;
 
-import com.google.common.collect.Lists;
 import fr.modcraftmc.launcher.logger.LogManager;
 import fr.modcraftmc.libs.updater.phases.FetchData;
 import fr.modcraftmc.libs.updater.phases.GameDownload;
-import fr.modcraftmc.libs.updater.phases.IUpdaterPhase;
 import fr.modcraftmc.libs.updater.phases.ModcraftAutoDeploy;
 
 import java.nio.file.Path;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
@@ -20,7 +17,8 @@ public class GameUpdater {
     private final ProgressCallback progressCallback;
 
     public static String MANIFEST_ENDPOINT = "/metadata/manifest.json";
-    public static String IGNORELIST_ENDPOINT = "/metadata/manifest.json";
+    public static String IGNORELIST_ENDPOINT = "/metadata/ignorelist.txt";
+    public static String AUTODEPLOY_LIST = "/metadata/autodeploy.txt";
 
     public static Logger LOGGER = LogManager.createLogger("Updater");
     public GameUpdater(String updateServer, Path updateDirectory, ProgressCallback progressCallback) {
@@ -30,11 +28,16 @@ public class GameUpdater {
         this.progressCallback = progressCallback;
     }
 
-    public CompletableFuture<UpdateResult> update() {
-        return CompletableFuture.supplyAsync(() -> {
+    public CompletableFuture<Void> update() {
+        return CompletableFuture.runAsync(() -> {
 
+            FetchData.run();
 
-            return UpdateResult.success();
+            if (!GameDownload.isUpToDate())
+                GameDownload.download();
+
+            if (!ModcraftAutoDeploy.isUpToDate())
+                ModcraftAutoDeploy.download();
         });
     }
 

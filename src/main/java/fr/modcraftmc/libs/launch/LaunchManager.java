@@ -1,6 +1,7 @@
 package fr.modcraftmc.libs.launch;
 
 import fr.flowarg.openlauncherlib.NewForgeVersionDiscriminator;
+import fr.flowarg.openlauncherlib.NoFramework;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.libs.auth.AccountManager;
@@ -18,25 +19,17 @@ public class LaunchManager {
     public static Process launch(File dir) {
 
         try {
-            NewForgeVersionDiscriminator forgeVersionDiscriminator = new NewForgeVersionDiscriminator(ModcraftApplication.FORGE_VERSION, ModcraftApplication.MC_VERSION, "net.minecraftforge", ModcraftApplication.MCP_VERSION);
-            GameVersion VERSION = new GameVersion(ModcraftApplication.MC_VERSION, GameType.V1_13_HIGHER_FORGE.setNFVD(forgeVersionDiscriminator));
-            GameInfos infos = new GameInfos("modcraftmc", dir, VERSION, new GameTweak[] {});
-
-            AuthInfos authInfos = new AuthInfos(AccountManager.getAuthInfos().get().uuid(), "" ,AccountManager.getAuthInfos().get().name());
-            ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(infos, GameFolder.FLOW_UPDATER, authInfos);
-
+            AuthInfos authInfos = new AuthInfos(AccountManager.getAuthInfos().get().name(), AccountManager.getAuthInfos().get().accessToken() ,AccountManager.getAuthInfos().get().uuid(), AccountManager.getAuthInfos().get().xuid(), AccountManager.getAuthInfos().get().clientId());
+            final NoFramework noFramework = new NoFramework(dir.toPath(), authInfos, GameFolder.FLOW_UPDATER_1_19_SUP);
             if (System.getProperty("os.name").contains("windows")) {
-                JavaUtil.setJavaCommand(new File(FilesManager.JAVA_PATH, "\\bin\\java").getPath());
+                JavaUtil.setJavaCommand(new File(FilesManager.JAVA_PATH, "\\bin\\java.exe").getPath());
             } else {
                 JavaUtil.setJavaCommand(new File(FilesManager.JAVA_PATH, "/bin/java").getPath());
             }
-            profile.getVmArgs().add(String.format("-Xmx%sG", ModcraftApplication.launcherConfig.getRam()));
-            ExternalLauncher launcher = new ExternalLauncher(profile);
-
-            Process process = launcher.launch();
-
+            noFramework.getAdditionalVmArgs().add((String.format("-Xmx%sG", ModcraftApplication.launcherConfig.getRam())));
+            Process process = noFramework.launch(ModcraftApplication.MC_VERSION, ModcraftApplication.FORGE_VERSION, NoFramework.ModLoader.FORGE);
             return process;
-        } catch (LaunchException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

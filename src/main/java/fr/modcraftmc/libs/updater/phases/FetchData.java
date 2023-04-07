@@ -6,28 +6,17 @@ import fr.modcraftmc.libs.updater.UpdateResult;
 
 import java.io.IOException;
 
-public class FetchData implements IUpdaterPhase {
+public class FetchData {
 
-    @Override
-    public boolean isUpToDate() {
-        // Always false, always fetch latest data from update server
-        return false;
-    }
-
-    @Override
-    public UpdateResult download() {
+    public static UpdateResult run() {
         try {
             GlobalPhaseData.manifest = DownloadUtils.getRemoteContent(GameUpdater.get().getUpdateServer() + GameUpdater.MANIFEST_ENDPOINT);
             GlobalPhaseData.ignoreList = DownloadUtils.getIgnoreList(GameUpdater.get().getUpdateServer() + GameUpdater.IGNORELIST_ENDPOINT);
+            GlobalPhaseData.autoDeployList = DownloadUtils.getIgnoreList(GameUpdater.get().getUpdateServer() + GameUpdater.IGNORELIST_ENDPOINT);
         } catch (IOException e) {
-            return UpdateResult.faillure();
+            return UpdateResult.FAILURE;
         }
 
-        return UpdateResult.success();
-    }
-
-    @Override
-    public String getFriendlyName() {
-        return "Connexion au serveur de mise à jour";
+        return UpdateResult.SUCCESS;
     }
 }
