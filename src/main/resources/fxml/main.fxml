@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.*?>
 <?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
@@ -76,7 +78,7 @@
                   <Pane prefHeight="22.0" prefWidth="22.0" styleClass="logoutIcon" />
                </graphic>
             </Button>
-            <Button fx:id="login" disable="true" ellipsisString="" layoutX="66.0" layoutY="32.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="129.0" styleClass="logoutButton" text="Se connecter" textFill="WHITE" wrapText="true">
+            <Button fx:id="login" ellipsisString="" layoutX="66.0" layoutY="32.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="129.0" styleClass="logoutButton" text="Se connecter" textFill="WHITE" wrapText="true">
                <effect>
                   <DropShadow height="16.0" offsetY="3.0" radius="7.5" width="16.0">
                      <color>
@@ -130,6 +132,92 @@
                </font>
             </Label>
          </children></Pane>
+      <Pane fx:id="settingsPane" layoutX="332.0" layoutY="124.0" opacity="0.0" prefHeight="382.0" prefWidth="714.0" styleClass="blackContainer" stylesheets="@../css/main.css">
+         <children>
+            <Label alignment="CENTER" layoutX="306.0" layoutY="20.0" prefHeight="33.0" prefWidth="102.0" styleClass="normalText" stylesheets="@../css/main.css" text="Settings" textAlignment="CENTER">
+               <font>
+                  <Font name="Inter Regular" size="24.0" />
+               </font>
+            </Label>
+            <VBox layoutX="55.0" layoutY="91.0" spacing="20.0">
+               <children>
+                  <Pane>
+                     <children>
+                        <Label prefHeight="33.0" prefWidth="370.0" styleClass="normalText" stylesheets="@../css/main.css" text="Ram that will be used to launch minecraft :">
+                           <font>
+                              <Font name="Inter Regular" size="18.0" />
+                           </font>
+                        </Label>
+                        <MFXSlider fx:id="ramSlider" alternativeUnitIncrement="8.0" enableKeyboard="false" layoutX="113.0" layoutY="54.0" max="16.0" minorTicksCount="4" prefHeight="116.0" prefWidth="405.0" showMajorTicks="true" showMinorTicks="true" tickUnit="4.0" unitIncrement="1.0" value="8.0">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></MFXSlider>
+                        <Label fx:id="ramText" alignment="CENTER_RIGHT" contentDisplay="RIGHT" graphicTextGap="5.0" layoutX="527.0" layoutY="41.0" prefHeight="33.0" prefWidth="49.0" styleClass="normalText" stylesheets="@../css/main.css" text="8 Gb">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <MFXCheckbox fx:id="keepConnected" mnemonicParsing="false" styleClass="normalText" stylesheets="@../css/main.css" text="Should keep you connected when restarting the launcher">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </MFXCheckbox>
+                  <MFXCheckbox fx:id="keepOpen" mnemonicParsing="false" styleClass="normalText" stylesheets="@../css/main.css" text="Should keep the launcher open when playing">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </MFXCheckbox>
+                  <Pane>
+                     <children>
+                        <MFXCheckbox fx:id="customPath" mnemonicParsing="false" styleClass="normalText" stylesheets="@../css/main.css" text="Should the launcher install the instance at specific path">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXCheckbox>
+                        <HBox fx:id="pathBox" alignment="CENTER_LEFT" layoutX="34.0" layoutY="31.599990844726562" spacing="8.0">
+                           <children>
+                              <Label prefHeight="23.0" prefWidth="50.0" styleClass="normalText" stylesheets="@../css/main.css" text="Path :">
+                                 <font>
+                                    <Font name="Inter Regular" size="18.0" />
+                                 </font>
+                              </Label>
+                              <MFXTextField fx:id="customPathValue" borderGap="0.0" floatMode="DISABLED" floatingTextGap="0.0" graphicTextGap="0.0" measureUnitGap="0.0" prefHeight="0.0" prefWidth="422.0" styleClass="inputField" stylesheets="@../css/main.css" text="vghjk" textLimit="124">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <cursor>
+                                    <Cursor fx:constant="TEXT" />
+                                 </cursor>
+                                 <font>
+                                    <Font name="Inter Regular" size="14.0" />
+                                 </font>
+                                 <textFill>
+                                    <Color red="0.557894766330719" green="0.557894766330719" blue="0.557894766330719" opacity="0.8700000047683716" />
+                                 </textFill>
+                              </MFXTextField>
+                              <MFXButton fx:id="browseCustomPath" buttonType="RAISED" mnemonicParsing="false" text="Browse">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></MFXButton>
+                           </children>
+                        </HBox>
+                     </children>
+                  </Pane>
+               </children>
+            </VBox>
+         </children>
+      </Pane>
       <Pane fx:id="blocker" disable="true" prefHeight="600.0" prefWidth="1100.0" styleClass="blocker" stylesheets="@../css/main.css" visible="false">
          <children>
             <Label fx:id="blockerText" contentDisplay="CENTER" layoutX="508.0" layoutY="274.0" styleClass="normalText" stylesheets="@../css/main.css" text="Label">

@@ -22,7 +22,6 @@
 
 .normalText {
     -fx-text-fill: #8B8B8B;
-    -fx-alignment: center;
 }
 
 .italicText{
@@ -40,6 +39,11 @@
     -fx-background-image: url('../images/icon_settings.png');
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
+    -fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.3), 10, 0, 0, 0);
+}
+
+.settingsButton:hover{
+    -fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.7), 10, 0, 0, 0);
 }
 
 .minimizeButton{
@@ -99,6 +103,16 @@
     -fx-background-image: url('../images/login-button.png');
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
+}
+
+.inputField{
+    -fx-background-color: transparent;
+    -fx-background-radius: 10;
+    -fx-text-fill: #8B8B8B;
+    -fx-border-color: #8B8B8B;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-padding: 2 10 2 10;
 }
 
 .lilita {
