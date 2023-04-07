@@ -5,6 +5,7 @@ import fr.flowarg.flowupdater.utils.UpdaterOptions;
 import fr.flowarg.flowupdater.versions.AbstractForgeVersion;
 import fr.flowarg.flowupdater.versions.ForgeVersionBuilder;
 import fr.flowarg.flowupdater.versions.VanillaVersion;
+import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.libs.update.DownloadTask;
 import fr.modcraftmc.libs.update.GameUpdaterOld;
 import fr.modcraftmc.libs.update.MDFileOld;
@@ -41,11 +42,11 @@ public class GameDownload{
     }
 
     public static UpdateResult download() {
-        VanillaVersion version = new VanillaVersion.VanillaVersionBuilder().withName("1.19.2").build();
+        VanillaVersion version = new VanillaVersion.VanillaVersionBuilder().withName(ModcraftApplication.MC_VERSION).build();
         UpdaterOptions options = new UpdaterOptions.UpdaterOptionsBuilder().build();
 
         AbstractForgeVersion forgeVersion = new ForgeVersionBuilder(ForgeVersionBuilder.ForgeVersionType.NEW)
-                .withForgeVersion("43.2.8")
+                .withForgeVersion(ModcraftApplication.FORGE_VERSION)
                 .build();
 
         FlowUpdater updater = new FlowUpdater.FlowUpdaterBuilder().withVanillaVersion(version).withUpdaterOptions(options).withModLoaderVersion(forgeVersion).build();
