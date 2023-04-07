@@ -2,19 +2,16 @@ package fr.modcraftmc.libs.updater.phases;
 
 import fr.modcraftmc.libs.updater.UpdateResult;
 
-public class ModcraftAutoDeploy implements IUpdaterPhase {
+public class ModcraftAutoDeploy {
 
-    @Override
-    public boolean isUpToDate() {
+    public static boolean isUpToDate() {
         return false;
     }
 
-    @Override
-    public UpdateResult download() {
-        return UpdateResult.success();
+    public static UpdateResult download() {
+        return UpdateResult.SUCCESS;
     }
 
-    @Override
     public String getFriendlyName() {
         return "Mise à jour de Modcraft";
     }

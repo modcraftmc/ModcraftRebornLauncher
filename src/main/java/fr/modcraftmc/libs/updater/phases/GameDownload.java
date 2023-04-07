@@ -22,18 +22,16 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class GameDownload implements IUpdaterPhase {
+public class GameDownload{
 
-    private int  octetsDownloaded, fileDownloaded;
+    private static int octetsDownloaded, fileDownloaded;
     public static List<MDFile> toDownload = new ArrayList<>();
-    double previousOctets;
-    double speed;
-    String speedStr = "calc..";
-    ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2);
+    private static double previousOctets, speed;
+    static String speedStr = "calc..";
+    private static ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2);
     private static DecimalFormat df2 = new DecimalFormat("#.##");
 
-    @Override
-    public boolean isUpToDate() {
+    public static boolean isUpToDate() {
         File directory = GameUpdater.get().getUpdateDirectory().toFile();
         Collection<File> localFiles = new ConcurrentLinkedQueue<>(FileUtils.listFiles(directory, null, true));
         AtomicInteger fileAnalyzed = new AtomicInteger();
@@ -102,8 +100,7 @@ public class GameDownload implements IUpdaterPhase {
         return needUpdate.get();
     }
 
-    @Override
-    public UpdateResult download() {
+    public static UpdateResult download() {
         File directory = GameUpdater.get().getUpdateDirectory().toFile();
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             previousOctets = octetsDownloaded;
@@ -144,14 +141,14 @@ public class GameDownload implements IUpdaterPhase {
         try {
             latch.await();
         } catch (InterruptedException e) {
-            return UpdateResult.faillure();
+            return UpdateResult.FAILURE;
         }
         taskExecutor.shutdown();
         System.out.println("All download finished !");
-        return UpdateResult.success();
+        return UpdateResult.SUCCESS;
     }
 
-    public void downloadFile(File cursor, MDFile obj) {
+    public static void downloadFile(File cursor, MDFile obj) {
 
         String filePath = obj.getPath();
         String name = obj.getName();
@@ -181,7 +178,6 @@ public class GameDownload implements IUpdaterPhase {
         }
     }
 
-    @Override
     public String getFriendlyName() {
         return "Mise à jour du jeu";
     }

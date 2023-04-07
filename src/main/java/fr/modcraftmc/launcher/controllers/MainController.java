@@ -133,6 +133,10 @@ public class MainController implements IController, ProgressCallback {
             if (!instanceDirectory.exists()) instanceDirectory.mkdirs();
             GameUpdater gameUpdater = new GameUpdater("", instanceDirectory.toPath(), this);
 
+            gameUpdater.update().thenRun(() -> {
+                //TODO: post update logic: run the game
+            });
+
 //            if (!isUpdateLaunched) {
 //                isUpdateLaunched = true;
 //                Platform.runLater(() -> {
