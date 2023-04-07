@@ -138,7 +138,7 @@
                </font></Label>
          </children>
       </Pane>
-      <Button fx:id="close" layoutX="978.0" layoutY="6.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="42.0" styleClass="minimizeButton" stylesheets="@../css/main.css">
+      <Button fx:id="minimize" layoutX="978.0" layoutY="6.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="42.0" styleClass="minimizeButton" stylesheets="@../css/main.css">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -146,7 +146,7 @@
             <SVGPath content="M3.25 19.5L35.75 19.5" strokeLineCap="ROUND" strokeWidth="7.0" styleClass="minimizeButton" />
          </graphic>
       </Button>
-      <Button fx:id="minimize" layoutX="1036.0" layoutY="6.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="42.0" styleClass="closeButton">
+      <Button fx:id="close" layoutX="1036.0" layoutY="6.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="42.0" styleClass="closeButton">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
