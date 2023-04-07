@@ -42,8 +42,28 @@
     -fx-background-size: cover;
 }
 
+.minimizeButton{
+    -fx-background-color: transparent;
+}
+
+.minimizeButton > SVGPath {
+    -fx-stroke: #434343;
+}
+
+.minimizeButton:hover > SVGPath {
+    -fx-stroke: #959595;
+}
+
 .closeButton{
-    -fx-background-color: red;
+    -fx-background-color: transparent;
+}
+
+.closeButton > SVGPath {
+    -fx-stroke: #434343
+}
+
+.closeButton:hover > SVGPath {
+    -fx-stroke: #de0000;
 }
 
 .playButton {
