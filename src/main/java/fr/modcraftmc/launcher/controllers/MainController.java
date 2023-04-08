@@ -395,14 +395,14 @@ public class MainController implements IController, ProgressCallback {
         Node[] fadeInNodes = new Node[]{settingsPane};
         for (Node node : fadeOutNodes) {
             node.setMouseTransparent(true);
-            FadeTransition fadeTransition = new FadeTransition(Duration.millis(500), node);
+            FadeTransition fadeTransition = new FadeTransition(Duration.millis(150), node);
             fadeTransition.setFromValue(1);
             fadeTransition.setToValue(0);
             transition.getChildren().add(fadeTransition);
         }
         for (Node node : fadeInNodes) {
-            FadeTransition fadeTransition = new FadeTransition(Duration.millis(500), node);
-            fadeTransition.setDelay(Duration.millis(500));
+            FadeTransition fadeTransition = new FadeTransition(Duration.millis(150), node);
+            fadeTransition.setDelay(Duration.millis(150));
             fadeTransition.setFromValue(0);
             fadeTransition.setToValue(1);
             transition.getChildren().add(fadeTransition);
@@ -423,14 +423,14 @@ public class MainController implements IController, ProgressCallback {
         Node[] fadeInNodes = new Node[]{news};
         for (Node node : fadeOutNodes) {
             node.setMouseTransparent(true);
-            FadeTransition fadeTransition = new FadeTransition(Duration.millis(500), node);
+            FadeTransition fadeTransition = new FadeTransition(Duration.millis(150), node);
             fadeTransition.setFromValue(1);
             fadeTransition.setToValue(0);
             transition.getChildren().add(fadeTransition);
         }
         for (Node node : fadeInNodes) {
-            FadeTransition fadeTransition = new FadeTransition(Duration.millis(500), node);
-            fadeTransition.setDelay(Duration.millis(500));
+            FadeTransition fadeTransition = new FadeTransition(Duration.millis(150), node);
+            fadeTransition.setDelay(Duration.millis(150));
             fadeTransition.setFromValue(0);
             fadeTransition.setToValue(1);
             transition.getChildren().add(fadeTransition);
