@@ -1,5 +1,7 @@
 package fr.modcraftmc.launcher.controllers;
 
+import animatefx.animation.AnimationFX;
+import animatefx.animation.ZoomOut;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.components.SizeTransition;
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
@@ -30,6 +32,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import net.hycrafthd.minecraft_authenticator.login.User;
 
@@ -97,6 +100,7 @@ public class MainController implements IController, ProgressCallback {
 
     private Process launchProcess;
     private boolean isUpdateLaunched = false;
+    private AnchorPane pane;
 
     public void updateUserInfos(User authInfos) {
         playerName.setText(authInfos.name());
@@ -112,7 +116,7 @@ public class MainController implements IController, ProgressCallback {
 
     @Override
     public void initialize(FXMLLoader loader) {
-        AnchorPane pane = loader.getRoot();
+        pane = loader.getRoot();
         pane.setOnMousePressed(event -> {
             xOffset = event.getSceneX();
             yOffset = event.getSceneY();
