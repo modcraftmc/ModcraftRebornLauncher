@@ -6,11 +6,13 @@ package fr.modcraftmc.libs.auth;
 
 import fr.modcraftmc.launcher.ModcraftApplication;
 import net.hycrafthd.minecraft_authenticator.login.AuthenticationException;
+import net.hycrafthd.minecraft_authenticator.login.AuthenticationFile;
 import net.hycrafthd.minecraft_authenticator.login.Authenticator;
 import net.hycrafthd.minecraft_authenticator.login.User;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Base64;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReference;
@@ -34,9 +36,10 @@ public class AccountManager {
             try {
                 Authenticator authenticator = new MicrosoftAuthentication().runInitalAuthentication(url::set);
                 Optional<User> user = authenticator.getUser();
-
-                System.out.println(user.isPresent());
                 authInfos = user;
+                String crypto = Base64.getEncoder().withoutPadding().encodeToString(authenticator.getResultFile().writeString().getBytes());
+                ModcraftApplication.launcherConfig.setRefreshToken(crypto);
+                ModcraftApplication.launcherConfig.save();
                 return user.isPresent();
 
             } catch (IOException | AuthenticationException e) {
@@ -58,40 +61,25 @@ public class AccountManager {
 
         waitValue.start();
         return completableFuture;
-//        return CompletableFuture.supplyAsync(() -> {
-//            try {
-//
-//                AuthResponse response = authenticator.authenticate(AuthAgent.MINECRAFT, username, password, "mdcraft");
-//                authInfos = new AuthInfos(response.getSelectedProfile().getName(), response.getAccessToken(), response.getSelectedProfile().getId());
-//
-//                String tokenToSave = response.getAccessToken();
-//                String crypto = Base64.getEncoder().withoutPadding().encodeToString(tokenToSave.getBytes());
-//
-//                ModcraftApplication.launcherConfig.setAccesToken(crypto);
-//                ModcraftApplication.launcherConfig.save();
-//                return true;
-//            } catch (fr.litarvan.openauth.AuthenticationException e) {
-//                e.printStackTrace();
-//            }
-//            return false;
-//        });
     }
 
     public static CompletableFuture<Boolean> tryVerify(String refreshToken) {
         if (!ModcraftApplication.launcherConfig.isKeeplogin()) return CompletableFuture.completedFuture(false);
         return CompletableFuture.supplyAsync(() -> {
-//            try {
-//                String refreshTokenDecoded = new String(Base64.getDecoder().decode(refreshToken));
-//                MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator();
-//                MicrosoftAuthResult result = authenticator.loginWithRefreshToken(refreshTokenDecoded);
-//                String tosave = Base64.getEncoder().withoutPadding().encodeToString(result.getRefreshToken().getBytes());
-//                ModcraftApplication.launcherConfig.setRefreshToken(tosave);
-//                ModcraftApplication.launcherConfig.save();
-//                authInfos = result.getProfile();
-//                return true;
-//            } catch (MicrosoftAuthenticationException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                String refreshTokenDecoded = new String(Base64.getDecoder().decode(refreshToken));
+
+                Authenticator authenticator = new MicrosoftAuthentication().validate(refreshTokenDecoded);
+                Optional<User> user = authenticator.getUser();
+                authInfos = user;
+
+                String tosave = Base64.getEncoder().withoutPadding().encodeToString(authenticator.getResultFile().writeString().getBytes());
+                ModcraftApplication.launcherConfig.setRefreshToken(tosave);
+                ModcraftApplication.launcherConfig.save();
+                return true;
+            } catch (IOException | AuthenticationException e) {
+                e.printStackTrace();
+            }
             return false;
         });
 //        if (!ModcraftApplication.launcherConfig.isKeeplogin()) return CompletableFuture.completedFuture(false);

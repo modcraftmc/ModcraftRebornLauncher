@@ -107,9 +107,11 @@ public class ModcraftForgeVersion extends AbstractForgeVersion
     public void attachFlowUpdater(@NotNull FlowUpdater flowUpdater) {
         super.attachFlowUpdater(flowUpdater);
         try {
+//            this.installerUrl = new URL(
+//                    String.format("https://maven.minecraftforge.net/net/minecraftforge/forge/%s/forge-%s-installer.jar", //TODO: use our own forge
+//                            this.modLoaderVersion, this.modLoaderVersion));
             this.installerUrl = new URL(
-                    String.format("https://maven.minecraftforge.net/net/minecraftforge/forge/%s/forge-%s-installer.jar", //TODO: use our own forge
-                            this.modLoaderVersion, this.modLoaderVersion));
+                    "https://cdn.discordapp.com/attachments/1078631532455018517/1094267550940012594/forge-1.19.2-43.2.12-installer.jar"); //TODO: use our own forge);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }

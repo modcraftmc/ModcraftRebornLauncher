@@ -2,6 +2,7 @@ package fr.modcraftmc.libs.auth;
 
 import fr.modcraftmc.launcher.ModcraftApplication;
 import net.hycrafthd.minecraft_authenticator.login.AuthenticationException;
+import net.hycrafthd.minecraft_authenticator.login.AuthenticationFile;
 import net.hycrafthd.minecraft_authenticator.login.Authenticator;
 import net.hycrafthd.minecraft_authenticator.util.function.FunctionWithIOException;
 
@@ -107,6 +108,17 @@ public class MicrosoftAuthentication {
    // @Override
     protected void finishInitalAuthentication() throws Exception {
         serverSocket.close();
+    }
+
+    public Authenticator validate(String authFile) throws IOException, AuthenticationException {
+        final Authenticator authenticator = Authenticator.of(AuthenticationFile.readString(authFile))
+                .shouldAuthenticate()
+                .shouldRetrieveXBoxProfile()
+                .customAzureApplication(AZURE_CLIENT_ID, "", "j5J8Q~ewgShaG31zzqhxb-GaeNvJLgTpOJtI1b31")
+                .build();
+
+        authenticator.run();
+        return authenticator;
     }
 
     private void handleRequest(ServerSocket serverSocket, FunctionWithIOException<SocketData, Boolean> handler) throws IOException {
