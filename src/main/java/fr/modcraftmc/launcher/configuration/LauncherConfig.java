@@ -78,14 +78,6 @@ public class LauncherConfig {
         this.ram = ram;
     }
 
-    public AccountManager.LoginType getLoginType() {
-        return AccountManager.LoginType.valueOf(loginType);
-    }
-
-    public void setLoginType(AccountManager.LoginType loginType) {
-        this.loginType = loginType.name();
-    }
-
     public static LauncherConfig load(File file) {
 
         configFile = file;

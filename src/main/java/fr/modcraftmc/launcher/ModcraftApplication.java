@@ -56,14 +56,6 @@ public class ModcraftApplication extends Application {
         Scene mainScene = Utils.loadFxml("main.fxml", false);
         MainController mainController = (MainController) mainScene.getUserData();
 
-        //Account verification
-        if (AccountManager.tryVerify(launcherConfig.getRefreshToken()).get()) {
-            mainController.setLogged(true);
-            mainController.updateUserInfos(AccountManager.getAuthInfos().get());
-        }
-        else {
-            mainController.setLogged(false);
-        }
 
         stage.setScene(mainScene);
         stage.show();

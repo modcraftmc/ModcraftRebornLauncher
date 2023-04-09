@@ -1,7 +1,5 @@
 package fr.modcraftmc.launcher.controllers;
 
-import animatefx.animation.AnimationFX;
-import animatefx.animation.ZoomOut;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.components.SizeTransition;
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
@@ -29,16 +27,15 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import net.hycrafthd.minecraft_authenticator.login.User;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CompletableFuture;
@@ -127,6 +124,9 @@ public class MainController implements IController, ProgressCallback {
         });
 
         playersCount.setText("Na/Na");
+
+        //Account verification
+        triggerAuthentification(true);
 
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -258,7 +258,7 @@ public class MainController implements IController, ProgressCallback {
         });
 
         login.setOnMouseClicked(event -> {
-            triggerAuthentification();
+            triggerAuthentification(false);
         });
         //#endregion
 
@@ -280,27 +280,52 @@ public class MainController implements IController, ProgressCallback {
 //        progessLabel.setText(progress);
     }
 
-    public void triggerAuthentification() {
+    public void triggerAuthentification(boolean tryValidateAccessToken) {
         block("Authentication...");
         AtomicReference<AuthenticationPopupController> popup = new AtomicReference<>();
-        CompletableFuture<Boolean> futureBoolean = AccountManager.tryLogin((url, canceler) -> Platform.runLater(() -> popup.set(AuthenticationPopupController.show(url, () -> canceler.run()))));
-        futureBoolean.orTimeout(5, TimeUnit.MINUTES).thenAccept(success -> {
-            if (success) {
+
+        CompletableFuture<Boolean> authentication = AccountManager.authenticate(tryValidateAccessToken, (url, canceler) -> {
+            if (!tryValidateAccessToken) {
                 Platform.runLater(() -> {
-                    popup.get().close();
-                    updateUserInfos(AccountManager.getAuthInfos().get());
+                    popup.set(AuthenticationPopupController.show(url, canceler));
                 });
-                setLogged(true);
-            } else {
-                ModcraftApplication.LOGGER.warning("Authentication failed");
             }
-            unblock();
-        }).exceptionally(throwable -> {
-            ModcraftApplication.LOGGER.warning("Authentication timeout");
-            throwable.printStackTrace();
-            unblock();
-            return null;
         });
+
+        authentication.orTimeout(5, TimeUnit.MINUTES).thenAccept(isAuthenticated -> {
+           if (!isAuthenticated) {
+               setLogged(false);
+               unblock();
+           } else {
+               Platform.runLater(() -> {
+                   if (!tryValidateAccessToken) popup.get().close();
+                   updateUserInfos(AccountManager.getAuthInfos().get());
+                   setLogged(true);
+                   unblock();
+               });
+           }
+        });
+
+
+
+        //CompletableFuture<Boolean> futureBoolean = AccountManager.tryLogin(validate, (url, canceler) -> Platform.runLater(() -> popup.set(AuthenticationPopupController.show(url, () -> canceler.run()))));
+//        authentication.orTimeout(5, TimeUnit.MINUTES).thenAccept(success -> {
+//            if (success) {
+//                Platform.runLater(() -> {
+//                    popup.get().close();
+//                    updateUserInfos(AccountManager.getAuthInfos().get());
+//                });
+//                setLogged(true);
+//            } else {
+//                ModcraftApplication.LOGGER.warning("Authentication failed");
+//            }
+//            unblock();
+//        }).exceptionally(throwable -> {
+//            ModcraftApplication.LOGGER.warning("Authentication timeout");
+//            throwable.printStackTrace();
+//            unblock();
+//            return null;
+//        });
     }
 
     public void setLogged(boolean isLogged) {

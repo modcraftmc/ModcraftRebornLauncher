@@ -46,7 +46,7 @@ public class Utils {
     public static boolean checkAccount() {
         AtomicBoolean returnValue = new AtomicBoolean(false);
         if (ModcraftApplication.launcherConfig.isKeeplogin()) {
-            AccountManager.tryVerify(ModcraftApplication.launcherConfig.getRefreshToken()).thenAccept(returnValue::set);
+            //AccountManager.tryVerify(ModcraftApplication.launcherConfig.getRefreshToken()).thenAccept(returnValue::set);
         }
 
         return returnValue.get();
