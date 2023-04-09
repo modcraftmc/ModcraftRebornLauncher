@@ -9,6 +9,8 @@ import fr.modcraftmc.libs.updater.GameUpdater;
 import fr.modcraftmc.libs.updater.ModcraftForgeVersionBuilder;
 import fr.modcraftmc.libs.updater.UpdateResult;
 
+import java.net.URL;
+
 public class GameDownload{
 
     public static boolean isUpToDate() {
@@ -21,6 +23,7 @@ public class GameDownload{
 
         AbstractForgeVersion forgeVersion = new ModcraftForgeVersionBuilder(ModcraftForgeVersionBuilder.ForgeVersionType.MODCRAFT)
                 .withForgeVersion(ModcraftApplication.FORGE_VERSION)
+                .withMods("https://modcraftmc.fr/mods.json")
                 .build();
 
         FlowUpdater updater = new FlowUpdater.FlowUpdaterBuilder().withVanillaVersion(version).withUpdaterOptions(options).withModLoaderVersion(forgeVersion).build();
