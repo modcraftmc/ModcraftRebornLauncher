@@ -25,8 +25,9 @@ public class AccountManager {
         AtomicReference<URL> url = new AtomicReference<>();
 
         CompletableFuture completableFuture = CompletableFuture.supplyAsync(() -> {
-            if (tryValidateAccessToken && ModcraftApplication.launcherConfig.isKeeplogin()) {
+            if (tryValidateAccessToken) {
                 try {
+                    if (!ModcraftApplication.launcherConfig.isKeeplogin()) return false;
                     String refreshTokenDecoded = new String(Base64.getDecoder().decode(ModcraftApplication.launcherConfig.getRefreshToken()));
                     Authenticator authenticator = new MicrosoftAuthentication().validate(refreshTokenDecoded);
                     authInfos = authenticator.getUser();
