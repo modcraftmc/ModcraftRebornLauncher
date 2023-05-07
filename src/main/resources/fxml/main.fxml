@@ -242,5 +242,6 @@
             <SVGPath content="M35.75 35.75L19.5 19.5M19.5 19.5L3.25 3.25M19.5 19.5L35.75 3.25M19.5 19.5L3.25 35.75" stroke="#3e3e3e" strokeLineCap="ROUND" strokeWidth="7.0" styleClass="closeButton" />
          </graphic>
       </Button>
+      <ProgressBar fx:id="progressBar" layoutX="294.0" layoutY="545.0" prefHeight="18.0" prefWidth="688.0" progress="0.0" />
    </children>
 </AnchorPane>

@@ -1,7 +1,6 @@
 package fr.modcraftmc.libs.updater;
 
 import fr.modcraftmc.launcher.logger.LogManager;
-import fr.modcraftmc.libs.updater.phases.FetchData;
 import fr.modcraftmc.libs.updater.phases.GameDownload;
 import fr.modcraftmc.libs.updater.phases.ModcraftAutoDeploy;
 
@@ -16,7 +15,7 @@ public class GameUpdater {
     private final Path updateDirectory;
     private final ProgressCallback progressCallback;
 
-    public static String MANIFEST_ENDPOINT = "/metadata/manifest.json";
+    public static String MANIFEST_ENDPOINT = "/mods.json";
     public static String IGNORELIST_ENDPOINT = "/metadata/ignorelist.txt";
     public static String AUTODEPLOY_LIST = "/metadata/autodeploy.txt";
 
@@ -29,16 +28,19 @@ public class GameUpdater {
     }
 
     public CompletableFuture<Void> update() {
-        return CompletableFuture.runAsync(() -> {
-
-            FetchData.run();
-
+        CompletableFuture future = CompletableFuture.supplyAsync(() -> {
             if (!GameDownload.isUpToDate())
                 GameDownload.download();
 
             if (!ModcraftAutoDeploy.isUpToDate())
                 ModcraftAutoDeploy.download();
+            return null;
+        }).exceptionally(error -> {
+            System.out.println(error);
+           return error;
         });
+
+        return future;
     }
 
     public static GameUpdater get() {

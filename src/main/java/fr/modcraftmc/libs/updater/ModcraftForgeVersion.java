@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class ModcraftForgeVersion extends AbstractForgeVersion
 {
-    private final String[] compatibleVersions = {"1.20", "1.19", "1.18", "1.17",
+    private final String[] compatibleVersions = {"1.19.2-43.2.12", "1.19.2", "1.18", "1.17",
             "1.16", "1.15", "1.14",
             "1.13", "1.12.2-14.23.5.285", "1.12.2-14.23.5.286"};
 

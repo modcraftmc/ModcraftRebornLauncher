@@ -6,7 +6,6 @@ import java.util.List;
 
 public class GlobalPhaseData {
 
-    public static List<MDFile> manifest;
     public static List<String> ignoreList;
     public static List<String> autoDeployList;
 }

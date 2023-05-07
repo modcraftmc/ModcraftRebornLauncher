@@ -1,5 +1,6 @@
 package fr.modcraftmc.launcher.controllers;
 
+import fr.modcraftmc.launcher.AsyncExecutor;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.components.SizeTransition;
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
@@ -24,6 +25,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -71,7 +73,7 @@ public class MainController implements IController, ProgressCallback {
 
 //    //Progress bar
 //    @FXML public Label progessLabel;
-//    @FXML public ProgressBar progress;
+      @FXML public ProgressBar progressBar;
 
     //News
     @FXML public Pane news;
@@ -123,7 +125,18 @@ public class MainController implements IController, ProgressCallback {
             ModcraftApplication.getWindow().setY(event.getScreenY() - yOffset);
         });
 
-        playersCount.setText("Na/Na");
+        AsyncExecutor.runAsyncAtRate(() -> {
+            try {
+                MinecraftPingReply minecraftPing = new MinecraftPing().getPing("play.modcraftmc.fr");
+                ModcraftApplication.LOGGER.info("Updating server status");
+
+                Platform.runLater(() -> {
+                    playersCount.setText(String.format("%s/%s", minecraftPing.getPlayers().getOnline(), minecraftPing.getPlayers().getMax()));
+                });
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }, 10);
 
         //Account verification
         triggerAuthentification(true);
@@ -148,12 +161,20 @@ public class MainController implements IController, ProgressCallback {
 //            }
 
             InstanceProperty instanceProperty = ModcraftApplication.launcherConfig.getInstanceProperty();
-            File instanceDirectory = instanceProperty.isCustomInstance() ? new File(instanceProperty.getCustomInstancePath()) : new File(FilesManager.INSTANCES_PATH, "v4-staff");
+            final File instanceDirectory = instanceProperty.isCustomInstance() ? new File(instanceProperty.getCustomInstancePath()) : new File(FilesManager.INSTANCES_PATH, "reborn");
             if (!instanceDirectory.exists()) instanceDirectory.mkdirs();
-            GameUpdater gameUpdater = new GameUpdater("", instanceDirectory.toPath(), this);
+            GameUpdater gameUpdater = new GameUpdater("http://host.modcraftmc.fr", instanceDirectory.toPath(), this);
 
             gameUpdater.update().thenRun(() -> {
-                LaunchManager.launch(instanceDirectory);
+                Process process = LaunchManager.launch(instanceDirectory);
+
+                Thread running = new Thread(() -> {
+
+                    while (process.isAlive()) {}
+
+
+
+                });
             });
 
 //            if (!isUpdateLaunched) {
@@ -276,7 +297,11 @@ public class MainController implements IController, ProgressCallback {
     }
 
     @Override
-    public void onProgressUpdate(String progress) {
+    public void onProgressUpdate(String progress, int current, int max) {
+
+        progressBar.setProgress((double) (current * 100) / max);
+
+
 //        progessLabel.setText(progress);
     }
 
