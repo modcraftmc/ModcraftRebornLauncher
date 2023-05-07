@@ -24,7 +24,7 @@ public class GameDownload{
         VanillaVersion version = new VanillaVersion.VanillaVersionBuilder().withName(ModcraftApplication.MC_VERSION).build();
         UpdaterOptions options = new UpdaterOptions.UpdaterOptionsBuilder().withSilentRead(false).build();
 
-        AbstractForgeVersion forgeVersion = new ForgeVersionBuilder(ForgeVersionBuilder.ForgeVersionType.NEW)
+        AbstractForgeVersion forgeVersion = new ModcraftForgeVersionBuilder(ModcraftForgeVersionBuilder.ForgeVersionType.MODCRAFT)
                 .withForgeVersion(ModcraftApplication.FORGE_VERSION)
                 .withMods("https://modcraftmc.fr/mods.json")
                 .build();
