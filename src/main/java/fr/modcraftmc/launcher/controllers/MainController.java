@@ -26,6 +26,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -47,6 +48,11 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class MainController implements IController, ProgressCallback {
 
+    public enum State {
+        IDLE,
+        UPDATING,
+        PLAYING
+    }
     //Drag
     private double xOffset = 0;
     private double yOffset = 0;
@@ -56,6 +62,7 @@ public class MainController implements IController, ProgressCallback {
     @FXML public Button minimize;
 
     @FXML public Button play;
+    @FXML public ProgressIndicator playIndicator;
 
     //Account
     private boolean isLogged = false;
@@ -73,7 +80,8 @@ public class MainController implements IController, ProgressCallback {
 
 //    //Progress bar
 //    @FXML public Label progessLabel;
-      @FXML public ProgressBar progressBar;
+    @FXML public ProgressBar progressBar;
+    @FXML public Label progressText;
 
     //News
     @FXML public Pane news;
@@ -115,6 +123,7 @@ public class MainController implements IController, ProgressCallback {
 
     @Override
     public void initialize(FXMLLoader loader) {
+        setLauncherState(State.IDLE);
         pane = loader.getRoot();
         pane.setOnMousePressed(event -> {
             xOffset = event.getSceneX();
@@ -154,12 +163,11 @@ public class MainController implements IController, ProgressCallback {
         }, 0, 60000);
 
         play.setOnMouseClicked(event -> {
-
+            setLauncherState(State.UPDATING);
 //            LaunchManager.launch(new File(FilesManager.INSTANCES_PATH, "v4-staff"));
 //            if (true) {
 //                return;
 //            }
-
             InstanceProperty instanceProperty = ModcraftApplication.launcherConfig.getInstanceProperty();
             final File instanceDirectory = instanceProperty.isCustomInstance() ? new File(instanceProperty.getCustomInstancePath()) : new File(FilesManager.INSTANCES_PATH, "reborn");
             if (!instanceDirectory.exists()) instanceDirectory.mkdirs();
@@ -300,7 +308,7 @@ public class MainController implements IController, ProgressCallback {
     public void onProgressUpdate(String progress, int current, int max) {
 
         progressBar.setProgress((double) (current * 100) / max);
-
+        progressText.setText(progress);
 
 //        progessLabel.setText(progress);
     }
@@ -359,6 +367,29 @@ public class MainController implements IController, ProgressCallback {
             loginAnimation();
         } else {
             logoutAnimation();
+        }
+    }
+
+    public void setLauncherState(State state){
+        switch (state){
+            case IDLE -> {
+                play.setDisable(false);
+                progressBarOutAnimation();
+                play.getStyleClass().remove("play-button-running");
+                playIndicator.setVisible(false);
+            }
+            case UPDATING -> {
+                play.setDisable(true);
+                progressBarInAnimation();
+                play.getStyleClass().add("play-button-running");
+                playIndicator.setVisible(true);
+            }
+            case PLAYING -> {
+                play.setDisable(true);
+                progressBarOutAnimation();
+                play.getStyleClass().add("play-button-running");
+                playIndicator.setVisible(true);
+            }
         }
     }
 
@@ -490,6 +521,40 @@ public class MainController implements IController, ProgressCallback {
             for (Node node : fadeInNodes) {
                 node.setMouseTransparent(false);
             }
+        });
+        transition.play();
+    }
+
+    public void progressBarInAnimation(){
+        ParallelTransition transition = new ParallelTransition();
+        progressBar.setVisible(true);
+        progressText.setVisible(true);
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(500), progressBar);
+        TranslateTransition translateTransition2 = new TranslateTransition(Duration.millis(500), progressText);
+        translateTransition.setFromY(50);
+        translateTransition2.setFromY(50);
+        translateTransition.setToY(0);
+        translateTransition2.setToY(0);
+
+        transition.getChildren().addAll(translateTransition, translateTransition2);
+        transition.play();
+    }
+
+    public void progressBarOutAnimation(){
+        ParallelTransition transition = new ParallelTransition();
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(500), progressBar);
+        TranslateTransition translateTransition2 = new TranslateTransition(Duration.millis(500), progressText);
+        translateTransition.setFromY(0);
+        translateTransition2.setFromY(0);
+        translateTransition.setToY(50);
+        translateTransition2.setToY(50);
+
+        transition.getChildren().addAll(translateTransition, translateTransition2);
+        transition.setOnFinished(event -> {
+            progressBar.setVisible(false);
+            progressText.setVisible(false);
         });
         transition.play();
     }

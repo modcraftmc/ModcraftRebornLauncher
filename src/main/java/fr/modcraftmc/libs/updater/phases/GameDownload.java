@@ -34,7 +34,7 @@ public class GameDownload{
             public void update(DownloadList.DownloadInfo info) {
                 System.out.println(info.getDownloadedFiles());
                 System.out.println( info.getTotalToDownloadFiles());
-                GameUpdater.get().getProgressCallback().onProgressUpdate("", info.getDownloadedFiles(), info.getTotalToDownloadFiles());
+                GameUpdater.get().getProgressCallback().onProgressUpdate("Downloading", info.getDownloadedFiles(), info.getTotalToDownloadFiles());
             }
 
         }).withModLoaderVersion(forgeVersion).build();

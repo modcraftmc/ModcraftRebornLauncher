@@ -82,6 +82,15 @@
     -fx-background-color: #FFA500;
 }
 
+.play-button-running {
+    -fx-background-color: #b25b0d;
+    -fx-text-fill: transparent;
+}
+
+.play-button-running:hover {
+    -fx-background-color: #b25b0d;
+}
+
 .logoutButton{
     -fx-background-color: #FF820F;
     -fx-background-radius: 6;
