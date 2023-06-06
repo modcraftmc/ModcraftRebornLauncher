@@ -1,10 +1,8 @@
 package fr.modcraftmc.launcher;
 
 import fr.modcraftmc.launcher.logger.LogManager;
-import fr.theshark34.openlauncherlib.JavaUtil;
 import javafx.application.Application;
 
-import java.awt.*;
 import java.util.logging.Logger;
 
 public class PrimaryLauncher {
@@ -20,7 +18,7 @@ public class PrimaryLauncher {
             Application.launch(ModcraftApplication.class, args);
 
         } catch (ClassNotFoundException e) {
-           LOGGER.severe("JavaFX not found, please contact suport.");
+           LOGGER.severe("JavaFX not found, please contact support.");
            System.exit(1);
         }
     }
