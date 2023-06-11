@@ -37,7 +37,7 @@ public class LauncherConfig {
     private String loginType;
 
     public boolean isKeeplogin() {
-        return true;
+        return keeplogin;
     }
 
     public String getRefreshToken() {
