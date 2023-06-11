@@ -1,9 +1,8 @@
 package fr.modcraftmc.launcher.configuration;
 
-import com.google.gson.*;
-import fr.modcraftmc.launcher.Utils;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import fr.modcraftmc.launcher.logger.LogManager;
-import fr.modcraftmc.libs.auth.AccountManager;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -38,7 +37,7 @@ public class LauncherConfig {
     private String loginType;
 
     public boolean isKeeplogin() {
-        return keeplogin;
+        return true;
     }
 
     public String getRefreshToken() {

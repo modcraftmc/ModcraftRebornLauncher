@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXProgressSpinner?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.*?>
+<?import java.lang.String?>
+<AnchorPane prefHeight="600.0" prefWidth="1100.0" styleClass="appContainer" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.LoginController">
+    <children>
+        <Pane fx:id="logoContainer" layoutX="410.0" layoutY="253.0" prefHeight="94.0" prefWidth="280.0">
+            <children>
+                <Pane prefHeight="90.0" prefWidth="90.0" styleClass="logo" />
+                <Label layoutX="96.0" layoutY="11.0" prefHeight="45.0" prefWidth="180.0" text="MODCRAFTMC" textFill="#ffae00">
+                    <font>
+                        <Font name="System Bold" size="27.0" />
+                    </font>
+                    <styleClass>
+                        <String fx:value="specialText" />
+                        <String fx:value="lilita" />
+                    </styleClass>
+                </Label>
+                <Label layoutX="97.0" layoutY="45.0" prefHeight="33.0" prefWidth="165.0" styleClass="lilita" text="SURVIE MODDE 1.19" textFill="#dedede">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font></Label>
+            </children></Pane>
+        <Pane fx:id="blocker" disable="true" prefHeight="600.0" prefWidth="1100.0" styleClass="blocker" stylesheets="@../css/main.css" visible="false">
+            <children>
+                <Label fx:id="blockerText" contentDisplay="CENTER" layoutX="508.0" layoutY="274.0" styleClass="normalText" stylesheets="@../css/main.css" text="Label">
+                    <font>
+                        <Font size="36.0" />
+                    </font></Label>
+            </children>
+        </Pane>
+        <Button fx:id="minimize" layoutX="1025.0" layoutY="6.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="31.0" styleClass="minimizeButton" stylesheets="@../css/main.css">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+            <graphic>
+                <SVGPath content="M3.25 19.5L35.75 19.5" scaleX="0.7" scaleY="0.5" scaleZ="0.0" strokeLineCap="ROUND" strokeWidth="7.0" styleClass="minimizeButton" />
+            </graphic>
+        </Button>
+        <Button fx:id="close" layoutX="1061.0" layoutY="6.0" maxHeight="45.0" maxWidth="35.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="35.0" styleClass="closeButton">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+            <graphic>
+                <SVGPath content="M35.75 35.75L19.5 19.5M19.5 19.5L3.25 3.25M19.5 19.5L35.75 3.25M19.5 19.5L3.25 35.75" scaleX="0.5" scaleY="0.5" stroke="#3e3e3e" strokeLineCap="ROUND" strokeWidth="6.0" styleClass="closeButton" />
+            </graphic>
+        </Button>
+      <Pane fx:id="loadingContainer" layoutX="450.0" layoutY="502.0" prefHeight="77.0" prefWidth="200.0">
+         <children>
+            <Label fx:id="loadingMessage" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="53.0" prefHeight="21.0" prefWidth="171.0" text="Chargement du launcher" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+              <MFXProgressSpinner fx:id="playIndicator" layoutX="86.0" layoutY="6.0" mouseTransparent="true" prefHeight="33.0" prefWidth="28.0" startingAngle="0.0">
+                  <color1>
+                      <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
+                  </color1>
+                  <color2>
+                      <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
+                  </color2>
+                  <color3>
+                      <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
+                  </color3>
+                  <color4>
+                      <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
+                  </color4>
+              </MFXProgressSpinner>
+         </children>
+      </Pane>
+      <Pane fx:id="authFormContainer" layoutX="650.0" layoutY="240.0" opacity="0.0" prefHeight="260.0" prefWidth="200.0">
+         <children>
+            <Button fx:id="codeButton" layoutX="54.0" layoutY="179.0" mnemonicParsing="false" text="Copier le code" />
+            <Button fx:id="urlButton" layoutX="60.0" layoutY="215.0" mnemonicParsing="false" text="Ouvir le lien" />
+            <Label fx:id="urlLabel" layoutX="62.0" layoutY="44.0" text="lien: xbox.com" textFill="WHITE" />
+            <Label fx:id="codeLabel" layoutX="62.0" layoutY="73.0" text="code: GOLDOR" textFill="WHITE" />
+         </children>
+      </Pane>
+      <Pane fx:id="loginFormContainer" layoutX="450.0" layoutY="217.0" opacity="0.0" prefHeight="260.0" prefWidth="200.0">
+         <children>
+            <Label layoutX="50.0" layoutY="28.0" prefHeight="28.0" prefWidth="101.0" text="Bienvenue !" textFill="WHITE">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Button fx:id="loginButton" layoutX="22.0" layoutY="180.0" mnemonicParsing="false" text="Se connecter via Microsoft" />
+         </children>
+      </Pane>
+      <VBox layoutX="151.0" layoutY="341.0" prefHeight="200.0" prefWidth="100.0" />
+    </children>
+</AnchorPane>

@@ -5,10 +5,8 @@ import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.components.SizeTransition;
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
 import fr.modcraftmc.launcher.resources.FilesManager;
-import fr.modcraftmc.libs.auth.AccountManager;
 import fr.modcraftmc.libs.launch.LaunchManager;
 import fr.modcraftmc.libs.serverpinger.MinecraftPing;
-import fr.modcraftmc.libs.serverpinger.MinecraftPingOptions;
 import fr.modcraftmc.libs.serverpinger.MinecraftPingReply;
 import fr.modcraftmc.libs.updater.GameUpdater;
 import fr.modcraftmc.libs.updater.ProgressCallback;
@@ -33,17 +31,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
 import javafx.util.Duration;
-import net.hycrafthd.minecraft_authenticator.login.User;
+import net.raphimc.mcauth.step.java.StepMCProfile;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
 
 
 public class MainController implements IController, ProgressCallback {
@@ -109,13 +101,11 @@ public class MainController implements IController, ProgressCallback {
     private boolean isUpdateLaunched = false;
     private AnchorPane pane;
 
-    public void updateUserInfos(User authInfos) {
+    public void updateUserInfos(StepMCProfile.MCProfile authInfos) {
         playerName.setText(authInfos.name());
         try {
-
             Image image = new Image(new URL("https://minotar.net/avatar/" + authInfos.name()).openStream(), 64, 64, false, false);
             playerHead.setImage(image);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -147,20 +137,6 @@ public class MainController implements IController, ProgressCallback {
             }
         }, 10);
 
-        //Account verification
-        triggerAuthentification(true);
-
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                try {
-                    MinecraftPingReply data = new MinecraftPing().getPing(new MinecraftPingOptions().setHostname("v4.modcraftmc.fr").setPort(25565));
-                    Platform.runLater(() -> playersCount.setText(String.format("%s/%s joueurs", data.getPlayers().getOnline(), data.getPlayers().getMax())));
-                } catch (IOException e) {
-                }
-            }
-        }, 0, 60000);
 
         play.setOnMouseClicked(event -> {
             setLauncherState(State.UPDATING);
@@ -168,10 +144,11 @@ public class MainController implements IController, ProgressCallback {
 //            if (true) {
 //                return;
 //            }
+
             InstanceProperty instanceProperty = ModcraftApplication.launcherConfig.getInstanceProperty();
             final File instanceDirectory = instanceProperty.isCustomInstance() ? new File(instanceProperty.getCustomInstancePath()) : new File(FilesManager.INSTANCES_PATH, "reborn");
             if (!instanceDirectory.exists()) instanceDirectory.mkdirs();
-            GameUpdater gameUpdater = new GameUpdater("http://host.modcraftmc.fr", instanceDirectory.toPath(), this);
+            GameUpdater gameUpdater = new GameUpdater("https://modcraftmc.fr", instanceDirectory.toPath(), this);
 
             gameUpdater.update().thenRun(() -> {
                 Process process = LaunchManager.launch(instanceDirectory);
@@ -286,9 +263,6 @@ public class MainController implements IController, ProgressCallback {
             setLogged(false);
         });
 
-        login.setOnMouseClicked(event -> {
-            triggerAuthentification(false);
-        });
         //#endregion
 
         //#region window action
@@ -311,54 +285,6 @@ public class MainController implements IController, ProgressCallback {
         progressText.setText(progress);
 
 //        progessLabel.setText(progress);
-    }
-
-    public void triggerAuthentification(boolean tryValidateAccessToken) {
-        block("Authentication...");
-        AtomicReference<AuthenticationPopupController> popup = new AtomicReference<>();
-
-        CompletableFuture<Boolean> authentication = AccountManager.authenticate(tryValidateAccessToken, (url, canceler) -> {
-            if (!tryValidateAccessToken) {
-                Platform.runLater(() -> {
-                    popup.set(AuthenticationPopupController.show(url, canceler));
-                });
-            }
-        });
-
-        authentication.orTimeout(5, TimeUnit.MINUTES).thenAccept(isAuthenticated -> {
-           if (!isAuthenticated) {
-               setLogged(false);
-               unblock();
-           } else {
-               Platform.runLater(() -> {
-                   if (!tryValidateAccessToken) popup.get().close();
-                   updateUserInfos(AccountManager.getAuthInfos().get());
-                   setLogged(true);
-                   unblock();
-               });
-           }
-        });
-
-
-
-        //CompletableFuture<Boolean> futureBoolean = AccountManager.tryLogin(validate, (url, canceler) -> Platform.runLater(() -> popup.set(AuthenticationPopupController.show(url, () -> canceler.run()))));
-//        authentication.orTimeout(5, TimeUnit.MINUTES).thenAccept(success -> {
-//            if (success) {
-//                Platform.runLater(() -> {
-//                    popup.get().close();
-//                    updateUserInfos(AccountManager.getAuthInfos().get());
-//                });
-//                setLogged(true);
-//            } else {
-//                ModcraftApplication.LOGGER.warning("Authentication failed");
-//            }
-//            unblock();
-//        }).exceptionally(throwable -> {
-//            ModcraftApplication.LOGGER.warning("Authentication timeout");
-//            throwable.printStackTrace();
-//            unblock();
-//            return null;
-//        });
     }
 
     public void setLogged(boolean isLogged) {

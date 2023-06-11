@@ -2,7 +2,6 @@ package fr.modcraftmc.libs.updater;
 
 import fr.modcraftmc.launcher.logger.LogManager;
 import fr.modcraftmc.libs.updater.phases.GameDownload;
-import fr.modcraftmc.libs.updater.phases.ModcraftAutoDeploy;
 
 import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
@@ -17,7 +16,6 @@ public class GameUpdater {
 
     public static String MANIFEST_ENDPOINT = "/mods.json";
     public static String IGNORELIST_ENDPOINT = "/metadata/ignorelist.txt";
-    public static String AUTODEPLOY_LIST = "/metadata/autodeploy.txt";
 
     public static Logger LOGGER = LogManager.createLogger("Updater");
     public GameUpdater(String updateServer, Path updateDirectory, ProgressCallback progressCallback) {
@@ -32,8 +30,6 @@ public class GameUpdater {
             if (!GameDownload.isUpToDate())
                 GameDownload.download();
 
-            if (!ModcraftAutoDeploy.isUpToDate())
-                ModcraftAutoDeploy.download();
             return null;
         }).exceptionally(error -> {
             System.out.println(error);

@@ -4,126 +4,91 @@ package fr.modcraftmc.libs.auth;
 //import com.azuriom.azauth.AuthClient;
 //import com.azuriom.azauth.model.User;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import fr.modcraftmc.launcher.AsyncExecutor;
 import fr.modcraftmc.launcher.ModcraftApplication;
-import net.hycrafthd.minecraft_authenticator.login.AuthenticationException;
-import net.hycrafthd.minecraft_authenticator.login.Authenticator;
-import net.hycrafthd.minecraft_authenticator.login.User;
+import fr.modcraftmc.libs.errors.ErrorsHandler;
+import javafx.application.Platform;
+import javafx.scene.control.Label;
+import net.raphimc.mcauth.MinecraftAuth;
+import net.raphimc.mcauth.step.java.StepMCProfile;
+import net.raphimc.mcauth.step.msa.StepMsaDeviceCode;
+import net.raphimc.mcauth.util.MicrosoftConstants;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Base64;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class AccountManager {
-    private static Optional<User> authInfos = Optional.empty();
+   public static class AuthResult {
+       private final boolean isLoggedIn;
+       private final StepMCProfile.MCProfile mcProfile;
 
-    public static CompletableFuture<Boolean> authenticate(boolean tryValidateAccessToken, BiConsumer<URL, Runnable> urlAndCanceler) {
-        AtomicReference<URL> url = new AtomicReference<>();
+       public AuthResult(boolean isLoggedIn, @Nullable StepMCProfile.MCProfile mcProfile) {
+           this.isLoggedIn = isLoggedIn;
+           this.mcProfile = mcProfile;
+       }
 
-        CompletableFuture completableFuture = CompletableFuture.supplyAsync(() -> {
-            if (tryValidateAccessToken) {
-                try {
-                    if (!ModcraftApplication.launcherConfig.isKeeplogin()) return false;
-                    String refreshTokenDecoded = new String(Base64.getDecoder().decode(ModcraftApplication.launcherConfig.getRefreshToken()));
-                    Authenticator authenticator = new MicrosoftAuthentication().validate(refreshTokenDecoded);
-                    authInfos = authenticator.getUser();
-                } catch (AuthenticationException | IOException e) {
-                    e.printStackTrace();
-                }
+       public boolean isLoggedIn() {
+           return isLoggedIn;
+       }
 
-                return authInfos.isPresent();
+       public StepMCProfile.MCProfile getMcProfile() {
+           return mcProfile;
+       }
+   }
+
+    public static CompletableFuture<AuthResult> authenticate(Consumer<StepMsaDeviceCode.MsaDeviceCode> callback) {
+        return CompletableFuture.supplyAsync(() -> {
+
+            StepMCProfile.MCProfile mcProfile;
+            try (final CloseableHttpClient httpClient = MicrosoftConstants.createHttpClient()) {
+                mcProfile = MinecraftAuth.JAVA_DEVICE_CODE_LOGIN.getFromInput(httpClient, new StepMsaDeviceCode.MsaDeviceCodeCallback(callback));
+                System.out.println("Logged in as: " + mcProfile.name());
+                if (ModcraftApplication.launcherConfig.isKeeplogin()) AsyncExecutor.runAsync(() -> AccountManager.saveLoginInfos(mcProfile));
+                return new AuthResult(true, mcProfile);
+
+            } catch (Exception e) {
+                ErrorsHandler.handleError(e);
+                return new AuthResult(false, null);
             }
-
-            try {
-                Authenticator authenticator = new MicrosoftAuthentication().runInitalAuthentication(url::set);
-                authInfos = authenticator.getUser();
-                String crypto = Base64.getEncoder().withoutPadding().encodeToString(authenticator.getResultFile().writeString().getBytes());
-                ModcraftApplication.launcherConfig.setRefreshToken(crypto);
-                ModcraftApplication.launcherConfig.save();
-            } catch (AuthenticationException | IOException e) {
-                e.printStackTrace();
-            }
-            return authInfos.isPresent();
         });
-
-        Thread waitValue = new Thread(() -> {
-            while (url.get() == null) {
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            urlAndCanceler.accept(url.get(), () -> completableFuture.complete(false));
-        });
-
-        if (!tryValidateAccessToken)
-            waitValue.start();
-        else {
-            try {
-                urlAndCanceler.accept(new URL("https://dummy"), () -> completableFuture.complete(false));
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-        }
-        return completableFuture;
     }
 
-    public static CompletableFuture<Boolean> tryLogin(boolean validate, BiConsumer<URL, Runnable> urlAndCanceler) {
-        AtomicReference<URL> url = new AtomicReference<>();
-        CompletableFuture<Boolean> completableFuture = CompletableFuture.supplyAsync(() -> {
-            try {
+    public static CompletableFuture<AuthResult> validate(Label loadingMessage) {
+       return CompletableFuture.supplyAsync(() -> {
+           if (!ModcraftApplication.launcherConfig.isKeeplogin()) return new AuthResult(false, null);
 
-                if (validate) {
-                    if (!ModcraftApplication.launcherConfig.isKeeplogin()) return false;
-                    String refreshTokenDecoded = new String(Base64.getDecoder().decode(ModcraftApplication.launcherConfig.getRefreshToken()));
+           Platform.runLater(() -> loadingMessage.setText("Vérification du compte..."));
 
-                    Authenticator authenticator = new MicrosoftAuthentication().validate(refreshTokenDecoded);
-                    Optional<User> user = authenticator.getUser();
-                    authInfos = user;
-                    url.set(new URL("https://localhost")); //TODO: rework this
+           StepMCProfile.MCProfile loadedProfile;
+           try {
+               JsonObject json = getLoginJson();
 
-                    String tosave = Base64.getEncoder().withoutPadding().encodeToString(authenticator.getResultFile().writeString().getBytes());
-                    ModcraftApplication.launcherConfig.setRefreshToken(tosave);
-                    ModcraftApplication.launcherConfig.save();
-                    return user.isPresent();
-                } else {
-                    Authenticator authenticator = new MicrosoftAuthentication().runInitalAuthentication(url::set);
-                    Optional<User> user = authenticator.getUser();
-                    authInfos = user;
-                    String crypto = Base64.getEncoder().withoutPadding().encodeToString(authenticator.getResultFile().writeString().getBytes());
-                    ModcraftApplication.launcherConfig.setRefreshToken(crypto);
-                    ModcraftApplication.launcherConfig.save();
-                    return user.isPresent();
-                }
-
-
-            } catch (IOException | AuthenticationException e) {
-                e.printStackTrace();
-            }
-            return false;
-        });
-
-        Thread waitValue = new Thread(() -> {
-           while (url.get() == null) {
-               try {
-                   Thread.sleep(10);
-               } catch (InterruptedException e) {
-                   throw new RuntimeException(e);
+               loadedProfile = MinecraftAuth.JAVA_DEVICE_CODE_LOGIN.fromJson(json);
+               try (final CloseableHttpClient httpClient = MicrosoftConstants.createHttpClient()) {
+                   StepMCProfile.MCProfile mcProfile = MinecraftAuth.JAVA_DEVICE_CODE_LOGIN.refresh(httpClient, loadedProfile);
+                   AsyncExecutor.runAsync(() -> saveLoginInfos(mcProfile));
+                   return new AuthResult(true, mcProfile);
                }
-           }
-           urlAndCanceler.accept(url.get(), () -> completableFuture.complete(false));
-        });
 
-        waitValue.start();
-        return completableFuture;
+           } catch (Exception e) {
+               ErrorsHandler.handleError(e);
+               return new AuthResult(false, null);
+           }
+
+       });
     }
 
-    public static Optional<User> getAuthInfos() {
-        return authInfos;
+    private static void saveLoginInfos(StepMCProfile.MCProfile profile) {
+       ModcraftApplication.launcherConfig.setRefreshToken(profile.toJson().toString());
+       ModcraftApplication.launcherConfig.save();
+    }
+
+    private static JsonObject getLoginJson() {
+       String authJson = ModcraftApplication.launcherConfig.getRefreshToken();
+       return JsonParser.parseString(authJson).getAsJsonObject();
     }
 }

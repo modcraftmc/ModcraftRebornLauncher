@@ -3,17 +3,13 @@ package fr.modcraftmc.launcher;
 
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
 import fr.modcraftmc.launcher.configuration.LauncherConfig;
-import fr.modcraftmc.launcher.controllers.MainController;
+import fr.modcraftmc.launcher.controllers.LoginController;
 import fr.modcraftmc.launcher.logger.LogManager;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.launcher.resources.ResourcesManager;
-import fr.modcraftmc.libs.auth.AccountManager;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -40,7 +36,7 @@ public class ModcraftApplication extends Application {
         LOGGER.info("ModcraftLauncher started.");
         launcherConfig = LauncherConfig.load(filesManager.getOptionsPath());
         if (launcherConfig.getInstanceProperty() == null) launcherConfig.setInstanceProperty(new InstanceProperty(false, ""));
-        Utils.loadFxml("main.fxml", false);
+        //Utils.loadFxml("main.fxml", false);
         window = stage;
 
         stage.setTitle("ModcraftLauncher");
@@ -53,8 +49,8 @@ public class ModcraftApplication extends Application {
             launcherConfig.save();
         }));
 
-        Scene mainScene = Utils.loadFxml("main.fxml", false);
-        MainController mainController = (MainController) mainScene.getUserData();
+        Scene mainScene = Utils.loadFxml("auth.fxml", false);
+        LoginController mainController = (LoginController) mainScene.getUserData();
 
 
         stage.setScene(mainScene);
