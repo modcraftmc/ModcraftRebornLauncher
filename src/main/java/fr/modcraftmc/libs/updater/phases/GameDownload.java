@@ -9,10 +9,7 @@ import fr.flowarg.flowupdater.versions.ForgeVersionBuilder;
 import fr.flowarg.flowupdater.versions.VanillaVersion;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.libs.updater.GameUpdater;
-import fr.modcraftmc.libs.updater.ModcraftForgeVersionBuilder;
 import fr.modcraftmc.libs.updater.UpdateResult;
-
-import java.net.URL;
 
 public class GameDownload{
 
@@ -24,7 +21,7 @@ public class GameDownload{
         VanillaVersion version = new VanillaVersion.VanillaVersionBuilder().withName(ModcraftApplication.MC_VERSION).build();
         UpdaterOptions options = new UpdaterOptions.UpdaterOptionsBuilder().withSilentRead(false).build();
 
-        AbstractForgeVersion forgeVersion = new ModcraftForgeVersionBuilder(ModcraftForgeVersionBuilder.ForgeVersionType.MODCRAFT)
+        AbstractForgeVersion forgeVersion = new ForgeVersionBuilder(ForgeVersionBuilder.ForgeVersionType.NEW)
                 .withForgeVersion(ModcraftApplication.FORGE_VERSION)
                 .withMods("https://modcraftmc.fr/mods.json")
                 .build();
@@ -34,7 +31,7 @@ public class GameDownload{
             public void update(DownloadList.DownloadInfo info) {
                 System.out.println(info.getDownloadedFiles());
                 System.out.println( info.getTotalToDownloadFiles());
-                GameUpdater.get().getProgressCallback().onProgressUpdate("Downloading", info.getDownloadedFiles(), info.getTotalToDownloadFiles());
+                GameUpdater.get().getProgressCallback().onProgressUpdate("Downloading ", info.getDownloadedFiles(), info.getTotalToDownloadFiles());
             }
 
         }).withModLoaderVersion(forgeVersion).build();
@@ -45,8 +42,5 @@ public class GameDownload{
             throw new RuntimeException(e);
         }
         return UpdateResult.SUCCESS;
-    }
-    public String getFriendlyName() {
-        return "Mise à jour du jeu";
     }
 }

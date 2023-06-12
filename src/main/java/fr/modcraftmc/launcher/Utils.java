@@ -1,7 +1,6 @@
 package fr.modcraftmc.launcher;
 
 import fr.modcraftmc.launcher.controllers.IController;
-import fr.modcraftmc.libs.auth.AccountManager;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.input.Clipboard;
@@ -10,6 +9,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.awt.*;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
@@ -66,9 +66,9 @@ public class Utils {
         clipboard.setContent(content);
     }
 
-    public static void openBrowser(URL url) {
+    public static void openBrowser(String url) {
         try {
-            Desktop.getDesktop().browse(url.toURI());
+            Desktop.getDesktop().browse(new URI(url));
         } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
