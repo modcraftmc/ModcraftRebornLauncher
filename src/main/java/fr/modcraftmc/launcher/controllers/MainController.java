@@ -38,7 +38,7 @@ import java.io.IOException;
 import java.net.URL;
 
 
-public class MainController implements IController, ProgressCallback {
+public class MainController extends BaseController implements ProgressCallback {
 
     public enum State {
         IDLE,
@@ -111,16 +111,9 @@ public class MainController implements IController, ProgressCallback {
 
     @Override
     public void initialize(FXMLLoader loader) {
+        super.initialize(loader);
+
         setLauncherState(State.IDLE);
-        pane = loader.getRoot();
-        pane.setOnMousePressed(event -> {
-            xOffset = event.getSceneX();
-            yOffset = event.getSceneY();
-        });
-        pane.setOnMouseDragged(event -> {
-            ModcraftApplication.getWindow().setX(event.getScreenX() - xOffset);
-            ModcraftApplication.getWindow().setY(event.getScreenY() - yOffset);
-        });
 
         AsyncExecutor.runAsyncAtRate(() -> {
             try {

@@ -1,5 +1,6 @@
 package fr.modcraftmc.launcher;
 
+import com.sun.javafx.geom.Vec2d;
 import fr.modcraftmc.launcher.controllers.IController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,6 +15,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Utils {
@@ -72,5 +74,46 @@ public class Utils {
         } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static CompletableFuture<Void> pleaseWait(int millis) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(millis);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            return null;
+        });
+    }
+
+    public static double magnitude(Vec2d vector) {
+        return Math.sqrt(vector.x * vector.x + vector.y * vector.y);
+    }
+
+    public static double dot(Vec2d vector, Vec2d axis) {
+        return vector.x * axis.x + vector.y * axis.y;
+    }
+
+    public static double project(Vec2d vector, Vec2d axis) {
+        double axisMagnitude = magnitude(axis);
+        if (axisMagnitude == 0) {
+            return 0;
+        }
+        return dot(vector, axis) / axisMagnitude;
+    }
+
+    public static Vec2d normalize(Vec2d vector) {
+        double vectorMagnitude = magnitude(vector);
+        if (vectorMagnitude == 0) {
+            return new Vec2d(0, 0);
+        }
+        return new Vec2d(vector.x / vectorMagnitude, vector.y / vectorMagnitude);
+    }
+
+    public static Vec2d projectVector(Vec2d vector, Vec2d axis) {
+        Vec2d normalizedAxis = normalize(axis);
+        double projection = project(vector, axis);
+        return new Vec2d(projection * normalizedAxis.x, projection * normalizedAxis.y);
     }
 }
