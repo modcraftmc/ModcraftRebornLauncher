@@ -147,8 +147,12 @@ public class MainController implements IController, ProgressCallback {
                 gameUpdater.update(() -> {
                     Process process = LaunchManager.launch(instanceDirectory, currentProfile);
 
-                    Thread running = new Thread(() -> {
+                    AsyncExecutor.runAsync(() -> {
                         while (process.isAlive()) {}
+
+                        ModcraftApplication.LOGGER.info("Game process shutdown");
+                        Platform.runLater(() -> setLauncherState(State.IDLE));
+
                     });
                 });
             });
