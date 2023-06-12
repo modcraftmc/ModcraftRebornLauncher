@@ -2,7 +2,6 @@ package fr.modcraftmc.launcher.controllers;
 
 import animatefx.animation.FadeIn;
 import animatefx.animation.FadeOut;
-import fr.modcraftmc.launcher.AsyncExecutor;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.launcher.components.FadeOutWithDuration;
@@ -11,6 +10,7 @@ import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -110,37 +110,35 @@ public class LoginController implements IController {
                 if (authResult.isLoggedIn()) {
                     loadingMessage.setText("Connecté!");
                     pleaseWait().thenAcceptAsync((unused) -> {
-                        ModcraftApplication.getWindow().setScene(Utils.loadFxml("main.fxml", false));
-                        ((MainController) ModcraftApplication.getWindow().getUserData()).updateUserInfos(authResult.getMcProfile());
+                        Scene scene = Utils.loadFxml("main.fxml", false);
+                        ((MainController) scene.getUserData()).updateUserInfos(authResult.getMcProfile());
+                        ModcraftApplication.getWindow().setScene(scene);
                     }, Platform::runLater);
                 }
             }, Platform::runLater);
-
         }));
 
         keepLoginCheckbox.setOnAction(event -> {
             ModcraftApplication.launcherConfig.setKeeplogin(keepLoginCheckbox.isSelected());
         });
 
-        AsyncExecutor.runAsync(() -> {
-            AccountManager.validate(loadingMessage).thenAcceptAsync((authResult -> {
-                if (!authResult.isLoggedIn()) {
-                    Platform.runLater(() -> {
-                        fadeOut.play();
-                        logoUp.play();
-                    });
-                } else {
+        AccountManager.validate(loadingMessage).thenAcceptAsync((authResult -> {
+            if (!authResult.isLoggedIn()) {
+                Platform.runLater(() -> {
+                    fadeOut.play();
+                    logoUp.play();
+                });
+            } else {
+                loadingMessage.setText("Connecté!");
+                pleaseWait().thenAcceptAsync((unused) -> {
+                    Scene scene = Utils.loadFxml("main.fxml", false);
+                    ((MainController) scene.getUserData()).updateUserInfos(authResult.getMcProfile());
+                    ModcraftApplication.getWindow().setScene(scene);
+                }, Platform::runLater);
 
-                    loadingMessage.setText("Connecté!");
-                    pleaseWait().thenAcceptAsync((unused) -> {
-                        ModcraftApplication.getWindow().setScene(Utils.loadFxml("main.fxml", false));
-                        ((MainController) ModcraftApplication.getWindow().getUserData()).updateUserInfos(authResult.getMcProfile());
-                    }, Platform::runLater);
+            }
 
-                }
-
-            }), Platform::runLater);
-        });
+        }), Platform::runLater);
 
         //#region window action
         close.setOnMouseClicked(event -> {

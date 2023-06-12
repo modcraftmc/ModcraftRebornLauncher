@@ -96,7 +96,10 @@ public class MainController implements IController, ProgressCallback {
     private boolean isUpdateLaunched = false;
     private AnchorPane pane;
 
+    private StepMCProfile.MCProfile currentProfile;
+
     public void updateUserInfos(StepMCProfile.MCProfile authInfos) {
+        this.currentProfile = authInfos;
         playerName.setText(authInfos.name());
         try {
             Image image = new Image(new URL("https://minotar.net/avatar/" + authInfos.name()).openStream(), 64, 64, false, false);
@@ -140,11 +143,13 @@ public class MainController implements IController, ProgressCallback {
             if (!instanceDirectory.exists()) instanceDirectory.mkdirs();
             GameUpdater gameUpdater = new GameUpdater("https://modcraftmc.fr", instanceDirectory.toPath(), this);
 
-            gameUpdater.update().thenRun(() -> {
-                Process process = LaunchManager.launch(instanceDirectory);
+            AsyncExecutor.runAsync(() -> {
+                gameUpdater.update(() -> {
+                    Process process = LaunchManager.launch(instanceDirectory, currentProfile);
 
-                Thread running = new Thread(() -> {
-                    while (process.isAlive()) {}
+                    Thread running = new Thread(() -> {
+                        while (process.isAlive()) {}
+                    });
                 });
             });
         });
@@ -224,8 +229,10 @@ public class MainController implements IController, ProgressCallback {
     @Override
     public void onProgressUpdate(String progress, int current, int max) {
 
-        progressBar.setProgress((double) (current * 100) / max);
-        progressText.setText(progress);
+        Platform.runLater(() -> {
+            progressBar.setProgress((double) (current * 100) / max);
+            progressText.setText(progress + " " + current + "/" + max);
+        });
     }
 
     public void setLauncherState(State state){

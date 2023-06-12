@@ -1,10 +1,10 @@
 package fr.modcraftmc.libs.updater;
 
+import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.logger.LogManager;
 import fr.modcraftmc.libs.updater.phases.GameDownload;
 
 import java.nio.file.Path;
-import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
 public class GameUpdater {
@@ -25,18 +25,13 @@ public class GameUpdater {
         this.progressCallback = progressCallback;
     }
 
-    public CompletableFuture<Void> update() {
-        CompletableFuture future = CompletableFuture.supplyAsync(() -> {
+    public void update(Runnable onUpdateFinished) {
             if (!GameDownload.isUpToDate())
                 GameDownload.download();
 
-            return null;
-        }).exceptionally(error -> {
-            System.out.println(error);
-           return error;
-        });
+            ModcraftApplication.LOGGER.info("finished update");
 
-        return future;
+            onUpdateFinished.run();
     }
 
     public static GameUpdater get() {

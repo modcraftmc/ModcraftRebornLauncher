@@ -69,9 +69,9 @@ public class AccountManager {
 
                loadedProfile = MinecraftAuth.JAVA_DEVICE_CODE_LOGIN.fromJson(json);
                try (final CloseableHttpClient httpClient = MicrosoftConstants.createHttpClient()) {
-                   StepMCProfile.MCProfile mcProfile = MinecraftAuth.JAVA_DEVICE_CODE_LOGIN.refresh(httpClient, loadedProfile);
-                   AsyncExecutor.runAsync(() -> saveLoginInfos(mcProfile));
-                   return new AuthResult(true, mcProfile);
+                   MinecraftAuth.JAVA_DEVICE_CODE_LOGIN.refresh(httpClient, loadedProfile);
+                   AsyncExecutor.runAsync(() -> saveLoginInfos(loadedProfile));
+                   return new AuthResult(true, loadedProfile);
                }
 
            } catch (Exception e) {
