@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXProgressSpinner?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.Cursor?>
@@ -74,24 +75,27 @@
               </MFXProgressSpinner>
          </children>
       </Pane>
-      <Pane fx:id="authFormContainer" layoutX="650.0" layoutY="240.0" opacity="0.0" prefHeight="260.0" prefWidth="200.0">
+      <Pane fx:id="loginFormContainer" layoutX="356.0" layoutY="217.0" opacity="0.0" prefHeight="260.0" prefWidth="388.0">
          <children>
-            <Button fx:id="codeButton" layoutX="54.0" layoutY="179.0" mnemonicParsing="false" text="Copier le code" />
-            <Button fx:id="urlButton" layoutX="60.0" layoutY="215.0" mnemonicParsing="false" text="Ouvir le lien" />
-            <Label fx:id="urlLabel" layoutX="62.0" layoutY="44.0" text="lien: xbox.com" textFill="WHITE" />
-            <Label fx:id="codeLabel" layoutX="62.0" layoutY="73.0" text="code: GOLDOR" textFill="WHITE" />
-         </children>
-      </Pane>
-      <Pane fx:id="loginFormContainer" layoutX="450.0" layoutY="217.0" opacity="0.0" prefHeight="260.0" prefWidth="200.0">
-         <children>
-            <Label layoutX="50.0" layoutY="28.0" prefHeight="28.0" prefWidth="101.0" text="Bienvenue !" textFill="WHITE">
+            <Label layoutX="140.0" layoutY="20.0" prefHeight="30.0" prefWidth="109.0" text="Bienvenue !" textFill="WHITE">
                <font>
-                  <Font size="19.0" />
+                  <Font size="20.0" />
                </font>
             </Label>
-            <Button fx:id="loginButton" layoutX="22.0" layoutY="180.0" mnemonicParsing="false" text="Se connecter via Microsoft" />
+            <MFXButton fx:id="loginButton" layoutX="116.0" layoutY="183.0" mnemonicParsing="false" text="Se connecter via Microsoft" />
+            <Label layoutX="66.0" layoutY="81.0" prefHeight="25.0" prefWidth="256.0" text="ModcraftMC requière un compte Minecraft Java" textFill="WHITE" wrapText="true" />
+            <Label layoutX="106.0" layoutY="106.0" text="pour pouvoir jouer sur le serveur." textFill="WHITE" />
          </children>
       </Pane>
       <VBox layoutX="151.0" layoutY="341.0" prefHeight="200.0" prefWidth="100.0" />
+      <Pane fx:id="authFormContainer" layoutX="615.0" layoutY="225.0" opacity="0.0" prefHeight="260.0" prefWidth="270.0">
+         <children>
+            <Button fx:id="codeButton" layoutX="89.0" layoutY="175.0" mnemonicParsing="false" text="Copier le code" />
+            <Button fx:id="urlButton" layoutX="95.0" layoutY="215.0" mnemonicParsing="false" text="Ouvir le lien" />
+            <Label fx:id="urlLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="39.0" layoutY="40.0" prefHeight="17.0" prefWidth="200.0" text="lien: xbox.com" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
+            <Label fx:id="codeLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="73.0" layoutY="70.0" prefHeight="17.0" prefWidth="132.0" text="code: GOLDOR" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
+            <CheckBox fx:id="keepLoginCheckbox" layoutX="74.0" layoutY="146.0" mnemonicParsing="false" text="se souvenir de moi" textFill="WHITE" />
+         </children>
+      </Pane>
     </children>
 </AnchorPane>

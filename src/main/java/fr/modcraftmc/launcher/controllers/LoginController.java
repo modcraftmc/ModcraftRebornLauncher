@@ -12,6 +12,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
@@ -35,6 +36,7 @@ public class LoginController implements IController {
     @FXML private Label urlLabel;
     @FXML private Label codeLabel;
     @FXML private Label loadingMessage;
+    @FXML private CheckBox keepLoginCheckbox;
 
 
 
@@ -115,6 +117,10 @@ public class LoginController implements IController {
             }, Platform::runLater);
 
         }));
+
+        keepLoginCheckbox.setOnAction(event -> {
+            ModcraftApplication.launcherConfig.setKeeplogin(keepLoginCheckbox.isSelected());
+        });
 
         AsyncExecutor.runAsync(() -> {
             AccountManager.validate(loadingMessage).thenAcceptAsync((authResult -> {
