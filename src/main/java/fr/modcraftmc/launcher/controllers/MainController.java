@@ -124,7 +124,7 @@ public class MainController implements IController, ProgressCallback {
 
         AsyncExecutor.runAsyncAtRate(() -> {
             try {
-                MinecraftPingReply minecraftPing = new MinecraftPing().getPing("play.modcraftmc.fr");
+                MinecraftPingReply minecraftPing = new MinecraftPing().getPing("servers.modcraftmc.fr");
                 ModcraftApplication.LOGGER.info("Updating server status");
 
                 Platform.runLater(() -> {

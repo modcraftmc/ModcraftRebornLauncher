@@ -135,9 +135,7 @@ public class LoginController implements IController {
                     ((MainController) scene.getUserData()).updateUserInfos(authResult.getMcProfile());
                     ModcraftApplication.getWindow().setScene(scene);
                 }, Platform::runLater);
-
             }
-
         }), Platform::runLater);
 
         //#region window action
