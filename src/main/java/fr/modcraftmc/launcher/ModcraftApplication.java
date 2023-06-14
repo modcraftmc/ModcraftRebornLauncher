@@ -31,7 +31,7 @@ public class ModcraftApplication extends Application {
     private static Stage window;
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         System.setProperty("prism.lcdtext", "false"); // anti-aliasing thing
         LOGGER.info("ModcraftLauncher started.");
         launcherConfig = LauncherConfig.load(filesManager.getOptionsPath());
@@ -51,7 +51,6 @@ public class ModcraftApplication extends Application {
 
         Scene mainScene = Utils.loadFxml("auth.fxml", false);
         LoginController mainController = (LoginController) mainScene.getUserData();
-
 
         stage.setScene(mainScene);
         stage.show();
