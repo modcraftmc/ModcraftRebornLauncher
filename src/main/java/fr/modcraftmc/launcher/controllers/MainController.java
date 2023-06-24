@@ -38,7 +38,7 @@ import java.io.IOException;
 import java.net.URL;
 
 
-public class MainController implements IController, ProgressCallback {
+public class MainController extends BaseController implements ProgressCallback {
 
     public enum State {
         IDLE,
@@ -111,20 +111,13 @@ public class MainController implements IController, ProgressCallback {
 
     @Override
     public void initialize(FXMLLoader loader) {
+        super.initialize(loader);
+
         setLauncherState(State.IDLE);
-        pane = loader.getRoot();
-        pane.setOnMousePressed(event -> {
-            xOffset = event.getSceneX();
-            yOffset = event.getSceneY();
-        });
-        pane.setOnMouseDragged(event -> {
-            ModcraftApplication.getWindow().setX(event.getScreenX() - xOffset);
-            ModcraftApplication.getWindow().setY(event.getScreenY() - yOffset);
-        });
 
         AsyncExecutor.runAsyncAtRate(() -> {
             try {
-                MinecraftPingReply minecraftPing = new MinecraftPing().getPing("play.modcraftmc.fr");
+                MinecraftPingReply minecraftPing = new MinecraftPing().getPing("servers.modcraftmc.fr");
                 ModcraftApplication.LOGGER.info("Updating server status");
 
                 Platform.runLater(() -> {
@@ -147,8 +140,12 @@ public class MainController implements IController, ProgressCallback {
                 gameUpdater.update(() -> {
                     Process process = LaunchManager.launch(instanceDirectory, currentProfile);
 
-                    Thread running = new Thread(() -> {
+                    AsyncExecutor.runAsync(() -> {
                         while (process.isAlive()) {}
+
+                        ModcraftApplication.LOGGER.info("Game process shutdown");
+                        Platform.runLater(() -> setLauncherState(State.IDLE));
+
                     });
                 });
             });
@@ -230,7 +227,7 @@ public class MainController implements IController, ProgressCallback {
     public void onProgressUpdate(String progress, int current, int max) {
 
         Platform.runLater(() -> {
-            progressBar.setProgress((double) (current * 100) / max);
+            progressBar.setProgress((double) current / max);
             progressText.setText(progress + " " + current + "/" + max);
         });
     }

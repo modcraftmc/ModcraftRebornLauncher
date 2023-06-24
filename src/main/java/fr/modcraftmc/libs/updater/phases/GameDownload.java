@@ -3,6 +3,7 @@ package fr.modcraftmc.libs.updater.phases;
 import fr.flowarg.flowupdater.FlowUpdater;
 import fr.flowarg.flowupdater.download.DownloadList;
 import fr.flowarg.flowupdater.download.IProgressCallback;
+import fr.flowarg.flowupdater.utils.ModFileDeleter;
 import fr.flowarg.flowupdater.utils.UpdaterOptions;
 import fr.flowarg.flowupdater.versions.AbstractForgeVersion;
 import fr.flowarg.flowupdater.versions.ForgeVersionBuilder;
@@ -24,6 +25,7 @@ public class GameDownload{
         AbstractForgeVersion forgeVersion = new ForgeVersionBuilder(ForgeVersionBuilder.ForgeVersionType.NEW)
                 .withForgeVersion(ModcraftApplication.FORGE_VERSION)
                 .withMods("https://modcraftmc.fr/mods.json")
+                .withFileDeleter(new ModFileDeleter())
                 .build();
 
         FlowUpdater updater = new FlowUpdater.FlowUpdaterBuilder().withVanillaVersion(version).withUpdaterOptions(options).withProgressCallback(new IProgressCallback() {

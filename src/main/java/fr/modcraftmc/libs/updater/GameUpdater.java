@@ -30,7 +30,6 @@ public class GameUpdater {
                 GameDownload.download();
 
             ModcraftApplication.LOGGER.info("finished update");
-
             onUpdateFinished.run();
     }
 

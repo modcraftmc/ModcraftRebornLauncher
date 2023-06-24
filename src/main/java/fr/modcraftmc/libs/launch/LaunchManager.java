@@ -3,6 +3,7 @@ package fr.modcraftmc.libs.launch;
 import fr.flowarg.openlauncherlib.NoFramework;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.resources.FilesManager;
+import fr.modcraftmc.libs.errors.ErrorsHandler;
 import fr.theshark34.openlauncherlib.JavaUtil;
 import fr.theshark34.openlauncherlib.minecraft.AuthInfos;
 import fr.theshark34.openlauncherlib.minecraft.GameFolder;
@@ -31,10 +32,9 @@ public class LaunchManager {
             }
             ModcraftApplication.LOGGER.info("launching");
             noFramework.getAdditionalVmArgs().add((String.format("-Xmx%sG", ModcraftApplication.launcherConfig.getRam())));
-            Process process = noFramework.launch(ModcraftApplication.MC_VERSION, ModcraftApplication.FORGE_VERSION, NoFramework.ModLoader.FORGE);
-            return process;
+            return noFramework.launch(ModcraftApplication.MC_VERSION, ModcraftApplication.FORGE_VERSION, NoFramework.ModLoader.FORGE);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorsHandler.handleError(e);
         }
         return null;
     }

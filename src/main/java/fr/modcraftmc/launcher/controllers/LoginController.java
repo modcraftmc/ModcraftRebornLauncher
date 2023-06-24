@@ -19,7 +19,7 @@ import javafx.util.Duration;
 
 import java.util.concurrent.CompletableFuture;
 
-public class LoginController implements IController {
+public class LoginController extends BaseController {
 
     @FXML private Pane logoContainer;
     @FXML private Pane loadingContainer;
@@ -39,24 +39,9 @@ public class LoginController implements IController {
     @FXML private CheckBox keepLoginCheckbox;
 
 
-
-    private Pane pane;
-    private double xOffset = 0;
-    private double yOffset = 0;
-
     @Override
     public void initialize(FXMLLoader loader) {
-
-        pane = loader.getRoot();
-        pane.setOnMousePressed(event -> {
-            xOffset = event.getSceneX();
-            yOffset = event.getSceneY();
-        });
-        pane.setOnMouseDragged(event -> {
-            ModcraftApplication.getWindow().setX(event.getScreenX() - xOffset);
-            ModcraftApplication.getWindow().setY(event.getScreenY() - yOffset);
-        });
-
+        super.initialize(loader);
 
         TranslateTransition logoUp = new TranslateTransition(Duration.seconds(2), logoContainer);
         logoUp.setByY(-200f);
@@ -135,9 +120,7 @@ public class LoginController implements IController {
                     ((MainController) scene.getUserData()).updateUserInfos(authResult.getMcProfile());
                     ModcraftApplication.getWindow().setScene(scene);
                 }, Platform::runLater);
-
             }
-
         }), Platform::runLater);
 
         //#region window action
@@ -154,13 +137,6 @@ public class LoginController implements IController {
     }
 
     private CompletableFuture<Void> pleaseWait() {
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            return null;
-        });
+        return Utils.pleaseWait(2000);
     }
 }

@@ -63,15 +63,14 @@ public class AccountManager {
 
            Platform.runLater(() -> loadingMessage.setText("Vérification du compte..."));
 
-           StepMCProfile.MCProfile loadedProfile;
            try {
                JsonObject json = getLoginJson();
 
-               loadedProfile = MinecraftAuth.JAVA_DEVICE_CODE_LOGIN.fromJson(json);
+               StepMCProfile.MCProfile jsonProfile = MinecraftAuth.JAVA_DEVICE_CODE_LOGIN.fromJson(json);
                try (final CloseableHttpClient httpClient = MicrosoftConstants.createHttpClient()) {
-                   MinecraftAuth.JAVA_DEVICE_CODE_LOGIN.refresh(httpClient, loadedProfile);
-                   AsyncExecutor.runAsync(() -> saveLoginInfos(loadedProfile));
-                   return new AuthResult(true, loadedProfile);
+                   StepMCProfile.MCProfile refreshedProfile  = MinecraftAuth.JAVA_DEVICE_CODE_LOGIN.refresh(httpClient, jsonProfile);
+                   AsyncExecutor.runAsync(() -> saveLoginInfos(refreshedProfile));
+                   return new AuthResult(true, refreshedProfile);
                }
 
            } catch (Exception e) {
