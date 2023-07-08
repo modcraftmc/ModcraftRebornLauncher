@@ -42,7 +42,6 @@ public class MinecraftAuth {
             .deviceCode()
             .withDeviceToken("Win32")
             .sisuTitleAuthentication(MicrosoftConstants.JAVA_XSTS_RELYING_PARTY)
-
             .buildMinecraftJavaProfileStep();
 
     public static final AbstractStep<?, StepMCProfile.MCProfile> JAVA_CREDENTIALS_LOGIN = builder()

@@ -10,6 +10,16 @@ public class ErrorsHandler {
         Alert alert = new Alert(Alert.AlertType.ERROR, exception.getMessage());
         alert.setTitle("ModcraftMC");
         alert.setHeaderText("Une erreur est survenue");
+        Platform.runLater(() -> {
+            alert.showAndWait();
+            Platform.exit();
+        });
+    }
+
+    public static void handleErrorWithCustomHeader(String header, Exception exception) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, exception.getMessage());
+        alert.setTitle("ModcraftMC");
+        alert.setHeaderText(header);
         Platform.runLater(alert::show);
     }
 }

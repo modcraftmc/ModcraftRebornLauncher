@@ -1,8 +1,16 @@
 package fr.modcraftmc.libs.updater;
 
+import fr.flowarg.flowupdater.FlowUpdater;
+import fr.flowarg.flowupdater.download.DownloadList;
+import fr.flowarg.flowupdater.download.IProgressCallback;
+import fr.flowarg.flowupdater.utils.ModFileDeleter;
+import fr.flowarg.flowupdater.utils.UpdaterOptions;
+import fr.flowarg.flowupdater.versions.AbstractForgeVersion;
+import fr.flowarg.flowupdater.versions.ForgeVersionBuilder;
+import fr.flowarg.flowupdater.versions.VanillaVersion;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.logger.LogManager;
-import fr.modcraftmc.libs.updater.phases.GameDownload;
+import fr.modcraftmc.libs.errors.ErrorsHandler;
 
 import java.nio.file.Path;
 import java.util.logging.Logger;
@@ -10,39 +18,52 @@ import java.util.logging.Logger;
 public class GameUpdater {
 
     public static GameUpdater INSTANCE;
-    private final String updateServer;
     private final Path updateDirectory;
     private final ProgressCallback progressCallback;
 
-    public static String MANIFEST_ENDPOINT = "/mods.json";
-    public static String IGNORELIST_ENDPOINT = "/metadata/ignorelist.txt";
-
     public static Logger LOGGER = LogManager.createLogger("Updater");
-    public GameUpdater(String updateServer, Path updateDirectory, ProgressCallback progressCallback) {
+    public GameUpdater(Path updateDirectory, ProgressCallback progressCallback) {
         INSTANCE = this;
-        this.updateServer = updateServer;
         this.updateDirectory = updateDirectory;
         this.progressCallback = progressCallback;
     }
 
     public void update(Runnable onUpdateFinished) {
-            if (!GameDownload.isUpToDate())
-                GameDownload.download();
+        VanillaVersion version = new VanillaVersion.VanillaVersionBuilder().withName(ModcraftApplication.MC_VERSION).build();
+        UpdaterOptions options = new UpdaterOptions.UpdaterOptionsBuilder().withSilentRead(false).build();
 
-            ModcraftApplication.LOGGER.info("finished update");
-            onUpdateFinished.run();
+        AbstractForgeVersion forgeVersion = new ForgeVersionBuilder(ForgeVersionBuilder.ForgeVersionType.NEW)
+                .withForgeVersion(ModcraftApplication.FORGE_VERSION)
+                .withMods("https://download.modcraftmc.fr/mods.json")
+                .withFileDeleter(new ModFileDeleter())
+                .build();
+
+        FlowUpdater updater = new FlowUpdater.FlowUpdaterBuilder().withVanillaVersion(version).withUpdaterOptions(options).withProgressCallback(new IProgressCallback() {
+            @Override
+            public void update(DownloadList.DownloadInfo info) {
+                System.out.println(info.getDownloadedFiles());
+                System.out.println( info.getTotalToDownloadFiles());
+                GameUpdater.get().getProgressCallback().onProgressUpdate("Downloading ", info.getDownloadedFiles(), info.getTotalToDownloadFiles());
+            }
+
+        }).withModLoaderVersion(forgeVersion).build();
+
+        try {
+            System.out.println(GameUpdater.get().getUpdateDirectory());
+            updater.update(GameUpdater.get().getUpdateDirectory());
+        } catch (Exception e) {
+            ErrorsHandler.handleError(new Exception("Error while updating the game"));
+        }
+
+        ModcraftApplication.LOGGER.info("finished update");
+        onUpdateFinished.run();
     }
 
     public static GameUpdater get() {
         if (INSTANCE == null) {
-            //TODO: crash reporter
-            throw new IllegalStateException("GameUpdater is not initialised !");
+            ErrorsHandler.handleError(new IllegalStateException("GameUpdater is not initialised"));
         }
         return INSTANCE;
-    }
-
-    public String getUpdateServer() {
-        return updateServer;
     }
 
     public Path getUpdateDirectory() {
