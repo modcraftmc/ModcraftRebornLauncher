@@ -1,6 +1,7 @@
 package fr.modcraftmc.libs.physicEngine;
 
 import com.sun.javafx.geom.Vec2d;
+import fr.modcraftmc.launcher.AsyncExecutor;
 import fr.modcraftmc.launcher.Utils;
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
@@ -18,7 +19,6 @@ public class Physic {
     private static final float timeStep = 0.01f;
     private static final float borderSize = 1000;
     public static final float baseGravity = 800;
-    private static Thread engineThread;
 
     public static void startEngine(){
         if(running)
@@ -32,7 +32,7 @@ public class Physic {
         }
 
         running = true;
-        engineThread = new Thread(() -> {
+        AsyncExecutor.runAsync(() -> {
             while(running){
                 update(timeStep);
                 try {
@@ -41,8 +41,6 @@ public class Physic {
                 }
             }
         });
-
-        engineThread.start();
     }
 
     public static void stopEngine(){
