@@ -7,16 +7,18 @@ import javafx.scene.Scene;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.AnchorPane;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Utils {
 
@@ -45,15 +47,6 @@ public class Utils {
         throw new RuntimeException();
     }
 
-    public static boolean checkAccount() {
-        AtomicBoolean returnValue = new AtomicBoolean(false);
-        if (ModcraftApplication.launcherConfig.isKeeplogin()) {
-            //AccountManager.tryVerify(ModcraftApplication.launcherConfig.getRefreshToken()).thenAccept(returnValue::set);
-        }
-
-        return returnValue.get();
-    }
-
     public static void copyToClipboard(String s) {
         final Clipboard clipboard = Clipboard.getSystemClipboard();
         final ClipboardContent content = new ClipboardContent();
@@ -61,11 +54,12 @@ public class Utils {
         clipboard.setContent(content);
     }
 
-    public static void copyToClipboard(URL url) {
-        final Clipboard clipboard = Clipboard.getSystemClipboard();
-        final ClipboardContent content = new ClipboardContent();
-        content.putUrl(url.toString());
-        clipboard.setContent(content);
+    public static InputStream catchForbidden(@NotNull URL url) throws IOException
+    {
+        final HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+        connection.addRequestProperty("User-Agent", "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.124 Safari/537.36");
+        connection.setInstanceFollowRedirects(true);
+        return connection.getInputStream();
     }
 
     public static void openBrowser(String url) {

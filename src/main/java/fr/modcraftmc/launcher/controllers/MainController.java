@@ -1,10 +1,12 @@
 package fr.modcraftmc.launcher.controllers;
 
 import fr.modcraftmc.launcher.AsyncExecutor;
+import fr.modcraftmc.launcher.MaintenanceManager;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
 import fr.modcraftmc.launcher.resources.FilesManager;
+import fr.modcraftmc.libs.errors.ErrorsHandler;
 import fr.modcraftmc.libs.launch.LaunchManager;
 import fr.modcraftmc.libs.serverpinger.MinecraftPing;
 import fr.modcraftmc.libs.serverpinger.MinecraftPingReply;
@@ -130,11 +132,17 @@ public class MainController extends BaseController implements ProgressCallback {
 
 
         play.setOnMouseClicked(event -> {
+            MaintenanceManager.MaintenanceStatus maintenanceStatus = MaintenanceManager.getMaintenanceStatusSync();
+            if (maintenanceStatus.isActivated()) {
+                ErrorsHandler.handleErrorWithCustomHeader("nous sommes en en maintenance !", new Exception(maintenanceStatus.reason()));
+               return;
+            }
+
             setLauncherState(State.UPDATING);
             InstanceProperty instanceProperty = ModcraftApplication.launcherConfig.getInstanceProperty();
             final File instanceDirectory = instanceProperty.isCustomInstance() ? new File(instanceProperty.getCustomInstancePath()) : new File(FilesManager.INSTANCES_PATH, "reborn");
             if (!instanceDirectory.exists()) instanceDirectory.mkdirs();
-            GameUpdater gameUpdater = new GameUpdater("https://modcraftmc.fr", instanceDirectory.toPath(), this);
+            GameUpdater gameUpdater = new GameUpdater(instanceDirectory.toPath(), this);
 
             AsyncExecutor.runAsync(() -> {
                 gameUpdater.update(() -> {

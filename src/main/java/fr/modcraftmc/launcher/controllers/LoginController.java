@@ -2,10 +2,12 @@ package fr.modcraftmc.launcher.controllers;
 
 import animatefx.animation.FadeIn;
 import animatefx.animation.FadeOut;
+import fr.modcraftmc.launcher.MaintenanceManager;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.launcher.components.FadeOutWithDuration;
 import fr.modcraftmc.libs.auth.AccountManager;
+import fr.modcraftmc.libs.errors.ErrorsHandler;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -106,6 +108,12 @@ public class LoginController extends BaseController {
         keepLoginCheckbox.setOnAction(event -> {
             ModcraftApplication.launcherConfig.setKeeplogin(keepLoginCheckbox.isSelected());
         });
+
+        MaintenanceManager.MaintenanceStatus maintenanceStatus = MaintenanceManager.getMaintenanceStatusSync();
+        if (maintenanceStatus.isActivated()) {
+            ErrorsHandler.handleError(new Exception(maintenanceStatus.reason()));
+            return;
+        }
 
         AccountManager.validate(loadingMessage).thenAcceptAsync((authResult -> {
             if (!authResult.isLoggedIn()) {
