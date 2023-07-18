@@ -98,9 +98,9 @@ public class LauncherConfig {
 
         if (instance == null) {
             instance = loadDefaults();
+            instance.save();
         }
 
-        instance.save();
         return instance;
 
     }
