@@ -3,6 +3,7 @@ package fr.modcraftmc.libs.updater;
 import fr.flowarg.flowupdater.FlowUpdater;
 import fr.flowarg.flowupdater.download.DownloadList;
 import fr.flowarg.flowupdater.download.IProgressCallback;
+import fr.flowarg.flowupdater.download.Step;
 import fr.flowarg.flowupdater.utils.ModFileDeleter;
 import fr.flowarg.flowupdater.utils.UpdaterOptions;
 import fr.flowarg.flowupdater.versions.AbstractForgeVersion;
@@ -46,6 +47,15 @@ public class GameUpdater {
                 GameUpdater.get().getProgressCallback().onProgressUpdate("Downloading ", info.getDownloadedFiles(), info.getTotalToDownloadFiles());
             }
 
+            @Override
+            public void step(Step step) {
+                IProgressCallback.super.step(step);
+            }
+
+            @Override
+            public void onFileDownloaded(Path path) {
+                LOGGER.info("File downloaded " + path);
+            }
         }).withModLoaderVersion(forgeVersion).build();
 
         try {
@@ -55,7 +65,7 @@ public class GameUpdater {
             ErrorsHandler.handleError(new Exception("Error while updating the game"));
         }
 
-        ModcraftApplication.LOGGER.info("finished update");
+        LOGGER.info("finished update");
         onUpdateFinished.run();
     }
 

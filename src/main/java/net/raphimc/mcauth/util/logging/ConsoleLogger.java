@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 
 public class ConsoleLogger implements ILogger {
 
-    public static final Logger LOGGER = LogManager.createLogger("MinecraftAuth");
+    public static final Logger LOGGER = LogManager.createLogger("ModcraftAuth");
 
     @Override
     public void info(String message) {

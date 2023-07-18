@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 public class ModcraftApplication extends Application {
 
-    public static Logger LOGGER = LogManager.createLogger("Launcher");
+    public static Logger LOGGER = LogManager.createLogger("ModcraftLauncher");
 
     public static ResourcesManager resourcesManager = new ResourcesManager();
     public static FilesManager     filesManager     = new FilesManager();
