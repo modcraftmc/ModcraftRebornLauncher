@@ -17,12 +17,14 @@
  */
 package net.raphimc.mcauth.util.logging;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import fr.modcraftmc.launcher.logger.LogManager;
+
+import java.util.logging.Logger;
 
 public class ConsoleLogger implements ILogger {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger("MinecraftAuth");
+    public static final Logger LOGGER = LogManager.createLogger("MinecraftAuth");
 
     @Override
     public void info(String message) {
@@ -31,12 +33,12 @@ public class ConsoleLogger implements ILogger {
 
     @Override
     public void warn(String message) {
-        LOGGER.warn(message);
+        LOGGER.warning(message);
     }
 
     @Override
     public void error(String message) {
-        LOGGER.error(message);
+        LOGGER.severe(message);
     }
 
 }

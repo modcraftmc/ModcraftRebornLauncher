@@ -44,8 +44,6 @@ public class MsaCodeStep<I extends AbstractStep.StepResult<?>> extends AbstractS
 
     @Override
     public MsaCode fromJson(JsonObject json) throws Exception {
-
-        System.out.println(json.toString());
         return new MsaCode(json.get("code").getAsString(), json.get("clientId").getAsString(), json.get("scope").getAsString(), null, null);
     }
 
