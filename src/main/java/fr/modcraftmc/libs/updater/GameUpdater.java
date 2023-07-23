@@ -7,11 +7,11 @@ import fr.flowarg.flowupdater.download.Step;
 import fr.flowarg.flowupdater.utils.ModFileDeleter;
 import fr.flowarg.flowupdater.utils.UpdaterOptions;
 import fr.flowarg.flowupdater.versions.AbstractForgeVersion;
-import fr.flowarg.flowupdater.versions.ForgeVersionBuilder;
 import fr.flowarg.flowupdater.versions.VanillaVersion;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.logger.LogManager;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
+import fr.modcraftmc.libs.updater.forge.ModcraftForgeVersionBuilder;
 
 import java.nio.file.Path;
 import java.util.logging.Logger;
@@ -33,7 +33,7 @@ public class GameUpdater {
         VanillaVersion version = new VanillaVersion.VanillaVersionBuilder().withName(ModcraftApplication.MC_VERSION).build();
         UpdaterOptions options = new UpdaterOptions.UpdaterOptionsBuilder().withSilentRead(false).build();
 
-        AbstractForgeVersion forgeVersion = new ForgeVersionBuilder(ForgeVersionBuilder.ForgeVersionType.NEW)
+        AbstractForgeVersion forgeVersion = new ModcraftForgeVersionBuilder()
                 .withForgeVersion(ModcraftApplication.FORGE_VERSION)
                 .withMods("https://download.modcraftmc.fr/mods.json")
                 .withFileDeleter(new ModFileDeleter())
@@ -59,7 +59,7 @@ public class GameUpdater {
         }).withModLoaderVersion(forgeVersion).build();
 
         try {
-            System.out.println(GameUpdater.get().getUpdateDirectory());
+            LOGGER.info("Updating game at " + GameUpdater.get().getUpdateDirectory());
             updater.update(GameUpdater.get().getUpdateDirectory());
         } catch (Exception e) {
             ErrorsHandler.handleError(new Exception("Error while updating the game"));
