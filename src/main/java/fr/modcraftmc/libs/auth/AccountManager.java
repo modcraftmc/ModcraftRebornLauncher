@@ -46,7 +46,6 @@ public class AccountManager {
             StepMCProfile.MCProfile mcProfile;
             try (final CloseableHttpClient httpClient = MicrosoftConstants.createHttpClient()) {
                 mcProfile = MinecraftAuth.JAVA_DEVICE_CODE_LOGIN.getFromInput(httpClient, new StepMsaDeviceCode.MsaDeviceCodeCallback(callback));
-                System.out.println("Logged in as: " + mcProfile.name());
                 if (ModcraftApplication.launcherConfig.isKeeplogin()) AsyncExecutor.runAsync(() -> AccountManager.saveLoginInfos(mcProfile));
                 return new AuthResult(true, mcProfile);
 
@@ -61,7 +60,8 @@ public class AccountManager {
        return CompletableFuture.supplyAsync(() -> {
            if (!ModcraftApplication.launcherConfig.isKeeplogin()) return new AuthResult(false, null);
 
-           Platform.runLater(() -> loadingMessage.setText("Vérification du compte..."));
+           if (loadingMessage != null )
+               Platform.runLater(() -> loadingMessage.setText("Vérification du compte..."));
 
            try {
                JsonObject json = getLoginJson();

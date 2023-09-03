@@ -1,16 +1,17 @@
 package fr.modcraftmc.libs.errors;
 
+import fr.modcraftmc.launcher.ModcraftApplication;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 
 public class ErrorsHandler {
 
     public static void handleError(Exception exception) {
-        exception.printStackTrace();
-        Alert alert = new Alert(Alert.AlertType.ERROR, exception.getMessage());
-        alert.setTitle("ModcraftMC");
-        alert.setHeaderText("Une erreur est survenue");
+        ModcraftApplication.LOGGER.severe("Error thrown ! : " + exception.getMessage());
         Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR, exception.getMessage());
+            alert.setTitle("ModcraftMC");
+            alert.setHeaderText("Une erreur est survenue");
             alert.showAndWait();
             Platform.exit();
         });

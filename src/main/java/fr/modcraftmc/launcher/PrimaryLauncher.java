@@ -1,10 +1,8 @@
 package fr.modcraftmc.launcher;
 
 import fr.modcraftmc.launcher.logger.LogManager;
-import fr.theshark34.openlauncherlib.JavaUtil;
 import javafx.application.Application;
 
-import java.awt.*;
 import java.util.logging.Logger;
 
 public class PrimaryLauncher {

@@ -120,7 +120,7 @@ public class MainController extends BaseController implements ProgressCallback {
         AsyncExecutor.runAsyncAtRate(() -> {
             try {
                 MinecraftPingReply minecraftPing = new MinecraftPing().getPing("servers.modcraftmc.fr");
-                ModcraftApplication.LOGGER.info("Updating server status");
+                ModcraftApplication.LOGGER.info(String.format("Updating server status (%s/%s)",  minecraftPing.getPlayers().getOnline(), minecraftPing.getPlayers().getMax()));
 
                 Platform.runLater(() -> {
                     playersCount.setText(String.format("%s/%s", minecraftPing.getPlayers().getOnline(), minecraftPing.getPlayers().getMax()));
@@ -146,15 +146,18 @@ public class MainController extends BaseController implements ProgressCallback {
 
             AsyncExecutor.runAsync(() -> {
                 gameUpdater.update(() -> {
-                    Process process = LaunchManager.launch(instanceDirectory, currentProfile);
+                    try {
+                        Process process = LaunchManager.launch(instanceDirectory, currentProfile);
+                        AsyncExecutor.runAsync(() -> {
+                            while (process.isAlive()) {}
 
-                    AsyncExecutor.runAsync(() -> {
-                        while (process.isAlive()) {}
+                            ModcraftApplication.LOGGER.info("Game process shutdown");
+                            Platform.runLater(() -> setLauncherState(State.IDLE));
 
-                        ModcraftApplication.LOGGER.info("Game process shutdown");
-                        Platform.runLater(() -> setLauncherState(State.IDLE));
-
-                    });
+                        });
+                    } catch (Exception e) {
+                        ErrorsHandler.handleError(e);
+                    }
                 });
             });
         });
