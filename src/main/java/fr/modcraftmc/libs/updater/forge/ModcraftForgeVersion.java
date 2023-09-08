@@ -92,8 +92,8 @@ public class ModcraftForgeVersion extends AbstractForgeVersion {
         try
         {
             this.installerUrl = new URL(
-                    String.format("https://download.modcraftmc.fr/forge-1.19.2-43.2.21-installer.jar",
-                            this.modLoaderVersion, this.modLoaderVersion));
+                    String.format("https://download.modcraftmc.fr/forge-%s-installer.jar",
+                            this.modLoaderVersion));
         } catch (Exception e)
         {
             this.logger.printStackTrace(e);
