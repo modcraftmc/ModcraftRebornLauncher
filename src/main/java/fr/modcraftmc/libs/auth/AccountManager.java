@@ -74,7 +74,7 @@ public class AccountManager {
                }
 
            } catch (Exception e) {
-               ErrorsHandler.handleError(e);
+               //ErrorsHandler.handleError(e);
                return new AuthResult(false, null);
            }
 

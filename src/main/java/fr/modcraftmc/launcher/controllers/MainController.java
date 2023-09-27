@@ -216,7 +216,7 @@ public class MainController extends BaseController implements ProgressCallback {
         //#region account
         logout.setOnMouseClicked(event -> {
             ModcraftApplication.launcherConfig.setKeeplogin(false);
-            ModcraftApplication.getWindow().setScene(Utils.loadFxml("auth.fxml", true));
+            ModcraftApplication.getWindow().setScene(Utils.loadFxml("login.fxml", true));
         });
 
         //#endregion

@@ -4,7 +4,7 @@
 }
 
 .appContainer {
-    -fx-background-image: url('../images/newBackground.png');
+    -fx-background-image: url('../images/launcher_background.png');
     -fx-background-repeat: none;
     -fx-background-size: cover;
 }
@@ -135,4 +135,20 @@
 
 .blocker{
     -fx-background-color: rgba(0, 0, 0, 0.75);
+}
+
+.loginContainer {
+    -fx-background-color: rgba(48, 42, 38, 0.59);
+    -fx-border-width: 1;
+    -fx-background-radius: 7 7 7 7;
+}
+
+.microsoftButton {
+    -fx-background-color: rgb(96, 96, 96, 1);
+    -fx-border-width: 1;
+    -fx-background-radius: 5 5 5 5;
+}
+
+.microsoftButton:hover {
+    -fx-background-color: rgb(96, 96, 96, 0.50);
 }

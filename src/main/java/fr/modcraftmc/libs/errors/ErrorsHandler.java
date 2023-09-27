@@ -8,6 +8,7 @@ public class ErrorsHandler {
 
     public static void handleError(Exception exception) {
         ModcraftApplication.LOGGER.severe("Error thrown ! : " + exception.getMessage());
+        exception.printStackTrace();
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.ERROR, exception.getMessage());
             alert.setTitle("ModcraftMC");

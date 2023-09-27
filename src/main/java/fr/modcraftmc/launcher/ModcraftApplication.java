@@ -3,13 +3,13 @@ package fr.modcraftmc.launcher;
 
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
 import fr.modcraftmc.launcher.configuration.LauncherConfig;
-import fr.modcraftmc.launcher.controllers.LoginController;
 import fr.modcraftmc.launcher.logger.LogManager;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.launcher.resources.ResourcesManager;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -38,10 +38,12 @@ public class ModcraftApplication extends Application {
         if (launcherConfig.getInstanceProperty() == null) launcherConfig.setInstanceProperty(new InstanceProperty(false, ""));
         //Utils.loadFxml("main.fxml", false);
         window = stage;
+        // need to preload font
+        Font font = Font.loadFont(resourcesManager.getResourceAsStream("fonts/LilitaOne-Regular.ttf"), 32);
 
         stage.setTitle("ModcraftLauncher");
-        stage.setWidth(1100);
-        stage.setHeight(600);
+        stage.setWidth(1300);
+        stage.setHeight(700);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.getIcons().add(new Image(resourcesManager.getResourceAsStream("favicon.png")));
 
@@ -49,8 +51,9 @@ public class ModcraftApplication extends Application {
             launcherConfig.save();
         }));
 
-        Scene mainScene = Utils.loadFxml("auth.fxml", false);
-        LoginController mainController = (LoginController) mainScene.getUserData();
+        Scene scene = Utils.loadFxml("login.fxml", false);
+        Scene mainScene = Utils.loadFxml("loading.fxml", false);
+        //LoginController mainController = (LoginController) mainScene.getUserData();
 
         stage.setScene(mainScene);
         stage.show();

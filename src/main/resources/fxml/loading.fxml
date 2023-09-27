@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXProgressSpinner?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+<AnchorPane prefHeight="700" prefWidth="1300" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.LoadingController">
+   <children>
+      <Pane prefHeight="700.0" prefWidth="1300.0">
+         <children>
+            <ImageView fitHeight="700.0" fitWidth="1495.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/launcher_background.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="146.0" fitWidth="1300.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/top_background.png" />
+               </image>
+            </ImageView>
+            <Pane fx:id="loadingContainer" layoutX="550.0" layoutY="598.0" prefHeight="77.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="loadingMessage" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="53.0" prefHeight="21.0" prefWidth="171.0" text="Chargement du launcher" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <MFXProgressSpinner fx:id="playIndicator" layoutX="86.0" layoutY="6.0" mouseTransparent="true" prefHeight="33.0" prefWidth="28.0" startingAngle="0.0">
+                     <color1>
+                        <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
+                     </color1>
+                     <color2>
+                        <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
+                     </color2>
+                     <color3>
+                        <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
+                     </color3>
+                     <color4>
+                        <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
+                     </color4>
+                  </MFXProgressSpinner>
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
