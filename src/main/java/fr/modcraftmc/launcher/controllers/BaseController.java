@@ -6,6 +6,8 @@ import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.libs.physicEngine.DynamicCollider;
 import fr.modcraftmc.libs.physicEngine.IMovable;
 import fr.modcraftmc.libs.physicEngine.Physic;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
@@ -21,10 +23,21 @@ public abstract class BaseController implements IController, IMovable {
     private float distanceDragged;
     private boolean funStarted = false;
     private DynamicCollider collider;
+    @FXML public Pane closeButton;
+    @FXML public Pane minimiseButton;
 
     @Override
     public void initialize(FXMLLoader loader) {
         pane = loader.getRoot();
+
+        closeButton.setOnMouseClicked(event -> {
+            Platform.exit();
+        });
+
+        minimiseButton.setOnMouseClicked(event -> {
+            ModcraftApplication.getWindow().setIconified(true);
+        });
+
         pane.setOnMousePressed(event -> {
             lastCursorX = xOffset = event.getSceneX();
             lastCursorY = yOffset = event.getSceneY();
