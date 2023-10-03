@@ -22,10 +22,10 @@ import java.util.concurrent.CompletableFuture;
 
 public class Utils {
 
-    private static Map<String, Scene> loadedScenes = new HashMap<>();
+    private static final Map<String, Scene> loadedScenes = new HashMap<>();
     public static Scene loadFxml(String file, boolean forceReload) {
 
-        if (loadedScenes.containsKey(file)&& !forceReload) {
+        if (loadedScenes.containsKey(file) && !forceReload) {
             return loadedScenes.get(file);
         }
 

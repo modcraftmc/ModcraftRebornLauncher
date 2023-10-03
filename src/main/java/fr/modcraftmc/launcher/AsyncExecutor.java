@@ -15,4 +15,9 @@ public class AsyncExecutor {
     public static void runAsync(Runnable runnable) {
         normalExecutorService.execute(runnable);
     }
+
+    public static void shutdown() {
+        executorService.shutdownNow();
+        normalExecutorService.shutdownNow();
+    }
 }

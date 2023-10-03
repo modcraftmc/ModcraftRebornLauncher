@@ -1,6 +1,7 @@
 package fr.modcraftmc.launcher.controllers;
 
 import com.sun.javafx.geom.Vec2d;
+import fr.modcraftmc.launcher.AsyncExecutor;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.libs.physicEngine.DynamicCollider;
@@ -32,6 +33,8 @@ public abstract class BaseController implements IController, IMovable {
 
         closeButton.setOnMouseClicked(event -> {
             Platform.exit();
+            AsyncExecutor.shutdown();
+            System.exit(0);
         });
 
         minimiseButton.setOnMouseClicked(event -> {

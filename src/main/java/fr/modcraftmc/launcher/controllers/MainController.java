@@ -236,10 +236,13 @@ public class MainController extends BaseController implements ProgressCallback {
 
     @Override
     public void onProgressUpdate(String progress, int current, int max) {
-
         Platform.runLater(() -> {
-            progressBar.setProgress((double) current / max);
-            progressText.setText(progress + " " + current + "/" + max);
+            if (max != 0) {
+                progressBar.setProgress((double) current / max);
+                progressText.setText(progress + " " + current + "/" + max);
+            } else {
+                progressText.setText(progress);
+            }
         });
     }
 

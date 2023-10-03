@@ -1,9 +1,6 @@
 package fr.modcraftmc.libs.updater;
 
 import fr.flowarg.flowupdater.FlowUpdater;
-import fr.flowarg.flowupdater.download.DownloadList;
-import fr.flowarg.flowupdater.download.IProgressCallback;
-import fr.flowarg.flowupdater.download.Step;
 import fr.flowarg.flowupdater.utils.ModFileDeleter;
 import fr.flowarg.flowupdater.utils.UpdaterOptions;
 import fr.flowarg.flowupdater.versions.AbstractForgeVersion;
@@ -39,24 +36,7 @@ public class GameUpdater {
                 .withFileDeleter(new ModFileDeleter())
                 .build();
 
-        FlowUpdater updater = new FlowUpdater.FlowUpdaterBuilder().withVanillaVersion(version).withUpdaterOptions(options).withProgressCallback(new IProgressCallback() {
-            @Override
-            public void update(DownloadList.DownloadInfo info) {
-                System.out.println(info.getDownloadedFiles());
-                System.out.println( info.getTotalToDownloadFiles());
-                GameUpdater.get().getProgressCallback().onProgressUpdate("Downloading ", info.getDownloadedFiles(), info.getTotalToDownloadFiles());
-            }
-
-            @Override
-            public void step(Step step) {
-                IProgressCallback.super.step(step);
-            }
-
-            @Override
-            public void onFileDownloaded(Path path) {
-                LOGGER.info("File downloaded " + path);
-            }
-        }).withModLoaderVersion(forgeVersion).build();
+        FlowUpdater updater = new FlowUpdater.FlowUpdaterBuilder().withVanillaVersion(version).withUpdaterOptions(options).withProgressCallback(new UpdaterProgessCallback()).withModLoaderVersion(forgeVersion).build();
 
         try {
             LOGGER.info("Updating game at " + GameUpdater.get().getUpdateDirectory());
