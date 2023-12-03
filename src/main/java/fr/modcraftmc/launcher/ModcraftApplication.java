@@ -6,6 +6,7 @@ import fr.modcraftmc.launcher.configuration.LauncherConfig;
 import fr.modcraftmc.launcher.logger.LogManager;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.launcher.resources.ResourcesManager;
+import fr.modcraftmc.libs.httpRequests.ModcraftApiClient;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -16,6 +17,12 @@ import javafx.stage.StageStyle;
 import java.util.logging.Logger;
 
 public class ModcraftApplication extends Application {
+    public enum Environment {
+        DEV,
+        PROD
+    }
+
+    public static Environment ENVIRONMENT = Environment.DEV;
 
     public static Logger LOGGER = LogManager.createLogger("ModcraftLauncher");
 
@@ -33,7 +40,7 @@ public class ModcraftApplication extends Application {
     @Override
     public void start(Stage stage) {
         System.setProperty("prism.lcdtext", "false"); // anti-aliasing thing
-        LOGGER.info("ModcraftLauncher started.");
+        LOGGER.info("ModcraftLauncher started in " + ENVIRONMENT + " environment.");
         launcherConfig = LauncherConfig.load(filesManager.getOptionsPath());
         if (launcherConfig.getInstanceProperty() == null) launcherConfig.setInstanceProperty(new InstanceProperty(false, ""));
         //Utils.loadFxml("main.fxml", false);
