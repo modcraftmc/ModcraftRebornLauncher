@@ -2,12 +2,12 @@ package fr.modcraftmc.launcher.controllers;
 
 import animatefx.animation.FadeIn;
 import animatefx.animation.FadeOut;
-import fr.modcraftmc.launcher.MaintenanceManager;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.launcher.components.FadeOutWithDuration;
 import fr.modcraftmc.libs.auth.AccountManager;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
+import fr.modcraftmc.libs.httpRequests.ModcraftApiClient;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -110,7 +110,7 @@ public class OldLoginController extends BaseController {
             ModcraftApplication.launcherConfig.setKeeplogin(keepLoginCheckbox.isSelected());
         });
 
-        MaintenanceManager.MaintenanceStatus maintenanceStatus = MaintenanceManager.getMaintenanceStatusSync();
+        ModcraftApiClient.MaintenanceStatus maintenanceStatus = ModcraftApiClient.areServersUnderMaintenance();
         if (maintenanceStatus.isActivated()) {
             ErrorsHandler.handleError(new Exception(maintenanceStatus.reason()));
             return;

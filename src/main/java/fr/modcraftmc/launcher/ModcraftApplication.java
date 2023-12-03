@@ -42,6 +42,7 @@ public class ModcraftApplication extends Application {
         System.setProperty("prism.lcdtext", "false"); // anti-aliasing thing
         LOGGER.info("ModcraftLauncher started in " + ENVIRONMENT + " environment.");
         launcherConfig = LauncherConfig.load(filesManager.getOptionsPath());
+        ModcraftApiClient.init();
         if (launcherConfig.getInstanceProperty() == null) launcherConfig.setInstanceProperty(new InstanceProperty(false, ""));
         //Utils.loadFxml("main.fxml", false);
         window = stage;

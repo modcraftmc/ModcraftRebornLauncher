@@ -1,12 +1,12 @@
 package fr.modcraftmc.launcher.controllers;
 
 import fr.modcraftmc.launcher.AsyncExecutor;
-import fr.modcraftmc.launcher.MaintenanceManager;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
+import fr.modcraftmc.libs.httpRequests.ModcraftApiClient;
 import fr.modcraftmc.libs.launch.LaunchManager;
 import fr.modcraftmc.libs.serverpinger.MinecraftPing;
 import fr.modcraftmc.libs.serverpinger.MinecraftPingReply;
@@ -132,7 +132,7 @@ public class MainController extends BaseController implements ProgressCallback {
 
 
         play.setOnMouseClicked(event -> {
-            MaintenanceManager.MaintenanceStatus maintenanceStatus = MaintenanceManager.getMaintenanceStatusSync();
+            ModcraftApiClient.MaintenanceStatus maintenanceStatus = ModcraftApiClient.areServersUnderMaintenance();
             if (maintenanceStatus.isActivated()) {
                 ErrorsHandler.handleErrorWithCustomHeader("nous sommes en en maintenance !", new Exception(maintenanceStatus.reason()));
                return;
