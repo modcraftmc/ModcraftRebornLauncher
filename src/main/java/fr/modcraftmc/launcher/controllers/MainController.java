@@ -138,6 +138,13 @@ public class MainController extends BaseController implements ProgressCallback {
                return;
             }
 
+            ModcraftApiClient.UserAccessTokenResponse userAccessTokenResponse = ModcraftApiClient.getUserAccessToken(currentProfile.prevResult().prevResult().access_token());
+            if (!userAccessTokenResponse.success()) {
+                ErrorsHandler.handleErrorWithCustomHeader("Can't login to Modcraft services", new Exception(userAccessTokenResponse.message()));
+                return;
+            }
+            ModcraftApiClient.UserAccessToken userAccessToken = userAccessTokenResponse.userAccessToken();
+
             setLauncherState(State.UPDATING);
             InstanceProperty instanceProperty = ModcraftApplication.launcherConfig.getInstanceProperty();
             final File instanceDirectory = instanceProperty.isCustomInstance() ? new File(instanceProperty.getCustomInstancePath()) : new File(FilesManager.INSTANCES_PATH, "reborn");
