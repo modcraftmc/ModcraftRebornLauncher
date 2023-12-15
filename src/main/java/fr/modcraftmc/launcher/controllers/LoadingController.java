@@ -21,7 +21,7 @@ public class LoadingController extends BaseController {
         AccountManager.validate(loadingMessage).thenAcceptAsync((authResult -> {
             if (authResult.isLoggedIn())  {
                 loadingMessage.setText("Connecté!");
-                Utils.pleaseWait(2000).thenAcceptAsync((unused) -> {
+                Utils.pleaseWait(500).thenAcceptAsync((unused) -> {
                     Scene scene = Utils.loadFxml("main.fxml", false);
                     ((MainController) scene.getUserData()).updateUserInfos(authResult.getMcProfile());
                     ModcraftApplication.getWindow().setScene(scene);

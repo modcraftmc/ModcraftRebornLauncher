@@ -99,6 +99,7 @@ public class MainController extends BaseController implements ProgressCallback {
     private AnchorPane pane;
 
     private StepMCProfile.MCProfile currentProfile;
+    private ModcraftApiClient.ModcraftServiceUserProfile currentModcraftProfile;
 
     public void updateUserInfos(StepMCProfile.MCProfile authInfos) {
         this.currentProfile = authInfos;
@@ -109,6 +110,9 @@ public class MainController extends BaseController implements ProgressCallback {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        currentModcraftProfile = ModcraftApiClient.ModcraftServiceUserProfile.getProfile(authInfos.prevResult().prevResult().access_token());
+        playerRank.setText(currentModcraftProfile.info.privilege().name().toLowerCase());
     }
 
     @Override
@@ -137,13 +141,6 @@ public class MainController extends BaseController implements ProgressCallback {
                 ErrorsHandler.handleErrorWithCustomHeader("nous sommes en en maintenance !", new Exception(maintenanceStatus.reason()));
                return;
             }
-
-            ModcraftApiClient.UserAccessTokenResponse userAccessTokenResponse = ModcraftApiClient.getUserAccessToken(currentProfile.prevResult().prevResult().access_token());
-            if (!userAccessTokenResponse.success()) {
-                ErrorsHandler.handleErrorWithCustomHeader("Can't login to Modcraft services", new Exception(userAccessTokenResponse.message()));
-                return;
-            }
-            ModcraftApiClient.UserAccessToken userAccessToken = userAccessTokenResponse.userAccessToken();
 
             setLauncherState(State.UPDATING);
             InstanceProperty instanceProperty = ModcraftApplication.launcherConfig.getInstanceProperty();
