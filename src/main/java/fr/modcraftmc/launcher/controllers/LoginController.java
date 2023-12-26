@@ -1,9 +1,9 @@
 package fr.modcraftmc.launcher.controllers;
 
 import animatefx.animation.FadeIn;
+import animatefx.animation.FadeOut;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.Utils;
-import fr.modcraftmc.launcher.components.FadeOutWithDuration;
 import fr.modcraftmc.libs.auth.AccountManager;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
@@ -33,7 +33,7 @@ public class LoginController extends BaseController {
 
         TranslateTransition loginFormContainerLeft = new TranslateTransition(Duration.millis(300), welcomeContainer);
         loginFormContainerLeft.setByX(-300f);
-        FadeOutWithDuration loginFormContainerLeftFadeOut = new FadeOutWithDuration(welcomeContainer);
+        FadeOut loginFormContainerLeftFadeOut = new FadeOut(welcomeContainer);
 
         TranslateTransition authFormContainerLeft = new TranslateTransition(Duration.millis(300), authContainer);
         authFormContainerLeft.setByX(-300f);
