@@ -1,9 +1,5 @@
 package fr.modcraftmc.libs.auth;
 
-//import com.azuriom.azauth.exception.AuthException;
-//import com.azuriom.azauth.AuthClient;
-//import com.azuriom.azauth.model.User;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import fr.modcraftmc.launcher.AsyncExecutor;

@@ -11,7 +11,6 @@ public class PrimaryLauncher {
 
     public static void main(String[] args) {
         LOGGER.info("Performing primary check before launch.");
-
         try {
             Class<?> appClass = Class.forName("javafx.application.Application");
             LOGGER.info("JavaFX found, processing...");

@@ -6,7 +6,7 @@ import fr.modcraftmc.launcher.configuration.LauncherConfig;
 import fr.modcraftmc.launcher.logger.LogManager;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.launcher.resources.ResourcesManager;
-import fr.modcraftmc.libs.httpRequests.ModcraftApiClient;
+import fr.modcraftmc.libs.api.ModcraftApiClient;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -17,24 +17,16 @@ import javafx.stage.StageStyle;
 import java.util.logging.Logger;
 
 public class ModcraftApplication extends Application {
-    public enum Environment {
-        DEV,
-        PROD
-    }
 
-    public static Environment ENVIRONMENT = Environment.DEV;
-
+    public static Environment.ENV ENVIRONMENT = Environment.ENV.DEV;
     public static Logger LOGGER = LogManager.createLogger("ModcraftLauncher");
-
     public static ResourcesManager resourcesManager = new ResourcesManager();
     public static FilesManager     filesManager     = new FilesManager();
     public static LauncherConfig   launcherConfig;
-
     //Constants
     public static String FORGE_VERSION = "43.3.8";
     public static String MC_VERSION    = "1.19.2";
     public static String MCP_VERSION   = "20220805.130853";
-
     private static Stage window;
 
     @Override
@@ -62,8 +54,6 @@ public class ModcraftApplication extends Application {
 
         Scene scene = Utils.loadFxml("login.fxml", false);
         Scene mainScene = Utils.loadFxml("loading.fxml", false);
-        //LoginController mainController = (LoginController) mainScene.getUserData();
-
         stage.setScene(mainScene);
         stage.show();
         stage.centerOnScreen();

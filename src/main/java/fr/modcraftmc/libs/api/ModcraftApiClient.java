@@ -1,13 +1,17 @@
-package fr.modcraftmc.libs.httpRequests;
+package fr.modcraftmc.libs.api;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import fr.modcraftmc.launcher.Environment;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 import okhttp3.*;
 
 import java.io.IOException;
 
+/**
+ * WILL SOON BE MOVED IN ITS OWN PROJECT.
+ */
 public class ModcraftApiClient {
     public enum Privilege {
         USER,
@@ -22,7 +26,7 @@ public class ModcraftApiClient {
     public record UserInfo(String username, String uuid, Privilege privilege) {}
     public static final String UNKNOWN_API_ERROR_MESSAGE = "Unknown API error";
     public static final Exception MODCRAFT_API_CLIENT_NOT_INITIALIZED = new Exception("ModcraftApiClient is not initialized.");
-    private static final String API_URL = ModcraftApplication.ENVIRONMENT == ModcraftApplication.Environment.PROD ? "https://api.modcraftmc.fr/v1" : "http://localhost:3000/v1";
+    private static final String API_URL = ModcraftApplication.ENVIRONMENT == Environment.ENV.PROD ? "https://api.modcraftmc.fr/v1" : "http://localhost:3000/v1";
     private static final String LAUNCHER_MAINTENANCE_ROUTE = "/launcher/maintenance";
     private static final String USER_LOGIN_ROUTE = "/auth/login";
     private static final String USER_INFO_ROUTE = "/users/getUserInfo";

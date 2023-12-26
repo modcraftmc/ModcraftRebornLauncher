@@ -2,7 +2,6 @@ package fr.modcraftmc.libs.physicEngine;
 
 import com.sun.javafx.geom.Vec2d;
 import fr.modcraftmc.launcher.AsyncExecutor;
-import fr.modcraftmc.launcher.Utils;
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
 
@@ -143,7 +142,7 @@ public class Physic {
 
     private static void solveConstraints(DynamicCollider collider, Box solid){
         Vec2d penetration = get_box_penetration(collider.collider, solid);
-        Vec2d projected_penetration_velocity = Utils.projectVector(collider.velocity, penetration);
+        Vec2d projected_penetration_velocity = projectVector(collider.velocity, penetration);
         collider.velocity = new Vec2d(collider.velocity.x - projected_penetration_velocity.x * (1 + collider.bounciness), collider.velocity.y - projected_penetration_velocity.y * (1 + collider.bounciness));
         collider.collider.attachedObject.setPos(new Vec2d(collider.collider.attachedObject.getPos().x - penetration.x, collider.collider.attachedObject.getPos().y - penetration.y));
     }
@@ -157,5 +156,35 @@ public class Physic {
                 }
             }
         }
+    }
+
+    public static double magnitude(Vec2d vector) {
+        return Math.sqrt(vector.x * vector.x + vector.y * vector.y);
+    }
+
+    public static double dot(Vec2d vector, Vec2d axis) {
+        return vector.x * axis.x + vector.y * axis.y;
+    }
+
+    public static double project(Vec2d vector, Vec2d axis) {
+        double axisMagnitude = magnitude(axis);
+        if (axisMagnitude == 0) {
+            return 0;
+        }
+        return dot(vector, axis) / axisMagnitude;
+    }
+
+    public static Vec2d normalize(Vec2d vector) {
+        double vectorMagnitude = magnitude(vector);
+        if (vectorMagnitude == 0) {
+            return new Vec2d(0, 0);
+        }
+        return new Vec2d(vector.x / vectorMagnitude, vector.y / vectorMagnitude);
+    }
+
+    public static Vec2d projectVector(Vec2d vector, Vec2d axis) {
+        Vec2d normalizedAxis = normalize(axis);
+        double projection = project(vector, axis);
+        return new Vec2d(projection * normalizedAxis.x, projection * normalizedAxis.y);
     }
 }
