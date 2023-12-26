@@ -8,7 +8,6 @@ public class ErrorsHandler {
 
     public static void handleErrorAndCrashApplication(Exception exception) {
         ModcraftApplication.LOGGER.severe("Error thrown ! : " + exception.getMessage());
-        exception.printStackTrace();
         Alert alert = new Alert(Alert.AlertType.ERROR, exception.getMessage());
         alert.setTitle("ModcraftMC");
         alert.setHeaderText("Une erreur est survenue");
@@ -32,6 +31,7 @@ public class ErrorsHandler {
 
     public static void handleError(Exception exception) {
         ModcraftApplication.LOGGER.severe("Error thrown ! : " + exception.getMessage());
+        exception.printStackTrace();
         Alert alert = new Alert(Alert.AlertType.ERROR, exception.getMessage());
         alert.setTitle("ModcraftMC");
         alert.setHeaderText("Une erreur est survenue");
@@ -40,6 +40,7 @@ public class ErrorsHandler {
 
     public static void handleErrorWithCustomHeader(String header, Exception exception) {
         ModcraftApplication.LOGGER.severe("Error thrown ! : " + exception.getMessage());
+        exception.printStackTrace();
         Alert alert = new Alert(Alert.AlertType.ERROR, exception.getMessage());
         alert.setTitle("ModcraftMC");
         alert.setHeaderText(header);
