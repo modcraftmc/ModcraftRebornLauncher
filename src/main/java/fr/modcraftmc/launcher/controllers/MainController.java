@@ -31,6 +31,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 import javafx.stage.DirectoryChooser;
 import javafx.util.Duration;
 import net.raphimc.mcauth.step.java.StepMCProfile;
@@ -66,8 +67,10 @@ public class MainController extends BaseController implements ProgressCallback {
     @FXML public ImageView playerHead;
 
     //Server state
-    @FXML public Label serverState;
-    @FXML public Label playersCount;
+    @FXML private Label serverInfo;
+    @FXML private Circle colorStatePoint;
+//    @FXML public Label serverState;
+//    @FXML public Label playersCount;
 
     @FXML public ProgressBar progressBar;
     @FXML public Label progressText;
@@ -127,7 +130,7 @@ public class MainController extends BaseController implements ProgressCallback {
                 ModcraftApplication.LOGGER.info(String.format("Updating server status (%s/%s)",  minecraftPing.getPlayers().getOnline(), minecraftPing.getPlayers().getMax()));
 
                 Platform.runLater(() -> {
-                    playersCount.setText(String.format("%s/%s", minecraftPing.getPlayers().getOnline(), minecraftPing.getPlayers().getMax()));
+                    serverInfo.setText(String.format("%s/%s", minecraftPing.getPlayers().getOnline(), minecraftPing.getPlayers().getMax()));
                 });
             } catch (IOException e) {
                 throw new RuntimeException(e);

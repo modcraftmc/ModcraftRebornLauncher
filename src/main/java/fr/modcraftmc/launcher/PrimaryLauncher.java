@@ -17,7 +17,7 @@ public class PrimaryLauncher {
             Application.launch(ModcraftApplication.class, args);
 
         } catch (ClassNotFoundException e) {
-           LOGGER.severe("JavaFX not found, please contact suport.");
+           LOGGER.severe("JavaFX not found, please contact support.");
            System.exit(1);
         }
     }

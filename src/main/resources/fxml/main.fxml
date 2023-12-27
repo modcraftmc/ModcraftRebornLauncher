@@ -1,24 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.*?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
-<?import java.lang.String?>
+
 <AnchorPane prefHeight="600.0" prefWidth="1100.0" styleClass="appContainer" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.MainController">
    <children>
-      <Pane layoutX="14.0" layoutY="8.0" prefHeight="94.0" prefWidth="280.0">
+      <Pane id="bannerPane" prefHeight="100.0" prefWidth="1291.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Pane prefHeight="90.0" prefWidth="90.0" styleClass="logo" />
-            <Label layoutX="96.0" layoutY="11.0" prefHeight="45.0" prefWidth="180.0" text="MODCRAFTMC" textFill="#ffae00">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#302a26" height="100.0" strokeType="INSIDE" strokeWidth="0.0" width="1100.0" />
+            <Polygon fill="#262020" layoutX="340.0" layoutY="91.0" points="-50.0, 9.0, 47.0, -75.0, -50.0, -75.0" strokeType="INSIDE" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#262020" height="100.0" strokeType="INSIDE" width="292.0" />
+            <Polygon id="bannerSlash" fill="#fe8e01" layoutX="395.0" layoutY="45.0" points="-107.0, 55.0, -97.0, 55.0, 0.0, -29.0, -10.0, -29.0" strokeType="INSIDE" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#262020" height="18.0" strokeType="INSIDE" width="1100.0" />
+            <Polygon fill="#262020" layoutX="914.0" layoutY="266.0" points="80.0, -255.5, 100.0, -229.0, 186.0, -229.0, 186.0, -255.5" strokeType="INSIDE" />
+            <Pane layoutX="16.0" layoutY="5.0" prefHeight="90.0" prefWidth="90.0" styleClass="logo" />
+            <Button fx:id="close" layoutX="1058.0" layoutY="2.0" maxHeight="45.0" maxWidth="35.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="35.0" styleClass="closeButton">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <graphic>
+                  <SVGPath content="M35.75 35.75L19.5 19.5M19.5 19.5L3.25 3.25M19.5 19.5L35.75 3.25M19.5 19.5L3.25 35.75" scaleX="0.5" scaleY="0.5" stroke="#3e3e3e" strokeLineCap="ROUND" strokeWidth="6.0" styleClass="closeButton" />
+               </graphic>
+            </Button>
+            <Button fx:id="minimize" layoutX="1022.0" layoutY="2.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="33.0" styleClass="minimizeButton" stylesheets="@../css/main.css" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <graphic>
+                  <SVGPath content="M3.25 19.5L35.75 19.5" fill="WHITE" scaleX="0.7" scaleY="0.5" scaleZ="0.0" strokeLineCap="ROUND" strokeWidth="7.0" styleClass="minimizeButton" />
+               </graphic>
+            </Button>
+            <Label layoutX="123.0" layoutY="1.0" prefHeight="45.0" prefWidth="180.0" text="MODCRAFTMC" textFill="#fe8e01">
                <font>
                   <Font name="System Bold" size="27.0" />
                </font>
@@ -27,25 +48,19 @@
                   <String fx:value="lilita" />
                </styleClass>
             </Label>
-            <Label layoutX="97.0" layoutY="45.0" prefHeight="33.0" prefWidth="165.0" styleClass="lilita" text="SURVIE MODDE 1.19" textFill="#dedede">
+            <Label layoutX="123.0" layoutY="34.0" prefHeight="33.0" prefWidth="189.0" styleClass="lilita" text="SURVIE MODDE 1.20.1" textFill="#dedede">
                <font>
                   <Font name="System Bold" size="18.0" />
-               </font></Label>
-         </children></Pane>
-      <Pane layoutX="14.0" layoutY="122.0" prefHeight="73.0" prefWidth="260.0" styleClass="blackContainer">
-         <children>
-            <Circle fill="#2ce41b" layoutX="25.0" layoutY="37.0" radius="11.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-            <Label fx:id="serverState" layoutX="46.0" layoutY="12.0" prefHeight="33.0" prefWidth="200.0" styleClass="normalText" text="Joueur(s) connecté(s) :" textFill="#838383">
-               <font>
-                  <Font name="Inter Regular" size="18.0" />
-               </font></Label>
-            <Label fx:id="playersCount" layoutX="104.0" layoutY="41.0" styleClass="specialText" text="10/100" textFill="#ff7e00">
+               </font>
+            </Label>
+            <Circle fx:id="colorStatePoint" fill="#2ce41b" layoutX="134.0" layoutY="79.0" radius="11.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Label fx:id="serverInfo" layoutX="159.0" layoutY="68.0" styleClass="specialText" text="10/100" textFill="#ff7e00">
                <font>
                   <Font name="Inter Regular" size="18.0" />
                </font></Label>
          </children>
       </Pane>
-      <Pane fx:id="accountContainer" layoutX="14.0" layoutY="291.0" prefHeight="167.0" prefWidth="260.0" styleClass="blackContainer">
+      <Pane fx:id="accountContainer" layoutX="14.0" layoutY="217.0" prefHeight="167.0" prefWidth="260.0" styleClass="blackContainer">
          <children>
             <ImageView fx:id="playerHead" fitHeight="100.0" fitWidth="100.0" layoutX="14.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true" styleClass="testProfile">
                <image>
@@ -82,7 +97,7 @@
          </children>
       </Pane>
       <Pane layoutX="14.0" layoutY="487.0" prefHeight="84.0" prefWidth="260.0" styleClass="blackContainer">
-         <Button fx:id="settings" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="63.0" styleClass="settingsButton">
+         <Button fx:id="settings" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="63.0" styleClass="settingsButton" textFill="WHITE">
             <cursor>
                <Cursor fx:constant="HAND" />
             </cursor>
@@ -117,7 +132,7 @@
             </color4>
          </MFXProgressSpinner>
       </Pane>
-      <Pane fx:id="news" layoutX="332.0" layoutY="72.0" prefHeight="442.0" prefWidth="713.0">
+      <Pane fx:id="news" layoutX="332.0" layoutY="120.0" prefHeight="394.0" prefWidth="713.0">
          <children>
             <Pane prefHeight="442.0" prefWidth="713.0" styleClass="newsBlackBlur">
                <effect>
@@ -130,7 +145,7 @@
                </font>
             </Label>
          </children></Pane>
-      <Pane fx:id="settingsPane" layoutX="332.0" layoutY="124.0" opacity="0.0" prefHeight="382.0" prefWidth="714.0" styleClass="blackContainer" stylesheets="@../css/main.css">
+      <Pane fx:id="settingsPane" layoutX="332.0" layoutY="171.0" opacity="0.0" prefHeight="335.0" prefWidth="714.0" styleClass="blackContainer" stylesheets="@../css/main.css">
          <children>
             <Label alignment="CENTER" layoutX="306.0" layoutY="20.0" prefHeight="33.0" prefWidth="102.0" styleClass="normalText" stylesheets="@../css/main.css" text="Settings" textAlignment="CENTER">
                <font>
@@ -224,45 +239,11 @@
                </font></Label>
          </children>
       </Pane>
-      <Button fx:id="minimize" layoutX="1025.0" layoutY="6.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="31.0" styleClass="minimizeButton" stylesheets="@../css/main.css">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <graphic>
-            <SVGPath content="M3.25 19.5L35.75 19.5" scaleX="0.7" scaleY="0.5" scaleZ="0.0" strokeLineCap="ROUND" strokeWidth="7.0" styleClass="minimizeButton" />
-         </graphic>
-      </Button>
-      <Button fx:id="close" layoutX="1061.0" layoutY="6.0" maxHeight="45.0" maxWidth="35.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="35.0" styleClass="closeButton">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <graphic>
-            <SVGPath content="M35.75 35.75L19.5 19.5M19.5 19.5L3.25 3.25M19.5 19.5L35.75 3.25M19.5 19.5L3.25 35.75" scaleX="0.5" scaleY="0.5" stroke="#3e3e3e" strokeLineCap="ROUND" strokeWidth="6.0" styleClass="closeButton" />
-         </graphic>
-      </Button>
       <MFXProgressBar fx:id="progressBar" layoutX="345.0" layoutY="543.0" prefHeight="18.0" prefWidth="688.0" progress="0.0" />
       <Label fx:id="progressText" alignment="CENTER" layoutX="487.0" layoutY="563.0" prefHeight="17.0" prefWidth="405.0" styleClass="normalText" text="Téléchargement 1650/2658" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Inter Regular" size="16.0" />
          </font>
       </Label>
-      <Pane fx:id="closeButton" layoutX="1278.0" layoutY="13.0" prefHeight="13.0" prefWidth="13.0">
-         <children>
-            <ImageView fitHeight="150.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/close.png" />
-               </image>
-            </ImageView>
-         </children>
-      </Pane>
-      <Pane fx:id="minimiseButton" layoutX="1246.0" layoutY="17.0" prefHeight="16.0" prefWidth="15.0">
-         <children>
-            <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="-1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/minimise.png" />
-               </image>
-            </ImageView>
-         </children>
-      </Pane>
    </children>
 </AnchorPane>
