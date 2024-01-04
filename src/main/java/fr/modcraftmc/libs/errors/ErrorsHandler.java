@@ -13,7 +13,7 @@ public class ErrorsHandler {
         alert.setHeaderText("Une erreur est survenue");
         Platform.runLater(() -> {
             alert.showAndWait();
-            Platform.exit();
+            ModcraftApplication.shutdown(1);
         });
     }
 
@@ -25,7 +25,7 @@ public class ErrorsHandler {
         alert.setHeaderText(header);
         Platform.runLater(() -> {
             alert.showAndWait();
-            Platform.exit();
+            ModcraftApplication.shutdown(1);
         });
     }
 

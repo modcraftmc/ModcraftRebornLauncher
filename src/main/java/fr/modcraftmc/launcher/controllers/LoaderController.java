@@ -28,7 +28,7 @@ public class LoaderController extends BaseController {
                 File updater = new File(FilesManager.LAUNCHER_PATH, "updater.jar");
                 try {
                     Process proc = Runtime.getRuntime().exec(String.format("java -jar %s", updater.getAbsolutePath()));
-                    Runtime.getRuntime().halt(0);
+                    ModcraftApplication.shutdown(0);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

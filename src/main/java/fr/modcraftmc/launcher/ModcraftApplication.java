@@ -8,6 +8,7 @@ import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.launcher.resources.ResourcesManager;
 import fr.modcraftmc.libs.api.ModcraftApiClient;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
@@ -59,6 +60,15 @@ public class ModcraftApplication extends Application {
         stage.setScene(mainScene);
         stage.show();
         stage.centerOnScreen();
+    }
+
+    public static void shutdown(int code) {
+        LogManager.getFileHandler().flush();
+        LogManager.getFileHandler().close();
+        launcherConfig.save();
+        AsyncExecutor.shutdown();
+        Platform.exit();
+        System.exit(code);
     }
 
     public static Stage getWindow() {

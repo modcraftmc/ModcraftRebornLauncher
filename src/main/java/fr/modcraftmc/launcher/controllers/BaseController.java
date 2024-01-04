@@ -1,13 +1,11 @@
 package fr.modcraftmc.launcher.controllers;
 
 import com.sun.javafx.geom.Vec2d;
-import fr.modcraftmc.launcher.AsyncExecutor;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.libs.physicEngine.DynamicCollider;
 import fr.modcraftmc.libs.physicEngine.IMovable;
 import fr.modcraftmc.libs.physicEngine.Physic;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
@@ -32,9 +30,7 @@ public abstract class BaseController implements IController, IMovable {
         pane = loader.getRoot();
 
         closeButton.setOnMouseClicked(event -> {
-            Platform.exit();
-            AsyncExecutor.shutdown();
-            System.exit(0);
+            ModcraftApplication.shutdown(0);
         });
 
         minimiseButton.setOnMouseClicked(event -> {

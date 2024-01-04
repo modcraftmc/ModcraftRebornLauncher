@@ -228,7 +228,7 @@ public class MainController extends BaseController implements ProgressCallback {
         //#region window action
         close.setOnMouseClicked(event -> {
             ModcraftApplication.getWindow().hide();
-            System.exit(0);
+            ModcraftApplication.shutdown(0);
         });
 
         minimize.setOnMouseClicked(event ->  {
