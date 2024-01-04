@@ -1,9 +1,6 @@
 package fr.modcraftmc.launcher.controllers;
 
-import fr.modcraftmc.launcher.AsyncExecutor;
-import fr.modcraftmc.launcher.ModcraftApplication;
-import fr.modcraftmc.launcher.SelfUpdater;
-import fr.modcraftmc.launcher.Utils;
+import fr.modcraftmc.launcher.*;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.libs.auth.AccountManager;
 import javafx.application.Platform;
@@ -43,7 +40,6 @@ public class LoaderController extends BaseController {
             }
             return selfUpdateResult;
         }, AsyncExecutor::runAsync).thenRunAsync(() -> {
-            ModcraftApplication.LOGGER.info("A2");
             AccountManager.AuthResult authResult = AccountManager.validate(loadingMessage);
             if (authResult.isLoggedIn())  {
                     Platform.runLater(() -> loadingMessage.setText("Connecté!"));
@@ -51,14 +47,14 @@ public class LoaderController extends BaseController {
                         ModcraftApplication.getWindow().hide();
                         ModcraftApplication.getWindow().setWidth(1300);
                         ModcraftApplication.getWindow().setHeight(700);
-                        Scene scene = Utils.loadFxml("main.fxml", false);
+                        Scene scene = MFXMLLoader.loadFxml("main.fxml", false);
                         ((MainController) scene.getUserData()).updateUserInfos(authResult.getMcProfile());
                         ModcraftApplication.getWindow().setScene(scene);
                         ModcraftApplication.getWindow().show();
                     }, Platform::runLater);
                 } else {
                     Platform.runLater(() -> {
-                        Scene scene = Utils.loadFxml("login.fxml", false);
+                        Scene scene = MFXMLLoader.loadFxml("login.fxml", false);
                         ModcraftApplication.getWindow().setScene(scene);
                     });
                 }

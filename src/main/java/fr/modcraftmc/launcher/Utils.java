@@ -1,11 +1,7 @@
 package fr.modcraftmc.launcher;
 
-import fr.modcraftmc.launcher.controllers.IController;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
-import javafx.scene.layout.AnchorPane;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -15,36 +11,9 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class Utils {
-
-    private static final Map<String, Scene> loadedScenes = new HashMap<>();
-    public static Scene loadFxml(String file, boolean forceReload) {
-
-        if (loadedScenes.containsKey(file) && !forceReload) {
-            return loadedScenes.get(file);
-        }
-
-        try {
-            FXMLLoader loader = new FXMLLoader(ModcraftApplication.resourcesManager.getResource(file));
-            AnchorPane pane = loader.load();
-
-            IController controller = loader.getController();
-            controller.initialize(loader);
-            Scene scene = new Scene(pane);
-            scene.setUserData(controller);
-            loadedScenes.put(file, scene);
-            return scene;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        throw new RuntimeException();
-    }
 
     public static void copyToClipboard(String s) {
         final Clipboard clipboard = Clipboard.getSystemClipboard();

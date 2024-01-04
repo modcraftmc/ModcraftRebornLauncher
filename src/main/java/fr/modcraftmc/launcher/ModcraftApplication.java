@@ -52,8 +52,8 @@ public class ModcraftApplication extends Application {
             AsyncExecutor.shutdown();
         }));
 
-        Scene scene = Utils.loadFxml("login.fxml", false);
-        Scene mainScene = Utils.loadFxml("loader.fxml", false);
+        Scene scene = MFXMLLoader.loadFxml("login.fxml", false);
+        Scene mainScene = MFXMLLoader.loadFxml("loader.fxml", false);
         stage.setScene(mainScene);
         stage.show();
         stage.centerOnScreen();

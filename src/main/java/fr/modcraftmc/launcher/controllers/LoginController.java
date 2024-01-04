@@ -2,6 +2,7 @@ package fr.modcraftmc.launcher.controllers;
 
 import animatefx.animation.FadeIn;
 import animatefx.animation.FadeOut;
+import fr.modcraftmc.launcher.MFXMLLoader;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.libs.auth.AccountManager;
@@ -66,7 +67,7 @@ public class LoginController extends BaseController {
                 if (authResult.isLoggedIn()) {
                     loadingMessage.setText("Connecté!");
                     Utils.pleaseWait(2000).thenAcceptAsync((unused) -> {
-                        Scene scene = Utils.loadFxml("main.fxml", false);
+                        Scene scene = MFXMLLoader.loadFxml("main.fxml", false);
                         ((MainController) scene.getUserData()).updateUserInfos(authResult.getMcProfile());
                         ModcraftApplication.getWindow().setScene(scene);
                     }, Platform::runLater);

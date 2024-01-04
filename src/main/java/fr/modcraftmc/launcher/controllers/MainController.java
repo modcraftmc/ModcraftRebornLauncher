@@ -1,8 +1,8 @@
 package fr.modcraftmc.launcher.controllers;
 
 import fr.modcraftmc.launcher.AsyncExecutor;
+import fr.modcraftmc.launcher.MFXMLLoader;
 import fr.modcraftmc.launcher.ModcraftApplication;
-import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.libs.api.ModcraftApiClient;
@@ -220,7 +220,7 @@ public class MainController extends BaseController implements ProgressCallback {
         //#region account
         logout.setOnMouseClicked(event -> {
             ModcraftApplication.launcherConfig.setKeeplogin(false);
-            ModcraftApplication.getWindow().setScene(Utils.loadFxml("login.fxml", true));
+            ModcraftApplication.getWindow().setScene(MFXMLLoader.loadFxml("login.fxml", true));
         });
 
         //#endregion
