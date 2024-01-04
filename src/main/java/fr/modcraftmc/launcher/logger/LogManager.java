@@ -15,7 +15,7 @@ public class LogManager {
 
     static {
         try {
-            fileHandler = new FileHandler(new File(FilesManager.LAUNCHER_PATH, "launcher.log").getPath());
+            fileHandler = new FileHandler(new File(FilesManager.LOGS_PATH, "launcher.log").getPath());
             fileHandler.setFormatter(new FileLogFormatter());
         } catch (IOException e) {
             e.printStackTrace();
@@ -23,7 +23,6 @@ public class LogManager {
     }
 
     public static Logger createLogger(String name) {
-
         Logger logger = Logger.getLogger(name);
         logger.setUseParentHandlers(false);
         if (fileHandler != null) logger.addHandler(fileHandler);
@@ -31,7 +30,10 @@ public class LogManager {
         Formatter formatter = new LogFormatter();
         handler.setFormatter(formatter);
         logger.addHandler(handler);
-
         return logger;
+    }
+
+    public static FileHandler getFileHandler() {
+        return fileHandler;
     }
 }

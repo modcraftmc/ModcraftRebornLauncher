@@ -19,9 +19,9 @@ import java.util.logging.Logger;
 public class ModcraftApplication extends Application {
 
     public static Environment.ENV ENVIRONMENT = Environment.ENV.DEV;
-    public static Logger LOGGER = LogManager.createLogger("ModcraftLauncher");
     public static ResourcesManager resourcesManager = new ResourcesManager();
     public static FilesManager     filesManager     = new FilesManager();
+    public static Logger           LOGGER           = LogManager.createLogger("ModcraftLauncher");
     public static LauncherConfig   launcherConfig;
     //Constants
     public static String FORGE_VERSION = "43.3.8";
@@ -48,6 +48,8 @@ public class ModcraftApplication extends Application {
         stage.getIcons().add(new Image(resourcesManager.getResourceAsStream("favicon.png")));
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            LogManager.getFileHandler().flush();
+            LogManager.getFileHandler().close();
             launcherConfig.save();
             AsyncExecutor.shutdown();
         }));
