@@ -1,5 +1,6 @@
 package fr.modcraftmc.launcher;
 
+import fr.modcraftmc.libs.errors.ErrorsHandler;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import org.jetbrains.annotations.NotNull;
@@ -47,5 +48,13 @@ public class Utils {
             }
             return null;
         });
+    }
+
+    public static void selfCatchSleep(int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            ErrorsHandler.handleError(e);
+        }
     }
 }

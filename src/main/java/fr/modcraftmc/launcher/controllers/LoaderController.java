@@ -24,17 +24,12 @@ public class LoaderController extends BaseController {
 
         SelfUpdater.checkUpdate().thenApplyAsync(selfUpdateResult -> {
             if (selfUpdateResult.hasUpdate()) {
+                Utils.selfCatchSleep(1500);
+                File updater = new File(FilesManager.LAUNCHER_PATH, "updater.jar");
                 try {
-                    Thread.sleep(1500);
-                    File updater = new File(FilesManager.LAUNCHER_PATH, "updater.jar");
-
-                    try {
-                        Process proc = Runtime.getRuntime().exec(String.format("java -jar %s", updater.getAbsolutePath()));
-                        Runtime.getRuntime().halt(0);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                } catch (InterruptedException e) {
+                    Process proc = Runtime.getRuntime().exec(String.format("java -jar %s", updater.getAbsolutePath()));
+                    Runtime.getRuntime().halt(0);
+                } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }
@@ -42,17 +37,18 @@ public class LoaderController extends BaseController {
         }, AsyncExecutor::runAsync).thenRunAsync(() -> {
             AccountManager.AuthResult authResult = AccountManager.validate(loadingMessage);
             if (authResult.isLoggedIn())  {
-                    Platform.runLater(() -> loadingMessage.setText("Connecté!"));
-                    Utils.pleaseWait(1500).thenAcceptAsync((goat) -> {
-                        ModcraftApplication.getWindow().hide();
-                        ModcraftApplication.getWindow().setWidth(1300);
-                        ModcraftApplication.getWindow().setHeight(700);
-                        Scene scene = MFXMLLoader.loadFxml("main.fxml", false);
-                        ((MainController) scene.getUserData()).updateUserInfos(authResult.getMcProfile());
-                        ModcraftApplication.getWindow().setScene(scene);
-                        ModcraftApplication.getWindow().show();
-                    }, Platform::runLater);
-                } else {
+                Platform.runLater(() -> loadingMessage.setText("Connecté!"));
+                Utils.selfCatchSleep(1500);
+                Platform.runLater(() -> {
+                    ModcraftApplication.getWindow().hide();
+                    ModcraftApplication.getWindow().setWidth(1300);
+                    ModcraftApplication.getWindow().setHeight(700);
+                    Scene scene = MFXMLLoader.loadFxml("main.fxml", false);
+                    ((MainController) scene.getUserData()).updateUserInfos(authResult.getMcProfile());
+                    ModcraftApplication.getWindow().setScene(scene);
+                    ModcraftApplication.getWindow().show();
+                });
+            } else {
                     Platform.runLater(() -> {
                         Scene scene = MFXMLLoader.loadFxml("login.fxml", false);
                         ModcraftApplication.getWindow().setScene(scene);

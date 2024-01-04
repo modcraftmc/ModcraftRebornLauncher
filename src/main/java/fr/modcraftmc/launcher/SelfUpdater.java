@@ -6,6 +6,11 @@ public class SelfUpdater {
 
     public record SelfUpdateResult(boolean hasUpdate, String currentVersion, String version, String changelogUrl) {};
     public static CompletableFuture<SelfUpdateResult> checkUpdate() {
-        return CompletableFuture.completedFuture(new SelfUpdateResult(true, "1.0.0", "1.0.1", "https://www.youtube.com/watch?v=xvFZjo5PgG0"));
+        return CompletableFuture.supplyAsync(() -> {
+
+
+
+            return new SelfUpdateResult(false, "1.0.0", "1.0.1", "https://www.youtube.com/watch?v=xvFZjo5PgG0");
+        });
     }
 }
