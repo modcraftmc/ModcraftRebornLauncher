@@ -42,8 +42,8 @@ public class ModcraftApplication extends Application {
         Font font = Font.loadFont(resourcesManager.getResourceAsStream("fonts/LilitaOne-Regular.ttf"), 32);
 
         stage.setTitle("ModcraftLauncher");
-        stage.setWidth(1300);
-        stage.setHeight(700);
+        stage.setWidth(700);
+        stage.setHeight(400);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.getIcons().add(new Image(resourcesManager.getResourceAsStream("favicon.png")));
 
@@ -53,7 +53,7 @@ public class ModcraftApplication extends Application {
         }));
 
         Scene scene = Utils.loadFxml("login.fxml", false);
-        Scene mainScene = Utils.loadFxml("loading.fxml", false);
+        Scene mainScene = Utils.loadFxml("loader.fxml", false);
         stage.setScene(mainScene);
         stage.show();
         stage.centerOnScreen();

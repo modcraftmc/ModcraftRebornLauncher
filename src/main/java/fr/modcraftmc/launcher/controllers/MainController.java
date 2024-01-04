@@ -99,7 +99,7 @@ public class MainController extends BaseController implements ProgressCallback {
     private AnchorPane pane;
 
     private StepMCProfile.MCProfile currentProfile;
-    private ModcraftApiClient.ModcraftServiceUserProfile currentModcraftProfile;
+    //private ModcraftApiClient.ModcraftServiceUserProfile currentModcraftProfile;
 
     public void updateUserInfos(StepMCProfile.MCProfile authInfos) {
         this.currentProfile = authInfos;
@@ -111,8 +111,8 @@ public class MainController extends BaseController implements ProgressCallback {
             e.printStackTrace();
         }
 
-        currentModcraftProfile = ModcraftApiClient.ModcraftServiceUserProfile.getProfile(authInfos.prevResult().prevResult().access_token());
-        playerRank.setText(currentModcraftProfile.info.privilege().name().toLowerCase());
+//        currentModcraftProfile = ModcraftApiClient.ModcraftServiceUserProfile.getProfile(authInfos.prevResult().prevResult().access_token());
+//        playerRank.setText(currentModcraftProfile.info.privilege().name().toLowerCase());
     }
 
     @Override

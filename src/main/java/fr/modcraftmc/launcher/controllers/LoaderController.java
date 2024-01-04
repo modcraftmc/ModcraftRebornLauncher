@@ -9,7 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 
-public class LoadingController extends BaseController {
+public class LoaderController extends BaseController {
 
     @FXML
     private Label loadingMessage;
@@ -21,10 +21,14 @@ public class LoadingController extends BaseController {
         AccountManager.validate(loadingMessage).thenAcceptAsync((authResult -> {
             if (authResult.isLoggedIn())  {
                 loadingMessage.setText("Connecté!");
-                Utils.pleaseWait(500).thenAcceptAsync((unused) -> {
+                Utils.pleaseWait(1500).thenAcceptAsync((unused) -> {
+                    ModcraftApplication.getWindow().hide();
+                    ModcraftApplication.getWindow().setWidth(1300);
+                    ModcraftApplication.getWindow().setHeight(700);
                     Scene scene = Utils.loadFxml("main.fxml", false);
                     ((MainController) scene.getUserData()).updateUserInfos(authResult.getMcProfile());
                     ModcraftApplication.getWindow().setScene(scene);
+                    ModcraftApplication.getWindow().show();
                 }, Platform::runLater);
             } else {
                 Scene scene = Utils.loadFxml("login.fxml", false);
@@ -32,4 +36,5 @@ public class LoadingController extends BaseController {
             }
         }), Platform::runLater);
     }
+
 }
