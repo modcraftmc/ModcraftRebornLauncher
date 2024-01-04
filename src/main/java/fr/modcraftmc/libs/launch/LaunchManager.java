@@ -16,7 +16,7 @@ public class LaunchManager {
     public static Process launch(File dir, StepMCProfile.MCProfile currentProfile) throws Exception {
 
         if (currentProfile.isExpired()) {
-            currentProfile = AccountManager.validate(null).get().getMcProfile();
+            currentProfile = AccountManager.validate(null).getMcProfile();
         }
 
         String name = currentProfile.name();

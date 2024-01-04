@@ -18,7 +18,7 @@ public class PrimaryLauncher {
 
         } catch (ClassNotFoundException e) {
            LOGGER.severe("JavaFX not found, please contact suport.");
-           System.exit(1);
+            System.exit(1);
         }
     }
 }

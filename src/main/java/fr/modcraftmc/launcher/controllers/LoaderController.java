@@ -1,13 +1,19 @@
 package fr.modcraftmc.launcher.controllers;
 
+import fr.modcraftmc.launcher.AsyncExecutor;
 import fr.modcraftmc.launcher.ModcraftApplication;
+import fr.modcraftmc.launcher.SelfUpdater;
 import fr.modcraftmc.launcher.Utils;
+import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.libs.auth.AccountManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+
+import java.io.File;
+import java.io.IOException;
 
 public class LoaderController extends BaseController {
 
@@ -18,23 +24,44 @@ public class LoaderController extends BaseController {
     public void initialize(FXMLLoader loader) {
         super.initialize(loader);
 
-        AccountManager.validate(loadingMessage).thenAcceptAsync((authResult -> {
-            if (authResult.isLoggedIn())  {
-                loadingMessage.setText("Connecté!");
-                Utils.pleaseWait(1500).thenAcceptAsync((unused) -> {
-                    ModcraftApplication.getWindow().hide();
-                    ModcraftApplication.getWindow().setWidth(1300);
-                    ModcraftApplication.getWindow().setHeight(700);
-                    Scene scene = Utils.loadFxml("main.fxml", false);
-                    ((MainController) scene.getUserData()).updateUserInfos(authResult.getMcProfile());
-                    ModcraftApplication.getWindow().setScene(scene);
-                    ModcraftApplication.getWindow().show();
-                }, Platform::runLater);
-            } else {
-                Scene scene = Utils.loadFxml("login.fxml", false);
-                ModcraftApplication.getWindow().setScene(scene);
-            }
-        }), Platform::runLater);
-    }
 
+        SelfUpdater.checkUpdate().thenApplyAsync(selfUpdateResult -> {
+            if (selfUpdateResult.hasUpdate()) {
+                try {
+                    Thread.sleep(1500);
+                    File updater = new File(FilesManager.LAUNCHER_PATH, "updater.jar");
+
+                    try {
+                        Process proc = Runtime.getRuntime().exec(String.format("java -jar %s", updater.getAbsolutePath()));
+                        Runtime.getRuntime().halt(0);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return selfUpdateResult;
+        }, AsyncExecutor::runAsync).thenRunAsync(() -> {
+            ModcraftApplication.LOGGER.info("A2");
+            AccountManager.AuthResult authResult = AccountManager.validate(loadingMessage);
+            if (authResult.isLoggedIn())  {
+                    Platform.runLater(() -> loadingMessage.setText("Connecté!"));
+                    Utils.pleaseWait(1500).thenAcceptAsync((goat) -> {
+                        ModcraftApplication.getWindow().hide();
+                        ModcraftApplication.getWindow().setWidth(1300);
+                        ModcraftApplication.getWindow().setHeight(700);
+                        Scene scene = Utils.loadFxml("main.fxml", false);
+                        ((MainController) scene.getUserData()).updateUserInfos(authResult.getMcProfile());
+                        ModcraftApplication.getWindow().setScene(scene);
+                        ModcraftApplication.getWindow().show();
+                    }, Platform::runLater);
+                } else {
+                    Platform.runLater(() -> {
+                        Scene scene = Utils.loadFxml("login.fxml", false);
+                        ModcraftApplication.getWindow().setScene(scene);
+                    });
+                }
+        });
+    }
 }

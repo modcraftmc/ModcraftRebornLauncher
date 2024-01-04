@@ -52,8 +52,7 @@ public class AccountManager {
         });
     }
 
-    public static CompletableFuture<AuthResult> validate(Label loadingMessage) {
-       return CompletableFuture.supplyAsync(() -> {
+    public static AuthResult validate(Label loadingMessage) {
            if (!ModcraftApplication.launcherConfig.isKeeplogin()) return new AuthResult(false, null);
 
            if (loadingMessage != null )
@@ -73,8 +72,6 @@ public class AccountManager {
                //ErrorsHandler.handleError(e);
                return new AuthResult(false, null);
            }
-
-       });
     }
 
     private static void saveLoginInfos(StepMCProfile.MCProfile profile) {
