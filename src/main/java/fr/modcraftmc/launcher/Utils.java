@@ -1,5 +1,6 @@
 package fr.modcraftmc.launcher;
 
+import com.sun.javafx.application.HostServicesDelegate;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
@@ -32,11 +33,8 @@ public class Utils {
     }
 
     public static void openBrowser(String url) {
-        try {
-            Desktop.getDesktop().browse(new URI(url));
-        } catch (IOException | URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+        HostServicesDelegate hostServices = HostServicesDelegate.getInstance(ModcraftApplication.app);
+        hostServices.showDocument(url);
     }
 
     public static CompletableFuture<Void> pleaseWait(int millis) {

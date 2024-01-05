@@ -29,9 +29,11 @@ public class ModcraftApplication extends Application {
     public static String MC_VERSION    = "1.19.2";
     public static String MCP_VERSION   = "20220805.130853";
     private static Stage window;
+    public static ModcraftApplication app;
 
     @Override
     public void start(Stage stage) {
+        app = this;
         System.setProperty("prism.lcdtext", "false"); // anti-aliasing thing
         LOGGER.info("ModcraftLauncher started in " + ENVIRONMENT + " environment.");
         launcherConfig = LauncherConfig.load(filesManager.getOptionsPath());
