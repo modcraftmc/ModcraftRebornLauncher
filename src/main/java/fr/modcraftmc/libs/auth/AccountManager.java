@@ -3,9 +3,11 @@ package fr.modcraftmc.libs.auth;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import fr.modcraftmc.launcher.AsyncExecutor;
+import fr.modcraftmc.launcher.MFXMLLoader;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 import javafx.application.Platform;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import net.raphimc.mcauth.MinecraftAuth;
 import net.raphimc.mcauth.step.java.StepMCProfile;
@@ -15,6 +17,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
 
 public class AccountManager {
@@ -46,6 +49,15 @@ public class AccountManager {
                 return new AuthResult(true, mcProfile);
 
             } catch (Exception e) {
+                if (e instanceof TimeoutException) {
+                    Platform.runLater(() -> {
+                        //TODO: show a popup
+                        Scene scene = MFXMLLoader.loadFxml("login.fxml", true);
+                        ModcraftApplication.getWindow().setScene(scene);
+                        ModcraftApplication.getWindow().show();
+                    });
+                }
+
                 ErrorsHandler.handleError(e);
                 return new AuthResult(false, null);
             }
