@@ -50,8 +50,12 @@ public class LoaderController extends BaseController {
                 });
             } else {
                     Platform.runLater(() -> {
+                        ModcraftApplication.getWindow().hide();
+                        ModcraftApplication.getWindow().setWidth(1300);
+                        ModcraftApplication.getWindow().setHeight(700);
                         Scene scene = MFXMLLoader.loadFxml("login.fxml", false);
                         ModcraftApplication.getWindow().setScene(scene);
+                        ModcraftApplication.getWindow().show();
                     });
                 }
         });

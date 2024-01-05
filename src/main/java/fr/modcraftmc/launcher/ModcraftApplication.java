@@ -37,7 +37,6 @@ public class ModcraftApplication extends Application {
         launcherConfig = LauncherConfig.load(filesManager.getOptionsPath());
         ModcraftApiClient.init();
         if (launcherConfig.getInstanceProperty() == null) launcherConfig.setInstanceProperty(new InstanceProperty(false, ""));
-        //Utils.loadFxml("main.fxml", false);
         window = stage;
         // need to preload font
         Font font = Font.loadFont(resourcesManager.getResourceAsStream("fonts/LilitaOne-Regular.ttf"), 32);
