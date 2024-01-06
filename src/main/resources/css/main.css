@@ -51,11 +51,11 @@
 }
 
 .minimizeButton > SVGPath {
-    -fx-stroke: #434343;
+    -fx-stroke: white;
 }
 
 .minimizeButton:hover > SVGPath {
-    -fx-stroke: #959595;
+    -fx-stroke: #c3c3c3;
 }
 
 .closeButton{
@@ -63,7 +63,7 @@
 }
 
 .closeButton > SVGPath {
-    -fx-stroke: #434343
+    -fx-stroke: white;
 }
 
 .closeButton:hover > SVGPath {
