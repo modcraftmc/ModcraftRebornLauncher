@@ -49,10 +49,7 @@ public class ModcraftApplication extends Application {
         stage.getIcons().add(new Image(resourcesManager.getResourceAsStream("favicon.png")));
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            LogManager.getFileHandler().flush();
-            LogManager.getFileHandler().close();
-            launcherConfig.save();
-            AsyncExecutor.shutdown();
+            shutdown(0);
         }));
 
         Scene scene = MFXMLLoader.loadFxml("login.fxml", false);
@@ -63,6 +60,7 @@ public class ModcraftApplication extends Application {
     }
 
     public static void shutdown(int code) {
+        LOGGER.info("Houston, we have a shutdown.");
         LogManager.getFileHandler().flush();
         LogManager.getFileHandler().close();
         launcherConfig.save();
