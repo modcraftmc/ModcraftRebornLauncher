@@ -49,7 +49,9 @@ public class ModcraftApplication extends Application {
         stage.getIcons().add(new Image(resourcesManager.getResourceAsStream("favicon.png")));
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            shutdown(0);
+            LogManager.getFileHandler().flush();
+            LogManager.getFileHandler().close();
+            launcherConfig.save();
         }));
 
         Scene scene = MFXMLLoader.loadFxml("login.fxml", false);
