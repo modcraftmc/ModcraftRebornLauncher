@@ -25,6 +25,9 @@ repositories {
     maven {
         url = "https://repo.u-team.info"
     }
+    maven {
+        url "https://maven.modcraftmc.fr/releases"
+    }
 }
 
 dependencies {
