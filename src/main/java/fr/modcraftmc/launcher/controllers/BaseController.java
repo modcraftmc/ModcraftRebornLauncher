@@ -1,14 +1,21 @@
 package fr.modcraftmc.launcher.controllers;
 
 import com.sun.javafx.geom.Vec2d;
+import fr.modcraftmc.launcher.AsyncExecutor;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.Utils;
+import fr.modcraftmc.libs.errors.ErrorsHandler;
 import fr.modcraftmc.libs.physicEngine.DynamicCollider;
 import fr.modcraftmc.libs.physicEngine.IMovable;
 import fr.modcraftmc.libs.physicEngine.Physic;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
+
+import java.util.concurrent.TimeUnit;
 
 public abstract class BaseController implements IController, IMovable {
 
@@ -21,7 +28,7 @@ public abstract class BaseController implements IController, IMovable {
 
     private float distanceDragged;
     private boolean funStarted = false;
-    private DynamicCollider collider;
+    private DynamicCollider dynamicCollider;
     @FXML public Pane closeButton;
     @FXML public Pane minimiseButton;
 
@@ -44,8 +51,9 @@ public abstract class BaseController implements IController, IMovable {
         });
         pane.setOnMouseDragged(event -> {
             if(!funStarted) {
-                if (distanceDragged > 5555 && distanceDragged / 5 > 5 * 5 * 555) {
-                    startFun();
+                if (distanceDragged > 5555 && distanceDragged / 5 > 5 * 5 * 5 * 55) {
+                    Platform.runLater(this::startFun);
+                    distanceDragged = 5;
                 }
                 float currentDistanceDragged = (float) (Math.abs(event.getScreenX() - lastCursorX) + Math.abs(event.getScreenY() - lastCursorY));
                 distanceDragged += currentDistanceDragged;
@@ -54,7 +62,7 @@ public abstract class BaseController implements IController, IMovable {
                 });
             }
             else {
-                collider.velocity = new Vec2d((event.getScreenX() - lastCursorX) * 300, (event.getScreenY() - lastCursorY) * 300);
+                dynamicCollider.velocity = new Vec2d((event.getScreenX() - lastCursorX) * 300, (event.getScreenY() - lastCursorY) * 300);
             }
 
             ModcraftApplication.getWindow().setX(event.getScreenX() - xOffset);
@@ -76,7 +84,12 @@ public abstract class BaseController implements IController, IMovable {
     }
 
     private void startFun() {
-        collider = Physic.registerDynamicBox(this, new Vec2d(0, 0), new Vec2d(ModcraftApplication.getWindow().getWidth(), ModcraftApplication.getWindow().getHeight()), 0.5f);
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Don't show this to anyone, this is a secret feature !\nYou will now experience a lot of fun !");
+        alert.setHeaderText("WARNING !!!");
+        alert.setTitle("ModcraftMC");
+        alert.showAndWait();
+        dynamicCollider = Physic.registerDynamicBox(this, new Vec2d(0, 0), new Vec2d(ModcraftApplication.getWindow().getWidth(), ModcraftApplication.getWindow().getHeight()), 0.5f);
+        setPos(new Vec2d(Screen.getPrimary().getBounds().getWidth() / 2, Screen.getPrimary().getBounds().getHeight() / 2));
         Physic.startEngine();
         funStarted = true;
     }

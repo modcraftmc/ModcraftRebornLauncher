@@ -8,7 +8,11 @@ public class AsyncExecutor {
     private static ExecutorService normalExecutorService = Executors.newSingleThreadExecutor();
 
     public static Future<?> runAsyncAtRate(Runnable runnable, int rateInMinutes) {
-        return executorService.scheduleAtFixedRate(runnable, 0, rateInMinutes, TimeUnit.MINUTES);
+        return runAsyncAtRate(runnable, rateInMinutes, TimeUnit.MINUTES);
+    }
+
+    public static Future<?> runAsyncAtRate(Runnable runnable, int rate, TimeUnit unit) {
+        return executorService.scheduleAtFixedRate(runnable, 0, rate, unit);
     }
 
     public static void runAsync(Runnable runnable) {

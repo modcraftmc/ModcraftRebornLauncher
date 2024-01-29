@@ -6,7 +6,6 @@ import fr.modcraftmc.launcher.configuration.LauncherConfig;
 import fr.modcraftmc.launcher.logger.LogManager;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.launcher.resources.ResourcesManager;
-import fr.modcraftmc.libs.api.ModcraftApiClient;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -24,6 +23,7 @@ public class ModcraftApplication extends Application {
     public static FilesManager     filesManager     = new FilesManager();
     public static Logger           LOGGER           = LogManager.createLogger("ModcraftLauncher");
     public static LauncherConfig   launcherConfig;
+    public static fr.modcraftmc.api.ModcraftApiClient apiClient = new fr.modcraftmc.api.ModcraftApiClient("https://api.modcraftmc.fr/v1");
     //Constants
     public static String FORGE_VERSION = "43.3.8";
     public static String MC_VERSION    = "1.19.2";
@@ -37,7 +37,6 @@ public class ModcraftApplication extends Application {
         System.setProperty("prism.lcdtext", "false"); // anti-aliasing thing
         LOGGER.info("ModcraftLauncher started in " + ENVIRONMENT + " environment.");
         launcherConfig = LauncherConfig.load(filesManager.getOptionsPath());
-        ModcraftApiClient.init();
         if (launcherConfig.getInstanceProperty() == null) launcherConfig.setInstanceProperty(new InstanceProperty(false, ""));
         window = stage;
         // need to preload font

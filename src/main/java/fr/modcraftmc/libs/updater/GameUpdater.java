@@ -1,16 +1,24 @@
 package fr.modcraftmc.libs.updater;
 
 import fr.flowarg.flowupdater.FlowUpdater;
+import fr.flowarg.flowupdater.download.json.Mod;
 import fr.flowarg.flowupdater.utils.ModFileDeleter;
 import fr.flowarg.flowupdater.utils.UpdaterOptions;
 import fr.flowarg.flowupdater.versions.AbstractForgeVersion;
 import fr.flowarg.flowupdater.versions.VanillaVersion;
+import fr.modcraftmc.api.ModcraftApiRequestsExecutor;
+import fr.modcraftmc.api.exception.ParsingException;
+import fr.modcraftmc.api.exception.RemoteException;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.logger.LogManager;
+import fr.modcraftmc.libs.api.ModcraftServiceUserProfile;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 import fr.modcraftmc.libs.updater.forge.ModcraftForgeVersionBuilder;
 
+import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class GameUpdater {
@@ -26,13 +34,21 @@ public class GameUpdater {
         this.progressCallback = progressCallback;
     }
 
-    public void update(Runnable onUpdateFinished) {
+    public void update(ModcraftServiceUserProfile profile, Runnable onUpdateFinished) {
         VanillaVersion version = new VanillaVersion.VanillaVersionBuilder().withName(ModcraftApplication.MC_VERSION).build();
         UpdaterOptions options = new UpdaterOptions.UpdaterOptionsBuilder().withSilentRead(false).build();
 
+        List<Mod> mods = new ArrayList<>();
+        try {
+            ModcraftApplication.apiClient.executeRequest(ModcraftApiRequestsExecutor.getClientModsConfig(profile.token)).mods().forEach(modInfo -> mods.add(new Mod(modInfo.name(), modInfo.downloadUrl(), modInfo.sha256(), modInfo.size())));
+        } catch (ParsingException | IOException | RemoteException e) {
+            ErrorsHandler.handleError(e);
+            return;
+        }
+
         AbstractForgeVersion forgeVersion = new ModcraftForgeVersionBuilder()
                 .withForgeVersion(ModcraftApplication.FORGE_VERSION)
-                .withMods("https://download.modcraftmc.fr/mods.json")
+                .withMods(mods)
                 .withFileDeleter(new ModFileDeleter())
                 .build();
 

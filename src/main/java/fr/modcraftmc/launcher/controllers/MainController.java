@@ -1,11 +1,13 @@
 package fr.modcraftmc.launcher.controllers;
 
+import fr.modcraftmc.api.ModcraftApiRequestsExecutor;
+import fr.modcraftmc.api.models.MaintenanceStatus;
 import fr.modcraftmc.launcher.AsyncExecutor;
 import fr.modcraftmc.launcher.MFXMLLoader;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
 import fr.modcraftmc.launcher.resources.FilesManager;
-import fr.modcraftmc.libs.api.ModcraftApiClient;
+import fr.modcraftmc.libs.api.ModcraftServiceUserProfile;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 import fr.modcraftmc.libs.launch.LaunchManager;
 import fr.modcraftmc.libs.serverpinger.MinecraftPing;
@@ -52,8 +54,6 @@ public class MainController extends BaseController implements ProgressCallback {
     private double yOffset = 0;
 
     //Window
-    @FXML public Button close;
-    @FXML public Button minimize;
 
     @FXML public Button play;
     @FXML public ProgressIndicator playIndicator;
@@ -99,7 +99,7 @@ public class MainController extends BaseController implements ProgressCallback {
     private AnchorPane pane;
 
     private StepMCProfile.MCProfile currentProfile;
-    //private ModcraftApiClient.ModcraftServiceUserProfile currentModcraftProfile;
+    private ModcraftServiceUserProfile currentModcraftProfile;
 
     public void updateUserInfos(StepMCProfile.MCProfile authInfos) {
         this.currentProfile = authInfos;
@@ -111,8 +111,13 @@ public class MainController extends BaseController implements ProgressCallback {
             e.printStackTrace();
         }
 
-//        currentModcraftProfile = ModcraftApiClient.ModcraftServiceUserProfile.getProfile(authInfos.prevResult().prevResult().access_token());
-//        playerRank.setText(currentModcraftProfile.info.privilege().name().toLowerCase());
+        try {
+            currentModcraftProfile = ModcraftServiceUserProfile.getProfile(authInfos.prevResult().prevResult().access_token());
+            playerRank.setText(currentModcraftProfile.info.role().name().toLowerCase());
+        } catch (Exception e) {
+            ModcraftApplication.LOGGER.severe("Error while getting modcraft profile");
+            ErrorsHandler.handleErrorAndCrashApplication(e);
+        }
     }
 
     @Override
@@ -136,8 +141,14 @@ public class MainController extends BaseController implements ProgressCallback {
 
 
         play.setOnMouseClicked(event -> {
-            ModcraftApiClient.MaintenanceStatus maintenanceStatus = ModcraftApiClient.areServersUnderMaintenance();
-            if (maintenanceStatus.isActivated()) {
+            MaintenanceStatus maintenanceStatus = null;
+            try {
+                maintenanceStatus = ModcraftApplication.apiClient.executeRequest(ModcraftApiRequestsExecutor.getMaintenanceStatus());
+            } catch (Exception e) {
+                ErrorsHandler.handleError(e);
+            }
+
+            if (maintenanceStatus.activated()) {
                 ErrorsHandler.handleErrorWithCustomHeader("nous sommes en en maintenance !", new Exception(maintenanceStatus.reason()));
                return;
             }
@@ -149,7 +160,7 @@ public class MainController extends BaseController implements ProgressCallback {
             GameUpdater gameUpdater = new GameUpdater(instanceDirectory.toPath(), this);
 
             AsyncExecutor.runAsync(() -> {
-                gameUpdater.update(() -> {
+                gameUpdater.update(currentModcraftProfile, () -> {
                     try {
                         Process process = LaunchManager.launch(instanceDirectory, currentProfile);
                         AsyncExecutor.runAsync(() -> {
@@ -223,18 +234,6 @@ public class MainController extends BaseController implements ProgressCallback {
             ModcraftApplication.getWindow().setScene(MFXMLLoader.loadFxml("login.fxml", true));
         });
 
-        //#endregion
-
-        //#region window action
-        close.setOnMouseClicked(event -> {
-            ModcraftApplication.getWindow().hide();
-            ModcraftApplication.shutdown(0);
-        });
-
-        minimize.setOnMouseClicked(event ->  {
-            ModcraftApplication.getWindow().setIconified(true);
-            ModcraftApplication.launcherConfig.save();
-        });
         //#endregion
     }
 
