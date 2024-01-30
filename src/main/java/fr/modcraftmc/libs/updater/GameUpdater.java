@@ -40,7 +40,9 @@ public class GameUpdater {
 
         List<Mod> mods = new ArrayList<>();
         try {
-            ModcraftApplication.apiClient.executeRequest(ModcraftApiRequestsExecutor.getClientModsConfig(profile.token)).mods().forEach(modInfo -> mods.add(new Mod(modInfo.name(), modInfo.downloadUrl(), modInfo.sha256(), modInfo.size())));
+            ModcraftApplication.apiClient.executeRequest(ModcraftApiRequestsExecutor.getClientModsConfig(profile.token)).mods().forEach(modInfo -> {
+                mods.add(new Mod(modInfo.name(), modInfo.downloadUrl(), modInfo.sha1(), modInfo.size()));
+            });
         } catch (ParsingException | IOException | RemoteException e) {
             ErrorsHandler.handleError(e);
             return;
