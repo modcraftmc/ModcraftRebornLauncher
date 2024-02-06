@@ -49,7 +49,9 @@ public class Physic {
     public static void reset(){
         if (running) stopEngine();
         scene.clear();
-        dynamicColliders.clear();
+        synchronized (dynamicColliders){
+            dynamicColliders.clear();
+        }
     }
 
     public static DynamicCollider registerDynamicBox(IMovable movable, Vec2d offset, Vec2d size, float bounciness){
@@ -59,7 +61,9 @@ public class Physic {
         BoxCollider collider = new BoxCollider(offset, size, movable);
         DynamicCollider dynamicCollider = new DynamicCollider(collider);
         dynamicCollider.bounciness = bounciness;
-        dynamicColliders.add(dynamicCollider);
+        synchronized (dynamicColliders){
+            dynamicColliders.add(dynamicCollider);
+        }
         return dynamicCollider;
     }
 
@@ -82,12 +86,15 @@ public class Physic {
         }
         Box containerBox = new Box(position, size);
         containers.add(containerBox);
-        for (Iterator<Box> iterator = scene.iterator(); iterator.hasNext();){
-            Box box = iterator.next();
+
+        List<Box> toRemove = new ArrayList<>();
+        for (Box box : scene){
             if (isColliding(box, containerBox)) {
-                scene.remove(box);
+                toRemove.add(box);
             }
         }
+        scene.removeAll(toRemove);
+
         //register 4 boxes for the 4 sides of the container
         registerStaticBox(new Vec2d(position.x, position.y - size.y / 2 - borderSize / 2), new Vec2d(size.x, borderSize));
         registerStaticBox(new Vec2d(position.x, position.y + size.y / 2 + borderSize / 2), new Vec2d(size.x, borderSize));
@@ -148,11 +155,13 @@ public class Physic {
     }
 
     private static void update(float timeStep){
-        for (DynamicCollider collider : dynamicColliders) {
-            collider.update(timeStep);
-            for (Box box : scene) {
-                if (isColliding(collider.collider, box)) {
-                    solveConstraints(collider, box);
+        synchronized (dynamicColliders){
+            for (DynamicCollider collider : dynamicColliders) {
+                collider.update(timeStep);
+                for (Box box : scene) {
+                    if (isColliding(collider.collider, box)) {
+                        solveConstraints(collider, box);
+                    }
                 }
             }
         }
