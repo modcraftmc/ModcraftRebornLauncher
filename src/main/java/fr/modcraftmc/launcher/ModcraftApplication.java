@@ -25,7 +25,7 @@ public class ModcraftApplication extends Application {
     public static LauncherConfig   launcherConfig;
     public static fr.modcraftmc.api.ModcraftApiClient apiClient = new fr.modcraftmc.api.ModcraftApiClient("https://api.modcraftmc.fr/v1");
     //Constants
-    public static String FORGE_VERSION = "43.3.8";
+    public static String FORGE_VERSION = "43.3.12";
     public static String MC_VERSION    = "1.19.2";
     public static String MCP_VERSION   = "20220805.130853";
     private static Stage window;
