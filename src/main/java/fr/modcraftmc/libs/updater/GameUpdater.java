@@ -14,6 +14,7 @@ import fr.modcraftmc.launcher.logger.LogManager;
 import fr.modcraftmc.libs.api.ModcraftServiceUserProfile;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 import fr.modcraftmc.libs.updater.forge.ModcraftForgeVersionBuilder;
+import javafx.application.Platform;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -54,7 +55,13 @@ public class GameUpdater {
                 .withFileDeleter(new ModFileDeleter())
                 .build();
 
-        FlowUpdater updater = new FlowUpdater.FlowUpdaterBuilder().withVanillaVersion(version).withUpdaterOptions(options).withProgressCallback(new UpdaterProgessCallback()).withModLoaderVersion(forgeVersion).build();
+        FlowUpdater updater = new FlowUpdater.FlowUpdaterBuilder()
+                .withVanillaVersion(version)
+                .withUpdaterOptions(options)
+                .withProgressCallback(new UpdaterProgessCallback())
+                .withModLoaderVersion(forgeVersion)
+                .withExternalFiles()
+                .build();
 
         try {
             LOGGER.info("Updating game at " + GameUpdater.get().getUpdateDirectory());
@@ -64,7 +71,7 @@ public class GameUpdater {
         }
 
         LOGGER.info("finished update");
-        onUpdateFinished.run();
+        Platform.runLater(onUpdateFinished);
     }
 
     public static GameUpdater get() {

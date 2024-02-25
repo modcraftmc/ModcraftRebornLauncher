@@ -47,6 +47,7 @@ public class LoaderController extends BaseController {
                     ((MainController) scene.getUserData()).updateUserInfos(authResult.getMcProfile());
                     ModcraftApplication.getWindow().setScene(scene);
                     ModcraftApplication.getWindow().show();
+                    ModcraftApplication.getWindow().centerOnScreen();
                 });
             } else {
                     Platform.runLater(() -> {
@@ -56,6 +57,7 @@ public class LoaderController extends BaseController {
                         Scene scene = MFXMLLoader.loadFxml("login.fxml", false);
                         ModcraftApplication.getWindow().setScene(scene);
                         ModcraftApplication.getWindow().show();
+                        ModcraftApplication.getWindow().centerOnScreen();
                     });
                 }
         });

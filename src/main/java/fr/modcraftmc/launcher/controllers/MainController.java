@@ -49,12 +49,6 @@ public class MainController extends BaseController implements ProgressCallback {
         UPDATING,
         PLAYING
     }
-    //Drag
-    private double xOffset = 0;
-    private double yOffset = 0;
-
-    //Window
-
     @FXML public Button play;
     @FXML public ProgressIndicator playIndicator;
 
@@ -161,18 +155,23 @@ public class MainController extends BaseController implements ProgressCallback {
 
             AsyncExecutor.runAsync(() -> {
                 gameUpdater.update(currentModcraftProfile, () -> {
-                    try {
-                        Process process = LaunchManager.launch(instanceDirectory, currentProfile);
-                        AsyncExecutor.runAsync(() -> {
+                    if (!keepOpen.isSelected())
+                        ModcraftApplication.getWindow().setIconified(true);
+
+                    AsyncExecutor.runAsync(() -> {
+                        try {
+                            Process process = LaunchManager.launch(instanceDirectory, currentProfile);
                             while (process.isAlive()) {}
 
                             ModcraftApplication.LOGGER.info("Game process shutdown");
-                            Platform.runLater(() -> setLauncherState(State.IDLE));
-
-                        });
-                    } catch (Exception e) {
-                        ErrorsHandler.handleError(e);
-                    }
+                            Platform.runLater(() -> {
+                                ModcraftApplication.getWindow().setIconified(false);
+                                setLauncherState(State.IDLE);
+                            });
+                        } catch (Exception e) {
+                            ErrorsHandler.handleError(e);
+                        }
+                    });
                 });
             });
         });

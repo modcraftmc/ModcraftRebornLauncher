@@ -1,10 +1,8 @@
 package fr.modcraftmc.launcher.controllers;
 
 import com.sun.javafx.geom.Vec2d;
-import fr.modcraftmc.launcher.AsyncExecutor;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.Utils;
-import fr.modcraftmc.libs.errors.ErrorsHandler;
 import fr.modcraftmc.libs.physicEngine.DynamicCollider;
 import fr.modcraftmc.libs.physicEngine.IMovable;
 import fr.modcraftmc.libs.physicEngine.Physic;
@@ -14,8 +12,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
-
-import java.util.concurrent.TimeUnit;
 
 public abstract class BaseController implements IController, IMovable {
 
