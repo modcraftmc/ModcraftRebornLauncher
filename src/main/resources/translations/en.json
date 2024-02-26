@@ -1,5 +1,5 @@
 {
-  "primarylauncher.logs.primarychecks": "Vérification de l'environnement avant le démarrage",
-  "primarylauncher.logs.javafx.found": "JavaFX est présent",
-  "primarylauncher.logs.javafx.notfound": "JavaFX n'est pas présent, merci de contacter le support."
+  "primarylauncher.logs.primarychecks": "Performing primary check before launch",
+  "primarylauncher.logs.javafx.found": "JavaFX found",
+  "primarylauncher.logs.javafx.notfound": "JavaFX not found please contact support."
 }
