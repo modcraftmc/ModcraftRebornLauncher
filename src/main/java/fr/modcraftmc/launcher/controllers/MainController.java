@@ -154,7 +154,7 @@ public class MainController extends BaseController implements ProgressCallback {
             GameUpdater gameUpdater = new GameUpdater(instanceDirectory.toPath(), this);
 
             AsyncExecutor.runAsync(() -> {
-                gameUpdater.update(currentModcraftProfile, () -> {
+                gameUpdater.update(this, currentModcraftProfile, () -> {
                     if (!keepOpen.isSelected())
                         ModcraftApplication.getWindow().setIconified(true);
 

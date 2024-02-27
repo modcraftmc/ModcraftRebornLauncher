@@ -10,6 +10,7 @@ import fr.modcraftmc.api.ModcraftApiRequestsExecutor;
 import fr.modcraftmc.api.exception.ParsingException;
 import fr.modcraftmc.api.exception.RemoteException;
 import fr.modcraftmc.launcher.ModcraftApplication;
+import fr.modcraftmc.launcher.controllers.MainController;
 import fr.modcraftmc.launcher.logger.LogManager;
 import fr.modcraftmc.libs.api.ModcraftServiceUserProfile;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
@@ -35,7 +36,7 @@ public class GameUpdater {
         this.progressCallback = progressCallback;
     }
 
-    public void update(ModcraftServiceUserProfile profile, Runnable onUpdateFinished) {
+    public void update(MainController controller, ModcraftServiceUserProfile profile, Runnable onUpdateFinished) {
         VanillaVersion version = new VanillaVersion.VanillaVersionBuilder().withName(ModcraftApplication.MC_VERSION).build();
         UpdaterOptions options = new UpdaterOptions.UpdaterOptionsBuilder().withSilentRead(false).build();
 
@@ -46,6 +47,7 @@ public class GameUpdater {
             });
         } catch (ParsingException | IOException | RemoteException e) {
             ErrorsHandler.handleError(e);
+            controller.setLauncherState(MainController.State.IDLE);
             return;
         }
 
