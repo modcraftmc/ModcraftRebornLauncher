@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 public class PrimaryLauncher {
 
-    private static Logger LOGGER = LogManager.createLogger("PrimaryLauncher");
+    private static final Logger LOGGER = LogManager.createLogger("PrimaryLauncher");
 
     public static void main(String[] args) {
         LOGGER.info("Performing primary check before launch.");
