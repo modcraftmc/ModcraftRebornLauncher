@@ -5,7 +5,7 @@ on:
         - main
 jobs:
     build:
-        runs-on: [self-hosted, linux, minecraft]
+        runs-on: ['manu-homelab']
         steps:
           - name: Checkout
             uses: actions/checkout@v2
