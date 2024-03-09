@@ -12,7 +12,6 @@ import fr.modcraftmc.api.exception.RemoteException;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.controllers.MainController;
 import fr.modcraftmc.launcher.logger.LogManager;
-import fr.modcraftmc.libs.api.ModcraftServiceUserProfile;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 import fr.modcraftmc.libs.updater.forge.ModcraftForgeVersionBuilder;
 import javafx.application.Platform;
@@ -36,13 +35,13 @@ public class GameUpdater {
         this.progressCallback = progressCallback;
     }
 
-    public void update(MainController controller, ModcraftServiceUserProfile profile, Runnable onUpdateFinished) {
+    public void update(MainController controller, Runnable onUpdateFinished) {
         VanillaVersion version = new VanillaVersion.VanillaVersionBuilder().withName(ModcraftApplication.MC_VERSION).build();
         UpdaterOptions options = new UpdaterOptions.UpdaterOptionsBuilder().withSilentRead(false).build();
 
         List<Mod> mods = new ArrayList<>();
         try {
-            ModcraftApplication.apiClient.executeRequest(ModcraftApiRequestsExecutor.getClientModsConfig(profile.token)).mods().forEach(modInfo -> {
+            ModcraftApplication.apiClient.executeRequest(ModcraftApiRequestsExecutor.getClientModsConfig()).mods().forEach(modInfo -> {
                 mods.add(new Mod(modInfo.name(), modInfo.downloadUrl(), modInfo.sha1(), modInfo.size()));
             });
         } catch (ParsingException | IOException | RemoteException e) {

@@ -88,8 +88,6 @@ public class MainController extends BaseController implements ProgressCallback {
     @FXML public Pane blocker;
     @FXML public Label blockerText;
 
-    private Process launchProcess;
-    private boolean isUpdateLaunched = false;
     private AnchorPane pane;
 
     private StepMCProfile.MCProfile currentProfile;
@@ -102,7 +100,7 @@ public class MainController extends BaseController implements ProgressCallback {
             Image image = new Image(new URL("https://minotar.net/avatar/" + authInfos.name()).openStream(), 64, 64, false, false);
             playerHead.setImage(image);
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorsHandler.handleError(e);
         }
 
         try {
@@ -135,26 +133,26 @@ public class MainController extends BaseController implements ProgressCallback {
 
 
         play.setOnMouseClicked(event -> {
-            MaintenanceStatus maintenanceStatus = null;
+            setLauncherState(State.UPDATING);
             try {
-                maintenanceStatus = ModcraftApplication.apiClient.executeRequest(ModcraftApiRequestsExecutor.getMaintenanceStatus());
+                MaintenanceStatus maintenanceStatus = ModcraftApplication.apiClient.executeRequest(ModcraftApiRequestsExecutor.getMaintenanceStatus());
+
+                if (maintenanceStatus.activated()) {
+                    throw new Exception("nous sommes en en maintenance !");
+                }
             } catch (Exception e) {
                 ErrorsHandler.handleError(e);
+                setLauncherState(State.IDLE);
+                return;
             }
 
-            if (maintenanceStatus.activated()) {
-                ErrorsHandler.handleErrorWithCustomHeader("nous sommes en en maintenance !", new Exception(maintenanceStatus.reason()));
-               return;
-            }
-
-            setLauncherState(State.UPDATING);
             InstanceProperty instanceProperty = ModcraftApplication.launcherConfig.getInstanceProperty();
             final File instanceDirectory = instanceProperty.isCustomInstance() ? new File(instanceProperty.getCustomInstancePath()) : new File(FilesManager.INSTANCES_PATH, "reborn");
             if (!instanceDirectory.exists()) instanceDirectory.mkdirs();
             GameUpdater gameUpdater = new GameUpdater(instanceDirectory.toPath(), this);
 
             AsyncExecutor.runAsync(() -> {
-                gameUpdater.update(this, currentModcraftProfile, () -> {
+                gameUpdater.update(this, () -> {
                     if (!keepOpen.isSelected())
                         ModcraftApplication.getWindow().setIconified(true);
 
