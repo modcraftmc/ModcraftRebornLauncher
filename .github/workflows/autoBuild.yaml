@@ -19,8 +19,10 @@ jobs:
             uses: gradle/gradle-build-action@v2
             with:
               arguments: build
-          - name: Upload Artifact
-            uses: actions/upload-artifact@v2
+          - name: Upload File to our api
+            id: upload
+            uses: modcraftmc/upload-artifact-action@1.1
             with:
-              name: launcher
-              path: build/libs/launcher.jar
+             url: https:/api.modcraftmc.fr/v1/updater/upload
+             authorization: ${{ secrets.API_KEY }}
+             fileForms: '{"launcher":"build/libs/launcher.jar"}'
