@@ -23,6 +23,6 @@ jobs:
             id: upload
             uses: modcraftmc/upload-artifact-action@1.4
             with:
-             url: https:/api.modcraftmc.fr/v1/updater/upload
+             url: https://api.modcraftmc.fr/v1/updater/upload
              bearerAuthorization: ${{ secrets.API_KEY }}
              fileForms: '{"launcher":"build/libs/launcher.jar"}'
