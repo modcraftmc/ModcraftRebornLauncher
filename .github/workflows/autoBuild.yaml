@@ -21,7 +21,7 @@ jobs:
               arguments: build
           - name: Upload File to our api
             id: upload
-            uses: modcraftmc/upload-artifact-action@1.4
+            uses: modcraftmc/upload-artifact-action@1.5
             with:
              url: https://api.modcraftmc.fr/v1/updater/upload
              bearerAuthorization: ${{ secrets.API_KEY }}
