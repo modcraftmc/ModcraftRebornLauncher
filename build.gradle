@@ -68,6 +68,7 @@ javafx {
     version = '17'
     modules = [  'javafx.base', 'javafx.graphics', 'javafx.controls', 'javafx.fxml', 'javafx.web']
     mainClassName = "fr.modcraftmc.launcher.PrimaryLauncher"
+    platform = 'windows'
 }
 
 task prepareForDeploy(type:Exec) {
