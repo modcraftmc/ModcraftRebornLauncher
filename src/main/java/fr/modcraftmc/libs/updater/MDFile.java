@@ -1,31 +1,36 @@
 package fr.modcraftmc.libs.updater;
 
 public class MDFile {
-    private String path;
-    private String name;
-    private String size;
-    private String md5;
+    private final String path;
+    private final String downloadURL;
+    private final String sha1;
+    private final long size;
 
-    public MDFile(String path, String name, String size, String md5) {
+    public MDFile(String path, String downloadURL, String sha1, long size)
+    {
         this.path = path;
-        this.name = name;
+        this.downloadURL = downloadURL;
+        this.sha1 = sha1;
         this.size = size;
-        this.md5 = md5;
     }
 
-    public String getPath() {
-        return path;
+    public String getPath()
+    {
+        return this.path;
     }
 
-    public String getName() {
-        return name;
+    public String getDownloadURL()
+    {
+        return this.downloadURL;
     }
 
-    public String getSize() {
-        return size;
+    public String getSha1()
+    {
+        return this.sha1;
     }
 
-    public String getMd5() {
-        return md5;
+    public long getSize()
+    {
+        return this.size;
     }
 }

@@ -1,44 +1,40 @@
 package fr.modcraftmc.libs.launch;
 
-import fr.flowarg.openlauncherlib.NewForgeVersionDiscriminator;
+import fr.flowarg.openlauncherlib.NoFramework;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.libs.auth.AccountManager;
 import fr.theshark34.openlauncherlib.JavaUtil;
-import fr.theshark34.openlauncherlib.LaunchException;
-import fr.theshark34.openlauncherlib.external.ExternalLaunchProfile;
-import fr.theshark34.openlauncherlib.external.ExternalLauncher;
-import fr.theshark34.openlauncherlib.minecraft.*;
-import javafx.application.Platform;
+import fr.theshark34.openlauncherlib.minecraft.AuthInfos;
+import fr.theshark34.openlauncherlib.minecraft.GameFolder;
+import net.raphimc.mcauth.step.java.StepMCProfile;
 
 import java.io.File;
 
 public class LaunchManager {
 
-    public static Process launch(File dir) {
+    public static Process launch(File dir, StepMCProfile.MCProfile currentProfile) throws Exception {
 
-        try {
-            NewForgeVersionDiscriminator forgeVersionDiscriminator = new NewForgeVersionDiscriminator(ModcraftApplication.FORGE_VERSION, ModcraftApplication.MC_VERSION, "net.minecraftforge", ModcraftApplication.MCP_VERSION);
-            GameVersion VERSION = new GameVersion(ModcraftApplication.MC_VERSION, GameType.V1_13_HIGHER_FORGE.setNFVD(forgeVersionDiscriminator));
-            GameInfos infos = new GameInfos("modcraftmc", dir, VERSION, new GameTweak[] {});
-
-            AuthInfos authInfos = new AuthInfos(AccountManager.getAuthInfos().get().uuid(), "" ,AccountManager.getAuthInfos().get().name());
-            ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(infos, GameFolder.FLOW_UPDATER, authInfos);
-
-            if (System.getProperty("os.name").contains("windows")) {
-                JavaUtil.setJavaCommand(new File(FilesManager.JAVA_PATH, "\\bin\\java").getPath());
-            } else {
-                JavaUtil.setJavaCommand(new File(FilesManager.JAVA_PATH, "/bin/java").getPath());
-            }
-            profile.getVmArgs().add(String.format("-Xmx%sG", ModcraftApplication.launcherConfig.getRam()));
-            ExternalLauncher launcher = new ExternalLauncher(profile);
-
-            Process process = launcher.launch();
-
-            return process;
-        } catch (LaunchException e) {
-            e.printStackTrace();
+        if (currentProfile.isExpired()) {
+            currentProfile = AccountManager.validate(null).getMcProfile();
         }
-        return null;
+
+        String name = currentProfile.name();
+        String accesToken = currentProfile.prevResult().prevResult().access_token();
+        String uuid = currentProfile.id().toString();
+        String xuid = currentProfile.prevResult().prevResult().prevResult().token();
+        String clientId = currentProfile.prevResult().prevResult().prevResult().userHash();
+
+        AuthInfos authInfos = new AuthInfos(name, accesToken, uuid, xuid, clientId);
+        final NoFramework noFramework = new NoFramework(dir.toPath(), authInfos, GameFolder.FLOW_UPDATER_1_19_SUP);
+        if (System.getProperty("os.name").contains("windows")) {
+            JavaUtil.setJavaCommand(new File(FilesManager.JAVA_PATH, "\\bin\\java.exe").getPath());
+        } else {
+            JavaUtil.setJavaCommand(new File(FilesManager.JAVA_PATH, "/bin/java").getPath());
+        }
+        ModcraftApplication.LOGGER.info("launching");
+        noFramework.getAdditionalVmArgs().add((String.format("-Xmx%sG", ModcraftApplication.launcherConfig.getRam())));
+        noFramework.getAdditionalArgs().add("-XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true");
+        return noFramework.launch(ModcraftApplication.MC_VERSION, ModcraftApplication.FORGE_VERSION, NoFramework.ModLoader.FORGE);
     }
 }

@@ -6,11 +6,8 @@ import javafx.util.Duration;
 
 public class SizeTransition extends Transition {
     private Region node;
-
-
     private double startWidth;
     private double startHeight;
-
     private double endWidth;
     private double endHeight;
 

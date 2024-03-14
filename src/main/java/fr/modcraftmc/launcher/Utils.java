@@ -1,61 +1,42 @@
 package fr.modcraftmc.launcher;
 
-import fr.modcraftmc.launcher.controllers.IController;
-import fr.modcraftmc.libs.auth.AccountManager;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
+import com.sun.javafx.application.HostServicesDelegate;
+import fr.modcraftmc.libs.errors.ErrorsHandler;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.CompletableFuture;
 
 public class Utils {
 
-
-    private static double xOffset = 0;
-    private static double yOffset = 0;
-
-    private static Map<String, Scene> loadedScenes = new HashMap<>();
-    public static Scene loadFxml(String file, boolean forceReload) {
-
-        if (loadedScenes.containsKey(file)&& !forceReload) {
-            return loadedScenes.get(file);
-        }
-
-        try {
-            FXMLLoader loader = new FXMLLoader(ModcraftApplication.resourcesManager.getResource(file));
-            Pane pane = loader.load();
-
-            IController controller = loader.getController();
-            controller.initialize();
-            pane.setOnMousePressed(event -> {
-                xOffset = event.getSceneX();
-                yOffset = event.getSceneY();
-            });
-            pane.setOnMouseDragged(event -> {
-                ModcraftApplication.getWindow().setX(event.getScreenX() - xOffset);
-                ModcraftApplication.getWindow().setY(event.getScreenY() - yOffset);
-            });
-            Scene scene = new Scene(pane);
-            scene.setUserData(controller);
-            loadedScenes.put(file, scene);
-            return scene;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        throw new RuntimeException();
+    public static void copyToClipboard(String s) {
+        final Clipboard clipboard = Clipboard.getSystemClipboard();
+        final ClipboardContent content = new ClipboardContent();
+        content.putString(s);
+        clipboard.setContent(content);
     }
 
-    public static boolean checkAccount() {
-        AtomicBoolean returnValue = new AtomicBoolean(false);
-        if (ModcraftApplication.launcherConfig.isKeeplogin()) {
-            AccountManager.tryVerify(ModcraftApplication.launcherConfig.getRefreshToken()).thenAccept(returnValue::set);
-        }
+    public static void openBrowser(String url) {
+        HostServicesDelegate hostServices = HostServicesDelegate.getInstance(ModcraftApplication.app);
+        hostServices.showDocument(url);
+    }
 
-        return returnValue.get();
+    public static CompletableFuture<Void> pleaseWait(int millis) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(millis);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            return null;
+        });
+    }
+
+    public static void selfCatchSleep(int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            ErrorsHandler.handleError(e);
+        }
     }
 }

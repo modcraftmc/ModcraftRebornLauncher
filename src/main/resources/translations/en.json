@@ -1,0 +1,5 @@
+{
+  "primarylauncher.logs.primarychecks": "Performing primary check before launch",
+  "primarylauncher.logs.javafx.found": "JavaFX found",
+  "primarylauncher.logs.javafx.notfound": "JavaFX not found please contact support."
+}

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXProgressSpinner?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+<AnchorPane maxHeight="400.0" maxWidth="700.0" minHeight="400.0" minWidth="700.0" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.LoaderController">
+   <children>
+      <ImageView fitHeight="400.0" fitWidth="707.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/loader/background.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="loadingMessage" alignment="CENTER" layoutX="172.0" layoutY="367.0" prefHeight="19.0" prefWidth="358.0" text="Démarrage du launcher" textFill="WHITE">
+         <font>
+            <Font name="Lilita One" size="15.0" />
+         </font></Label>
+       <MFXProgressSpinner fx:id="playIndicator" layoutX="337.0" layoutY="326.0" mouseTransparent="true" prefHeight="33.0" prefWidth="28.0" startingAngle="0.0">
+           <color1>
+               <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
+           </color1>
+           <color2>
+               <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
+           </color2>
+           <color3>
+               <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
+           </color3>
+           <color4>
+               <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
+           </color4>
+       </MFXProgressSpinner>
+       <Pane fx:id="closeButton" layoutX="673.0" layoutY="14.0" prefHeight="13.0" prefWidth="13.0">
+         <children>
+               <ImageView fitHeight="150.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                   <image>
+                       <Image url="@../images/close.png" />
+                   </image>
+                     </ImageView>
+         </children></Pane>
+       <Pane fx:id="minimiseButton" layoutX="643.0" layoutY="10.0" prefHeight="27.0" prefWidth="21.0">
+           <children>
+               <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="1.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                   <image>
+                       <Image url="@../images/minimise.png" />
+                   </image>
+               </ImageView>
+           </children>
+       </Pane>
+   </children>
+</AnchorPane>

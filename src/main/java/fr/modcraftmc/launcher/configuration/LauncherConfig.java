@@ -1,9 +1,8 @@
 package fr.modcraftmc.launcher.configuration;
 
-import com.google.gson.*;
-import fr.modcraftmc.launcher.Utils;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import fr.modcraftmc.launcher.logger.LogManager;
-import fr.modcraftmc.libs.auth.AccountManager;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -38,7 +37,7 @@ public class LauncherConfig {
     private String loginType;
 
     public boolean isKeeplogin() {
-        return keeplogin;
+        return true;
     }
 
     public String getRefreshToken() {
@@ -78,14 +77,6 @@ public class LauncherConfig {
         this.ram = ram;
     }
 
-    public AccountManager.LoginType getLoginType() {
-        return AccountManager.LoginType.valueOf(loginType);
-    }
-
-    public void setLoginType(AccountManager.LoginType loginType) {
-        this.loginType = loginType.name();
-    }
-
     public static LauncherConfig load(File file) {
 
         configFile = file;
@@ -107,9 +98,9 @@ public class LauncherConfig {
 
         if (instance == null) {
             instance = loadDefaults();
+            instance.save();
         }
 
-        instance.save();
         return instance;
 
     }

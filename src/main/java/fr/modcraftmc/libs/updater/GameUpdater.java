@@ -1,53 +1,85 @@
 package fr.modcraftmc.libs.updater;
 
-import com.google.common.collect.Lists;
+import fr.flowarg.flowupdater.FlowUpdater;
+import fr.flowarg.flowupdater.download.json.Mod;
+import fr.flowarg.flowupdater.utils.ModFileDeleter;
+import fr.flowarg.flowupdater.utils.UpdaterOptions;
+import fr.flowarg.flowupdater.versions.AbstractForgeVersion;
+import fr.flowarg.flowupdater.versions.VanillaVersion;
+import fr.modcraftmc.api.ModcraftApiRequestsExecutor;
+import fr.modcraftmc.api.exception.ParsingException;
+import fr.modcraftmc.api.exception.RemoteException;
+import fr.modcraftmc.launcher.ModcraftApplication;
+import fr.modcraftmc.launcher.controllers.MainController;
 import fr.modcraftmc.launcher.logger.LogManager;
-import fr.modcraftmc.libs.updater.phases.FetchData;
-import fr.modcraftmc.libs.updater.phases.GameDownload;
-import fr.modcraftmc.libs.updater.phases.IUpdaterPhase;
-import fr.modcraftmc.libs.updater.phases.ModcraftAutoDeploy;
+import fr.modcraftmc.libs.errors.ErrorsHandler;
+import fr.modcraftmc.libs.updater.forge.ModcraftForgeVersionBuilder;
+import javafx.application.Platform;
 
+import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
 public class GameUpdater {
 
     public static GameUpdater INSTANCE;
-    private final String updateServer;
     private final Path updateDirectory;
     private final ProgressCallback progressCallback;
 
-    public static String MANIFEST_ENDPOINT = "/metadata/manifest.json";
-    public static String IGNORELIST_ENDPOINT = "/metadata/manifest.json";
-
     public static Logger LOGGER = LogManager.createLogger("Updater");
-    public GameUpdater(String updateServer, Path updateDirectory, ProgressCallback progressCallback) {
+    public GameUpdater(Path updateDirectory, ProgressCallback progressCallback) {
         INSTANCE = this;
-        this.updateServer = updateServer;
         this.updateDirectory = updateDirectory;
         this.progressCallback = progressCallback;
     }
 
-    public CompletableFuture<UpdateResult> update() {
-        return CompletableFuture.supplyAsync(() -> {
+    public void update(MainController controller, Runnable onUpdateFinished) {
+        VanillaVersion version = new VanillaVersion.VanillaVersionBuilder().withName(ModcraftApplication.MC_VERSION).build();
+        UpdaterOptions options = new UpdaterOptions.UpdaterOptionsBuilder().withSilentRead(false).build();
 
+        List<Mod> mods = new ArrayList<>();
+        try {
+            ModcraftApplication.apiClient.executeRequest(ModcraftApiRequestsExecutor.getClientModsConfig()).mods().forEach(modInfo -> {
+                mods.add(new Mod(modInfo.name(), modInfo.downloadUrl(), modInfo.sha1(), modInfo.size()));
+            });
+        } catch (ParsingException | IOException | RemoteException e) {
+            ErrorsHandler.handleError(e);
+            controller.setLauncherState(MainController.State.IDLE);
+            return;
+        }
 
-            return UpdateResult.success();
-        });
+        AbstractForgeVersion forgeVersion = new ModcraftForgeVersionBuilder()
+                .withForgeVersion(ModcraftApplication.FORGE_VERSION)
+                .withMods(mods)
+                .withFileDeleter(new ModFileDeleter())
+                .build();
+
+        FlowUpdater updater = new FlowUpdater.FlowUpdaterBuilder()
+                .withVanillaVersion(version)
+                .withUpdaterOptions(options)
+                .withProgressCallback(new UpdaterProgessCallback())
+                .withModLoaderVersion(forgeVersion)
+                .withExternalFiles()
+                .build();
+
+        try {
+            LOGGER.info("Updating game at " + GameUpdater.get().getUpdateDirectory());
+            updater.update(GameUpdater.get().getUpdateDirectory());
+        } catch (Exception e) {
+            ErrorsHandler.handleError(new Exception("Error while updating the game"));
+        }
+
+        LOGGER.info("finished update");
+        Platform.runLater(onUpdateFinished);
     }
 
     public static GameUpdater get() {
         if (INSTANCE == null) {
-            //TODO: crash reporter
-            throw new IllegalStateException("GameUpdater is not initialised !");
+            ErrorsHandler.handleError(new IllegalStateException("GameUpdater is not initialised"));
         }
         return INSTANCE;
-    }
-
-    public String getUpdateServer() {
-        return updateServer;
     }
 
     public Path getUpdateDirectory() {

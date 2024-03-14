@@ -10,12 +10,12 @@ public class FilesManager {
     public static String BASE_PATH = windows ? System.getenv("appdata") : System.getenv("HOME");
     public static File DEFAULT_PATH = new File(BASE_PATH + FP + ".modcraftmc" + FP);
     public static File LAUNCHER_PATH = new File(DEFAULT_PATH, "launcher");
+    public static File LOGS_PATH = new File(LAUNCHER_PATH, "logs");
     public static File OPTIONS_PATH = new File(LAUNCHER_PATH, "modcraftlauncher.json");
     public static File INSTANCES_PATH = new File(DEFAULT_PATH, "instances");
     public static File JAVA_PATH = new File(DEFAULT_PATH, "java");
 
-    public FilesManager() {
-
+    static {
         try {
             if (!DEFAULT_PATH.exists()) {
                 DEFAULT_PATH.mkdirs();
@@ -32,10 +32,13 @@ public class FilesManager {
             if (!JAVA_PATH.exists()) {
                 JAVA_PATH.mkdirs();
             }
+
+            if (!LOGS_PATH.exists()) {
+                LOGS_PATH.mkdirs();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public File getDefaultPath() {

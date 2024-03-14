@@ -1,5 +1,7 @@
 package fr.modcraftmc.launcher.controllers;
 
+import javafx.fxml.FXMLLoader;
+
 public interface IController {
-    void initialize();
+    void initialize(FXMLLoader loader);
 }

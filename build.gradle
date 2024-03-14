@@ -2,18 +2,22 @@ plugins {
     id 'java'
     id 'application'
     id 'org.javamodularity.moduleplugin' version '1.8.12'
-    id 'org.openjfx.javafxplugin' version '0.0.13'
-    id 'org.beryx.jlink' version '2.25.0'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
+    id 'org.beryx.jlink' version '3.0.1'
     id 'com.github.johnrengelman.shadow' version '8.1.0'
 }
 
 group 'fr.modcraftmc'
-version '1.0-SNAPSHOT'
-
+version '1.0'
 
 compileJava.options.encoding = 'UTF-8'
 
+java {
+    modularity.inferModulePath.set(false)
+}
+
 repositories {
+    mavenLocal()
     mavenCentral()
     maven { url "https://jitpack.io" }
     jcenter()
@@ -25,22 +29,28 @@ repositories {
     maven {
         url = "https://repo.u-team.info"
     }
+    maven {
+        url "https://maven.modcraftmc.fr/releases"
+    }
 }
 
 dependencies {
     implementation 'io.github.palexdev:materialfx:11.13.9'
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
-    implementation group: 'commons-io', name: 'commons-io', version: '2.6'
-    implementation 'org.json:json:20200518'
-    implementation group: 'com.google.guava', name: 'guava', version: 'r05'
-    implementation 'de.jensd:fontawesomefx-commons:11.0'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    //implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
+    implementation group: 'commons-io', name: 'commons-io', version: '2.15.1'
     implementation 'fr.flowarg:openlauncherlib:3.2.6'
     implementation 'fr.flowarg:flowmultitools:1.4.0'
-    implementation 'io.github.typhon0:AnimateFX:1.2.2'
-    implementation 'com.github.marianobarrios:tls-channel:0.4.0'
-    implementation "net.hycrafthd:minecraft_authenticator:3.0.4"
-
+    implementation 'io.github.typhon0:AnimateFX:1.2.3'
+    implementation 'com.github.marianobarrios:tls-channel:0.8.1'
+    implementation 'fr.flowarg:flowupdater:1.7.4'
+    implementation "org.apache.httpcomponents:httpclient:4.5.14"
+    implementation "io.jsonwebtoken:jjwt-impl:0.11.5"
+    implementation("io.jsonwebtoken:jjwt-gson:0.11.5") {
+        exclude group: "com.google.code.gson", module: "gson"
+    }
+    implementation 'com.squareup.okhttp3:okhttp:4.11.0'
+    implementation 'fr.modcraftmc:modcraft-api-client:1.2'
 }
 
 shadowJar {
@@ -49,36 +59,39 @@ shadowJar {
     archiveVersion.set('')
 }
 
-
 application {
     mainModule = 'fr.modcraftmc.launcher'
     mainClass = 'fr.modcraftmc.launcher.PrimaryLauncher'
 }
 
 javafx {
-    version = "17.0.2"
-    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.base', 'javafx.web']
+    version = '17'
+    modules = [  'javafx.base', 'javafx.graphics', 'javafx.controls', 'javafx.fxml', 'javafx.web']
     mainClassName = "fr.modcraftmc.launcher.PrimaryLauncher"
-
+    platform = 'windows'
 }
 
 task prepareForDeploy(type:Exec) {
     workingDir = './build/libs'
-
     executable "sh"
     args "-c", "md5sum launcher.jar > launcher.txt && sed -i 's/ launcher.jar/ /g' launcher.txt";
 }
 
+ext.os = org.gradle.internal.os.OperatingSystem.current()
 jlink {
+    addExtraDependencies("javafx")
     imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip")
     options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
     launcher {
         name = 'app'
+    }
+    jpackage {
+        if(os.windows) {
+            installerOptions = ['--win-per-user-install', '--win-dir-chooser', '--win-menu']
+        }
     }
 }
 
 jlinkZip {
     group = 'distribution'
 }
-
-//jar.finalizedBy('prepareForDeploy')
