@@ -42,6 +42,7 @@ public class LoginController extends BaseController {
         FadeIn loadingContainerFadeIn = new FadeIn(loadingContainer);
 
         microsoftButton.setOnMouseClicked(event -> {
+            microsoftButton.setDisable(true); //TODO: replace the text with a loading animation
 
             AccountManager.authenticate(msaDeviceCode -> {
                 Platform.runLater(() -> {
@@ -50,23 +51,24 @@ public class LoginController extends BaseController {
                     authFormContainerLeft.play();
                     authFormContainerFadeOut.play();
 
-                    authCode.setText(msaDeviceCode.userCode());
+                    authCode.setText(msaDeviceCode.getUserCode());
                     loadingContainerFadeIn.play();
                     loadingMessage.setText("En attente de connexion");
 
                     copyAndOpenButton.setOnMouseClicked(unused -> {
-                        Utils.copyToClipboard(msaDeviceCode.userCode());
-                        Utils.openBrowser(msaDeviceCode.verificationUri());
+                        Utils.copyToClipboard(msaDeviceCode.getUserCode());
+                        Utils.openBrowser(msaDeviceCode.getDirectVerificationUri());
                     });
 
                     codeButton.setOnMouseClicked(unused -> {
-                        Utils.copyToClipboard(msaDeviceCode.userCode());
+                        Utils.copyToClipboard(msaDeviceCode.getUserCode());
                     });
                 });
             }).thenAcceptAsync(authResult -> {
                 if (authResult.isLoggedIn()) {
                     loadingMessage.setText("Connecté!");
                     Utils.pleaseWait(2000).thenAcceptAsync((unused) -> {
+                        microsoftButton.setDisable(false);
                         Scene scene = MFXMLLoader.loadFxml("main.fxml", false);
                         ((MainController) scene.getUserData()).updateUserInfos(authResult.getMcProfile());
                         ModcraftApplication.getWindow().setScene(scene);
