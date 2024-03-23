@@ -42,6 +42,7 @@ public class LoginController extends BaseController {
         FadeIn loadingContainerFadeIn = new FadeIn(loadingContainer);
 
         microsoftButton.setOnMouseClicked(event -> {
+            microsoftButton.setDisable(true); //TODO: replace the text with a loading animation
 
             AccountManager.authenticate(msaDeviceCode -> {
                 Platform.runLater(() -> {
@@ -67,6 +68,7 @@ public class LoginController extends BaseController {
                 if (authResult.isLoggedIn()) {
                     loadingMessage.setText("Connecté!");
                     Utils.pleaseWait(2000).thenAcceptAsync((unused) -> {
+                        microsoftButton.setDisable(false);
                         Scene scene = MFXMLLoader.loadFxml("main.fxml", false);
                         ((MainController) scene.getUserData()).updateUserInfos(authResult.getMcProfile());
                         ModcraftApplication.getWindow().setScene(scene);
