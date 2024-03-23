@@ -35,7 +35,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
 import javafx.util.Duration;
-import net.raphimc.mcauth.step.java.StepMCProfile;
+import net.raphimc.minecraftauth.step.java.StepMCProfile;
 
 import java.io.File;
 import java.io.IOException;
@@ -95,16 +95,16 @@ public class MainController extends BaseController implements ProgressCallback {
 
     public void updateUserInfos(StepMCProfile.MCProfile authInfos) {
         this.currentProfile = authInfos;
-        playerName.setText(authInfos.name());
+        playerName.setText(authInfos.getName());
         try {
-            Image image = new Image(new URL("https://minotar.net/avatar/" + authInfos.name()).openStream(), 64, 64, false, false);
+            Image image = new Image(new URL("https://minotar.net/avatar/" + authInfos.getName()).openStream(), 64, 64, false, false);
             playerHead.setImage(image);
         } catch (IOException e) {
             ErrorsHandler.handleError(e);
         }
 
         try {
-            currentModcraftProfile = ModcraftServiceUserProfile.getProfile(authInfos.prevResult().prevResult().access_token());
+            currentModcraftProfile = ModcraftServiceUserProfile.getProfile(authInfos.getMcToken().getAccessToken());
             playerRank.setText(currentModcraftProfile.info.role().name().toLowerCase());
         } catch (Exception e) {
             ModcraftApplication.LOGGER.severe("Error while getting modcraft profile");

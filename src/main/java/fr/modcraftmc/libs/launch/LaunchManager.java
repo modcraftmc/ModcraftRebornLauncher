@@ -7,7 +7,7 @@ import fr.modcraftmc.libs.auth.AccountManager;
 import fr.theshark34.openlauncherlib.JavaUtil;
 import fr.theshark34.openlauncherlib.minecraft.AuthInfos;
 import fr.theshark34.openlauncherlib.minecraft.GameFolder;
-import net.raphimc.mcauth.step.java.StepMCProfile;
+import net.raphimc.minecraftauth.step.java.StepMCProfile;
 
 import java.io.File;
 
@@ -19,11 +19,11 @@ public class LaunchManager {
             currentProfile = AccountManager.validate(null).getMcProfile();
         }
 
-        String name = currentProfile.name();
-        String accesToken = currentProfile.prevResult().prevResult().access_token();
-        String uuid = currentProfile.id().toString();
-        String xuid = currentProfile.prevResult().prevResult().prevResult().token();
-        String clientId = currentProfile.prevResult().prevResult().prevResult().userHash();
+        String name = currentProfile.getName();
+        String accesToken = currentProfile.getMcToken().getAccessToken();
+        String uuid = currentProfile.getId().toString();
+        String xuid = currentProfile.getMcToken().getXblXsts().getToken();
+        String clientId = currentProfile.getMcToken().getXblXsts().getUserHash();
 
         AuthInfos authInfos = new AuthInfos(name, accesToken, uuid, xuid, clientId);
         final NoFramework noFramework = new NoFramework(dir.toPath(), authInfos, GameFolder.FLOW_UPDATER_1_19_SUP);

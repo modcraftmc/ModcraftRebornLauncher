@@ -51,17 +51,17 @@ public class LoginController extends BaseController {
                     authFormContainerLeft.play();
                     authFormContainerFadeOut.play();
 
-                    authCode.setText(msaDeviceCode.userCode());
+                    authCode.setText(msaDeviceCode.getUserCode());
                     loadingContainerFadeIn.play();
                     loadingMessage.setText("En attente de connexion");
 
                     copyAndOpenButton.setOnMouseClicked(unused -> {
-                        Utils.copyToClipboard(msaDeviceCode.userCode());
-                        Utils.openBrowser(msaDeviceCode.verificationUri());
+                        Utils.copyToClipboard(msaDeviceCode.getUserCode());
+                        Utils.openBrowser(msaDeviceCode.getDirectVerificationUri());
                     });
 
                     codeButton.setOnMouseClicked(unused -> {
-                        Utils.copyToClipboard(msaDeviceCode.userCode());
+                        Utils.copyToClipboard(msaDeviceCode.getUserCode());
                     });
                 });
             }).thenAcceptAsync(authResult -> {
