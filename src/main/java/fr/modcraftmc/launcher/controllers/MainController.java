@@ -138,7 +138,7 @@ public class MainController extends BaseController implements ProgressCallback {
                     Alert alert = new PopupBuilder().setHeader("Une mise à jour est disponible").setText("Le launcher va redémarrer.").build();
                     alert.show();
                     alert.setOnCloseRequest(dialogEvent -> {
-                        SelfUpdater.doUpdate();
+                        SelfUpdater.doUpdate(selfUpdateResult.bootstrapPath());
                     });
                 }
             }, Platform::runLater);

@@ -12,8 +12,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.CompletableFuture;
 
 public class SelfUpdater {
-    //private static String bootstrapPath = System.getProperty("bootstrapPath");
-    private static String bootstrapPath = "C:\\Users\\manug\\Desktop\\launcher.jar";
+    private static String bootstrapPath = System.getProperty("bootstrapPath");
 
     public record SelfUpdateResult(boolean hasUpdate, String currentVersion, String version, String changelogUrl, String bootstrapPath) {};
 
@@ -42,10 +41,8 @@ public class SelfUpdater {
         });
     }
 
-    public static void doUpdate() {
+    public static void doUpdate(String bootstrapPath) {
         try {
-
-            String bootstrapPath = SelfUpdater.bootstrapPath;
             ProcessBuilder builder = new ProcessBuilder();
             builder.directory(FilesManager.LAUNCHER_PATH);
             builder.command(FilesManager.JAVA_PATH.getPath() + "/bin/java", "-jar", bootstrapPath);
