@@ -93,6 +93,8 @@ public class MainController extends BaseController implements ProgressCallback {
     private StepMCProfile.MCProfile currentProfile;
     private ModcraftServiceUserProfile currentModcraftProfile;
 
+    private boolean updatePopupAlreadyShowed;
+
     public void updateUserInfos(StepMCProfile.MCProfile authInfos) {
         this.currentProfile = authInfos;
         playerName.setText(authInfos.getName());
@@ -133,16 +135,18 @@ public class MainController extends BaseController implements ProgressCallback {
 
         // Check for update every then minutes
         AsyncExecutor.runAsyncAtRate(() -> {
+            if (updatePopupAlreadyShowed) return;
             SelfUpdater.checkUpdate().thenAcceptAsync(selfUpdateResult -> {
                 if (selfUpdateResult.hasUpdate()) {
                     Alert alert = new PopupBuilder().setHeader("Une mise à jour est disponible").setText("Le launcher va redémarrer.").build();
                     alert.show();
+                    updatePopupAlreadyShowed = true;
                     alert.setOnCloseRequest(dialogEvent -> {
                         SelfUpdater.doUpdate(selfUpdateResult.bootstrapPath());
                     });
                 }
             }, Platform::runLater);
-        }, 10, 10, TimeUnit.SECONDS);
+        }, 10, 10, TimeUnit.MINUTES);
 
 
         play.setOnMouseClicked(event -> {
