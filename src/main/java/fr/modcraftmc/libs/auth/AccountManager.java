@@ -63,13 +63,19 @@ public class AccountManager {
                 if (e instanceof TimeoutException) {
                     Platform.runLater(() -> {
                         //TODO: show a popup
+                        ErrorsHandler.handleErrorWithCustomHeader("Le délai de connexion a été dépassé.", e);
                         Scene scene = MFXMLLoader.loadFxml("login.fxml", true);
                         ModcraftApplication.getWindow().setScene(scene);
                         ModcraftApplication.getWindow().show();
                     });
                 }
 
-                ErrorsHandler.handleError(e);
+                Platform.runLater(() -> {
+                    ErrorsHandler.handleError(e);
+                    Scene scene = MFXMLLoader.loadFxml("login.fxml", true);
+                    ModcraftApplication.getWindow().setScene(scene);
+                    ModcraftApplication.getWindow().show();
+                });
                 return new AuthResult(false, null);
             }
         });
