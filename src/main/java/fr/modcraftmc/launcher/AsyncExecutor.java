@@ -18,6 +18,10 @@ public class AsyncExecutor {
         return executorService.scheduleAtFixedRate(runnable, 0, rate, unit);
     }
 
+    public static Future<?> runAsyncAtRate(Runnable runnable,int initialdelay, int rate, TimeUnit unit) {
+        return executorService.scheduleAtFixedRate(runnable, initialdelay, rate, unit);
+    }
+
     public static void runAsync(Runnable runnable) {
         normalExecutorService.execute(runnable);
     }

@@ -5,11 +5,13 @@ import fr.modcraftmc.api.models.MaintenanceStatus;
 import fr.modcraftmc.launcher.AsyncExecutor;
 import fr.modcraftmc.launcher.MFXMLLoader;
 import fr.modcraftmc.launcher.ModcraftApplication;
+import fr.modcraftmc.launcher.SelfUpdater;
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.libs.api.ModcraftServiceUserProfile;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 import fr.modcraftmc.libs.launch.LaunchManager;
+import fr.modcraftmc.libs.popup.PopupBuilder;
 import fr.modcraftmc.libs.serverpinger.MinecraftPing;
 import fr.modcraftmc.libs.serverpinger.MinecraftPingReply;
 import fr.modcraftmc.libs.updater.GameUpdater;
@@ -25,10 +27,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -40,6 +39,7 @@ import net.raphimc.minecraftauth.step.java.StepMCProfile;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 
 public class MainController extends BaseController implements ProgressCallback {
@@ -130,6 +130,19 @@ public class MainController extends BaseController implements ProgressCallback {
                 throw new RuntimeException(e);
             }
         }, 10);
+
+        // Check for update every then minutes
+        AsyncExecutor.runAsyncAtRate(() -> {
+            SelfUpdater.checkUpdate().thenAcceptAsync(selfUpdateResult -> {
+                if (selfUpdateResult.hasUpdate()) {
+                    Alert alert = new PopupBuilder().setHeader("Une mise à jour est disponible").setText("Le launcher va redémarrer.").build();
+                    alert.show();
+                    alert.setOnCloseRequest(dialogEvent -> {
+                        SelfUpdater.doUpdate();
+                    });
+                }
+            }, Platform::runLater);
+        }, 10, 10, TimeUnit.SECONDS);
 
 
         play.setOnMouseClicked(event -> {
