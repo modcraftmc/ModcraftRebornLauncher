@@ -18,7 +18,7 @@ public class SelfUpdater {
 
     private static final SelfUpdateResult NO_UPDATE_RESULT = new SelfUpdateResult(false, null, null, null, null);
     public static CompletableFuture<SelfUpdateResult> checkUpdate() {
-
+        ModcraftApplication.LOGGER.info("Checking for update");
         if (bootstrapPath == null)
             ModcraftApplication.LOGGER.warning("bootstrapPath is empty!! this is fine if running in dev env.");
         else
@@ -36,12 +36,14 @@ public class SelfUpdater {
                 return NO_UPDATE_RESULT;
             }
 
+            ModcraftApplication.LOGGER.info("update found!");
             //we got an update
             return new SelfUpdateResult(true, "1.0.0", "1.0.1", "https://www.youtube.com/watch?v=xvFZjo5PgG0", bootstrapPath);
         });
     }
 
     public static void doUpdate(String bootstrapPath) {
+        ModcraftApplication.LOGGER.info("launching bootstrap");
         try {
             ProcessBuilder builder = new ProcessBuilder();
             builder.directory(FilesManager.LAUNCHER_PATH);
