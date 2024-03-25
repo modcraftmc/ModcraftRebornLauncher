@@ -6,6 +6,7 @@ import javafx.scene.control.Alert;
 
 public class ErrorsHandler {
 
+    //TODO: use popup builder
     public static void handleErrorAndCrashApplication(Exception exception) {
         ModcraftApplication.LOGGER.severe("Error thrown ! : " + exception.getMessage());
         Platform.runLater(() -> {
