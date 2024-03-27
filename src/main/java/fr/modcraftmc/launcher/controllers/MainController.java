@@ -155,7 +155,7 @@ public class MainController extends BaseController implements ProgressCallback {
                 MaintenanceStatus maintenanceStatus = ModcraftApplication.apiClient.executeRequest(ModcraftApiRequestsExecutor.getMaintenanceStatus());
 
                 if (maintenanceStatus.activated()) {
-                    throw new Exception("nous sommes en en maintenance !");
+                    throw new Exception("nous sommes en en maintenance ! \n" + maintenanceStatus.reason());
                 }
             } catch (Exception e) {
                 ErrorsHandler.handleError(e);
