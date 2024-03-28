@@ -9,6 +9,7 @@ import fr.modcraftmc.launcher.SelfUpdater;
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.libs.api.ModcraftServiceUserProfile;
+import fr.modcraftmc.libs.discord.DiscordAPI;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 import fr.modcraftmc.libs.launch.LaunchManager;
 import fr.modcraftmc.libs.popup.PopupBuilder;
@@ -119,6 +120,8 @@ public class MainController extends BaseController implements ProgressCallback {
         super.initialize(loader);
 
         setLauncherState(State.IDLE);
+
+        DiscordAPI.run();
 
         AsyncExecutor.runAsyncAtRate(() -> {
             try {
