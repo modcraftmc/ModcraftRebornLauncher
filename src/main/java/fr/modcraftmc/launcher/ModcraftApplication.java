@@ -31,13 +31,18 @@ public class ModcraftApplication extends Application {
     private static Stage window;
     public static ModcraftApplication app;
 
+    public boolean isFirstLaunch;
+
     @Override
     public void start(Stage stage) {
         app = this;
         System.setProperty("prism.lcdtext", "false"); // anti-aliasing thing
         LOGGER.info("ModcraftLauncher started in " + ENVIRONMENT + " environment.");
         launcherConfig = LauncherConfig.load(filesManager.getOptionsPath());
-        if (launcherConfig.getInstanceProperty() == null) launcherConfig.setInstanceProperty(new InstanceProperty(false, ""));
+        if (launcherConfig.getInstanceProperty() == null) {
+            launcherConfig.setInstanceProperty(new InstanceProperty(false, ""));
+            isFirstLaunch = true;
+        }
         window = stage;
         // need to preload font
         Font font = Font.loadFont(resourcesManager.getResourceAsStream("fonts/LilitaOne-Regular.ttf"), 32);

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.*?>
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.GaussianBlur?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
-
+<?import java.lang.String?>
 <AnchorPane prefHeight="700.0" prefWidth="1300.0" styleClass="appContainer" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.MainController">
    <children>
       <Pane prefHeight="94.0" prefWidth="1300.0">
@@ -132,13 +132,13 @@
                   <GaussianBlur radius="45.58" />
                </effect>
             </Pane>
-            <Label prefHeight="45.0" prefWidth="180.0" styleClass="normalText" text="Informations">
+            <Label prefHeight="45.0" prefWidth="180.0" styleClass="normalText">
                <font>
                   <Font name="Inter Regular" size="30.0" />
                </font>
             </Label>
          </children></Pane>
-      <Pane fx:id="settingsPane" layoutX="332.0" layoutY="180.0" opacity="0.0" prefHeight="382.0" prefWidth="714.0" styleClass="blackContainer" stylesheets="@../css/main.css">
+      <Pane fx:id="settingsPane" layoutX="332.0" layoutY="186.0" opacity="0.0" prefHeight="382.0" prefWidth="714.0" styleClass="blackContainer" stylesheets="@../css/main.css">
          <children>
             <Label alignment="CENTER" layoutX="306.0" layoutY="20.0" prefHeight="33.0" prefWidth="102.0" styleClass="normalText" stylesheets="@../css/main.css" text="Settings" textAlignment="CENTER">
                <font>
@@ -149,7 +149,7 @@
                <children>
                   <Pane>
                      <children>
-                        <Label prefHeight="33.0" prefWidth="370.0" styleClass="normalText" stylesheets="@../css/main.css" text="Ram that will be used to launch minecraft :">
+                        <Label prefHeight="33.0" prefWidth="370.0" styleClass="normalText" stylesheets="@../css/main.css" text="Quantité de ram allouée au jeu">
                            <font>
                               <Font name="Inter Regular" size="18.0" />
                            </font>
@@ -165,7 +165,7 @@
                         </Label>
                      </children>
                   </Pane>
-                  <MFXCheckbox fx:id="keepConnected" mnemonicParsing="false" styleClass="normalText" stylesheets="@../css/main.css" text="Should keep you connected when restarting the launcher">
+                  <MFXCheckbox fx:id="keepConnected" mnemonicParsing="false" styleClass="normalText" stylesheets="@../css/main.css" text="Rester connecté au compte Microsoft">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -173,7 +173,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </MFXCheckbox>
-                  <MFXCheckbox fx:id="keepOpen" mnemonicParsing="false" styleClass="normalText" stylesheets="@../css/main.css" text="Should keep the launcher open when playing">
+                  <MFXCheckbox fx:id="keepOpen" mnemonicParsing="false" styleClass="normalText" stylesheets="@../css/main.css" text="Garder le launcher ouvert pendant l'execution du jeu">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -183,7 +183,7 @@
                   </MFXCheckbox>
                   <Pane>
                      <children>
-                        <MFXCheckbox fx:id="customPath" mnemonicParsing="false" styleClass="normalText" stylesheets="@../css/main.css" text="Should the launcher install the instance at specific path">
+                        <MFXCheckbox fx:id="customPath" mnemonicParsing="false" styleClass="normalText" stylesheets="@../css/main.css" text="Chemin d'installation personnalisé">
                            <font>
                               <Font size="18.0" />
                            </font>
