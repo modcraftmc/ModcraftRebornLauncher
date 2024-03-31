@@ -28,6 +28,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -36,6 +38,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.util.Duration;
 import net.raphimc.minecraftauth.step.java.StepMCProfile;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -234,12 +237,12 @@ public class MainController extends BaseController implements ProgressCallback {
         });
 
         btnShowLogsFolder.setOnMouseClicked(event -> {
+            String pathInstanceLogs = ModcraftApplication.launcherConfig.getInstanceProperty().isCustomInstance() ? ModcraftApplication.launcherConfig.getInstanceProperty().getCustomInstancePath()+ "\\logs\\" : FilesManager.INSTANCES_PATH.getAbsolutePath() + "\\reborn\\logs\\";
+            File directory = new File(pathInstanceLogs);
             try {
-                String pathInstanceLogs = ModcraftApplication.launcherConfig.getInstanceProperty().isCustomInstance() ? ModcraftApplication.launcherConfig.getInstanceProperty().getCustomInstancePath()+ "\\logs\\latest.log" : FilesManager.INSTANCES_PATH.getAbsolutePath() + "\\reborn\\logs\\latest.log";
-                System.out.println(pathInstanceLogs);
-                Runtime.getRuntime().exec("explorer.exe /select," + pathInstanceLogs);
+                Desktop.getDesktop().open(directory);
             } catch (IOException e) {
-                ErrorsHandler.handleError(e);
+                throw new RuntimeException(e);
             }
         });
 
