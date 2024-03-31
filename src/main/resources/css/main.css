@@ -152,3 +152,9 @@
 .microsoftButton:hover {
     -fx-background-color: rgb(96, 96, 96, 0.50);
 }
+
+.mfx-progress-bar .bar1,
+.mfx-progress-bar:indeterminate .bar1,
+.mfx-progress-bar:indeterminate .bar2 {
+    -fx-fill: #b25b0d;
+}

@@ -59,6 +59,7 @@ public class GameUpdater {
         FlowUpdater updater = new FlowUpdater.FlowUpdaterBuilder()
                 .withVanillaVersion(version)
                 .withUpdaterOptions(options)
+                .withLogger(new fr.modcraftmc.libs.updater.Logger())
                 .withProgressCallback(new UpdaterProgessCallback())
                 .withModLoaderVersion(forgeVersion)
                 .withExternalFiles()

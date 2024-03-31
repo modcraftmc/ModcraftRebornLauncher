@@ -5,6 +5,7 @@ import fr.flowarg.flowupdater.FlowUpdater;
 import fr.flowarg.flowupdater.download.json.*;
 import fr.flowarg.flowupdater.utils.ModFileDeleter;
 import fr.flowarg.flowupdater.versions.AbstractForgeVersion;
+import fr.flowarg.flowupdater.versions.ForgeVersionType;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedInputStream;
@@ -20,7 +21,7 @@ public class ModcraftForgeVersion extends AbstractForgeVersion {
                     List<CurseFileInfo> curseMods, List<ModrinthVersionInfo> modrinthMods, ModFileDeleter fileDeleter,
                     OptiFineInfo optiFine, CurseModPackInfo modPack, ModrinthModPackInfo modrinthModPackInfo)
     {
-        super(mods, curseMods, modrinthMods, forgeVersion, fileDeleter, optiFine, modPack, modrinthModPackInfo, false);
+        super(mods, curseMods, modrinthMods, forgeVersion, fileDeleter, optiFine, modPack, modrinthModPackInfo, ForgeVersionType.NEW);
     }
 
     /**
@@ -47,23 +48,6 @@ public class ModcraftForgeVersion extends AbstractForgeVersion {
         {
             this.logger.printStackTrace(e);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean checkModLoaderEnv(@NotNull Path dirToInstall) throws Exception
-    {
-        if(super.checkModLoaderEnv(dirToInstall))
-        {
-            FileUtils.deleteDirectory(dirToInstall.resolve("libraries").resolve("net").resolve("minecraft"));
-            FileUtils.deleteDirectory(dirToInstall.resolve("libraries").resolve("net").resolve("minecraftforge"));
-            FileUtils.deleteDirectory(dirToInstall.resolve("libraries").resolve("de").resolve("oceanlabs"));
-            FileUtils.deleteDirectory(dirToInstall.resolve("libraries").resolve("cpw"));
-        }
-
-        return false;
     }
 
     /**
