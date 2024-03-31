@@ -15,6 +15,7 @@ public class FilesManager {
     public static File OPTIONS_PATH = new File(LAUNCHER_PATH, "modcraftlauncher.json");
     public static File INSTANCES_PATH = new File(DEFAULT_PATH, "instances");
     public static File JAVA_PATH = new File(DEFAULT_PATH, "java");
+    public static File JAVA_EXE = new File(JAVA_PATH, "bin/java");
 
     static {
         try {

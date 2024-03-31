@@ -12,6 +12,7 @@ import fr.modcraftmc.api.exception.RemoteException;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.controllers.MainController;
 import fr.modcraftmc.launcher.logger.LogManager;
+import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 import fr.modcraftmc.libs.updater.forge.ModcraftForgeVersionBuilder;
 import javafx.application.Platform;
@@ -37,7 +38,7 @@ public class GameUpdater {
 
     public void update(MainController controller, Runnable onUpdateFinished) {
         VanillaVersion version = new VanillaVersion.VanillaVersionBuilder().withName(ModcraftApplication.MC_VERSION).build();
-        UpdaterOptions options = new UpdaterOptions.UpdaterOptionsBuilder().withSilentRead(false).build();
+        UpdaterOptions options = new UpdaterOptions.UpdaterOptionsBuilder().withSilentRead(false).withJavaPath(FilesManager.JAVA_EXE.getPath()).build();
 
         List<Mod> mods = new ArrayList<>();
         try {
