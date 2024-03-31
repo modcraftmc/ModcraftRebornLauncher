@@ -28,6 +28,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -36,6 +38,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.util.Duration;
 import net.raphimc.minecraftauth.step.java.StepMCProfile;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -83,6 +86,7 @@ public class MainController extends BaseController implements ProgressCallback {
     @FXML public MFXCheckbox customPath;
     @FXML public MFXTextField customPathValue;
     @FXML public MFXButton browseCustomPath;
+    @FXML public MFXButton btnShowLogsFolder;
 
     //Blocker
     @FXML public Pane blocker;
@@ -211,7 +215,6 @@ public class MainController extends BaseController implements ProgressCallback {
 
         customPath.setOnMouseClicked(event -> {
             if (!customPath.isSelected()) {
-                customPathValue.setText("");
                 ModcraftApplication.launcherConfig.setInstanceProperty(new InstanceProperty(false, ""));
             }
             pathBox.setDisable(!customPath.isSelected());
@@ -229,6 +232,16 @@ public class MainController extends BaseController implements ProgressCallback {
             if (path != null) {
                 customPathValue.setText(path.getAbsolutePath());
                 ModcraftApplication.launcherConfig.setInstanceProperty(new InstanceProperty(true, customPathValue.getText()));
+            }
+        });
+
+        btnShowLogsFolder.setOnMouseClicked(event -> {
+            String pathInstanceLogs = ModcraftApplication.launcherConfig.getInstanceProperty().isCustomInstance() ? ModcraftApplication.launcherConfig.getInstanceProperty().getCustomInstancePath()+ "\\logs\\" : FilesManager.INSTANCES_PATH.getAbsolutePath() + "\\reborn\\logs\\";
+            File directory = new File(pathInstanceLogs);
+            try {
+                Desktop.getDesktop().open(directory);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         });
 
