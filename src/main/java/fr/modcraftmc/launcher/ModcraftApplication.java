@@ -74,6 +74,7 @@ public class ModcraftApplication extends Application {
         AsyncExecutor.shutdown();
         Platform.exit();
         System.exit(code);
+        Runtime.getRuntime().halt(code);
     }
 
     public static Stage getWindow() {
