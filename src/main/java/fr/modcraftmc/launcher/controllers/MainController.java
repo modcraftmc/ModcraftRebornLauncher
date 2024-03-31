@@ -249,6 +249,13 @@ public class MainController extends BaseController implements ProgressCallback {
         });
 
         //#endregion
+        if (ModcraftApplication.app.isFirstLaunch) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Cette version du launcher est actuellement en alpha");
+            alert.setContentText("En cas de problème, merci de contacter le support sur Discord. (discord.modcraftmc.fr)");
+
+            alert.showAndWait();
+        }
     }
 
     @Override
