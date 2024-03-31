@@ -30,7 +30,6 @@ public class ModcraftApplication extends Application {
     public static String MCP_VERSION   = "20220805.130853";
     private static Stage window;
     public static ModcraftApplication app;
-    public boolean isFirstLaunch;
 
     @Override
     public void start(Stage stage) {
@@ -38,10 +37,7 @@ public class ModcraftApplication extends Application {
         System.setProperty("prism.lcdtext", "false"); // anti-aliasing thing
         LOGGER.info("ModcraftLauncher started in " + ENVIRONMENT + " environment.");
         launcherConfig = LauncherConfig.load(filesManager.getOptionsPath());
-        if (launcherConfig.getInstanceProperty() == null) {
-            launcherConfig.setInstanceProperty(new InstanceProperty(false, ""));
-            isFirstLaunch = true;
-        }
+        if (launcherConfig.getInstanceProperty() == null) launcherConfig.setInstanceProperty(new InstanceProperty(false, ""));
         window = stage;
         // need to preload font
         Font font = Font.loadFont(resourcesManager.getResourceAsStream("fonts/LilitaOne-Regular.ttf"), 32);

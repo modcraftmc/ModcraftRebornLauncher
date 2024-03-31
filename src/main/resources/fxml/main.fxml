@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.*?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
-<?import java.lang.String?>
-<AnchorPane opacity="0.0" prefHeight="700.0" prefWidth="1300.0" styleClass="appContainer" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.MainController">
+
+<AnchorPane prefHeight="700.0" prefWidth="1300.0" styleClass="appContainer" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.MainController">
    <children>
       <Pane prefHeight="94.0" prefWidth="1300.0">
          <children>
@@ -65,7 +65,7 @@
                   <Font size="22.0" />
                </font>
             </Label>
-            <Label fx:id="playerRank" layoutX="117.0" layoutY="58.0" prefHeight="23.0" prefWidth="129.0" styleClass="italicText" text="Dictateur" textAlignment="CENTER">
+            <Label fx:id="playerRank" layoutX="138.0" layoutY="58.0" prefHeight="23.0" prefWidth="129.0" styleClass="italicText" text="Dictateur" textAlignment="CENTER">
                <font>
                   <Font size="16.0" />
                </font></Label>
@@ -132,15 +132,15 @@
                   <GaussianBlur radius="45.58" />
                </effect>
             </Pane>
-            <Label prefHeight="45.0" prefWidth="180.0" styleClass="normalText">
+            <Label prefHeight="45.0" prefWidth="180.0" styleClass="normalText" text="Informations">
                <font>
                   <Font name="Inter Regular" size="30.0" />
                </font>
             </Label>
          </children></Pane>
-      <Pane fx:id="settingsPane" layoutX="332.0" layoutY="190.0" prefHeight="382.0" prefWidth="714.0" styleClass="blackContainer" stylesheets="@../css/main.css">
+      <Pane fx:id="settingsPane" layoutX="332.0" layoutY="180.0" opacity="0.0" prefHeight="382.0" prefWidth="714.0" styleClass="blackContainer" stylesheets="@../css/main.css">
          <children>
-            <Label alignment="CENTER" layoutX="283.0" layoutY="14.0" prefHeight="33.0" prefWidth="148.0" styleClass="normalText" stylesheets="@../css/main.css" text="Paramètres" textAlignment="CENTER">
+            <Label alignment="CENTER" layoutX="306.0" layoutY="20.0" prefHeight="33.0" prefWidth="102.0" styleClass="normalText" stylesheets="@../css/main.css" text="Settings" textAlignment="CENTER">
                <font>
                   <Font name="Inter Regular" size="24.0" />
                </font>
@@ -149,7 +149,7 @@
                <children>
                   <Pane>
                      <children>
-                        <Label prefHeight="33.0" prefWidth="370.0" styleClass="normalText" stylesheets="@../css/main.css" text="Quantitée de ram allouée au jeu:">
+                        <Label prefHeight="33.0" prefWidth="370.0" styleClass="normalText" stylesheets="@../css/main.css" text="Ram that will be used to launch minecraft :">
                            <font>
                               <Font name="Inter Regular" size="18.0" />
                            </font>
@@ -165,7 +165,7 @@
                         </Label>
                      </children>
                   </Pane>
-                  <MFXCheckbox fx:id="keepConnected" mnemonicParsing="false" styleClass="normalText" stylesheets="@../css/main.css" text="Rester connecté au compte Microsoft">
+                  <MFXCheckbox fx:id="keepConnected" mnemonicParsing="false" styleClass="normalText" stylesheets="@../css/main.css" text="Should keep you connected when restarting the launcher">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -173,7 +173,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </MFXCheckbox>
-                  <MFXCheckbox fx:id="keepOpen" mnemonicParsing="false" styleClass="normalText" stylesheets="@../css/main.css" text="Garder le launcher ouvert pendant l'execution du jeu">
+                  <MFXCheckbox fx:id="keepOpen" mnemonicParsing="false" styleClass="normalText" stylesheets="@../css/main.css" text="Should keep the launcher open when playing">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -183,7 +183,7 @@
                   </MFXCheckbox>
                   <Pane>
                      <children>
-                        <MFXCheckbox fx:id="customPath" mnemonicParsing="false" styleClass="normalText" stylesheets="@../css/main.css" text="Chemin d'installation personnalisé">
+                        <MFXCheckbox fx:id="customPath" mnemonicParsing="false" styleClass="normalText" stylesheets="@../css/main.css" text="Should the launcher install the instance at specific path">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -198,7 +198,7 @@
                                     <Font name="Inter Regular" size="18.0" />
                                  </font>
                               </Label>
-                              <MFXTextField fx:id="customPathValue" borderGap="0.0" floatMode="DISABLED" floatingTextGap="0.0" graphicTextGap="0.0" measureUnitGap="0.0" prefHeight="0.0" prefWidth="422.0" styleClass="inputField" stylesheets="@../css/main.css" textLimit="124">
+                              <MFXTextField fx:id="customPathValue" borderGap="0.0" floatMode="DISABLED" floatingTextGap="0.0" graphicTextGap="0.0" measureUnitGap="0.0" prefHeight="0.0" prefWidth="422.0" styleClass="inputField" stylesheets="@../css/main.css" text="vghjk" textLimit="124">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
@@ -234,8 +234,8 @@
       </Pane>
       <Group layoutX="345.0" layoutY="650.0">
          <children>
-            <MFXProgressBar id="progressBar" fx:id="progressBar" prefHeight="18.0" prefWidth="688.0" progress="0.0" styleClass="progressBar" stylesheets="@../css/main.css" />
-            <Label fx:id="progressText" alignment="CENTER" layoutX="142.0" layoutY="20.0" prefHeight="17.0" prefWidth="405.0" styleClass="normalText" text="Vérification" textAlignment="CENTER" textFill="WHITE">
+            <MFXProgressBar fx:id="progressBar" prefHeight="18.0" prefWidth="688.0" progress="0.0" />
+            <Label fx:id="progressText" alignment="CENTER" layoutX="142.0" layoutY="20.0" prefHeight="17.0" prefWidth="405.0" styleClass="normalText" text="Téléchargement 1650/2658" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Inter Regular" size="16.0" />
                </font>
