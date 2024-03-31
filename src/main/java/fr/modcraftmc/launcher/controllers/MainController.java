@@ -215,7 +215,6 @@ public class MainController extends BaseController implements ProgressCallback {
 
         customPath.setOnMouseClicked(event -> {
             if (!customPath.isSelected()) {
-                customPathValue.setText("");
                 ModcraftApplication.launcherConfig.setInstanceProperty(new InstanceProperty(false, ""));
             }
             pathBox.setDisable(!customPath.isSelected());
