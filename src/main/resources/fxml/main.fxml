@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.*?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
-<?import java.lang.String?>
+
 <AnchorPane prefHeight="700.0" prefWidth="1300.0" styleClass="appContainer" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.MainController">
    <children>
       <Pane prefHeight="94.0" prefWidth="1300.0">
@@ -222,6 +222,7 @@
                   </Pane>
                </children>
             </VBox>
+            <MFXButton fx:id="btnShowLogsFolder" layoutX="507.0" layoutY="24.0" mnemonicParsing="false" text="Accéder aux logs de Minecraft" />
          </children>
       </Pane>
       <Pane fx:id="blocker" disable="true" prefHeight="600.0" prefWidth="1100.0" styleClass="blocker" stylesheets="@../css/main.css" visible="false">
