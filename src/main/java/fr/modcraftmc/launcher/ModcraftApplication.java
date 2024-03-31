@@ -30,6 +30,7 @@ public class ModcraftApplication extends Application {
     public static String MCP_VERSION   = "20220805.130853";
     private static Stage window;
     public static ModcraftApplication app;
+
     public boolean isFirstLaunch;
 
     @Override

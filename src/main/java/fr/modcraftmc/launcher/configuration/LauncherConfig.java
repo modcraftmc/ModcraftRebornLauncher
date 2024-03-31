@@ -29,7 +29,7 @@ public class LauncherConfig {
 
     //configs
 
-    private boolean keeplogin = true;
+    private boolean keeplogin;
     private boolean keepOpen;
     private String refreshToken = "";
     private int ram = 6;
@@ -37,7 +37,7 @@ public class LauncherConfig {
     private String loginType;
 
     public boolean isKeeplogin() {
-        return keeplogin;
+        return true;
     }
 
     public String getRefreshToken() {
