@@ -83,6 +83,7 @@ public class MainController extends BaseController implements ProgressCallback {
     @FXML public MFXCheckbox customPath;
     @FXML public MFXTextField customPathValue;
     @FXML public MFXButton browseCustomPath;
+    @FXML public MFXButton btnShowLogsFolder;
 
     //Blocker
     @FXML public Pane blocker;
@@ -229,6 +230,16 @@ public class MainController extends BaseController implements ProgressCallback {
             if (path != null) {
                 customPathValue.setText(path.getAbsolutePath());
                 ModcraftApplication.launcherConfig.setInstanceProperty(new InstanceProperty(true, customPathValue.getText()));
+            }
+        });
+
+        btnShowLogsFolder.setOnMouseClicked(event -> {
+            try {
+                String pathInstanceLogs = ModcraftApplication.launcherConfig.getInstanceProperty().isCustomInstance() ? ModcraftApplication.launcherConfig.getInstanceProperty().getCustomInstancePath()+ "\\logs\\latest.log" : FilesManager.INSTANCES_PATH.getAbsolutePath() + "\\reborn\\logs\\latest.log";
+                System.out.println(pathInstanceLogs);
+                Runtime.getRuntime().exec("explorer.exe /select," + pathInstanceLogs);
+            } catch (IOException e) {
+                ErrorsHandler.handleError(e);
             }
         });
 
