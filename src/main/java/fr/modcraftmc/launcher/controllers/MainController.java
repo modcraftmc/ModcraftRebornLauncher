@@ -27,9 +27,9 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -42,6 +42,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 
@@ -152,6 +153,21 @@ public class MainController extends BaseController implements ProgressCallback {
             }, Platform::runLater);
         }, 10, 10, TimeUnit.MINUTES);
 
+        AsyncExecutor.runAsync(() -> {
+            Optional<ProcessHandle> process = ProcessHandle.of(ModcraftApplication.launcherConfig.latestGamePid());
+
+            if (process.isPresent() && process.get().isAlive()) {
+                Platform.runLater(() -> setLauncherState(State.PLAYING));
+                while (process.get().isAlive()) {}
+
+                ModcraftApplication.LOGGER.info("Game process shutdown");
+                Platform.runLater(() -> {
+                    ModcraftApplication.getWindow().setIconified(false);
+                    setLauncherState(State.IDLE);
+                });
+            }
+        });
+
 
         play.setOnMouseClicked(event -> {
             setLauncherState(State.UPDATING);
@@ -180,6 +196,8 @@ public class MainController extends BaseController implements ProgressCallback {
                     AsyncExecutor.runAsync(() -> {
                         try {
                             Process process = LaunchManager.launch(instanceDirectory, currentProfile);
+                            ModcraftApplication.launcherConfig.setLatestGamePid(process.pid());
+                            ModcraftApplication.launcherConfig.save();
                             while (process.isAlive()) {}
 
                             ModcraftApplication.LOGGER.info("Game process shutdown");
