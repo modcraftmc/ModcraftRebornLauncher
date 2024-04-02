@@ -34,7 +34,7 @@ public class LauncherConfig {
     private String refreshToken = "";
     private int ram = 6;
     private InstanceProperty instanceProperty;
-    private String loginType;
+    private long latestGamePid;
 
     public boolean isKeeplogin() {
         return true;
@@ -75,6 +75,14 @@ public class LauncherConfig {
 
     public void setRam(int ram) {
         this.ram = ram;
+    }
+
+    public long latestGamePid() {
+        return latestGamePid;
+    }
+
+    public void setLatestGamePid(long latestGamePid) {
+        this.latestGamePid = latestGamePid;
     }
 
     public static LauncherConfig load(File file) {
