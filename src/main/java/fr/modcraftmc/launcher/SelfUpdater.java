@@ -25,8 +25,6 @@ public class SelfUpdater {
             ModcraftApplication.LOGGER.info("current bootstrapPath : " + bootstrapPath);
 
         return CompletableFuture.supplyAsync(() -> {
-            Utils.selfCatchSleep(1500);
-
             LauncherInfo launcherInfo = getLauncherInfo();
 
             if (launcherInfo == null || bootstrapPath == null) // if bootstrapPath is null we can't update
