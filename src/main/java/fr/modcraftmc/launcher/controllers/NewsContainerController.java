@@ -1,19 +1,26 @@
 package fr.modcraftmc.launcher.controllers;
 
+import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.libs.news.News;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 
 public class NewsContainerController extends BaseController {
 
+    @FXML private Pane container;
     @FXML private Label title;
     @FXML private Label content;
     @FXML private Label publishDate;
 
     @Override
     public void initialize(FXMLLoader loader) {
-        //super.initialize(loader);
+        container.getChildren().forEach((a) -> {
+            a.setOnMouseClicked(mouseEvent ->  {
+                Utils.openBrowser("https://modcraftmc.fr");
+            });
+        });
     }
 
     public void setup(News news) {

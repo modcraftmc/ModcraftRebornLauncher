@@ -3,14 +3,12 @@ package fr.modcraftmc.launcher.controllers;
 import fr.modcraftmc.api.ModcraftApiRequestsExecutor;
 import fr.modcraftmc.api.models.MaintenanceStatus;
 import fr.modcraftmc.launcher.AsyncExecutor;
-import fr.modcraftmc.launcher.MFXMLLoader;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.libs.api.ModcraftServiceUserProfile;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 import fr.modcraftmc.libs.launch.LaunchManager;
-import fr.modcraftmc.libs.news.News;
 import fr.modcraftmc.libs.updater.GameUpdater;
 import fr.modcraftmc.libs.updater.ProgressCallback;
 import javafx.application.Platform;
@@ -23,12 +21,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import net.raphimc.minecraftauth.step.java.StepMCProfile;
-import org.apache.commons.compress.utils.Lists;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MainControllerV2 extends BaseController implements ProgressCallback {
 
@@ -65,11 +63,12 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
     public void initialize(FXMLLoader loader) {
        super.initialize(loader);
 
-       ModcraftApplication.newsManager.onNewsUpdateCallback((list) -> {
-           this.buildNewsContainer(list);
-       });
+       ModcraftApplication.newsManager.onNewsUpdateCallback(this::buildNewsContainer);
 
-        ModcraftApplication.newsManager.fetchNews();
+        // Check for update every then minutes
+        AsyncExecutor.runAsyncAtRate(() -> {
+            ModcraftApplication.newsManager.fetchNews();
+        }, 0, 10, TimeUnit.MINUTES);
 
         playBtn.setOnMouseClicked(event -> {
             setLauncherState(MainController.State.UPDATING);
@@ -113,21 +112,16 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
         });
     }
 
-    public void buildNewsContainer(List<News> newsList) {
-        ModcraftApplication.LOGGER.info("building news containers");
-
-        List<Pane> buildedNewsContainers = Lists.newArrayList();
-        for (News news : newsList) {
-            Pane newsPane = MFXMLLoader.loadPane("news_container.fxml");
-            ((NewsContainerController) newsPane.getUserData()).setup(news);
-            buildedNewsContainers.add(newsPane);
-        }
+    public void buildNewsContainer(List<Pane> newsList) {
 
        VBox leftBox = ((VBox) hbox.getChildren().get(0));
        VBox rightBox = ((VBox) hbox.getChildren().get(1));
 
-        for (int i = 0; i < buildedNewsContainers.size(); i++) {
-            Pane newsPane = buildedNewsContainers.get(i);
+        leftBox.getChildren().clear();
+        rightBox.getChildren().clear();
+
+        for (int i = 0; i < newsList.size(); i++) {
+            Pane newsPane = newsList.get(i);
             if (i % 2 == 0) {
                 leftBox.getChildren().add(newsPane);
             } else {

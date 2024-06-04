@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-<AnchorPane prefHeight="250.0" prefWidth="479.0" styleClass="news-container" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.NewsContainerController">
+<AnchorPane fx:id="container" prefHeight="250.0" prefWidth="479.0" styleClass="news-container" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.NewsContainerController">
    <children>
       <Pane prefHeight="250.0" prefWidth="575.0" styleClass="news-container" stylesheets="@../css/main.css">
          <children>
