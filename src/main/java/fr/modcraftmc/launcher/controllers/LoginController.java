@@ -67,6 +67,9 @@ public class LoginController extends BaseController {
             }).thenAcceptAsync(authResult -> {
                 if (authResult.isLoggedIn()) {
                     loadingMessage.setText("Connecté!");
+
+                    
+
                     Utils.pleaseWait(2000).thenAcceptAsync((unused) -> {
                         microsoftButton.setDisable(false);
                         Scene scene = MFXMLLoader.loadFxml("main.fxml", false);

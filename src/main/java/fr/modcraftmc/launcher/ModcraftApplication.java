@@ -6,6 +6,8 @@ import fr.modcraftmc.launcher.configuration.LauncherConfig;
 import fr.modcraftmc.launcher.logger.LogManager;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.launcher.resources.ResourcesManager;
+import fr.modcraftmc.launcher.startup.StartupTasksManager;
+import fr.modcraftmc.libs.news.NewsManager;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -14,23 +16,27 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.IOException;
+import java.util.jar.Manifest;
 import java.util.logging.Logger;
 
 public class ModcraftApplication extends Application {
 
-    public static Environment.ENV ENVIRONMENT = Environment.ENV.DEV;
-    public static ResourcesManager resourcesManager = new ResourcesManager();
-    public static FilesManager     filesManager     = new FilesManager();
-    public static Logger           LOGGER           = LogManager.createLogger("ModcraftLauncher");
-    public static LauncherConfig   launcherConfig;
+    public static Environment.ENV     ENVIRONMENT = Environment.ENV.DEV;
+    public static ResourcesManager    resourcesManager = new ResourcesManager();
+    public static FilesManager        filesManager     = new FilesManager();
+    public static Logger              LOGGER           = LogManager.createLogger("ModcraftLauncher");
+    public static LauncherConfig      launcherConfig;
+    public static StartupTasksManager startupTasksManager = new StartupTasksManager();
+    public static NewsManager         newsManager = new NewsManager();
     public static fr.modcraftmc.api.ModcraftApiClient apiClient = new fr.modcraftmc.api.ModcraftApiClient("https://api.modcraftmc.fr/v1");
+
     //Constants
     public static String FORGE_VERSION = "43.3.12";
     public static String MC_VERSION    = "1.19.2";
     public static String MCP_VERSION   = "20220805.130853";
     private static Stage window;
     public static ModcraftApplication app;
-
     public boolean isFirstLaunch;
 
     @Override
@@ -79,5 +85,9 @@ public class ModcraftApplication extends Application {
 
     public static Stage getWindow() {
         return window;
+    }
+
+    public static Manifest getManifest() throws IOException {
+        return new Manifest((ModcraftApplication.class.getResourceAsStream("/META-INF/MANIFEST.MF")));
     }
 }

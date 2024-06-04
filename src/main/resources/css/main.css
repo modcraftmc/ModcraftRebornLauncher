@@ -70,16 +70,9 @@
     -fx-stroke: #de0000;
 }
 
-.playButton {
-    -fx-background-color: #FF820F;
-    -fx-background-radius: 10;
-    -fx-padding: 0;
-    -fx-text-fill: white;
-    -fx-alignment: center;
-}
 
 .playButton:hover{
-    -fx-background-color: #FFA500;
+    -fx-background-color: #262020;
 }
 
 .play-button-running {
@@ -157,4 +150,63 @@
 .mfx-progress-bar:indeterminate .bar1,
 .mfx-progress-bar:indeterminate .bar2 {
     -fx-fill: #b25b0d;
+}
+
+.containers {
+    -fx-background-color: #302A26;
+}
+
+#top-container {
+    -fx-background-radius: 5 5 0 0;
+}
+
+#bottom-container {
+    -fx-background-radius: 0 0 5 5;
+}
+
+.minecraft-head {
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+}
+
+.news-container {
+    -fx-background-radius: 5 5 5 5;
+    -fx-background-color: #262020;
+}
+
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .track {
+    visibility: hidden;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #262020
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    visibility: hidden;
+}
+
+.vbox {
+    -fx-spacing: 10;
+}
+
+.vbox-debug  {
+    -fx-background-color: red;
+}
+
+.hbox {
+    -fx-spacing: 10;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: #302A26;
 }

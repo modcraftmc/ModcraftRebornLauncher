@@ -20,27 +20,33 @@ public class LoaderController extends BaseController {
     @Override
     public void initialize(FXMLLoader loader) {
         super.initialize(loader);
+
+        ModcraftApplication.startupTasksManager.init(loadingMessage);
+        CompletableFuture.runAsync(() -> ModcraftApplication.startupTasksManager.execute());
+
         CompletableFuture.runAsync(() -> {
             AccountManager.AuthResult authResult = AccountManager.validate(loadingMessage);
             if (authResult.isLoggedIn())  {
                 Platform.runLater(() -> loadingMessage.setText("Connecté!"));
                 Utils.selfCatchSleep(1500);
+
+                Scene scene = MFXMLLoader.loadFxml("main_v2.fxml", false);
                 Platform.runLater(() -> {
                     ModcraftApplication.getWindow().hide();
                     ModcraftApplication.getWindow().setWidth(1300);
                     ModcraftApplication.getWindow().setHeight(700);
-                    Scene scene = MFXMLLoader.loadFxml("main.fxml", false);
-                    ((MainController) scene.getUserData()).updateUserInfos(authResult.getMcProfile());
+                    ((MainControllerV2) scene.getUserData()).updateUserInfos(authResult.getMcProfile());
                     ModcraftApplication.getWindow().setScene(scene);
                     ModcraftApplication.getWindow().show();
                     ModcraftApplication.getWindow().centerOnScreen();
                 });
             } else {
+
+                Scene scene = MFXMLLoader.loadFxml("login.fxml", false);
                     Platform.runLater(() -> {
                         ModcraftApplication.getWindow().hide();
                         ModcraftApplication.getWindow().setWidth(1300);
                         ModcraftApplication.getWindow().setHeight(700);
-                        Scene scene = MFXMLLoader.loadFxml("login.fxml", false);
                         ModcraftApplication.getWindow().setScene(scene);
                         ModcraftApplication.getWindow().show();
                         ModcraftApplication.getWindow().centerOnScreen();

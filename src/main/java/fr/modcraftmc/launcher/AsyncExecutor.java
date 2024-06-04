@@ -26,6 +26,10 @@ public class AsyncExecutor {
         normalExecutorService.execute(runnable);
     }
 
+    public static Future<?> submitAsync(Runnable runnable) {
+        return normalExecutorService.submit(runnable);
+    }
+
     public static void shutdown() {
         executorService.shutdownNow();
         normalExecutorService.shutdownNow();

@@ -10,7 +10,6 @@ import fr.modcraftmc.launcher.configuration.InstanceProperty;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.libs.api.ModcraftServiceUserProfile;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
-import fr.modcraftmc.libs.launch.LaunchManager;
 import fr.modcraftmc.libs.popup.PopupBuilder;
 import fr.modcraftmc.libs.serverpinger.MinecraftPing;
 import fr.modcraftmc.libs.serverpinger.MinecraftPingReply;
@@ -188,29 +187,29 @@ public class MainController extends BaseController implements ProgressCallback {
             if (!instanceDirectory.exists()) instanceDirectory.mkdirs();
             GameUpdater gameUpdater = new GameUpdater(instanceDirectory.toPath(), this);
 
-            AsyncExecutor.runAsync(() -> {
-                gameUpdater.update(this, () -> {
-                    if (!keepOpen.isSelected())
-                        ModcraftApplication.getWindow().setIconified(true);
-
-                    AsyncExecutor.runAsync(() -> {
-                        try {
-                            Process process = LaunchManager.launch(instanceDirectory, currentProfile);
-                            ModcraftApplication.launcherConfig.setLatestGamePid(process.pid());
-                            ModcraftApplication.launcherConfig.save();
-                            while (process.isAlive()) {}
-
-                            ModcraftApplication.LOGGER.info("Game process shutdown");
-                            Platform.runLater(() -> {
-                                ModcraftApplication.getWindow().setIconified(false);
-                                setLauncherState(State.IDLE);
-                            });
-                        } catch (Exception e) {
-                            ErrorsHandler.handleError(e);
-                        }
-                    });
-                });
-            });
+//            AsyncExecutor.runAsync(() -> {
+//                gameUpdater.update(this, () -> {
+//                    if (!keepOpen.isSelected())
+//                        ModcraftApplication.getWindow().setIconified(true);
+//
+//                    AsyncExecutor.runAsync(() -> {
+//                        try {
+//                            Process process = LaunchManager.launch(instanceDirectory, currentProfile);
+//                            ModcraftApplication.launcherConfig.setLatestGamePid(process.pid());
+//                            ModcraftApplication.launcherConfig.save();
+//                            while (process.isAlive()) {}
+//
+//                            ModcraftApplication.LOGGER.info("Game process shutdown");
+//                            Platform.runLater(() -> {
+//                                ModcraftApplication.getWindow().setIconified(false);
+//                                setLauncherState(State.IDLE);
+//                            });
+//                        } catch (Exception e) {
+//                            ErrorsHandler.handleError(e);
+//                        }
+//                    });
+//                });
+//            });
         });
 
         //#region settings

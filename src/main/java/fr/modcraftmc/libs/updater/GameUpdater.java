@@ -11,6 +11,7 @@ import fr.modcraftmc.api.exception.ParsingException;
 import fr.modcraftmc.api.exception.RemoteException;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.controllers.MainController;
+import fr.modcraftmc.launcher.controllers.MainControllerV2;
 import fr.modcraftmc.launcher.logger.LogManager;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
@@ -36,7 +37,7 @@ public class GameUpdater {
         this.progressCallback = progressCallback;
     }
 
-    public void update(MainController controller, Runnable onUpdateFinished) {
+    public void update(MainControllerV2 controller, Runnable onUpdateFinished) {
         VanillaVersion version = new VanillaVersion.VanillaVersionBuilder().withName(ModcraftApplication.MC_VERSION).build();
         UpdaterOptions options = new UpdaterOptions.UpdaterOptionsBuilder().withSilentRead(false).withJavaPath(FilesManager.JAVA_EXE.getPath()).build();
 
