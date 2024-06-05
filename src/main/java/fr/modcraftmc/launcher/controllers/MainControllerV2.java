@@ -126,6 +126,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                             Process process = LaunchManager.launch(instanceDirectory, currentProfile);
                             ModcraftApplication.launcherConfig.setLatestGamePid(process.pid());
                             ModcraftApplication.launcherConfig.save();
+                            Platform.runLater(() -> setLauncherState(State.PLAYING));
                             while (process.isAlive()) {}
 
                             ModcraftApplication.LOGGER.info("Game process shutdown");
@@ -193,9 +194,11 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
 //                play.getStyleClass().add("play-button-running");
 //                playIndicator.setVisible(true);
             case PLAYING -> {
-                progressBar.setVisible(false);
-                progressLabel.setVisible(false);
-                playBtn.setVisible(true);
+                progressBar.setVisible(true);
+                progressBar.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+                progressLabel.setVisible(true);
+                progressLabel.setText("Lancement du jeu");
+                playBtn.setVisible(false);
 //                play.setDisable(true);
 //                progressBarOutAnimation();
 //                play.getStyleClass().add("play-button-running");
@@ -209,7 +212,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
     @Override
     public void onProgressUpdate(String progress, int current, int max) {
         Platform.runLater(() -> {
-            if (max >= 0) {
+            if (max > 0) {
                 progressBar.setProgress((double) current / max);
                 progressLabel.setText(progress + " " + current + "/" + max);
             } else if (current == -1) {
