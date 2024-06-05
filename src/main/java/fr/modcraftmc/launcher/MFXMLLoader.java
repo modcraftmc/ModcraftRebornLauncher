@@ -28,7 +28,7 @@ public class MFXMLLoader {
         } catch (Exception e) {
             ErrorsHandler.handleError(e);
         }
-        return null;
+        throw new IllegalStateException("Error when loading a fxml scene");
     }
 
     public static Pane loadPane(String fxml) {
@@ -42,6 +42,6 @@ public class MFXMLLoader {
       } catch (IOException e) {
           ErrorsHandler.handleError(e);
       }
-      return null;
+      throw new IllegalStateException("Error when loading a fxml pane");
     }
 }

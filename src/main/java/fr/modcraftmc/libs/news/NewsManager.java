@@ -9,11 +9,12 @@ import fr.modcraftmc.launcher.controllers.NewsContainerController;
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import org.apache.commons.compress.utils.Lists;
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class NewsManager {
@@ -26,7 +27,8 @@ public class NewsManager {
 
         ModcraftApplication.LOGGER.info("Fetching news asynchronously ");
         try {
-            String content = FileUtils.readFileToString(new File(ModcraftApplication.resourcesManager.getResource("news.json").getPath()), "UTF-8");
+            URL newsUrl = new URL("https://download.modcraftmc.fr/news.json");
+            String content = IOUtils.toString(newsUrl, StandardCharsets.UTF_8);
             List<News> newsList = GSON.fromJson(content, listType);
 
             ModcraftApplication.LOGGER.info("found " + newsList.size() + " news");

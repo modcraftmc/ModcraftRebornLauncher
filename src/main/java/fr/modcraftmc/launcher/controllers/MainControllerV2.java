@@ -3,6 +3,7 @@ package fr.modcraftmc.launcher.controllers;
 import fr.modcraftmc.api.ModcraftApiRequestsExecutor;
 import fr.modcraftmc.api.models.MaintenanceStatus;
 import fr.modcraftmc.launcher.AsyncExecutor;
+import fr.modcraftmc.launcher.MFXMLLoader;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
 import fr.modcraftmc.launcher.resources.FilesManager;
@@ -14,7 +15,9 @@ import fr.modcraftmc.libs.updater.ProgressCallback;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -31,14 +34,20 @@ import java.util.concurrent.TimeUnit;
 public class MainControllerV2 extends BaseController implements ProgressCallback {
 
     @FXML private Pane topContainer;
+    @FXML private ScrollPane scrollPane;
     @FXML private HBox hbox;
     @FXML private Pane playBtn;
     @FXML private Label playerName;
     @FXML private Label playerRank;
     @FXML private ImageView playerHead;
 
+    @FXML private Button settingsBtn;
+    private Pane settingsPane;
+
     private StepMCProfile.MCProfile currentProfile;
     private ModcraftServiceUserProfile currentModcraftProfile;
+
+    private boolean settingsStatus;
 
     public void updateUserInfos(StepMCProfile.MCProfile authInfos) {
         this.currentProfile = authInfos;
@@ -64,6 +73,19 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
        super.initialize(loader);
 
        ModcraftApplication.newsManager.onNewsUpdateCallback(this::buildNewsContainer);
+
+       settingsPane = MFXMLLoader.loadPane("settings.fxml");
+       settingsPane.setVisible(false); // invisible by default
+       this.topContainer.getChildren().add(settingsPane);
+
+        settingsBtn.setOnMouseClicked((event) -> {
+            if (settingsStatus)
+                hideSettings();
+            else
+                showSettings();
+
+            settingsStatus = !settingsStatus;
+        });
 
         // Check for update every then minutes
         AsyncExecutor.runAsyncAtRate(() -> {
@@ -128,6 +150,18 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                 rightBox.getChildren().add(newsPane);
             }
         }
+    }
+
+    public void showSettings() {
+        scrollPane.setVisible(false); //TODO: animation
+
+        settingsPane.setVisible(true);
+    }
+
+    public void hideSettings() {
+        scrollPane.setVisible(true);
+
+        settingsPane.setVisible(false);
     }
 
     public void setLauncherState(MainController.State state){

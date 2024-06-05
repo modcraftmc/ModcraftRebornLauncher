@@ -63,7 +63,7 @@
       </Pane>
       <Pane id="top-container" fx:id="topContainer" layoutX="50.0" layoutY="135.0" prefHeight="430.0" prefWidth="1200.0" styleClass="containers" stylesheets="@../css/main.css">
          <children>
-            <ScrollPane hbarPolicy="NEVER" layoutX="4.0" layoutY="6.0" prefHeight="424.0" prefWidth="1207.0" stylesheets="@../css/main.css" vbarPolicy="ALWAYS">
+            <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="4.0" layoutY="6.0" prefHeight="424.0" prefWidth="1207.0" stylesheets="@../css/main.css" vbarPolicy="ALWAYS">
                <content>
                   <HBox fx:id="hbox" prefHeight="390.0" prefWidth="1200.0" styleClass="hbox" stylesheets="@../css/main.css">
                      <children>
@@ -102,6 +102,7 @@
                   </Label>
                </children>
             </Pane>
+            <Button fx:id="settingsBtn" layoutX="241.0" layoutY="33.0" mnemonicParsing="false" text="Button" />
          </children></Pane>
    </children>
 </AnchorPane>
