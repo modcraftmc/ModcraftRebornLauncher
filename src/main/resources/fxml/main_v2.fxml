@@ -27,7 +27,7 @@
                         <String fx:value="lilita" />
                      </styleClass>
                   </Label>
-                  <Label layoutX="77.0" layoutY="38.0" prefHeight="33.0" prefWidth="165.0" styleClass="lilita" text="SURVIE MODDE 1.19" textFill="#dedede">
+                  <Label layoutX="77.0" layoutY="38.0" prefHeight="33.0" prefWidth="165.0" styleClass="lilita" text="SURVIE MODDÉE 1.19" textFill="#dedede">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
