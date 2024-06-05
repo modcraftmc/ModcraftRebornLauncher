@@ -5,12 +5,10 @@ import fr.modcraftmc.api.models.MaintenanceStatus;
 import fr.modcraftmc.launcher.AsyncExecutor;
 import fr.modcraftmc.launcher.MFXMLLoader;
 import fr.modcraftmc.launcher.ModcraftApplication;
-import fr.modcraftmc.launcher.SelfUpdater;
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.libs.api.ModcraftServiceUserProfile;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
-import fr.modcraftmc.libs.popup.PopupBuilder;
 import fr.modcraftmc.libs.serverpinger.MinecraftPing;
 import fr.modcraftmc.libs.serverpinger.MinecraftPingReply;
 import fr.modcraftmc.libs.updater.GameUpdater;
@@ -41,8 +39,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 
 public class MainController extends BaseController implements ProgressCallback {
@@ -136,37 +132,6 @@ public class MainController extends BaseController implements ProgressCallback {
                 throw new RuntimeException(e);
             }
         }, 10);
-
-        // Check for update every then minutes
-        AsyncExecutor.runAsyncAtRate(() -> {
-            if (updatePopupAlreadyShowed) return;
-            SelfUpdater.checkUpdate().thenAcceptAsync(selfUpdateResult -> {
-                if (selfUpdateResult.hasUpdate()) {
-                    Alert alert = new PopupBuilder().setHeader("Une mise à jour est disponible").setText("Le launcher va redémarrer.").build();
-                    alert.show();
-                    updatePopupAlreadyShowed = true;
-                    alert.setOnCloseRequest(dialogEvent -> {
-                        SelfUpdater.doUpdate(selfUpdateResult.bootstrapPath());
-                    });
-                }
-            }, Platform::runLater);
-        }, 10, 10, TimeUnit.MINUTES);
-
-        AsyncExecutor.runAsync(() -> {
-            Optional<ProcessHandle> process = ProcessHandle.of(ModcraftApplication.launcherConfig.latestGamePid());
-
-            if (process.isPresent() && process.get().isAlive()) {
-                Platform.runLater(() -> setLauncherState(State.PLAYING));
-                while (process.get().isAlive()) {}
-
-                ModcraftApplication.LOGGER.info("Game process shutdown");
-                Platform.runLater(() -> {
-                    ModcraftApplication.getWindow().setIconified(false);
-                    setLauncherState(State.IDLE);
-                });
-            }
-        });
-
 
         play.setOnMouseClicked(event -> {
             setLauncherState(State.UPDATING);

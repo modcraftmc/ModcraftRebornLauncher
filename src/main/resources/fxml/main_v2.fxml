@@ -104,8 +104,8 @@
                </children>
             </Pane>
             <Button fx:id="settingsBtn" layoutX="241.0" layoutY="33.0" mnemonicParsing="false" text="Button" />
-            <MFXProgressBar fx:id="progressBar" layoutX="450.0" layoutY="72.0" prefHeight="13.0" prefWidth="300.0" progress="0.0" />
-            <Label fx:id="progressLabel" alignment="CENTER" layoutX="326.0" layoutY="33.0" prefHeight="24.0" prefWidth="549.0" text="Label" textAlignment="CENTER" textFill="WHITE">
+            <MFXProgressBar fx:id="progressBar" layoutX="419.0" layoutY="65.0" prefHeight="13.0" prefWidth="362.0" progress="0.0" />
+            <Label fx:id="progressLabel" alignment="CENTER" layoutX="326.0" layoutY="24.0" prefHeight="24.0" prefWidth="549.0" text="Recherche de mise à jour" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Lilita One" size="20.0" />
                </font>

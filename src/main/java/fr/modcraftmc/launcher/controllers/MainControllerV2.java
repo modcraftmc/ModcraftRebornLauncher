@@ -5,21 +5,20 @@ import fr.modcraftmc.api.models.MaintenanceStatus;
 import fr.modcraftmc.launcher.AsyncExecutor;
 import fr.modcraftmc.launcher.MFXMLLoader;
 import fr.modcraftmc.launcher.ModcraftApplication;
+import fr.modcraftmc.launcher.SelfUpdater;
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.libs.api.ModcraftServiceUserProfile;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 import fr.modcraftmc.libs.launch.LaunchManager;
+import fr.modcraftmc.libs.popup.PopupBuilder;
 import fr.modcraftmc.libs.updater.GameUpdater;
 import fr.modcraftmc.libs.updater.ProgressCallback;
 import io.github.palexdev.materialfx.controls.MFXProgressBar;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -31,6 +30,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 public class MainControllerV2 extends BaseController implements ProgressCallback {
@@ -52,6 +52,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
     private StepMCProfile.MCProfile currentProfile;
     private ModcraftServiceUserProfile currentModcraftProfile;
 
+    private boolean updatePopupAlreadyShowed;
     private boolean settingsStatus;
 
     public void updateUserInfos(StepMCProfile.MCProfile authInfos) {
@@ -93,6 +94,36 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                 showSettings();
 
             settingsStatus = !settingsStatus;
+        });
+
+        // Check for update every then minutes
+        AsyncExecutor.runAsyncAtRate(() -> {
+            if (updatePopupAlreadyShowed) return;
+            SelfUpdater.checkUpdate().thenAcceptAsync(selfUpdateResult -> {
+                if (selfUpdateResult.hasUpdate()) {
+                    Alert alert = new PopupBuilder().setHeader("Une mise à jour est disponible").setText("Le launcher va redémarrer.").build();
+                    alert.show();
+                    updatePopupAlreadyShowed = true;
+                    alert.setOnCloseRequest(dialogEvent -> {
+                        SelfUpdater.doUpdate(selfUpdateResult.bootstrapPath());
+                    });
+                }
+            }, Platform::runLater);
+        }, 10, 10, TimeUnit.MINUTES);
+
+        AsyncExecutor.runAsync(() -> {
+            Optional<ProcessHandle> process = ProcessHandle.of(ModcraftApplication.launcherConfig.latestGamePid());
+
+            if (process.isPresent() && process.get().isAlive()) {
+                Platform.runLater(() -> setLauncherState(MainControllerV2.State.PLAYING));
+                while (process.get().isAlive()) {}
+
+                ModcraftApplication.LOGGER.info("Game process shutdown");
+                Platform.runLater(() -> {
+                    ModcraftApplication.getWindow().setIconified(false);
+                    setLauncherState(MainControllerV2.State.IDLE);
+                });
+            }
         });
 
         // Check for update every then minutes
