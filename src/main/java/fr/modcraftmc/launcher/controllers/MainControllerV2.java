@@ -2,10 +2,7 @@ package fr.modcraftmc.launcher.controllers;
 
 import fr.modcraftmc.api.ModcraftApiRequestsExecutor;
 import fr.modcraftmc.api.models.MaintenanceStatus;
-import fr.modcraftmc.launcher.AsyncExecutor;
-import fr.modcraftmc.launcher.MFXMLLoader;
-import fr.modcraftmc.launcher.ModcraftApplication;
-import fr.modcraftmc.launcher.SelfUpdater;
+import fr.modcraftmc.launcher.*;
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.libs.api.ModcraftServiceUserProfile;
@@ -46,6 +43,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
     @FXML private MFXProgressBar progressBar;
     @FXML private Label progressLabel;
 
+    @FXML private Pane discordBtn;
     @FXML private Button settingsBtn;
     private Pane settingsPane;
 
@@ -94,6 +92,10 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                 showSettings();
 
             settingsStatus = !settingsStatus;
+        });
+
+        discordBtn.setOnMouseClicked((event) -> {
+            Utils.openBrowser("https://discord.modcraftmc.fr");
         });
 
         // Check for update every then minutes

@@ -71,7 +71,11 @@
 }
 
 
-.playButton:hover{
+.playButton:hover {
+    -fx-background-color: #262020;
+}
+
+.discordBtn:hover {
     -fx-background-color: #262020;
 }
 
