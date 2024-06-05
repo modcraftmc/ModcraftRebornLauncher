@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXProgressBar?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.image.*?>
@@ -103,6 +104,12 @@
                </children>
             </Pane>
             <Button fx:id="settingsBtn" layoutX="241.0" layoutY="33.0" mnemonicParsing="false" text="Button" />
+            <MFXProgressBar fx:id="progressBar" layoutX="450.0" layoutY="72.0" prefHeight="13.0" prefWidth="300.0" progress="0.0" />
+            <Label fx:id="progressLabel" alignment="CENTER" layoutX="326.0" layoutY="33.0" prefHeight="24.0" prefWidth="549.0" text="Label" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Lilita One" size="20.0" />
+               </font>
+            </Label>
          </children></Pane>
    </children>
 </AnchorPane>

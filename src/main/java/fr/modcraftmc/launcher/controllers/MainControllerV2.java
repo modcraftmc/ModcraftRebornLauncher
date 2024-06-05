@@ -12,11 +12,13 @@ import fr.modcraftmc.libs.errors.ErrorsHandler;
 import fr.modcraftmc.libs.launch.LaunchManager;
 import fr.modcraftmc.libs.updater.GameUpdater;
 import fr.modcraftmc.libs.updater.ProgressCallback;
+import io.github.palexdev.materialfx.controls.MFXProgressBar;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -40,6 +42,9 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
     @FXML private Label playerName;
     @FXML private Label playerRank;
     @FXML private ImageView playerHead;
+
+    @FXML private MFXProgressBar progressBar;
+    @FXML private Label progressLabel;
 
     @FXML private Button settingsBtn;
     private Pane settingsPane;
@@ -74,6 +79,9 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
 
        ModcraftApplication.newsManager.onNewsUpdateCallback(this::buildNewsContainer);
 
+       progressBar.setVisible(false);
+       progressLabel.setVisible(false);
+
        settingsPane = MFXMLLoader.loadPane("settings.fxml");
        settingsPane.setVisible(false); // invisible by default
        this.topContainer.getChildren().add(settingsPane);
@@ -93,7 +101,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
         }, 0, 10, TimeUnit.MINUTES);
 
         playBtn.setOnMouseClicked(event -> {
-            setLauncherState(MainController.State.UPDATING);
+            setLauncherState(MainControllerV2.State.UPDATING);
             try {
                 MaintenanceStatus maintenanceStatus = ModcraftApplication.apiClient.executeRequest(ModcraftApiRequestsExecutor.getMaintenanceStatus());
 
@@ -102,7 +110,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                 }
             } catch (Exception e) {
                 ErrorsHandler.handleError(e);
-                setLauncherState(MainController.State.IDLE);
+                setLauncherState(MainControllerV2.State.IDLE);
                 return;
             }
 
@@ -123,7 +131,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                             ModcraftApplication.LOGGER.info("Game process shutdown");
                             Platform.runLater(() -> {
                                 ModcraftApplication.getWindow().setIconified(false);
-                                setLauncherState(MainController.State.IDLE);
+                                setLauncherState(MainControllerV2.State.IDLE);
                             });
                         } catch (Exception e) {
                             ErrorsHandler.handleError(e);
@@ -164,31 +172,58 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
         settingsPane.setVisible(false);
     }
 
-    public void setLauncherState(MainController.State state){
-//        switch (state){
-//            case IDLE -> {
+    public void setLauncherState(MainControllerV2.State state) {
+        switch (state) {
+            case IDLE -> {
+                progressBar.setVisible(false);
+                progressLabel.setVisible(false);
+                playBtn.setVisible(true);
 //                play.setDisable(false);
 //                progressBarOutAnimation();
 //                play.getStyleClass().remove("play-button-running");
 //                playIndicator.setVisible(false);
-//            }
-//            case UPDATING -> {
+            }
+            case UPDATING -> {
+                progressBar.setVisible(true);
+                progressLabel.setVisible(true);
+                playBtn.setVisible(false);
+            }
 //                play.setDisable(true);
 //                progressBarInAnimation();
 //                play.getStyleClass().add("play-button-running");
 //                playIndicator.setVisible(true);
-//            }
-//            case PLAYING -> {
+            case PLAYING -> {
+                progressBar.setVisible(false);
+                progressLabel.setVisible(false);
+                playBtn.setVisible(true);
 //                play.setDisable(true);
 //                progressBarOutAnimation();
 //                play.getStyleClass().add("play-button-running");
 //                playIndicator.setVisible(true);
-//            }
-//        }
+            }
+        }
     }
+
+
 
     @Override
     public void onProgressUpdate(String progress, int current, int max) {
+        Platform.runLater(() -> {
+            if (max >= 0) {
+                progressBar.setProgress((double) current / max);
+                progressLabel.setText(progress + " " + current + "/" + max);
+            } else if (current == -1) {
+                progressBar.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+                progressLabel.setText(progress);
+            } else {
+                progressLabel.setText(progress);
+            }
+        });
+    }
 
+    public enum State {
+        IDLE,
+        UPDATING,
+        PLAYING
     }
 }

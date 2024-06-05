@@ -18,7 +18,7 @@ public class NewsContainerController extends BaseController {
     public void initialize(FXMLLoader loader) {
         container.getChildren().forEach((a) -> {
             a.setOnMouseClicked(mouseEvent ->  {
-                Utils.openBrowser("https://modcraftmc.fr");
+                Utils.openBrowser("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
             });
         });
     }

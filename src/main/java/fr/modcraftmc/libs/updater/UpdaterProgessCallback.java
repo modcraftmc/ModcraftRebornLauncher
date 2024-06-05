@@ -19,7 +19,11 @@ public class UpdaterProgessCallback implements IProgressCallback {
             case DL_LIBS -> updateText = "Téléchargement des libraries";
             case DL_ASSETS -> updateText = "Téléchargement des assets";
             case MODS -> updateText = "Téléchargement des mods";
-            case MOD_LOADER -> updateText = "Installation de Forge";
+            case MOD_LOADER -> {
+                updateText = "Installation de Forge";
+                GameUpdater.get().getProgressCallback().onProgressUpdate(updateText, -1, -1);
+                return;
+            }
         }
         GameUpdater.get().getProgressCallback().onProgressUpdate(updateText, 0, 0);
     }
