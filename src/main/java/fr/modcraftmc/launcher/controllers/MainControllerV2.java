@@ -47,36 +47,36 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
     @FXML private Button settingsBtn;
     private Pane settingsPane;
 
-    private StepMCProfile.MCProfile currentProfile;
     private ModcraftServiceUserProfile currentModcraftProfile;
 
     private boolean updatePopupAlreadyShowed;
     private boolean settingsStatus;
 
-    public void updateUserInfos(StepMCProfile.MCProfile authInfos) {
-        this.currentProfile = authInfos;
-        playerName.setText(authInfos.getName());
-        try {
-            Image image = new Image(new URL("https://minotar.net/avatar/" + authInfos.getName()).openStream(), 64, 64, false, false);
-            playerHead.setImage(image);
-        } catch (IOException e) {
-            ErrorsHandler.handleError(e);
-        }
-
-        try {
-            currentModcraftProfile = ModcraftServiceUserProfile.getProfile(authInfos.getMcToken().getAccessToken());
-            playerRank.setText(currentModcraftProfile.info.role().name().toLowerCase());
-        } catch (Exception e) {
-            ModcraftApplication.LOGGER.severe("Error while getting modcraft profile");
-            ErrorsHandler.handleErrorAndCrashApplication(e);
-        }
-    }
+    private StepMCProfile.MCProfile mcProfile;
 
     @Override
     public void initialize(FXMLLoader loader) {
        super.initialize(loader);
 
        ModcraftApplication.newsManager.onNewsUpdateCallback(this::buildNewsContainer);
+
+       this.mcProfile = ModcraftApplication.accountManager.getCurrentMCProfile();
+
+        playerName.setText(mcProfile.getName());
+        try {
+            Image image = new Image(new URL("https://minotar.net/avatar/" + mcProfile.getName()).openStream(), 64, 64, false, false);
+            playerHead.setImage(image);
+        } catch (IOException e) {
+            ErrorsHandler.handleError(e);
+        }
+
+        try {
+            currentModcraftProfile = ModcraftServiceUserProfile.getProfile(mcProfile.getMcToken().getAccessToken());
+            playerRank.setText(currentModcraftProfile.info.role().name().toLowerCase());
+        } catch (Exception e) {
+            ModcraftApplication.LOGGER.severe("Error while getting modcraft profile");
+            ErrorsHandler.handleErrorAndCrashApplication(e);
+        }
 
        progressBar.setVisible(false);
        progressLabel.setVisible(false);
@@ -156,7 +156,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                 gameUpdater.update(this, () -> {
                     AsyncExecutor.runAsync(() -> {
                         try {
-                            Process process = LaunchManager.launch(instanceDirectory, currentProfile);
+                            Process process = LaunchManager.launch(instanceDirectory, this.mcProfile);
                             ModcraftApplication.launcherConfig.setLatestGamePid(process.pid());
                             ModcraftApplication.launcherConfig.save();
                             Platform.runLater(() -> setLauncherState(State.PLAYING));

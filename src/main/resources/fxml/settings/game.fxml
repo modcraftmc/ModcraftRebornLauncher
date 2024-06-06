@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXSlider?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane prefHeight="380.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.settings.GameController">
+    <Pane fx:id="settings" prefHeight="380.0" prefWidth="870.0" styleClass="settings-left" stylesheets="@../../css/main.css">
+        <children>
+            <Label layoutX="17.0" layoutY="14.0" text="JEU" textFill="WHITE">
+                <font>
+                    <Font name="Lilita One" size="25.0" />
+                </font>
+            </Label>
+            <Pane layoutX="17.0" layoutY="43.0" prefHeight="2.0" prefWidth="45.0" styleClass="text-underline" stylesheets="@../../css/main.css" />
+            <Pane layoutX="16.0" layoutY="60.0" prefHeight="102.0" prefWidth="837.0" styleClass="settings-content" stylesheets="@../../css/main.css">
+            <children>
+               <MFXSlider fx:id="ramSlider" layoutX="24.0" layoutY="70.0" max="8.0" min="4.0" prefHeight="10.0" prefWidth="722.0" showMajorTicks="true" tickUnit="8.0" />
+               <Label layoutX="24.0" layoutY="19.0" text="Quantité de RAM allouée au jeu" textFill="WHITE">
+                  <font>
+                     <Font name="Lilita One" size="18.0" />
+                  </font>
+               </Label>
+               <Label fx:id="ramText" layoutX="790.0" layoutY="63.0" text="8GB" textFill="WHITE">
+                  <font>
+                     <Font name="Lilita One" size="18.0" />
+                  </font>
+               </Label>
+            </children></Pane>
+            <Pane layoutX="16.0" layoutY="174.0" prefHeight="78.0" prefWidth="837.0" styleClass="settings-content" stylesheets="@../../css/main.css">
+            <children>
+                  <CheckBox fx:id="keepLauncherOpen" alignment="CENTER_RIGHT" layoutX="17.0" layoutY="27.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="25.0" prefWidth="804.0" text="Garder le launcher ouvert pendant l'execution du jeu" textFill="WHITE">
+                      <font>
+                          <Font name="Lilita One" size="18.0" />
+                      </font>
+                  </CheckBox>
+            </children></Pane>
+         <Pane layoutX="17.0" layoutY="264.0" prefHeight="102.0" prefWidth="837.0" styleClass="settings-content" stylesheets="@../../css/main.css">
+            <children>
+               <CheckBox fx:id="customPathCheckbox" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="20.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="25.0" prefWidth="804.0" text="Chemin d'installation personnalisé" textFill="WHITE">
+                  <font>
+                     <Font name="Lilita One" size="18.0" />
+                  </font>
+               </CheckBox>
+               <Label layoutX="14.0" layoutY="60.0" text="Chemin :" textFill="WHITE">
+                  <font>
+                     <Font name="Lilita One" size="18.0" />
+                  </font>
+               </Label>
+               <MFXTextField fx:id="customPath" layoutX="89.0" layoutY="59.0" maxHeight="30.0" minHeight="20.0" prefHeight="25.0" prefWidth="417.0" />
+               <Button fx:id="browseFile" layoutX="525.0" layoutY="59.0" mnemonicParsing="false" text="Choisir" />
+            </children>
+         </Pane>
+        </children>
+    </Pane>
+</AnchorPane>

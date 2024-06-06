@@ -72,8 +72,8 @@ public class LoginController extends BaseController {
 
                     Utils.pleaseWait(2000).thenAcceptAsync((unused) -> {
                         microsoftButton.setDisable(false);
-                        Scene scene = MFXMLLoader.loadFxml("main_v2.fxml", false);
-                        ((MainControllerV2) scene.getUserData()).updateUserInfos(authResult.getMcProfile());
+                        ModcraftApplication.accountManager.setCurrentMCProfile(authResult.getMcProfile());
+                        Scene scene = MFXMLLoader.loadFxml("main_v2.fxml", true);
                         ModcraftApplication.getWindow().setScene(scene);
                     }, Platform::runLater);
                 }

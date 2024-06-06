@@ -37,7 +37,7 @@ public class LauncherConfig {
     private long latestGamePid;
 
     public boolean isKeeplogin() {
-        return true;
+        return this.keeplogin;
     }
 
     public String getRefreshToken() {

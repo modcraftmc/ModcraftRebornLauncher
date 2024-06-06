@@ -30,18 +30,17 @@ public class LoaderController extends BaseController {
                 Platform.runLater(() -> loadingMessage.setText("Connecté!"));
                 Utils.selfCatchSleep(1500);
 
+                ModcraftApplication.accountManager.setCurrentMCProfile(authResult.getMcProfile());
                 Scene scene = MFXMLLoader.loadFxml("main_v2.fxml", false);
                 Platform.runLater(() -> {
                     ModcraftApplication.getWindow().hide();
                     ModcraftApplication.getWindow().setWidth(1300);
                     ModcraftApplication.getWindow().setHeight(700);
-                    ((MainControllerV2) scene.getUserData()).updateUserInfos(authResult.getMcProfile());
                     ModcraftApplication.getWindow().setScene(scene);
                     ModcraftApplication.getWindow().show();
                     ModcraftApplication.getWindow().centerOnScreen();
                 });
             } else {
-
                 Scene scene = MFXMLLoader.loadFxml("login.fxml", false);
                     Platform.runLater(() -> {
                         ModcraftApplication.getWindow().hide();

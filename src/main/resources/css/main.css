@@ -214,3 +214,15 @@
 .scroll-pane .viewport {
     -fx-background-color: #302A26;
 }
+
+.settings-left {
+    -fx-background-color: #262020;
+}
+
+.settings-button, .settings-content {
+    -fx-background-color: #302A26;
+}
+
+.text-underline {
+    -fx-background-color: #FFFFFF;
+}

@@ -24,6 +24,9 @@ import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
 
 public class AccountManager {
+
+    private StepMCProfile.MCProfile currentMCProfile;
+
     private static final StepFullJavaSession deviceCodeAuthStep = MinecraftAuth.builder()
             .withTimeout(300)
             .withClientId(MicrosoftConstants.JAVA_TITLE_ID)
@@ -50,6 +53,14 @@ public class AccountManager {
            return mcProfile;
        }
    }
+
+    public void setCurrentMCProfile(StepMCProfile.MCProfile currentMCProfile) {
+        this.currentMCProfile = currentMCProfile;
+    }
+
+    public StepMCProfile.MCProfile getCurrentMCProfile() {
+        return this.currentMCProfile;
+    }
 
     public static CompletableFuture<AuthResult> authenticate(Consumer<StepMsaDeviceCode.MsaDeviceCode> callback) {
         return CompletableFuture.supplyAsync(() -> {

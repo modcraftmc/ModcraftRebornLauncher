@@ -31,7 +31,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.DirectoryChooser;
 import javafx.util.Duration;
 import net.raphimc.minecraftauth.step.java.StepMCProfile;
 
@@ -179,15 +178,10 @@ public class MainController extends BaseController implements ProgressCallback {
 
         //#region settings
         settingsPane.setMouseTransparent(true); //Disable click on settings pane
-        ramSlider.setMin(4);
-        ramSlider.setMax(16);
-        ramSlider.setValue(ModcraftApplication.launcherConfig.getRam());
-        ramText.setText(String.format("%s Gb", (int) ramSlider.getValue()));
+
         keepConnected.setSelected(ModcraftApplication.launcherConfig.isKeeplogin());
         keepOpen.setSelected(ModcraftApplication.launcherConfig.isKeepOpen());
-        customPath.setSelected(ModcraftApplication.launcherConfig.getInstanceProperty().isCustomInstance());
-        pathBox.setDisable(!customPath.isSelected());
-        customPathValue.setText(ModcraftApplication.launcherConfig.getInstanceProperty().getCustomInstancePath());
+
 
 
         ramSlider.setOnMouseDragged(event -> {
@@ -195,27 +189,10 @@ public class MainController extends BaseController implements ProgressCallback {
             ModcraftApplication.launcherConfig.setRam((int) ramSlider.getValue());
         });
 
-        customPath.setOnMouseClicked(event -> {
-            if (!customPath.isSelected()) {
-                ModcraftApplication.launcherConfig.setInstanceProperty(new InstanceProperty(false, ""));
-            }
-            pathBox.setDisable(!customPath.isSelected());
-        });
-
         keepConnected.setOnMouseClicked(event -> ModcraftApplication.launcherConfig.setKeeplogin(keepConnected.isSelected()));
 
         keepOpen.setOnMouseClicked(event -> ModcraftApplication.launcherConfig.setKeepOpen(keepOpen.isSelected()));
 
-        browseCustomPath.setOnMouseClicked(event -> {
-            DirectoryChooser fileChooser = new DirectoryChooser();
-            fileChooser.setTitle("Select directory");
-            fileChooser.setInitialDirectory(FilesManager.INSTANCES_PATH);
-            File path = fileChooser.showDialog(ModcraftApplication.getWindow());
-            if (path != null) {
-                customPathValue.setText(path.getAbsolutePath());
-                ModcraftApplication.launcherConfig.setInstanceProperty(new InstanceProperty(true, customPathValue.getText()));
-            }
-        });
 
         btnShowLogsFolder.setOnMouseClicked(event -> {
             String pathInstanceLogs = ModcraftApplication.launcherConfig.getInstanceProperty().isCustomInstance() ? ModcraftApplication.launcherConfig.getInstanceProperty().getCustomInstancePath()+ "\\logs\\" : FilesManager.INSTANCES_PATH.getAbsolutePath() + "\\reborn\\logs\\";

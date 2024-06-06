@@ -7,6 +7,7 @@ import fr.modcraftmc.launcher.logger.LogManager;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.launcher.resources.ResourcesManager;
 import fr.modcraftmc.launcher.startup.StartupTasksManager;
+import fr.modcraftmc.libs.auth.AccountManager;
 import fr.modcraftmc.libs.news.NewsManager;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -30,6 +31,7 @@ public class ModcraftApplication extends Application {
     public static LauncherConfig      launcherConfig;
     public static StartupTasksManager startupTasksManager = new StartupTasksManager();
     public static NewsManager         newsManager = new NewsManager();
+    public static AccountManager      accountManager = new AccountManager();
     public static fr.modcraftmc.api.ModcraftApiClient apiClient = new fr.modcraftmc.api.ModcraftApiClient("https://api.modcraftmc.fr/v1");
 
     //Constants
