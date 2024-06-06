@@ -43,6 +43,14 @@ public class ModcraftApplication extends Application {
     public void start(Stage stage) {
         app = this;
         System.setProperty("prism.lcdtext", "false"); // anti-aliasing thing
+
+        try {
+            String buildType = ModcraftApplication.getManifest().getMainAttributes().getValue("Build-Type");
+            ENVIRONMENT = Environment.ENV.valueOf(buildType);
+        } catch (IOException e) {
+            //huh
+        }
+
         LOGGER.info("ModcraftLauncher started in " + ENVIRONMENT + " environment.");
         launcherConfig = LauncherConfig.load(filesManager.getOptionsPath());
         if (launcherConfig.getInstanceProperty() == null) {

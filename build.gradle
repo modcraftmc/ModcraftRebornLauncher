@@ -68,10 +68,10 @@ dependencies {
 
 jar {
     manifest {
-        String buildType = "dev";
-        if (System.hasProperty("args")) {
+        String buildType = "DEV";
+        if (System.getenv("buildProd") == "true") {
             println("building for prod")
-            buildType = "prod";
+            buildType = "PROD";
         }
         attributes 'Build-Type': buildType;
     }
