@@ -6,8 +6,10 @@ import fr.modcraftmc.launcher.AsyncExecutor;
 import fr.modcraftmc.launcher.MFXMLLoader;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
+import fr.modcraftmc.libs.popup.PopupBuilder;
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import net.lenni0451.commons.httpclient.HttpClient;
 import net.raphimc.minecraftauth.MinecraftAuth;
@@ -62,12 +64,17 @@ public class AccountManager {
             } catch (Exception e) {
                 if (e instanceof TimeoutException) {
                     Platform.runLater(() -> {
-                        //TODO: show a popup
-                        ErrorsHandler.handleErrorWithCustomHeader("Le délai de connexion a été dépassé.", e);
+                        Alert popup = new PopupBuilder()
+                                        .setHeader("Une erreur est survenue")
+                                        .setText("Le délai de connexion a été dépassé.")
+                                        .build();
+                        popup.show();
+                        ErrorsHandler.logException(e);
                         Scene scene = MFXMLLoader.loadFxml("login.fxml", true);
                         ModcraftApplication.getWindow().setScene(scene);
                         ModcraftApplication.getWindow().show();
                     });
+                    return new AuthResult(false, null);
                 }
 
                 Platform.runLater(() -> {

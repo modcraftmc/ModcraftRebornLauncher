@@ -50,7 +50,7 @@ dependencies {
     }
     implementation 'com.squareup.okhttp3:okhttp:4.11.0'
     implementation 'fr.modcraftmc:modcraft-api-client:1.2'
-    implementation group: 'net.raphimc', name: 'MinecraftAuth', version: '4.0.0'
+    implementation group: 'net.raphimc', name: 'MinecraftAuth', version: '4.0.2'
 
     implementation group: 'org.openjfx', name: 'javafx-base', version: 17, classifier: 'win'
     implementation group: 'org.openjfx', name: 'javafx-base', version: 17, classifier: 'mac'
@@ -64,6 +64,17 @@ dependencies {
     implementation group: 'org.openjfx', name: 'javafx-graphics', version: 17, classifier: 'win'
     implementation group: 'org.openjfx', name: 'javafx-graphics', version: 17, classifier: 'mac'
     implementation group: 'org.openjfx', name: 'javafx-graphics', version: 17, classifier: 'linux'
+}
+
+jar {
+    manifest {
+        String buildType = "dev";
+        if (System.hasProperty("args")) {
+            println("building for prod")
+            buildType = "prod";
+        }
+        attributes 'Build-Type': buildType;
+    }
 }
 
 shadowJar {
