@@ -23,6 +23,7 @@ public class GameController extends BaseController {
     @FXML private Button browseFile;
     @FXML private TextField customPath;
     @FXML private CheckBox customPathCheckbox;
+    @FXML private CheckBox keepLauncherOpen;
 
     @Override
     public void initialize(FXMLLoader loader) {
@@ -68,5 +69,10 @@ public class GameController extends BaseController {
             ModcraftApplication.launcherConfig.setRam((int) ramSlider.getValue());
         });
 
+        keepLauncherOpen.setSelected(ModcraftApplication.launcherConfig.isKeepOpen());
+        keepLauncherOpen.setOnMouseClicked((event) -> {
+           ModcraftApplication.launcherConfig.setKeepOpen(keepLauncherOpen.isSelected());
+           ModcraftApplication.launcherConfig.save();
+        });
     }
 }
