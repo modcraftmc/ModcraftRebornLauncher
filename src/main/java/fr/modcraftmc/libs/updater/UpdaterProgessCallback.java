@@ -7,28 +7,58 @@ import fr.flowarg.flowupdater.download.Step;
 import java.nio.file.Path;
 
 public class UpdaterProgessCallback implements IProgressCallback {
-    String updateText = "Recherche de mise à jour";
+
+    private UpdateMessages currentMessage = UpdateMessages.LIBS;
+    boolean isDownloading;
+
     @Override
     public void update(DownloadList.DownloadInfo info) {
-        GameUpdater.get().getProgressCallback().onProgressUpdate(updateText, info.getDownloadedFiles(), info.getTotalToDownloadFiles());
+        GameUpdater.get().getProgressCallback().onProgressUpdate(currentMessage.getString(isDownloading), info.getDownloadedFiles(), info.getTotalToDownloadFiles());
     }
 
     @Override
     public void step(Step step) {
         switch (step) {
-            case DL_LIBS -> updateText = "Téléchargement des libraries";
-            case DL_ASSETS -> updateText = "Téléchargement des assets";
-            case MODS -> updateText = "Téléchargement des mods";
+            case DL_LIBS -> {
+                isDownloading = false;
+                currentMessage = UpdateMessages.LIBS;
+            }
+            case DL_ASSETS -> {
+                currentMessage = UpdateMessages.ASSETS;
+            }
+            case MODS -> {
+                currentMessage = UpdateMessages.MODS;
+            }
             case MOD_LOADER -> {
-                updateText = "Installation de Forge";
-                GameUpdater.get().getProgressCallback().onProgressUpdate(updateText, -1, -1);
+                currentMessage = UpdateMessages.FORGE;
+                GameUpdater.get().getProgressCallback().onProgressUpdate(currentMessage.dlText, -1, -1);
                 return;
             }
         }
-        GameUpdater.get().getProgressCallback().onProgressUpdate(updateText, 0, 0);
+
+        GameUpdater.get().getProgressCallback().onProgressUpdate(currentMessage.getString(isDownloading), 0, 0);
     }
 
     @Override
     public void onFileDownloaded(Path path) {
+        isDownloading = true;
+    }
+
+    public enum UpdateMessages {
+        LIBS("Vérification des libraries", "Téléchargement des libraries"),
+        ASSETS("Vérification des assets", "Téléchargement des assets"),
+        MODS("Vérification des mods", "Téléchargement des mods"),
+        FORGE("Installation de Forge", "Installation de Forge");
+
+        private final String verifText;
+        private final String dlText;
+        UpdateMessages(String verifText, String dlText) {
+            this.verifText = verifText;
+            this.dlText = dlText;
+        }
+
+        public String getString(boolean isDownloading) {
+            return isDownloading ? this.dlText : this.verifText;
+        }
     }
 }
