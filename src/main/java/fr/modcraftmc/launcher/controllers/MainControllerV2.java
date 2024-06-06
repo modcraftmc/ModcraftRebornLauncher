@@ -9,6 +9,8 @@ import fr.modcraftmc.libs.api.ModcraftServiceUserProfile;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 import fr.modcraftmc.libs.launch.LaunchManager;
 import fr.modcraftmc.libs.popup.PopupBuilder;
+import fr.modcraftmc.libs.serverpinger.MinecraftPing;
+import fr.modcraftmc.libs.serverpinger.MinecraftPingReply;
 import fr.modcraftmc.libs.updater.GameUpdater;
 import fr.modcraftmc.libs.updater.ProgressCallback;
 import io.github.palexdev.materialfx.controls.MFXProgressBar;
@@ -98,6 +100,19 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
             Utils.openBrowser("https://discord.modcraftmc.fr");
         });
 
+        AsyncExecutor.runAsyncAtRate(() -> {
+            try {
+                MinecraftPingReply minecraftPing = new MinecraftPing().getPing("servers.modcraftmc.fr");
+                ModcraftApplication.LOGGER.info(String.format("Updating server status (%s/%s)",  minecraftPing.getPlayers().getOnline(), minecraftPing.getPlayers().getMax()));
+
+                Platform.runLater(() -> {
+                    //playersCount.setText(String.format("%s/%s", minecraftPing.getPlayers().getOnline(), minecraftPing.getPlayers().getMax()));
+                });
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }, 10);
+
         // Check for update every then minutes
         AsyncExecutor.runAsyncAtRate(() -> {
             if (updatePopupAlreadyShowed) return;
@@ -174,6 +189,14 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                 });
             });
         });
+
+        if (ModcraftApplication.app.isFirstLaunch) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Cette version du launcher est actuellement en alpha");
+            alert.setContentText("En cas de problème, merci de contacter le support sur Discord. (discord.modcraftmc.fr)");
+
+            alert.showAndWait();
+        }
     }
 
     public void buildNewsContainer(List<Pane> newsList) {
