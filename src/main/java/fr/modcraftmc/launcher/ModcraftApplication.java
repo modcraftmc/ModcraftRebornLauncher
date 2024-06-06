@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 import java.util.logging.Logger;
 
@@ -32,6 +33,7 @@ public class ModcraftApplication extends Application {
     public static fr.modcraftmc.api.ModcraftApiClient apiClient = new fr.modcraftmc.api.ModcraftApiClient("https://api.modcraftmc.fr/v1");
 
     //Constants
+    public static String BUILD_TIME    = "DEV";
     public static String FORGE_VERSION = "43.3.12";
     public static String MC_VERSION    = "1.19.2";
     public static String MCP_VERSION   = "20220805.130853";
@@ -45,13 +47,15 @@ public class ModcraftApplication extends Application {
         System.setProperty("prism.lcdtext", "false"); // anti-aliasing thing
 
         try {
-            String buildType = ModcraftApplication.getManifest().getMainAttributes().getValue("Build-Type");
+            Attributes attributes = ModcraftApplication.getManifest().getMainAttributes();
+            String buildType = attributes.getValue("Build-Type");
             ENVIRONMENT = Environment.ENV.valueOf(buildType);
-        } catch (IOException e) {
+            BUILD_TIME = attributes.getValue("Build-Time");
+        } catch (Exception e) {
             //huh
         }
 
-        LOGGER.info("ModcraftLauncher started in " + ENVIRONMENT + " environment.");
+        LOGGER.info("ModcraftLauncher started in " + ENVIRONMENT + " environment. (" + BUILD_TIME + ")");
         launcherConfig = LauncherConfig.load(filesManager.getOptionsPath());
         if (launcherConfig.getInstanceProperty() == null) {
             launcherConfig.setInstanceProperty(new InstanceProperty(false, ""));

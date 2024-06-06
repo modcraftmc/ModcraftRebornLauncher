@@ -72,6 +72,7 @@ jar {
         if (System.getenv("buildProd") == "true") {
             println("building for prod")
             buildType = "PROD";
+            attributes('Build-Time': new Date().format("ddMMyyy-HHmm"))
         }
         attributes 'Build-Type': buildType;
     }
