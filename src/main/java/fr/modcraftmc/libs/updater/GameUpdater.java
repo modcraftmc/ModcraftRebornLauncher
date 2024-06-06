@@ -70,7 +70,9 @@ public class GameUpdater {
             LOGGER.info("Updating game at " + GameUpdater.get().getUpdateDirectory());
             updater.update(GameUpdater.get().getUpdateDirectory());
         } catch (Exception e) {
-            ErrorsHandler.handleError(new Exception("Error while updating the game"));
+            ErrorsHandler.handleError(new Exception("Error while updating the game " + e.getMessage()));
+            controller.setLauncherState(MainControllerV2.State.IDLE);
+            return;
         }
 
         LOGGER.info("finished update");
