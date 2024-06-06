@@ -7,7 +7,7 @@ import fr.flowarg.flowupdater.download.Step;
 import java.nio.file.Path;
 
 public class UpdaterProgessCallback implements IProgressCallback {
-    String updateText = "";
+    String updateText = "Recherche de mise à jour";
     @Override
     public void update(DownloadList.DownloadInfo info) {
         GameUpdater.get().getProgressCallback().onProgressUpdate(updateText, info.getDownloadedFiles(), info.getTotalToDownloadFiles());
