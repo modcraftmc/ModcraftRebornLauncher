@@ -14,6 +14,7 @@ import fr.modcraftmc.libs.serverpinger.MinecraftPingReply;
 import fr.modcraftmc.libs.updater.GameUpdater;
 import fr.modcraftmc.libs.updater.ProgressCallback;
 import io.github.palexdev.materialfx.controls.MFXProgressBar;
+import io.github.palexdev.materialfx.controls.MFXProgressSpinner;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,6 +42,9 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
     @FXML private Label playerName;
     @FXML private Label playerRank;
     @FXML private ImageView playerHead;
+
+    @FXML private Label loadingText;
+    @FXML private MFXProgressSpinner loadingIndicator;
 
     @FXML private MFXProgressBar progressBar;
     @FXML private Label progressLabel;
@@ -200,9 +204,11 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
     }
 
     public void buildNewsContainer(List<Pane> newsList) {
+        loadingIndicator.setVisible(false);
+        loadingText.setVisible(false);
 
-       VBox leftBox = ((VBox) hbox.getChildren().get(0));
-       VBox rightBox = ((VBox) hbox.getChildren().get(1));
+        VBox leftBox = ((VBox) hbox.getChildren().get(0));
+        VBox rightBox = ((VBox) hbox.getChildren().get(1));
 
         leftBox.getChildren().clear();
         rightBox.getChildren().clear();
