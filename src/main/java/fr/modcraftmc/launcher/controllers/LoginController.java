@@ -6,6 +6,7 @@ import fr.modcraftmc.launcher.MFXMLLoader;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.libs.auth.AccountManager;
+import io.github.palexdev.materialfx.controls.MFXProgressSpinner;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -26,6 +27,8 @@ public class LoginController extends BaseController {
     @FXML public Pane copyAndOpenButton;
     @FXML public Label authCode;
     @FXML private Label loadingMessage;
+    @FXML private MFXProgressSpinner loadingIndicator;
+    @FXML private Label microsoftText;
 
 
     @Override
@@ -41,8 +44,13 @@ public class LoginController extends BaseController {
         FadeIn authFormContainerFadeOut = new FadeIn(authContainer);
         FadeIn loadingContainerFadeIn = new FadeIn(loadingContainer);
 
+        loadingIndicator.setVisible(false);
+
         microsoftButton.setOnMouseClicked(event -> {
             microsoftButton.setDisable(true); //TODO: replace the text with a loading animation
+
+            loadingIndicator.setVisible(true);
+            microsoftText.setVisible(false);
 
             AccountManager.authenticate(msaDeviceCode -> {
                 Platform.runLater(() -> {
