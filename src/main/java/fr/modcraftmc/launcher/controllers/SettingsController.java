@@ -16,6 +16,8 @@ public class SettingsController extends BaseController {
 
     @FXML Pane userBtn;
     @FXML Pane gameBtn;
+    @FXML Pane modsBtn;
+    @FXML Pane discordBtn;
     @FXML Pane debugBtn;
 
     @FXML private Rectangle activeTab;
@@ -41,6 +43,22 @@ public class SettingsController extends BaseController {
             switchSettingPage(gamePane, 1);
         });
 
+        Pane modsPane = MFXMLLoader.loadPane("settings/not_implemented.fxml");
+        settingsContainer.getChildren().add(modsPane);
+        modsPane.setVisible(false);
+
+        modsBtn.setOnMouseClicked((event) -> {
+            switchSettingPage(modsPane, 2);
+        });
+
+        Pane discordPane = MFXMLLoader.loadPane("settings/not_implemented.fxml");
+        settingsContainer.getChildren().add(discordPane);
+        discordPane.setVisible(false);
+
+        discordBtn.setOnMouseClicked((event) -> {
+            switchSettingPage(discordPane, 3);
+        });
+
         Pane debugPane = MFXMLLoader.loadPane("settings/debug.fxml");
         settingsContainer.getChildren().add(debugPane);
         debugPane.setVisible(false);
@@ -55,7 +73,7 @@ public class SettingsController extends BaseController {
         currentPane.setDisable(true);
 
         TranslateTransition translateTransition = new TranslateTransition(Duration.millis(100), activeTab);
-        translateTransition.setToY((index * BTN_HEIGHT) + (index * BTN_SPACING));
+        translateTransition.setToY(index * (BTN_SPACING + BTN_HEIGHT));
         translateTransition.play();
 
         currentPane = newPage;
