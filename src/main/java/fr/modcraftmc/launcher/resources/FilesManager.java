@@ -1,5 +1,8 @@
 package fr.modcraftmc.launcher.resources;
 
+import fr.modcraftmc.launcher.Environment;
+import fr.modcraftmc.launcher.ModcraftApplication;
+
 import java.io.File;
 
 public class FilesManager {
@@ -8,7 +11,7 @@ public class FilesManager {
 
     public static boolean windows = System.getProperty("os.name").toLowerCase().contains("windows");
     public static String BASE_PATH = windows ? System.getenv("appdata") : System.getenv("HOME");
-    public static File DEFAULT_PATH = new File(BASE_PATH + FP + ".modcraftmc" + FP);
+    public static File DEFAULT_PATH = new File(BASE_PATH + FP + ".modcraftmc" + (ModcraftApplication.ENVIRONMENT == Environment.ENV.DEV ? "-dev":  "") + FP);
     public static File LAUNCHER_PATH = new File(DEFAULT_PATH, "launcher");
     public static File LAUNCHER_JAR = new File(LAUNCHER_PATH, "launcher.jar");
     public static File LOGS_PATH = new File(LAUNCHER_PATH, "logs");

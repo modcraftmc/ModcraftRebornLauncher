@@ -29,8 +29,8 @@ public class LauncherConfig {
 
     //configs
 
-    private boolean keeplogin;
-    private boolean keepOpen;
+    private boolean keeplogin = true;
+    private boolean keepOpen = true;
     private String refreshToken = "";
     private int ram = 6;
     private InstanceProperty instanceProperty;
