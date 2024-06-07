@@ -38,6 +38,7 @@ public class SettingsController extends BaseController {
         Pane gamePane = MFXMLLoader.loadPane("settings/game.fxml");
         settingsContainer.getChildren().add(gamePane);
         gamePane.setVisible(false);
+        gamePane.setDisable(true);
 
         gameBtn.setOnMouseClicked((event) -> {
             switchSettingPage(gamePane, 1);
@@ -46,6 +47,7 @@ public class SettingsController extends BaseController {
         Pane modsPane = MFXMLLoader.loadPane("settings/not_implemented.fxml");
         settingsContainer.getChildren().add(modsPane);
         modsPane.setVisible(false);
+        modsPane.setDisable(true);
 
         modsBtn.setOnMouseClicked((event) -> {
             switchSettingPage(modsPane, 2);
@@ -54,6 +56,7 @@ public class SettingsController extends BaseController {
         Pane discordPane = MFXMLLoader.loadPane("settings/not_implemented.fxml");
         settingsContainer.getChildren().add(discordPane);
         discordPane.setVisible(false);
+        discordPane.setDisable(true);
 
         discordBtn.setOnMouseClicked((event) -> {
             switchSettingPage(discordPane, 3);
@@ -62,6 +65,7 @@ public class SettingsController extends BaseController {
         Pane debugPane = MFXMLLoader.loadPane("settings/debug.fxml");
         settingsContainer.getChildren().add(debugPane);
         debugPane.setVisible(false);
+        debugPane.setDisable(true);
 
         debugBtn.setOnMouseClicked((event) -> {
             switchSettingPage(debugPane, 4);
