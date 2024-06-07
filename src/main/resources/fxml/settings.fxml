@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="430.0" prefWidth="1200.0" styleClass="containers" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.SettingsController">
@@ -17,7 +18,7 @@
                   </Label>
                </children>
             </Pane>
-            <Pane fx:id="gameBtn" layoutX="30.0" layoutY="93.0" prefHeight="50.0" prefWidth="200.0" styleClass="settings-button" stylesheets="@../css/main.css">
+            <Pane fx:id="gameBtn" layoutX="30.0" layoutY="90.0" prefHeight="50.0" prefWidth="200.0" styleClass="settings-button" stylesheets="@../css/main.css">
                <children>
                   <Label layoutX="80.0" layoutY="10.0" text="JEU" textFill="WHITE">
                      <font>
@@ -26,7 +27,7 @@
                   </Label>
                </children>
             </Pane>
-            <Pane fx:id="modsBtn" layoutX="30.0" layoutY="161.0" prefHeight="50.0" prefWidth="200.0" styleClass="settings-button" stylesheets="@../css/main.css">
+            <Pane fx:id="modsBtn" layoutX="30.0" layoutY="155.0" prefHeight="50.0" prefWidth="200.0" styleClass="settings-button" stylesheets="@../css/main.css">
                <children>
                   <Label layoutX="66.0" layoutY="10.0" text="MODS" textFill="#5b5b5b">
                      <font>
@@ -35,7 +36,7 @@
                   </Label>
                </children>
             </Pane>
-            <Pane fx:id="discordBtn" layoutX="30.0" layoutY="229.0" prefHeight="50.0" prefWidth="200.0" styleClass="settings-button" stylesheets="@../css/main.css">
+            <Pane fx:id="discordBtn" layoutX="30.0" layoutY="220.0" prefHeight="50.0" prefWidth="200.0" styleClass="settings-button" stylesheets="@../css/main.css">
                <children>
                   <Label layoutX="50.0" layoutY="10.0" text="DISCORD" textFill="#5b5b5b">
                      <font>
@@ -44,7 +45,7 @@
                   </Label>
                </children>
             </Pane>
-            <Pane fx:id="debugBtn" layoutX="30.0" layoutY="299.0" prefHeight="50.0" prefWidth="200.0" styleClass="settings-button" stylesheets="@../css/main.css">
+            <Pane fx:id="debugBtn" layoutX="30.0" layoutY="285.0" prefHeight="50.0" prefWidth="200.0" styleClass="settings-button" stylesheets="@../css/main.css">
                <children>
                   <Label layoutX="63.0" layoutY="10.0" text="DEBUG" textFill="WHITE">
                      <font>
@@ -53,6 +54,7 @@
                   </Label>
                </children>
             </Pane>
+            <Rectangle fx:id="activeTab" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="50.0" layoutX="25.0" layoutY="25.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
          </children></Pane>
 
       <Pane fx:id="settingsContainer" layoutX="310.0" layoutY="24.0" prefHeight="380.0" prefWidth="868.0" styleClass="settings-left" stylesheets="@../css/main.css" />

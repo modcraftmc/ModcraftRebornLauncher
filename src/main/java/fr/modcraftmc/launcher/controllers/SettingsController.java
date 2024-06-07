@@ -1,9 +1,12 @@
 package fr.modcraftmc.launcher.controllers;
 
 import fr.modcraftmc.launcher.MFXMLLoader;
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 public class SettingsController extends BaseController {
 
@@ -15,6 +18,10 @@ public class SettingsController extends BaseController {
     @FXML Pane gameBtn;
     @FXML Pane debugBtn;
 
+    @FXML private Rectangle activeTab;
+    private int BTN_HEIGHT = 50;
+    private int BTN_SPACING = 15;
+
     @Override
     public void initialize(FXMLLoader loader) {
         Pane userPane = MFXMLLoader.loadPane("settings/user.fxml");
@@ -23,7 +30,7 @@ public class SettingsController extends BaseController {
         currentPane = userPane;
 
         userBtn.setOnMouseClicked((event) -> {
-            switchSettingPage(userPane);
+            switchSettingPage(userPane, 0);
         });
 
         Pane gamePane = MFXMLLoader.loadPane("settings/game.fxml");
@@ -31,7 +38,7 @@ public class SettingsController extends BaseController {
         gamePane.setVisible(false);
 
         gameBtn.setOnMouseClicked((event) -> {
-            switchSettingPage(gamePane);
+            switchSettingPage(gamePane, 1);
         });
 
         Pane debugPane = MFXMLLoader.loadPane("settings/debug.fxml");
@@ -39,13 +46,17 @@ public class SettingsController extends BaseController {
         debugPane.setVisible(false);
 
         debugBtn.setOnMouseClicked((event) -> {
-            switchSettingPage(debugPane);
+            switchSettingPage(debugPane, 4);
         });
     }
 
-    private void switchSettingPage(Pane newPage) {
+    private void switchSettingPage(Pane newPage, int index) {
         currentPane.setVisible(false);
         currentPane.setDisable(true);
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(100), activeTab);
+        translateTransition.setToY((index * BTN_HEIGHT) + (index * BTN_SPACING));
+        translateTransition.play();
 
         currentPane = newPage;
         newPage.setVisible(true);
