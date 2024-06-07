@@ -59,6 +59,8 @@ public class AccountManager {
     }
 
     public StepMCProfile.MCProfile getCurrentMCProfile() {
+        if (currentMCProfile == null)
+            ErrorsHandler.handleError(new Exception());
         return this.currentMCProfile;
     }
 
@@ -113,6 +115,7 @@ public class AccountManager {
                StepFullJavaSession.FullJavaSession javaSession = deviceCodeAuthStep.refresh(httpClient, jsonProfile);
 
                AsyncExecutor.runAsync(() -> saveLoginInfos(javaSession));
+               ModcraftApplication.accountManager.setCurrentMCProfile(javaSession.getMcProfile());
                return new AuthResult(true, javaSession.getMcProfile());
 
            } catch (Exception e) {
