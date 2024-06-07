@@ -75,6 +75,18 @@
     -fx-background-color: #262020;
 }
 
+.settings-button:hover .settings-button-text {
+    -fx-text-fill: #fe8e01;
+}
+
+.ram-slider .track {
+    -fx-fill: #262020;
+}
+
+.ram-slider .bar {
+    -fx-fill: #fe8e01;
+}
+
 .discordBtn:hover {
     -fx-background-color: #262020;
 }

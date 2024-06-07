@@ -10,7 +10,7 @@
          <children>
             <Pane fx:id="userBtn" layoutX="30.0" layoutY="25.0" prefHeight="50.0" prefWidth="200.0" styleClass="settings-button" stylesheets="@../css/main.css">
                <children>
-                  <Label layoutX="53.0" layoutY="10.0" text="COMPTE" textFill="WHITE">
+                  <Label layoutX="53.0" layoutY="10.0" styleClass="settings-button-text" stylesheets="@../css/main.css" text="COMPTE" textFill="WHITE">
                      <font>
                         <Font name="Lilita One" size="25.0" />
                      </font>
@@ -19,7 +19,7 @@
             </Pane>
             <Pane fx:id="gameBtn" layoutX="30.0" layoutY="90.0" prefHeight="50.0" prefWidth="200.0" styleClass="settings-button" stylesheets="@../css/main.css">
                <children>
-                  <Label layoutX="80.0" layoutY="10.0" text="JEU" textFill="WHITE">
+                  <Label layoutX="80.0" layoutY="10.0" styleClass="settings-button-text" stylesheets="@../css/main.css" text="JEU" textFill="WHITE">
                      <font>
                         <Font name="Lilita One" size="25.0" />
                      </font>
@@ -28,7 +28,7 @@
             </Pane>
             <Pane fx:id="modsBtn" layoutX="30.0" layoutY="155.0" prefHeight="50.0" prefWidth="200.0" styleClass="settings-button" stylesheets="@../css/main.css">
                <children>
-                  <Label layoutX="66.0" layoutY="10.0" text="MODS" textFill="WHITE">
+                  <Label layoutX="66.0" layoutY="10.0" styleClass="settings-button-text" stylesheets="@../css/main.css" text="MODS" textFill="WHITE">
                      <font>
                         <Font name="Lilita One" size="25.0" />
                      </font>
@@ -37,7 +37,7 @@
             </Pane>
             <Pane fx:id="discordBtn" layoutX="30.0" layoutY="220.0" prefHeight="50.0" prefWidth="200.0" styleClass="settings-button" stylesheets="@../css/main.css">
                <children>
-                  <Label layoutX="50.0" layoutY="10.0" text="DISCORD" textFill="WHITE">
+                  <Label layoutX="50.0" layoutY="10.0" styleClass="settings-button-text" stylesheets="@../css/main.css" text="DISCORD" textFill="WHITE">
                      <font>
                         <Font name="Lilita One" size="25.0" />
                      </font>
@@ -46,7 +46,7 @@
             </Pane>
             <Pane fx:id="debugBtn" layoutX="30.0" layoutY="285.0" prefHeight="50.0" prefWidth="200.0" styleClass="settings-button" stylesheets="@../css/main.css">
                <children>
-                  <Label layoutX="63.0" layoutY="10.0" text="DEBUG" textFill="WHITE">
+                  <Label layoutX="63.0" layoutY="10.0" styleClass="settings-button-text" stylesheets="@../css/main.css" text="DEBUG" textFill="WHITE">
                      <font>
                         <Font name="Lilita One" size="25.0" />
                      </font>

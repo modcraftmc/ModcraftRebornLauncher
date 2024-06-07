@@ -16,7 +16,7 @@
             <Pane layoutX="17.0" layoutY="43.0" prefHeight="2.0" prefWidth="45.0" styleClass="text-underline" stylesheets="@../../css/main.css" />
             <Pane layoutX="16.0" layoutY="60.0" prefHeight="102.0" prefWidth="837.0" styleClass="settings-content" stylesheets="@../../css/main.css">
             <children>
-               <MFXSlider fx:id="ramSlider" layoutX="24.0" layoutY="70.0" max="8.0" min="4.0" prefHeight="10.0" prefWidth="722.0" showMajorTicks="true" tickUnit="8.0" />
+               <MFXSlider fx:id="ramSlider" layoutX="24.0" layoutY="70.0" max="8.0" min="4.0" prefHeight="10.0" prefWidth="722.0" showMajorTicks="true" styleClass="ram-slider" stylesheets="@../../css/main.css" tickUnit="8.0" />
                <Label layoutX="24.0" layoutY="19.0" text="Quantité de RAM allouée au jeu" textFill="WHITE">
                   <font>
                      <Font name="Lilita One" size="18.0" />
