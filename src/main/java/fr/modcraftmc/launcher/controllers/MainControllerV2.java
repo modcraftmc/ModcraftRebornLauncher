@@ -276,7 +276,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                 progressBar.setVisible(true);
                 progressBar.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
                 progressLabel.setVisible(true);
-                progressLabel.setText("Lancement du jeu");
+                progressLabel.setText("Jeu lancé");
                 playBtn.setVisible(false);
 //                play.setDisable(true);
 //                progressBarOutAnimation();
