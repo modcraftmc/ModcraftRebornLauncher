@@ -18,17 +18,27 @@ import javafx.util.Duration;
 
 public class LoginController extends BaseController {
 
-    @FXML public Pane welcomeContainer;
-    @FXML public Pane authContainer;
-    @FXML public Pane loadingContainer;
+    @FXML
+    public Pane welcomeContainer;
+    @FXML
+    public Pane authContainer;
+    @FXML
+    public Pane loadingContainer;
 
-    @FXML public Pane microsoftButton;
-    @FXML public Pane codeButton;
-    @FXML public Pane copyAndOpenButton;
-    @FXML public Label authCode;
-    @FXML private Label loadingMessage;
-    @FXML private MFXProgressSpinner loadingIndicator;
-    @FXML private Label microsoftText;
+    @FXML
+    public Pane microsoftButton;
+    @FXML
+    public Pane codeButton;
+    @FXML
+    public Pane copyAndOpenButton;
+    @FXML
+    public Label authCode;
+    @FXML
+    private Label loadingMessage;
+    @FXML
+    private MFXProgressSpinner loadingIndicator;
+    @FXML
+    private Label microsoftText;
 
 
     @Override
@@ -76,7 +86,6 @@ public class LoginController extends BaseController {
                 if (authResult.isLoggedIn()) {
                     loadingMessage.setText("Connecté!");
 
-                    
 
                     Utils.pleaseWait(2000).thenAcceptAsync((unused) -> {
                         microsoftButton.setDisable(false);

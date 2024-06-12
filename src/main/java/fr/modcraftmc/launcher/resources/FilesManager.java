@@ -11,7 +11,7 @@ public class FilesManager {
 
     public static boolean windows = System.getProperty("os.name").toLowerCase().contains("windows");
     public static String BASE_PATH = windows ? System.getenv("appdata") : System.getenv("HOME");
-    public static File DEFAULT_PATH = new File(BASE_PATH + FP + ".modcraftmc" + (ModcraftApplication.ENVIRONMENT == Environment.ENV.DEV ? "-dev":  "") + FP);
+    public static File DEFAULT_PATH = new File(BASE_PATH + FP + ".modcraftmc" + (ModcraftApplication.ENVIRONMENT == Environment.ENV.DEV ? "-dev" : "") + FP);
     public static File LAUNCHER_PATH = new File(DEFAULT_PATH, "launcher");
     public static File LAUNCHER_JAR = new File(LAUNCHER_PATH, "launcher.jar");
     public static File LOGS_PATH = new File(LAUNCHER_PATH, "logs");
@@ -50,28 +50,28 @@ public class FilesManager {
         return DEFAULT_PATH;
     }
 
-    public File getOptionsPath() {
-        return OPTIONS_PATH;
-    }
-
-    public File getInstancesPath() {
-        return INSTANCES_PATH;
-    }
-
-    public File getJavaPath() {
-        return JAVA_PATH;
-    }
-
     public void setDefaultPath(File defaultPath) {
         DEFAULT_PATH = defaultPath;
+    }
+
+    public File getOptionsPath() {
+        return OPTIONS_PATH;
     }
 
     public void setOptionsPath(File optionsPath) {
         OPTIONS_PATH = optionsPath;
     }
 
+    public File getInstancesPath() {
+        return INSTANCES_PATH;
+    }
+
     public void setInstancesPath(File instancesPath) {
         INSTANCES_PATH = instancesPath;
+    }
+
+    public File getJavaPath() {
+        return JAVA_PATH;
     }
 
     public static void setJavaPath(File javaPath) {

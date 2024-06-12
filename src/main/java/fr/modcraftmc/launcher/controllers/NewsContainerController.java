@@ -9,15 +9,19 @@ import javafx.scene.layout.Pane;
 
 public class NewsContainerController extends BaseController {
 
-    @FXML private Pane container;
-    @FXML private Label title;
-    @FXML private Label content;
-    @FXML private Label publishDate;
+    @FXML
+    private Pane container;
+    @FXML
+    private Label title;
+    @FXML
+    private Label content;
+    @FXML
+    private Label publishDate;
 
     @Override
     public void initialize(FXMLLoader loader) {
         container.getChildren().forEach((a) -> {
-            a.setOnMouseClicked(mouseEvent ->  {
+            a.setOnMouseClicked(mouseEvent -> {
                 Utils.openBrowser("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
             });
         });

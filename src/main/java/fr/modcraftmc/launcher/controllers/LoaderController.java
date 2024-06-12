@@ -26,7 +26,7 @@ public class LoaderController extends BaseController {
 
         CompletableFuture.runAsync(() -> {
             AccountManager.AuthResult authResult = AccountManager.validate(loadingMessage);
-            if (authResult.isLoggedIn())  {
+            if (authResult.isLoggedIn()) {
                 Platform.runLater(() -> loadingMessage.setText("Connecté!"));
                 Utils.selfCatchSleep(1500);
 
@@ -42,15 +42,15 @@ public class LoaderController extends BaseController {
                 });
             } else {
                 Scene scene = MFXMLLoader.loadFxml("login.fxml", false);
-                    Platform.runLater(() -> {
-                        ModcraftApplication.getWindow().hide();
-                        ModcraftApplication.getWindow().setWidth(1300);
-                        ModcraftApplication.getWindow().setHeight(700);
-                        ModcraftApplication.getWindow().setScene(scene);
-                        ModcraftApplication.getWindow().show();
-                        ModcraftApplication.getWindow().centerOnScreen();
-                    });
-                }
+                Platform.runLater(() -> {
+                    ModcraftApplication.getWindow().hide();
+                    ModcraftApplication.getWindow().setWidth(1300);
+                    ModcraftApplication.getWindow().setHeight(700);
+                    ModcraftApplication.getWindow().setScene(scene);
+                    ModcraftApplication.getWindow().show();
+                    ModcraftApplication.getWindow().centerOnScreen();
+                });
+            }
         });
     }
 }

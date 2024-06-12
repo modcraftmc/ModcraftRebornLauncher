@@ -12,6 +12,7 @@ import java.util.Map;
 
 public class MFXMLLoader {
     private static final Map<String, Scene> loadedScenes = new HashMap<>();
+
     public static Scene loadFxml(String file, boolean forceReload) {
         if (loadedScenes.containsKey(file) && !forceReload) {
             return loadedScenes.get(file);
@@ -32,16 +33,16 @@ public class MFXMLLoader {
     }
 
     public static Pane loadPane(String fxml) {
-      try {
-          javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(ModcraftApplication.resourcesManager.getResource(fxml));
-          AnchorPane pane = loader.load();
-          IController controller = loader.getController();
-          pane.setUserData(controller);
-          controller.initialize(loader);
-          return pane;
-      } catch (IOException e) {
-          ErrorsHandler.handleError(e);
-      }
-      throw new IllegalStateException("Error when loading a fxml pane");
+        try {
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(ModcraftApplication.resourcesManager.getResource(fxml));
+            AnchorPane pane = loader.load();
+            IController controller = loader.getController();
+            pane.setUserData(controller);
+            controller.initialize(loader);
+            return pane;
+        } catch (IOException e) {
+            ErrorsHandler.handleError(e);
+        }
+        throw new IllegalStateException("Error when loading a fxml pane");
     }
 }

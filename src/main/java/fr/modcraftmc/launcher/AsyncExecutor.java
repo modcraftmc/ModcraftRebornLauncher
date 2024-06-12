@@ -18,7 +18,7 @@ public class AsyncExecutor {
         return executorService.scheduleAtFixedRate(runnable, 0, rate, unit);
     }
 
-    public static Future<?> runAsyncAtRate(Runnable runnable,int initialdelay, int rate, TimeUnit unit) {
+    public static Future<?> runAsyncAtRate(Runnable runnable, int initialdelay, int rate, TimeUnit unit) {
         return executorService.scheduleAtFixedRate(runnable, initialdelay, rate, unit);
     }
 
@@ -38,6 +38,7 @@ public class AsyncExecutor {
     static class ModcraftThreadFactory implements ThreadFactory {
 
         private final AtomicInteger COUNTER = new AtomicInteger();
+
         @Override
         public Thread newThread(@NotNull Runnable r) {
             Thread thread = new Thread(r);

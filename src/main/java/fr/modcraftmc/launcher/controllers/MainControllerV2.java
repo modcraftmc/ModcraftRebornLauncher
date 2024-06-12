@@ -35,22 +35,35 @@ import java.util.concurrent.TimeUnit;
 
 public class MainControllerV2 extends BaseController implements ProgressCallback {
 
-    @FXML private Pane topContainer;
-    @FXML private ScrollPane scrollPane;
-    @FXML private HBox hbox;
-    @FXML private Pane playBtn;
-    @FXML private Label playerName;
-    @FXML private Label playerRank;
-    @FXML private ImageView playerHead;
+    @FXML
+    private Pane topContainer;
+    @FXML
+    private ScrollPane scrollPane;
+    @FXML
+    private HBox hbox;
+    @FXML
+    private Pane playBtn;
+    @FXML
+    private Label playerName;
+    @FXML
+    private Label playerRank;
+    @FXML
+    private ImageView playerHead;
 
-    @FXML private Label loadingText;
-    @FXML private MFXProgressSpinner loadingIndicator;
+    @FXML
+    private Label loadingText;
+    @FXML
+    private MFXProgressSpinner loadingIndicator;
 
-    @FXML private MFXProgressBar progressBar;
-    @FXML private Label progressLabel;
+    @FXML
+    private MFXProgressBar progressBar;
+    @FXML
+    private Label progressLabel;
 
-    @FXML private Pane discordBtn;
-    @FXML private Button settingsBtn;
+    @FXML
+    private Pane discordBtn;
+    @FXML
+    private Button settingsBtn;
     private Pane settingsPane;
 
     private ModcraftServiceUserProfile currentModcraftProfile;
@@ -62,13 +75,13 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
 
     @Override
     public void initialize(FXMLLoader loader) {
-       super.initialize(loader);
+        super.initialize(loader);
 
-       ModcraftApplication.newsManager.onNewsUpdateCallback(this::buildNewsContainer);
+        ModcraftApplication.newsManager.onNewsUpdateCallback(this::buildNewsContainer);
 
-       this.mcProfile = ModcraftApplication.accountManager.getCurrentMCProfile();
+        this.mcProfile = ModcraftApplication.accountManager.getCurrentMCProfile();
 
-       ModcraftApplication.LOGGER.warning("account name " + mcProfile.getName());
+        ModcraftApplication.LOGGER.warning("account name " + mcProfile.getName());
 
         playerName.setText(mcProfile.getName());
         try {
@@ -86,12 +99,12 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
             ErrorsHandler.handleErrorAndCrashApplication(e);
         }
 
-       progressBar.setVisible(false);
-       progressLabel.setVisible(false);
+        progressBar.setVisible(false);
+        progressLabel.setVisible(false);
 
-       settingsPane = MFXMLLoader.loadPane("settings.fxml");
-       settingsPane.setVisible(false); // invisible by default
-       this.topContainer.getChildren().add(settingsPane);
+        settingsPane = MFXMLLoader.loadPane("settings.fxml");
+        settingsPane.setVisible(false); // invisible by default
+        this.topContainer.getChildren().add(settingsPane);
 
         settingsBtn.setOnMouseClicked((event) -> {
             if (settingsStatus)
@@ -109,7 +122,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
         AsyncExecutor.runAsyncAtRate(() -> {
             try {
                 MinecraftPingReply minecraftPing = new MinecraftPing().getPing("servers.modcraftmc.fr");
-                ModcraftApplication.LOGGER.info(String.format("Updating server status (%s/%s)",  minecraftPing.getPlayers().getOnline(), minecraftPing.getPlayers().getMax()));
+                ModcraftApplication.LOGGER.info(String.format("Updating server status (%s/%s)", minecraftPing.getPlayers().getOnline(), minecraftPing.getPlayers().getMax()));
 
                 Platform.runLater(() -> {
                     //playersCount.setText(String.format("%s/%s", minecraftPing.getPlayers().getOnline(), minecraftPing.getPlayers().getMax()));
@@ -139,7 +152,8 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
 
             if (process.isPresent() && process.get().isAlive()) {
                 Platform.runLater(() -> setLauncherState(MainControllerV2.State.PLAYING));
-                while (process.get().isAlive()) {}
+                while (process.get().isAlive()) {
+                }
 
                 ModcraftApplication.LOGGER.info("Game process shutdown");
                 Platform.runLater(() -> {
@@ -181,7 +195,8 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                             ModcraftApplication.launcherConfig.setLatestGamePid(process.pid());
                             ModcraftApplication.launcherConfig.save();
                             Platform.runLater(() -> setLauncherState(State.PLAYING));
-                            while (process.isAlive()) {}
+                            while (process.isAlive()) {
+                            }
 
                             ModcraftApplication.LOGGER.info("Game process shutdown");
                             Platform.runLater(() -> {
@@ -270,7 +285,6 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
             }
         }
     }
-
 
 
     @Override

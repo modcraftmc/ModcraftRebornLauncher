@@ -10,19 +10,23 @@ import javafx.util.Duration;
 
 public class SettingsController extends BaseController {
 
+    private final int BTN_HEIGHT = 50;
+    private final int BTN_SPACING = 15;
+    @FXML
+    Pane userBtn;
+    @FXML
+    Pane gameBtn;
+    @FXML
+    Pane modsBtn;
+    @FXML
+    Pane discordBtn;
+    @FXML
+    Pane debugBtn;
     @FXML
     private Pane settingsContainer;
     private Pane currentPane;
-
-    @FXML Pane userBtn;
-    @FXML Pane gameBtn;
-    @FXML Pane modsBtn;
-    @FXML Pane discordBtn;
-    @FXML Pane debugBtn;
-
-    @FXML private Rectangle activeTab;
-    private final int BTN_HEIGHT = 50;
-    private final int BTN_SPACING = 15;
+    @FXML
+    private Rectangle activeTab;
 
     @Override
     public void initialize(FXMLLoader loader) {

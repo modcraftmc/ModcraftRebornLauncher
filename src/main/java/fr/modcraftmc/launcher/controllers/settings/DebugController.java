@@ -8,8 +8,10 @@ import javafx.scene.control.Label;
 
 public class DebugController extends BaseController {
 
-    @FXML private Label buildType;
-    @FXML private Label version;
+    @FXML
+    private Label buildType;
+    @FXML
+    private Label version;
 
     @Override
     public void initialize(FXMLLoader loader) {

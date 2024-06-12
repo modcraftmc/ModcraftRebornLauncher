@@ -18,11 +18,16 @@ import java.net.URL;
 
 public class UserController extends BaseController {
 
-    @FXML private Label playerName;
-    @FXML private Label playerRank;
-    @FXML private ImageView playerHead;
-    @FXML private Button logoutBtn;
-    @FXML private CheckBox keepMicrosoftLogin;
+    @FXML
+    private Label playerName;
+    @FXML
+    private Label playerRank;
+    @FXML
+    private ImageView playerHead;
+    @FXML
+    private Button logoutBtn;
+    @FXML
+    private CheckBox keepMicrosoftLogin;
     private StepMCProfile.MCProfile mcProfile;
 
     @Override

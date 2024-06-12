@@ -24,24 +24,43 @@ import java.util.logging.Logger;
 
 public class ModcraftApplication extends Application {
 
-    public static Environment.ENV     ENVIRONMENT = Environment.ENV.DEV;
-    public static ResourcesManager    resourcesManager = new ResourcesManager();
-    public static FilesManager        filesManager     = new FilesManager();
-    public static Logger              LOGGER           = LogManager.createLogger("ModcraftLauncher");
-    public static LauncherConfig      launcherConfig;
+    public static Environment.ENV ENVIRONMENT = Environment.ENV.DEV;
+    public static ResourcesManager resourcesManager = new ResourcesManager();
+    public static FilesManager filesManager = new FilesManager();
+    public static Logger LOGGER = LogManager.createLogger("ModcraftLauncher");
+    public static LauncherConfig launcherConfig;
     public static StartupTasksManager startupTasksManager = new StartupTasksManager();
-    public static NewsManager         newsManager = new NewsManager();
-    public static AccountManager      accountManager = new AccountManager();
+    public static NewsManager newsManager = new NewsManager();
+    public static AccountManager accountManager = new AccountManager();
     public static fr.modcraftmc.api.ModcraftApiClient apiClient = new fr.modcraftmc.api.ModcraftApiClient("https://api.modcraftmc.fr/v1");
 
     //Constants
-    public static String BUILD_TIME    = "DEV";
+    public static String BUILD_TIME = "DEV";
     public static String FORGE_VERSION = "43.3.12";
-    public static String MC_VERSION    = "1.19.2";
-    public static String MCP_VERSION   = "20220805.130853";
-    private static Stage window;
+    public static String MC_VERSION = "1.19.2";
+    public static String MCP_VERSION = "20220805.130853";
     public static ModcraftApplication app;
+    private static Stage window;
     public boolean isFirstLaunch;
+
+    public static void shutdown(int code) {
+        LOGGER.info("Houston, we have a shutdown.");
+        LogManager.getFileHandler().flush();
+        LogManager.getFileHandler().close();
+        launcherConfig.save();
+        AsyncExecutor.shutdown();
+        Platform.exit();
+        System.exit(code);
+        Runtime.getRuntime().halt(code);
+    }
+
+    public static Stage getWindow() {
+        return window;
+    }
+
+    public static Manifest getManifest() throws IOException {
+        return new Manifest((ModcraftApplication.class.getResourceAsStream("/META-INF/MANIFEST.MF")));
+    }
 
     @Override
     public void start(Stage stage) {
@@ -84,24 +103,5 @@ public class ModcraftApplication extends Application {
         stage.setScene(mainScene);
         stage.show();
         stage.centerOnScreen();
-    }
-
-    public static void shutdown(int code) {
-        LOGGER.info("Houston, we have a shutdown.");
-        LogManager.getFileHandler().flush();
-        LogManager.getFileHandler().close();
-        launcherConfig.save();
-        AsyncExecutor.shutdown();
-        Platform.exit();
-        System.exit(code);
-        Runtime.getRuntime().halt(code);
-    }
-
-    public static Stage getWindow() {
-        return window;
-    }
-
-    public static Manifest getManifest() throws IOException {
-        return new Manifest((ModcraftApplication.class.getResourceAsStream("/META-INF/MANIFEST.MF")));
     }
 }

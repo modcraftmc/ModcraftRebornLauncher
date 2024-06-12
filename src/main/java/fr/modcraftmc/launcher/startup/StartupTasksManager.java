@@ -15,8 +15,8 @@ import java.util.List;
  */
 public class StartupTasksManager {
 
-    private Label loadingMessage;
     private final List<IStartupTask> tasks = Arrays.asList(new ValidateMicrosoftUserTask(), new ValidateModcaftUserTask());
+    private Label loadingMessage;
 
     public void init(Label loadingMessage) {
         this.loadingMessage = loadingMessage;

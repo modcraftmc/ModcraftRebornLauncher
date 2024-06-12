@@ -7,6 +7,6 @@ public class NoopController extends BaseController {
 
     @Override
     public void initialize(FXMLLoader loader) {
-        
+
     }
 }

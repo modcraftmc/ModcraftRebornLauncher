@@ -44,8 +44,7 @@ public class Utils {
         }
     }
 
-    public static String getFileChecksum(MessageDigest digest, File file) throws IOException
-    {
+    public static String getFileChecksum(MessageDigest digest, File file) throws IOException {
         FileInputStream fis = new FileInputStream(file);
 
         byte[] byteArray = new byte[1024];
@@ -60,8 +59,7 @@ public class Utils {
         byte[] bytes = digest.digest();
 
         StringBuilder sb = new StringBuilder();
-        for(int i=0; i< bytes.length ;i++)
-        {
+        for (int i = 0; i < bytes.length; i++) {
             sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
         }
 
