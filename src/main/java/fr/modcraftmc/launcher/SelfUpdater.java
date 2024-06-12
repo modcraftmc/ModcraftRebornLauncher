@@ -6,6 +6,7 @@ import fr.modcraftmc.api.exception.RemoteException;
 import fr.modcraftmc.api.models.LauncherInfo;
 import fr.modcraftmc.launcher.resources.FilesManager;
 
+import java.io.File;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -26,6 +27,11 @@ public class SelfUpdater {
             LauncherInfo launcherInfo = getLauncherInfo();
 
             if (launcherInfo == null || bootstrapPath == null) // if bootstrapPath is null we can't update
+                return NO_UPDATE_RESULT;
+
+            boolean doesBootstrapStillExist = new File(bootstrapPath).exists();
+
+            if (!doesBootstrapStillExist)
                 return NO_UPDATE_RESULT;
 
             if (checkJar(launcherInfo)) {
