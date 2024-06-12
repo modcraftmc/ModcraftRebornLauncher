@@ -3,6 +3,7 @@ package fr.modcraftmc.launcher.configuration;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import fr.modcraftmc.launcher.logger.LogManager;
+import fr.modcraftmc.libs.errors.ErrorsHandler;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -13,16 +14,12 @@ public class LauncherConfig {
 
 
     private static LauncherConfig instance;
-    private static Gson gsonSer = new GsonBuilder()
+    private static final Gson gson = new GsonBuilder()
             .setPrettyPrinting()
             .serializeNulls()
             .registerTypeAdapter(InstanceProperty.class, ConfigurationSerializer.instancePropertyJsonSerializer)
-            .create();
-    private static Gson gsonDes = new GsonBuilder()
-            .setPrettyPrinting()
-            .serializeNulls()
             .registerTypeAdapter(InstanceProperty.class, ConfigurationSerializer.instancePropertyJsonDeserializer)
-            .create();;
+            .create();
     private final static Logger logger = LogManager.createLogger("LauncherConfig");
     private static File configFile;
 
@@ -115,14 +112,14 @@ public class LauncherConfig {
 
     public void save() {
         logger.info("Sauvegarde du fichier du configuration.");
-        String jsonConfig = gsonSer.toJson(this);
+        String jsonConfig = gson.toJson(this);
         try {
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8));
             out.write(jsonConfig);
             out.flush();
             out.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorsHandler.handleErrorWithCustomHeader("Impossible de sauvegarder le fichier de configuration. (plus d'espace disque?)", e);
         }
     }
 
@@ -134,9 +131,9 @@ public class LauncherConfig {
     private static LauncherConfig loadFile() {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(configFile)));
-            return gsonDes.fromJson(reader, LauncherConfig.class);
+            return gson.fromJson(reader, LauncherConfig.class);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorsHandler.handleErrorAndCrashApplication(e);
             return null;
         }
     }
