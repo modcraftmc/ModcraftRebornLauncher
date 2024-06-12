@@ -67,13 +67,13 @@ dependencies {
 
 jar {
     manifest {
-        String buildType = "DEV";
+        String buildType = "DEV"
         if (System.getenv("buildProd") == "true") {
             println("building for prod")
-            buildType = "PROD";
+            buildType = "PROD"
             attributes('Build-Time': new Date().format("ddMMyyy-HHmm"))
         }
-        attributes 'Build-Type': buildType;
+        attributes 'Build-Type': buildType
     }
 }
 

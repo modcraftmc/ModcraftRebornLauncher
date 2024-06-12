@@ -33,10 +33,10 @@ public class GameController extends BaseController {
         ramSlider.setValue(ModcraftApplication.launcherConfig.getRam());
         ramText.setText(String.format("%s Gb", (int) ramSlider.getValue()));
 
-        customPathCheckbox.setSelected(ModcraftApplication.launcherConfig.getInstanceProperty().isCustomInstance());
+        customPathCheckbox.setSelected(ModcraftApplication.launcherConfig.getInstanceProperty().customInstance());
         browseFile.setDisable(!customPathCheckbox.isSelected());
         customPath.setDisable(!customPathCheckbox.isSelected());
-        customPath.setText(ModcraftApplication.launcherConfig.getInstanceProperty().getCustomInstancePath());
+        customPath.setText(ModcraftApplication.launcherConfig.getInstanceProperty().customInstancePath());
 
         browseFile.setOnMouseClicked(event -> {
             DirectoryChooser fileChooser = new DirectoryChooser();

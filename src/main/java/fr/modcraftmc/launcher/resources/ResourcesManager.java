@@ -9,11 +9,11 @@ public class ResourcesManager {
 
     private final List<String> imagesExtentions = Arrays.asList(".png", ".gif", ".jpg", ".jpeg");
 
-    private final List<String> fxmlExtentions = Arrays.asList(".fxml");
+    private final List<String> fxmlExtentions = List.of(".fxml");
 
-    private final List<String> cssExtentions = Arrays.asList(".css");
+    private final List<String> cssExtentions = List.of(".css");
 
-    private final List<String> jsonExtentions = Arrays.asList(".json");
+    private final List<String> jsonExtentions = List.of(".json");
 
 
     public URL getResource(String name) {

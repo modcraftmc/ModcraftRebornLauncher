@@ -12,9 +12,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.CompletableFuture;
 
 public class SelfUpdater {
-    private static String bootstrapPath = System.getProperty("bootstrapPath");
+    private static final String bootstrapPath = System.getProperty("bootstrapPath");
 
-    public record SelfUpdateResult(boolean hasUpdate, String currentVersion, String version, String changelogUrl, String bootstrapPath) {};
+    public record SelfUpdateResult(boolean hasUpdate, String currentVersion, String version, String changelogUrl, String bootstrapPath) {}
 
     private static final SelfUpdateResult NO_UPDATE_RESULT = new SelfUpdateResult(false, null, null, null, null);
     public static CompletableFuture<SelfUpdateResult> checkUpdate() {

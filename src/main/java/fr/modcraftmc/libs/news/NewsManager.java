@@ -20,7 +20,7 @@ import java.util.List;
 public class NewsManager {
 
     private final Gson GSON = new GsonBuilder().create();
-    private Type listType = new TypeToken<List<News>>() {}.getType();
+    private final Type listType = new TypeToken<List<News>>() {}.getType();
     private NewsUpdateCallback newsUpdateCallback;
 
     public void fetchNews() {

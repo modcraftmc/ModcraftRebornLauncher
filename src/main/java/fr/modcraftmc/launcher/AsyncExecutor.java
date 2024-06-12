@@ -7,8 +7,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class AsyncExecutor {
 
-    private static ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1, new ModcraftThreadFactory());
-    private static ExecutorService normalExecutorService = Executors.newSingleThreadExecutor(new ModcraftThreadFactory());
+    private static final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1, new ModcraftThreadFactory());
+    private static final ExecutorService normalExecutorService = Executors.newSingleThreadExecutor(new ModcraftThreadFactory());
 
     public static Future<?> runAsyncAtRate(Runnable runnable, int rateInMinutes) {
         return runAsyncAtRate(runnable, rateInMinutes, TimeUnit.MINUTES);
@@ -37,7 +37,7 @@ public class AsyncExecutor {
 
     static class ModcraftThreadFactory implements ThreadFactory {
 
-        private AtomicInteger COUNTER = new AtomicInteger();
+        private final AtomicInteger COUNTER = new AtomicInteger();
         @Override
         public Thread newThread(@NotNull Runnable r) {
             Thread thread = new Thread(r);

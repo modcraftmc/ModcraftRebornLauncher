@@ -21,8 +21,8 @@ public class SettingsController extends BaseController {
     @FXML Pane debugBtn;
 
     @FXML private Rectangle activeTab;
-    private int BTN_HEIGHT = 50;
-    private int BTN_SPACING = 15;
+    private final int BTN_HEIGHT = 50;
+    private final int BTN_SPACING = 15;
 
     @Override
     public void initialize(FXMLLoader loader) {
