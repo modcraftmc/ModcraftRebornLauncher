@@ -63,6 +63,9 @@ public class GameController extends BaseController {
             customPath.setDisable(!customPathCheckbox.isSelected());
         });
 
+        customPath.setOnKeyReleased((event) -> {
+            ModcraftApplication.launcherConfig.setInstanceProperty(new InstanceProperty(true, customPath.getText()));
+        });
 
         ramSlider.setOnMouseDragged(event -> {
             ramText.setText(String.format("%s Gb", (int) ramSlider.getValue()));
