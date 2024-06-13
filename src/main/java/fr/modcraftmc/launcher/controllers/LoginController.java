@@ -90,6 +90,7 @@ public class LoginController extends BaseController {
                     Utils.pleaseWait(2000).thenAcceptAsync((unused) -> {
                         microsoftButton.setDisable(false);
                         ModcraftApplication.accountManager.setCurrentMCProfile(authResult.getMcProfile());
+                        ModcraftApplication.LOGGER.info(authResult.getMcProfile().getName());
                         Scene scene = MFXMLLoader.loadFxml("main_v2.fxml", true);
                         ModcraftApplication.getWindow().setScene(scene);
                     }, Platform::runLater);

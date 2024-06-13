@@ -16,8 +16,10 @@ public class LaunchManager {
     public static Process launch(File dir) throws Exception {
 
         StepMCProfile.MCProfile currentProfile = ModcraftApplication.accountManager.getCurrentMCProfile();
+        ModcraftApplication.LOGGER.info(currentProfile.getName());
         if (currentProfile.isExpired()) {
-            currentProfile = AccountManager.validate(null).getMcProfile();
+            AccountManager.validate(null);
+            currentProfile = ModcraftApplication.accountManager.getCurrentMCProfile();
         }
 
         String name = currentProfile.getName();
