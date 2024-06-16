@@ -24,6 +24,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import net.raphimc.minecraftauth.step.java.StepMCProfile;
 
 import java.io.File;
@@ -93,7 +94,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
 
         try {
             currentModcraftProfile = ModcraftServiceUserProfile.getProfile(mcProfile.getMcToken().getAccessToken());
-            playerRank.setText(currentModcraftProfile.info.role().name().toLowerCase());
+            parsePlayerRank(currentModcraftProfile.info.role().name().toLowerCase(), playerRank);
         } catch (Exception e) {
             ModcraftApplication.LOGGER.severe("Error while getting modcraft profile");
             ErrorsHandler.handleErrorAndCrashApplication(e);
@@ -151,14 +152,14 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
             Optional<ProcessHandle> process = ProcessHandle.of(ModcraftApplication.launcherConfig.latestGamePid());
 
             if (process.isPresent() && process.get().isAlive()) {
-                Platform.runLater(() -> setLauncherState(MainControllerV2.State.PLAYING));
+                Platform.runLater(() -> setLauncherState(State.PLAYING));
                 while (process.get().isAlive()) {
                 }
 
                 ModcraftApplication.LOGGER.info("Game process shutdown");
                 Platform.runLater(() -> {
                     ModcraftApplication.getWindow().setIconified(false);
-                    setLauncherState(MainControllerV2.State.IDLE);
+                    setLauncherState(State.IDLE);
                 });
             }
         });
@@ -169,7 +170,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
         }, 0, 10, TimeUnit.MINUTES);
 
         playBtn.setOnMouseClicked(event -> {
-            setLauncherState(MainControllerV2.State.UPDATING);
+            setLauncherState(State.UPDATING);
             try {
                 MaintenanceStatus maintenanceStatus = ModcraftApplication.apiClient.executeRequest(ModcraftApiRequestsExecutor.getMaintenanceStatus());
 
@@ -178,7 +179,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                 }
             } catch (Exception e) {
                 ErrorsHandler.handleError(e);
-                setLauncherState(MainControllerV2.State.IDLE);
+                setLauncherState(State.IDLE);
                 return;
             }
 
@@ -201,7 +202,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                             ModcraftApplication.LOGGER.info("Game process shutdown");
                             Platform.runLater(() -> {
                                 ModcraftApplication.getWindow().setIconified(false);
-                                setLauncherState(MainControllerV2.State.IDLE);
+                                setLauncherState(State.IDLE);
                             });
                         } catch (Exception e) {
                             ErrorsHandler.handleError(e);
@@ -218,6 +219,17 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
 
             alert.showAndWait();
         }
+    }
+
+    private void parsePlayerRank(String rank, Label playerRank) {
+        String finalText = "Joueur";
+        Color finalColor = Color.rgb(255, 255, 255);
+        if (rank.equalsIgnoreCase("administrateur")) {
+            finalText = "Administrateur";
+            finalColor = Color.rgb(255, 0, 0);
+        }
+        playerRank.setTextFill(finalColor);
+        playerRank.setText(finalText);
     }
 
     public void buildNewsContainer(List<Pane> newsList) {
@@ -252,7 +264,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
         settingsPane.setVisible(false);
     }
 
-    public void setLauncherState(MainControllerV2.State state) {
+    public void setLauncherState(State state) {
         switch (state) {
             case IDLE -> {
                 progressBar.setVisible(false);
