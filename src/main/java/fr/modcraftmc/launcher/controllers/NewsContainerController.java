@@ -1,6 +1,5 @@
 package fr.modcraftmc.launcher.controllers;
 
-import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.libs.news.News;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +21,7 @@ public class NewsContainerController extends BaseController {
     public void initialize(FXMLLoader loader) {
         container.getChildren().forEach((a) -> {
             a.setOnMouseClicked(mouseEvent -> {
-                Utils.openBrowser("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+                //TODO: redirect to our website
             });
         });
     }
