@@ -75,8 +75,9 @@ public class ModcraftApplication extends Application {
         } catch (Exception e) {
             //huh
         }
+        filesManager.init();
 
-        LOGGER.info("ModcraftLauncher started in " + ENVIRONMENT + " environment. (" + BUILD_TIME + ")");
+        LOGGER.info("ModcraftLauncher started in " + ENVIRONMENT + " environment. (" + BUILD_TIME + ")" + "(" + FilesManager.DEFAULT_PATH + ")");
         launcherConfig = LauncherConfig.load(filesManager.getOptionsPath());
         if (launcherConfig.getInstanceProperty() == null) {
             launcherConfig.setInstanceProperty(new InstanceProperty(false, ""));
