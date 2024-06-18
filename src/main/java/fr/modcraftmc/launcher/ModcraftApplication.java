@@ -27,7 +27,7 @@ public class ModcraftApplication extends Application {
     public static Environment.ENV ENVIRONMENT = Environment.ENV.DEV;
     public static ResourcesManager resourcesManager = new ResourcesManager();
     public static FilesManager filesManager = new FilesManager();
-    public static Logger LOGGER = LogManager.createLogger("ModcraftLauncher");
+    public static Logger LOGGER;
     public static LauncherConfig launcherConfig;
     public static StartupTasksManager startupTasksManager = new StartupTasksManager();
     public static NewsManager newsManager = new NewsManager();
@@ -76,7 +76,9 @@ public class ModcraftApplication extends Application {
             //huh
         }
         filesManager.init();
+        LogManager.init();
 
+        LOGGER = LogManager.createLogger("ModcraftLauncher");
         LOGGER.info("ModcraftLauncher started in " + ENVIRONMENT + " environment. (" + BUILD_TIME + ")" + "(" + FilesManager.DEFAULT_PATH + ")");
         launcherConfig = LauncherConfig.load(filesManager.getOptionsPath());
         if (launcherConfig.getInstanceProperty() == null) {

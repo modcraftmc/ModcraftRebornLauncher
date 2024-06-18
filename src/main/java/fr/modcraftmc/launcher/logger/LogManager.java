@@ -13,7 +13,7 @@ public class LogManager {
 
     private static FileHandler fileHandler;
 
-    static {
+    public static void init() {
         try {
             fileHandler = new FileHandler(new File(FilesManager.LOGS_PATH, "launcher.log").getPath());
             fileHandler.setFormatter(new FileLogFormatter());
