@@ -195,6 +195,10 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                             Process process = LaunchManager.launch(instanceDirectory);
                             ModcraftApplication.launcherConfig.setLatestGamePid(process.pid());
                             ModcraftApplication.launcherConfig.save();
+
+                            if (!ModcraftApplication.launcherConfig.isKeepOpen())
+                                Platform.runLater(() -> ModcraftApplication.getWindow().setIconified(true));
+
                             Platform.runLater(() -> setLauncherState(State.PLAYING));
                             while (process.isAlive()) {
                             }
