@@ -15,7 +15,6 @@ import fr.modcraftmc.launcher.logger.LogManager;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 import fr.modcraftmc.libs.updater.forge.ModcraftForgeVersionBuilder;
-import javafx.application.Platform;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -76,7 +75,7 @@ public class GameUpdater {
         }
 
         LOGGER.info("finished update");
-        Platform.runLater(onUpdateFinished);
+        onUpdateFinished.run();
     }
 
     public static GameUpdater get() {

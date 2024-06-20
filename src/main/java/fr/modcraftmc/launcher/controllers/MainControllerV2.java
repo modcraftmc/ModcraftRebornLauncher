@@ -190,28 +190,26 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
 
             AsyncExecutor.runAsync(() -> {
                 gameUpdater.update(this, () -> {
-                    AsyncExecutor.runAsync(() -> {
-                        try {
-                            Process process = LaunchManager.launch(instanceDirectory);
-                            ModcraftApplication.launcherConfig.setLatestGamePid(process.pid());
-                            ModcraftApplication.launcherConfig.save();
+                    try {
+                        Process process = LaunchManager.launch(instanceDirectory);
+                        ModcraftApplication.launcherConfig.setLatestGamePid(process.pid());
+                        ModcraftApplication.launcherConfig.save();
 
-                            if (!ModcraftApplication.launcherConfig.isKeepOpen())
-                                Platform.runLater(() -> ModcraftApplication.getWindow().setIconified(true));
+                        if (!ModcraftApplication.launcherConfig.isKeepOpen())
+                            Platform.runLater(() -> ModcraftApplication.getWindow().setIconified(true));
 
-                            Platform.runLater(() -> setLauncherState(State.PLAYING));
-                            while (process.isAlive()) {
-                            }
-
-                            ModcraftApplication.LOGGER.info("Game process shutdown");
-                            Platform.runLater(() -> {
-                                ModcraftApplication.getWindow().setIconified(false);
-                                setLauncherState(State.IDLE);
-                            });
-                        } catch (Exception e) {
-                            ErrorsHandler.handleError(e);
+                        Platform.runLater(() -> setLauncherState(State.PLAYING));
+                        while (process.isAlive()) {
                         }
-                    });
+
+                        ModcraftApplication.LOGGER.info("Game process shutdown");
+                        Platform.runLater(() -> {
+                            ModcraftApplication.getWindow().setIconified(false);
+                            setLauncherState(State.IDLE);
+                        });
+                    } catch (Exception e) {
+                        ErrorsHandler.handleError(e);
+                    }
                 });
             });
         });
