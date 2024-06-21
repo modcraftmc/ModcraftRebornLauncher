@@ -256,13 +256,13 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
 
     public void showSettings() {
         scrollPane.setVisible(false); //TODO: animation
-
+        settingsBtn.setText("Retour");
         settingsPane.setVisible(true);
     }
 
     public void hideSettings() {
         scrollPane.setVisible(true);
-
+        settingsBtn.setText("Paramètres");
         settingsPane.setVisible(false);
     }
 

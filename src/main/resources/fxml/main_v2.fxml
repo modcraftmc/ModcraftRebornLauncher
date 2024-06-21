@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.*?>
-<?import java.lang.*?>
-<?import javafx.scene.*?>
+<?import io.github.palexdev.materialfx.controls.MFXProgressBar?>
+<?import io.github.palexdev.materialfx.controls.MFXProgressSpinner?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
-
+<?import java.lang.String?>
 <AnchorPane prefHeight="700.0" prefWidth="1300.0" styleClass="appContainer" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.MainControllerV2">
    <children>
       <Pane prefHeight="94.0" prefWidth="1300.0">
@@ -118,7 +118,10 @@
                   </Label>
                </children>
             </Pane>
-            <Button fx:id="settingsBtn" layoutX="223.0" layoutY="49.0" mnemonicParsing="false" text="Paramètres" />
+            <Button fx:id="settingsBtn" layoutX="223.0" layoutY="41.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="124.0" styleClass="settings-button-main" stylesheets="@../css/main.css" text="Paramètres" textFill="WHITE">
+               <font>
+                  <Font name="Lilita One" size="18.0" />
+               </font></Button>
             <MFXProgressBar fx:id="progressBar" layoutX="419.0" layoutY="65.0" prefHeight="13.0" prefWidth="362.0" progress="0.0" />
             <Label fx:id="progressLabel" alignment="CENTER" layoutX="326.0" layoutY="24.0" prefHeight="24.0" prefWidth="549.0" text="Recherche de mise à jour" textAlignment="CENTER" textFill="WHITE">
                <font>

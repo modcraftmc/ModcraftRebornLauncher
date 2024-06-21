@@ -237,6 +237,10 @@
     -fx-background-color: #262020;
 }
 
+.settings-button-main {
+    -fx-background-color: #262020;
+}
+
 .settings-button, .settings-content {
     -fx-background-color: #302A26;
 }
