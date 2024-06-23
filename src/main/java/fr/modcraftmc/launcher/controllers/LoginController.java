@@ -86,10 +86,10 @@ public class LoginController extends BaseController {
                 if (authResult.isLoggedIn()) {
                     loadingMessage.setText("Connecté!");
 
-
                     Utils.pleaseWait(2000).thenAcceptAsync((unused) -> {
                         microsoftButton.setDisable(false);
                         ModcraftApplication.accountManager.setCurrentMCProfile(authResult.getMcProfile());
+                        ModcraftApplication.launcherConfig.setKeeplogin(true);
                         ModcraftApplication.LOGGER.info(authResult.getMcProfile().getName());
                         Scene scene = MFXMLLoader.loadFxml("main_v2.fxml", true);
                         ModcraftApplication.switchScene(-1, -1, scene);
