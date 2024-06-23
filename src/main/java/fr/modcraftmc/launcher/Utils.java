@@ -68,16 +68,22 @@ public class Utils {
         return sb.toString();
     }
 
-    // playSound method
-    public static void playSound(String sound) {
-        try {
-            String path = ModcraftApplication.app.getClass().getResource("/sounds/" + sound).toURI().toString();
-            Media media = new Media(path);
-            MediaPlayer mediaPlayer = new MediaPlayer(media);
-            mediaPlayer.play();
-        } catch (Exception e) {
-            System.out.println("Error with playing sound.");
-            e.printStackTrace();
+    /**
+     * Play a sound with a percentage chance of playing it.
+     * @param sound                         The sound file name.
+     * @param percentageChancePlaySound     The percentage chance of playing the sound.
+     */
+    public static void playSound(String sound, Integer percentageChancePlaySound) {
+        if (Math.random() * 100 < percentageChancePlaySound) {
+            try {
+                String path = ModcraftApplication.app.getClass().getResource("/sounds/" + sound).toURI().toString();
+                Media media = new Media(path);
+                MediaPlayer mediaPlayer = new MediaPlayer(media);
+                mediaPlayer.play();
+            } catch (Exception e) {
+                System.out.println("Error with playing sound.");
+                e.printStackTrace();
+            }
         }
     }
 }

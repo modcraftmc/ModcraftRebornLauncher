@@ -215,9 +215,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
             });
 
             // 5% chance to play a sound
-            if (Math.random() > 0.95) {
-                Utils.playSound("doot_doot.mp3");
-            }
+            Utils.playSound("doot_doot.mp3", 5);
         });
 
         if (ModcraftApplication.app.isFirstLaunch) {
