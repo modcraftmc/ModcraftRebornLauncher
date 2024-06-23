@@ -4,6 +4,8 @@ import com.sun.javafx.application.HostServicesDelegate;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -64,5 +66,18 @@ public class Utils {
         }
 
         return sb.toString();
+    }
+
+    // playSound method
+    public static void playSound(String sound) {
+        try {
+            String path = ModcraftApplication.app.getClass().getResource("/sounds/" + sound).toURI().toString();
+            Media media = new Media(path);
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.play();
+        } catch (Exception e) {
+            System.out.println("Error with playing sound.");
+            e.printStackTrace();
+        }
     }
 }

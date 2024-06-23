@@ -27,7 +27,8 @@ public class NewsManager {
 
         ModcraftApplication.LOGGER.info("Fetching news asynchronously ");
         try {
-            URL newsUrl = new URL("https://download.modcraftmc.fr/news.json");
+            URL newsUrl = new URL("https://download.modcraftmc.fr/v1/news");
+            // newsUrl = new URL("http://localhost:3000/v1/news");
             String content = IOUtils.toString(newsUrl, StandardCharsets.UTF_8);
             List<News> newsList = GSON.fromJson(content, listType);
 

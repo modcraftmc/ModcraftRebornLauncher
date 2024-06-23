@@ -1,3 +1,3 @@
 package fr.modcraftmc.libs.news;
 
-public record News(String title, String content, String publish_date) { }
+public record News(String title, String description, String datePublished, String urlAccess) { }

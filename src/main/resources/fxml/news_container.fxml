@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -8,12 +9,12 @@
    <children>
       <Pane prefHeight="250.0" prefWidth="575.0" styleClass="news-container" stylesheets="@../css/main.css">
          <children>
-            <Label fx:id="title" layoutX="25.0" layoutY="24.0" prefHeight="24.0" prefWidth="445.0" text="OUVERTURE DE LA PHASE 42 " textFill="WHITE">
+            <Label fx:id="title" layoutX="25.0" layoutY="25.0" prefHeight="24.0" prefWidth="526.0" text="OUVERTURE DE LA PHASE 42 " textFill="WHITE">
                <font>
                   <Font name="Lilita One" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="publishDate" layoutX="476.0" layoutY="29.0" text="le 03 juin 2024" textFill="WHITE">
+            <Label fx:id="publishDate" layoutX="440.0" layoutY="17.0" prefHeight="15.0" prefWidth="121.0" text="01/01/2024 à 00h00" textFill="WHITE">
                <font>
                   <Font name="Lilita One" size="12.0" />
                </font>
@@ -22,6 +23,9 @@
                <font>
                   <Font name="Lilita One" size="18.0" />
                </font></Label>
-         </children></Pane>
+         </children>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Pane>
    </children>
 </AnchorPane>
