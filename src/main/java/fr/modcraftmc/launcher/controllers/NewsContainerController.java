@@ -27,7 +27,8 @@ public class NewsContainerController extends BaseController {
     @Override
     public void initialize(FXMLLoader loader) {
         this.container.setOnMouseClicked(event -> {
-            Utils.openBrowser(urlAccess);
+            if (!urlAccess.isEmpty())
+                Utils.openBrowser(urlAccess);
         });
     }
 
