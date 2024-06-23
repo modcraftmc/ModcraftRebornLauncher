@@ -84,8 +84,7 @@ public class AccountManager {
                         popup.show();
                         ErrorsHandler.logException(e);
                         Scene scene = MFXMLLoader.loadFxml("login.fxml", true);
-                        ModcraftApplication.getWindow().setScene(scene);
-                        ModcraftApplication.getWindow().show();
+                        ModcraftApplication.switchScene(-1, -1, scene);
                     });
                     return new AuthResult(false, null);
                 }
@@ -93,8 +92,7 @@ public class AccountManager {
                 Platform.runLater(() -> {
                     ErrorsHandler.handleError(e);
                     Scene scene = MFXMLLoader.loadFxml("login.fxml", true);
-                    ModcraftApplication.getWindow().setScene(scene);
-                    ModcraftApplication.getWindow().show();
+                    ModcraftApplication.switchScene(-1, -1, scene);
                 });
                 return new AuthResult(false, null);
             }

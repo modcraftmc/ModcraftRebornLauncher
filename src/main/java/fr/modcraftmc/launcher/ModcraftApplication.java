@@ -107,4 +107,18 @@ public class ModcraftApplication extends Application {
         stage.show();
         stage.centerOnScreen();
     }
+
+    // if width or height is set to -1, use the last value
+    public static void switchScene(int width, int height, Scene scene) {
+        // only hide if the window side has changed
+        boolean shouldHideAndCenter = (width != -1 & height != -1);
+        if (shouldHideAndCenter)
+            ModcraftApplication.getWindow().hide();
+        ModcraftApplication.getWindow().setWidth(width == -1 ? ModcraftApplication.getWindow().getWidth() : width);
+        ModcraftApplication.getWindow().setHeight(height == -1 ? ModcraftApplication.getWindow().getHeight() : height);
+        ModcraftApplication.getWindow().setScene(scene);
+        ModcraftApplication.getWindow().show();
+        if (shouldHideAndCenter)
+            ModcraftApplication.getWindow().centerOnScreen();
+    }
 }

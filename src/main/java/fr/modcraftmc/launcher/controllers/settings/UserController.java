@@ -6,6 +6,7 @@ import fr.modcraftmc.launcher.controllers.BaseController;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -39,7 +40,8 @@ public class UserController extends BaseController {
             ModcraftApplication.launcherConfig.setRefreshToken("");
             ModcraftApplication.launcherConfig.setKeeplogin(false);
             ModcraftApplication.launcherConfig.save();
-            ModcraftApplication.getWindow().setScene(MFXMLLoader.loadFxml("login.fxml", true));
+            Scene loginScene = MFXMLLoader.loadFxml("login.fxml", true);
+            ModcraftApplication.switchScene(-1, -1, loginScene);
         });
 
         keepMicrosoftLogin.setSelected(ModcraftApplication.launcherConfig.isKeeplogin());

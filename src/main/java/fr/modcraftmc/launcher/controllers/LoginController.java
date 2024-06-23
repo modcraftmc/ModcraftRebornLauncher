@@ -92,7 +92,7 @@ public class LoginController extends BaseController {
                         ModcraftApplication.accountManager.setCurrentMCProfile(authResult.getMcProfile());
                         ModcraftApplication.LOGGER.info(authResult.getMcProfile().getName());
                         Scene scene = MFXMLLoader.loadFxml("main_v2.fxml", true);
-                        ModcraftApplication.getWindow().setScene(scene);
+                        ModcraftApplication.switchScene(-1, -1, scene);
                     }, Platform::runLater);
                 }
             }, Platform::runLater);
