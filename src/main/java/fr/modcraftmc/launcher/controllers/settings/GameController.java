@@ -61,6 +61,7 @@ public class GameController extends BaseController {
             }
             browseFile.setDisable(!customPathCheckbox.isSelected());
             customPath.setDisable(!customPathCheckbox.isSelected());
+            customPath.clear();
         });
 
         customPath.setOnKeyReleased((event) -> {
