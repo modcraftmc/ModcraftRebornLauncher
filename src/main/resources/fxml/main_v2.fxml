@@ -128,6 +128,17 @@
                   <Font name="Lilita One" size="20.0" />
                </font>
             </Label>
+            <Circle fx:id="serverColor" fill="#1ab700" layoutX="1161.0" layoutY="45.0" radius="25.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" />
+            <Label fx:id="serverStatus" alignment="CENTER_RIGHT" layoutX="828.0" layoutY="20.0" prefHeight="24.0" prefWidth="300.0" text="Serveur ouvert" textFill="WHITE">
+               <font>
+                  <Font name="Lilita One" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="playersCount" alignment="CENTER_RIGHT" layoutX="828.0" layoutY="49.0" prefHeight="24.0" prefWidth="300.0" text="0/100 joueurs" textFill="WHITE">
+               <font>
+                  <Font name="Lilita One" size="20.0" />
+               </font>
+            </Label>
          </children></Pane>
       <MFXProgressSpinner fx:id="loadingIndicator" layoutX="639.0" layoutY="333.0" minHeight="25.0" minWidth="25.0" mouseTransparent="true" prefHeight="20.0" prefWidth="20.0" startingAngle="0.0">
          <color1>

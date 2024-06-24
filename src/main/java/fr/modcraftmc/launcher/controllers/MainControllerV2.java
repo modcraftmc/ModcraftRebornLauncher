@@ -25,6 +25,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import net.raphimc.minecraftauth.step.java.StepMCProfile;
 
 import java.io.File;
@@ -66,6 +67,13 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
     @FXML
     private Button settingsBtn;
     private Pane settingsPane;
+
+    @FXML
+    public Label serverStatus;
+    @FXML
+    public Label playersCount;
+    @FXML
+    public Circle serverColor;
 
     private ModcraftServiceUserProfile currentModcraftProfile;
 
@@ -122,14 +130,24 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
 
         AsyncExecutor.runAsyncAtRate(() -> {
             try {
-                MinecraftPingReply minecraftPing = new MinecraftPing().getPing("servers.modcraftmc.fr");
+                MinecraftPingReply minecraftPing = new MinecraftPing().getPing("prodv4.modcraftmc.fr");
                 ModcraftApplication.LOGGER.info(String.format("Updating server status (%s/%s)", minecraftPing.getPlayers().getOnline(), minecraftPing.getPlayers().getMax()));
 
                 Platform.runLater(() -> {
-                    //playersCount.setText(String.format("%s/%s", minecraftPing.getPlayers().getOnline(), minecraftPing.getPlayers().getMax()));
+                    if (minecraftPing.getDescription().getText().contains("maintenance")) {
+                        serverColor.setFill(Color.valueOf("#FE8E01"));
+                        serverStatus.setText("Serveur en maintenance");
+                    } else {
+                        serverColor.setFill(Color.valueOf("#10CB00"));
+                        serverStatus.setText("Serveur en ligne");
+                    }
+                    playersCount.setText(String.format("%s/%s joueurs", minecraftPing.getPlayers().getOnline(), minecraftPing.getPlayers().getMax()));
                 });
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                serverColor.setFill(Color.valueOf("#FE0101"));
+                serverStatus.setText("Serveur hors ligne");
+                playersCount.setText(String.format("0/100 joueurs"));
+                e.printStackTrace();
             }
         }, 10);
 
