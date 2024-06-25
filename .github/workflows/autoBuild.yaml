@@ -20,7 +20,7 @@ jobs:
             with:
               arguments: build
             env:
-              BUILDPROD: {{BUILDPROD}}
+              BUILDPROD: true
           - name: Upload File to our api
             id: upload
             uses: modcraftmc/upload-artifact-action@1.7
