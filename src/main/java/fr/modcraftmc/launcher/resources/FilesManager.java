@@ -1,5 +1,8 @@
 package fr.modcraftmc.launcher.resources;
 
+import fr.modcraftmc.launcher.Environment;
+import fr.modcraftmc.launcher.ModcraftApplication;
+
 import java.io.File;
 
 public class FilesManager {
@@ -7,17 +10,28 @@ public class FilesManager {
     public static char FP = File.separatorChar;
 
     public static boolean windows = System.getProperty("os.name").toLowerCase().contains("windows");
-    public static String BASE_PATH = windows ? System.getenv("appdata") : System.getenv("HOME");
-    public static File DEFAULT_PATH = new File(BASE_PATH + FP + ".modcraftmc" + FP);
-    public static File LAUNCHER_PATH = new File(DEFAULT_PATH, "launcher");
-    public static File LAUNCHER_JAR = new File(LAUNCHER_PATH, "launcher.jar");
-    public static File LOGS_PATH = new File(LAUNCHER_PATH, "logs");
-    public static File OPTIONS_PATH = new File(LAUNCHER_PATH, "modcraftlauncher.json");
-    public static File INSTANCES_PATH = new File(DEFAULT_PATH, "instances");
-    public static File JAVA_PATH = new File(DEFAULT_PATH, "java");
-    public static File JAVA_EXE = new File(JAVA_PATH, "bin/java");
+    public static String BASE_PATH;
+    public static File DEFAULT_PATH;
+    public static File LAUNCHER_PATH;
+    public static File LAUNCHER_JAR;
+    public static File LOGS_PATH;
+    public static File OPTIONS_PATH;
+    public static File INSTANCES_PATH;
+    public static File JAVA_PATH;
+    public static File JAVA_EXE;
 
-    static {
+    public void init() {
+
+        BASE_PATH = windows ? System.getenv("appdata") : System.getenv("HOME");
+        DEFAULT_PATH = new File(BASE_PATH + FP + ".modcraftmc" + (ModcraftApplication.ENVIRONMENT == Environment.ENV.DEV ? "-dev" : "") + FP);
+        LAUNCHER_PATH = new File(DEFAULT_PATH, "launcher");
+        LAUNCHER_JAR = new File(LAUNCHER_PATH, "launcher.jar");
+        LOGS_PATH = new File(LAUNCHER_PATH, "logs");
+        OPTIONS_PATH = new File(LAUNCHER_PATH, "modcraftlauncher.json");
+        INSTANCES_PATH = new File(DEFAULT_PATH, "instances");
+        JAVA_PATH = new File(DEFAULT_PATH, "java");
+        JAVA_EXE = new File(JAVA_PATH, "bin/java");
+
         try {
             if (!DEFAULT_PATH.exists()) {
                 DEFAULT_PATH.mkdirs();
@@ -47,28 +61,28 @@ public class FilesManager {
         return DEFAULT_PATH;
     }
 
-    public File getOptionsPath() {
-        return OPTIONS_PATH;
-    }
-
-    public File getInstancesPath() {
-        return INSTANCES_PATH;
-    }
-
-    public File getJavaPath() {
-        return JAVA_PATH;
-    }
-
     public void setDefaultPath(File defaultPath) {
         DEFAULT_PATH = defaultPath;
+    }
+
+    public File getOptionsPath() {
+        return OPTIONS_PATH;
     }
 
     public void setOptionsPath(File optionsPath) {
         OPTIONS_PATH = optionsPath;
     }
 
+    public File getInstancesPath() {
+        return INSTANCES_PATH;
+    }
+
     public void setInstancesPath(File instancesPath) {
         INSTANCES_PATH = instancesPath;
+    }
+
+    public File getJavaPath() {
+        return JAVA_PATH;
     }
 
     public static void setJavaPath(File javaPath) {

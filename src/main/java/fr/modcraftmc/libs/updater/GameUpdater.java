@@ -10,12 +10,11 @@ import fr.modcraftmc.api.ModcraftApiRequestsExecutor;
 import fr.modcraftmc.api.exception.ParsingException;
 import fr.modcraftmc.api.exception.RemoteException;
 import fr.modcraftmc.launcher.ModcraftApplication;
-import fr.modcraftmc.launcher.controllers.MainController;
+import fr.modcraftmc.launcher.controllers.MainControllerV2;
 import fr.modcraftmc.launcher.logger.LogManager;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 import fr.modcraftmc.libs.updater.forge.ModcraftForgeVersionBuilder;
-import javafx.application.Platform;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -36,7 +35,7 @@ public class GameUpdater {
         this.progressCallback = progressCallback;
     }
 
-    public void update(MainController controller, Runnable onUpdateFinished) {
+    public void update(MainControllerV2 controller, Runnable onUpdateFinished) {
         VanillaVersion version = new VanillaVersion.VanillaVersionBuilder().withName(ModcraftApplication.MC_VERSION).build();
         UpdaterOptions options = new UpdaterOptions.UpdaterOptionsBuilder().withSilentRead(false).withJavaPath(FilesManager.JAVA_EXE.getPath()).build();
 
@@ -47,7 +46,7 @@ public class GameUpdater {
             });
         } catch (ParsingException | IOException | RemoteException e) {
             ErrorsHandler.handleError(e);
-            controller.setLauncherState(MainController.State.IDLE);
+            controller.setLauncherState(MainControllerV2.State.IDLE);
             return;
         }
 
@@ -70,11 +69,13 @@ public class GameUpdater {
             LOGGER.info("Updating game at " + GameUpdater.get().getUpdateDirectory());
             updater.update(GameUpdater.get().getUpdateDirectory());
         } catch (Exception e) {
-            ErrorsHandler.handleError(new Exception("Error while updating the game"));
+            ErrorsHandler.handleError(new Exception("Error while updating the game " + e.getMessage()));
+            controller.setLauncherState(MainControllerV2.State.IDLE);
+            return;
         }
 
         LOGGER.info("finished update");
-        Platform.runLater(onUpdateFinished);
+        onUpdateFinished.run();
     }
 
     public static GameUpdater get() {

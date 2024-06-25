@@ -6,6 +6,7 @@ import fr.modcraftmc.launcher.MFXMLLoader;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.libs.auth.AccountManager;
+import io.github.palexdev.materialfx.controls.MFXProgressSpinner;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -17,15 +18,27 @@ import javafx.util.Duration;
 
 public class LoginController extends BaseController {
 
-    @FXML public Pane welcomeContainer;
-    @FXML public Pane authContainer;
-    @FXML public Pane loadingContainer;
+    @FXML
+    public Pane welcomeContainer;
+    @FXML
+    public Pane authContainer;
+    @FXML
+    public Pane loadingContainer;
 
-    @FXML public Pane microsoftButton;
-    @FXML public Pane codeButton;
-    @FXML public Pane copyAndOpenButton;
-    @FXML public Label authCode;
-    @FXML private Label loadingMessage;
+    @FXML
+    public Pane microsoftButton;
+    @FXML
+    public Pane codeButton;
+    @FXML
+    public Pane copyAndOpenButton;
+    @FXML
+    public Label authCode;
+    @FXML
+    private Label loadingMessage;
+    @FXML
+    private MFXProgressSpinner loadingIndicator;
+    @FXML
+    private Label microsoftText;
 
 
     @Override
@@ -41,8 +54,13 @@ public class LoginController extends BaseController {
         FadeIn authFormContainerFadeOut = new FadeIn(authContainer);
         FadeIn loadingContainerFadeIn = new FadeIn(loadingContainer);
 
+        loadingIndicator.setVisible(false);
+
         microsoftButton.setOnMouseClicked(event -> {
             microsoftButton.setDisable(true); //TODO: replace the text with a loading animation
+
+            loadingIndicator.setVisible(true);
+            microsoftText.setVisible(false);
 
             AccountManager.authenticate(msaDeviceCode -> {
                 Platform.runLater(() -> {
@@ -67,11 +85,14 @@ public class LoginController extends BaseController {
             }).thenAcceptAsync(authResult -> {
                 if (authResult.isLoggedIn()) {
                     loadingMessage.setText("Connecté!");
+
                     Utils.pleaseWait(2000).thenAcceptAsync((unused) -> {
                         microsoftButton.setDisable(false);
-                        Scene scene = MFXMLLoader.loadFxml("main.fxml", false);
-                        ((MainController) scene.getUserData()).updateUserInfos(authResult.getMcProfile());
-                        ModcraftApplication.getWindow().setScene(scene);
+                        ModcraftApplication.accountManager.setCurrentMCProfile(authResult.getMcProfile());
+                        ModcraftApplication.launcherConfig.setKeeplogin(true);
+                        ModcraftApplication.LOGGER.info(authResult.getMcProfile().getName());
+                        Scene scene = MFXMLLoader.loadFxml("main_v2.fxml", true);
+                        ModcraftApplication.switchScene(-1, -1, scene);
                     }, Platform::runLater);
                 }
             }, Platform::runLater);

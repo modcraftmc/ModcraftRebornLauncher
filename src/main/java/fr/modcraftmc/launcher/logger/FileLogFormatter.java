@@ -7,8 +7,7 @@ import java.util.logging.LogRecord;
 
 public class FileLogFormatter extends Formatter {
     @Override
-    public String format(LogRecord record)
-    {
+    public String format(LogRecord record) {
         StringBuilder builder = new StringBuilder();
         builder.append("[");
         builder.append(calcDate(record.getMillis()));
@@ -27,11 +26,9 @@ public class FileLogFormatter extends Formatter {
 
         Object[] params = record.getParameters();
 
-        if (params != null)
-        {
+        if (params != null) {
             builder.append("\t");
-            for (int i = 0; i < params.length; i++)
-            {
+            for (int i = 0; i < params.length; i++) {
                 builder.append(params[i]);
                 if (i < params.length - 1)
                     builder.append(", ");

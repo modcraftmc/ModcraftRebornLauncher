@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.*?>
+<?import io.github.palexdev.materialfx.controls.MFXProgressSpinner?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
-
 <AnchorPane prefHeight="700" prefWidth="1300" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.LoginController">
    <children>
       <Pane prefHeight="700.0" prefWidth="1300.0">
@@ -30,12 +29,26 @@
                   </Label>
                   <Pane fx:id="microsoftButton" layoutX="50.0" layoutY="311.0" prefHeight="50.0" prefWidth="400.0" styleClass="microsoftButton" stylesheets="@../css/main.css">
                      <children>
+                        <MFXProgressSpinner fx:id="loadingIndicator" layoutX="188.0" layoutY="13.0" minHeight="25.0" minWidth="25.0" mouseTransparent="true" prefHeight="20.0" prefWidth="20.0" startingAngle="0.0">
+                           <color1>
+                              <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
+                           </color1>
+                           <color2>
+                              <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
+                           </color2>
+                           <color3>
+                              <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
+                           </color3>
+                           <color4>
+                              <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
+                           </color4>
+                        </MFXProgressSpinner>
                         <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="14.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/microsoft.png" />
                            </image>
                         </ImageView>
-                        <Label layoutX="99.0" layoutY="13.0" text="Se connecter avec Microsoft" textFill="WHITE">
+                        <Label fx:id="microsoftText" layoutX="99.0" layoutY="13.0" text="Se connecter avec Microsoft" textFill="WHITE">
                            <font>
                               <Font name="Lilita One" size="20.0" />
                            </font>
