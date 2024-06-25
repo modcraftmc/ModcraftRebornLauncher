@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
-import java.util.logging.Logger;
 
 public class LogFormatter extends Formatter {
 
@@ -13,8 +12,7 @@ public class LogFormatter extends Formatter {
     public static final String ANSI_WHITE = "\u001B[37m";
 
     @Override
-    public String format(LogRecord record)
-    {
+    public String format(LogRecord record) {
         StringBuilder builder = new StringBuilder();
         builder.append(ANSI_YELLOW);
 
@@ -36,11 +34,9 @@ public class LogFormatter extends Formatter {
 
         Object[] params = record.getParameters();
 
-        if (params != null)
-        {
+        if (params != null) {
             builder.append("\t");
-            for (int i = 0; i < params.length; i++)
-            {
+            for (int i = 0; i < params.length; i++) {
                 builder.append(params[i]);
                 if (i < params.length - 1)
                     builder.append(", ");

@@ -24,6 +24,9 @@ import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
 
 public class AccountManager {
+
+    private StepMCProfile.MCProfile currentMCProfile;
+
     private static final StepFullJavaSession deviceCodeAuthStep = MinecraftAuth.builder()
             .withTimeout(300)
             .withClientId(MicrosoftConstants.JAVA_TITLE_ID)
@@ -51,6 +54,16 @@ public class AccountManager {
        }
    }
 
+    public void setCurrentMCProfile(StepMCProfile.MCProfile currentMCProfile) {
+        this.currentMCProfile = currentMCProfile;
+    }
+
+    public StepMCProfile.MCProfile getCurrentMCProfile() {
+        if (currentMCProfile == null)
+            ErrorsHandler.handleError(new Exception());
+        return this.currentMCProfile;
+    }
+
     public static CompletableFuture<AuthResult> authenticate(Consumer<StepMsaDeviceCode.MsaDeviceCode> callback) {
         return CompletableFuture.supplyAsync(() -> {
 
@@ -71,8 +84,7 @@ public class AccountManager {
                         popup.show();
                         ErrorsHandler.logException(e);
                         Scene scene = MFXMLLoader.loadFxml("login.fxml", true);
-                        ModcraftApplication.getWindow().setScene(scene);
-                        ModcraftApplication.getWindow().show();
+                        ModcraftApplication.switchScene(-1, -1, scene);
                     });
                     return new AuthResult(false, null);
                 }
@@ -80,8 +92,7 @@ public class AccountManager {
                 Platform.runLater(() -> {
                     ErrorsHandler.handleError(e);
                     Scene scene = MFXMLLoader.loadFxml("login.fxml", true);
-                    ModcraftApplication.getWindow().setScene(scene);
-                    ModcraftApplication.getWindow().show();
+                    ModcraftApplication.switchScene(-1, -1, scene);
                 });
                 return new AuthResult(false, null);
             }
@@ -102,6 +113,7 @@ public class AccountManager {
                StepFullJavaSession.FullJavaSession javaSession = deviceCodeAuthStep.refresh(httpClient, jsonProfile);
 
                AsyncExecutor.runAsync(() -> saveLoginInfos(javaSession));
+               ModcraftApplication.accountManager.setCurrentMCProfile(javaSession.getMcProfile());
                return new AuthResult(true, javaSession.getMcProfile());
 
            } catch (Exception e) {

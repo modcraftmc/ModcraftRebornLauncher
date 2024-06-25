@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXProgressBar?>
+<?import io.github.palexdev.materialfx.controls.MFXProgressSpinner?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.String?>
+<AnchorPane prefHeight="700.0" prefWidth="1300.0" styleClass="appContainer" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.MainControllerV2">
+   <children>
+      <Pane prefHeight="94.0" prefWidth="1300.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#262020" height="94.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1300.0" />
+            <SVGPath content="M321 17H1220.5L1244 36H1300V93H226L321 17Z" fill="#302a26" />
+            <SVGPath content="M226 93L321 17H330L234 93H226Z" fill="#fe8e01" />
+            <Pane layoutX="4.0" layoutY="11.0" prefHeight="73.0" prefWidth="260.0">
+               <children>
+                  <Pane layoutY="2.0" prefHeight="70.0" prefWidth="70.0" styleClass="logo" />
+                  <Label layoutX="76.0" layoutY="5.0" prefHeight="45.0" prefWidth="180.0" text="MODCRAFTMC" textFill="#ffae00">
+                     <font>
+                        <Font name="System Bold" size="27.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="specialText" />
+                        <String fx:value="lilita" />
+                     </styleClass>
+                  </Label>
+                  <Label layoutX="77.0" layoutY="38.0" prefHeight="33.0" prefWidth="165.0" styleClass="lilita" text="SURVIE MODDÉE 1.19" textFill="#dedede">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane fx:id="discordBtn" layoutX="974.0" layoutY="27.0" prefHeight="56.0" prefWidth="214.0" styleClass="discordBtn" stylesheets="@../css/main.css">
+               <children>
+                  <ImageView fitHeight="32.0" fitWidth="28.0" layoutX="14.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/discord.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="67.0" layoutY="11.0" prefHeight="35.0" prefWidth="133.0" stylesheets="@../css/main.css" text="DISCORD" textFill="WHITE">
+                     <font>
+                        <Font name="Lilita One" size="30.0" />
+                     </font>
+                  </Label>
+               </children></Pane>
+         </children>
+      </Pane>
+      <Pane fx:id="closeButton" layoutX="1278.0" layoutY="13.0" prefHeight="13.0" prefWidth="13.0" styleClass="closeButton">
+         <children>
+            <SVGPath content="M35.75 35.75L19.5 19.5M19.5 19.5L3.25 3.25M19.5 19.5L35.75 3.25M19.5 19.5L3.25 35.75" layoutX="-13.0" layoutY="-13.0" scaleX="0.3" scaleY="0.3" stroke="#3e3e3e" strokeLineCap="ROUND" strokeWidth="6.0" styleClass="closeButton" />
+            <ImageView disable="true" fitHeight="150.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../images/close.png" />
+               </image>
+            </ImageView>
+         </children>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Pane>
+      <Pane fx:id="minimiseButton" layoutX="1250.0" layoutY="13.0" prefHeight="13.0" prefWidth="13.0" styleClass="minimizeButton">
+         <children>
+            <SVGPath content="M3.25 19.5L35.75 19.5" layoutX="-13.0" layoutY="-8.0" scaleX="0.35" scaleY="0.4" scaleZ="0.0" strokeLineCap="ROUND" strokeWidth="6.0" styleClass="minimizeButton" />
+            <ImageView disable="true" fitHeight="15.0" fitWidth="15.0" layoutX="-1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../images/minimise.png" />
+               </image>
+            </ImageView>
+         </children>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Pane>
+      <Pane id="top-container" fx:id="topContainer" layoutX="49.0" layoutY="135.0" prefHeight="430.0" prefWidth="1200.0" styleClass="containers" stylesheets="@../css/main.css">
+         <children>
+            <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="5.0" layoutY="5.0" prefHeight="424.0" prefWidth="1203.0" stylesheets="@../css/main.css" vbarPolicy="ALWAYS">
+               <content>
+                  <HBox fx:id="hbox" maxWidth="1195.0" minWidth="1180.0" prefHeight="390.0" prefWidth="1189.0" styleClass="hbox" stylesheets="@../css/main.css">
+                     <children>
+                        <VBox prefHeight="390.0" prefWidth="601.0" styleClass="vbox" stylesheets="@../css/main.css" />
+                        <VBox prefHeight="390.0" prefWidth="620.0" styleClass="vbox" stylesheets="@../css/main.css" />
+                     </children>
+                  </HBox>
+               </content></ScrollPane>
+         </children></Pane>
+      <Pane id="bottom-container" layoutX="50.0" layoutY="587.0" prefHeight="90.0" prefWidth="1200.0" styleClass="containers" stylesheets="@../css/main.css">
+         <children>
+            <ImageView fx:id="playerHead" blendMode="SRC_ATOP" depthTest="DISABLE" fitHeight="50.0" fitWidth="50.0" layoutX="14.0" layoutY="20.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../images/baseProfil.png" />
+               </image>
+               <clip>
+                  <Rectangle arcHeight="5" arcWidth="5" height="50" width="50" />
+               </clip>
+            </ImageView>
+            <Label fx:id="playerName" layoutX="73.0" layoutY="20.0" prefHeight="24.0" prefWidth="300.0" text="manugame_" textFill="WHITE">
+               <font>
+                  <Font name="Lilita One" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="playerRank" layoutX="73.0" layoutY="49.0" prefHeight="17.0" prefWidth="300.0" text="Administrateur" textFill="RED">
+               <font>
+                  <Font name="Lilita One" size="20.0" />
+               </font>
+            </Label>
+            <Pane fx:id="playBtn" layoutX="505.0" layoutY="9.0" prefHeight="70.0" prefWidth="190.0" styleClass="playButton" stylesheets="@../css/main.css">
+               <children>
+                  <Label layoutX="49.0" layoutY="18.0" prefHeight="35.0" prefWidth="92.0" text="JOUER" textFill="#fe8e01">
+                     <font>
+                        <Font name="Lilita One" size="30.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Button fx:id="settingsBtn" layoutX="223.0" layoutY="41.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="124.0" styleClass="settings-button-main" stylesheets="@../css/main.css" text="Paramètres" textFill="WHITE">
+               <font>
+                  <Font name="Lilita One" size="18.0" />
+               </font></Button>
+            <MFXProgressBar fx:id="progressBar" layoutX="419.0" layoutY="65.0" prefHeight="13.0" prefWidth="362.0" progress="0.0" />
+            <Label fx:id="progressLabel" alignment="CENTER" layoutX="326.0" layoutY="24.0" prefHeight="24.0" prefWidth="549.0" text="Recherche de mise à jour" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Lilita One" size="20.0" />
+               </font>
+            </Label>
+            <Circle fx:id="serverColor" fill="#1ab700" layoutX="1161.0" layoutY="45.0" radius="25.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" />
+            <Label fx:id="serverStatus" alignment="CENTER_RIGHT" layoutX="828.0" layoutY="20.0" prefHeight="24.0" prefWidth="300.0" text="Serveur ouvert" textFill="WHITE">
+               <font>
+                  <Font name="Lilita One" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="playersCount" alignment="CENTER_RIGHT" layoutX="828.0" layoutY="49.0" prefHeight="24.0" prefWidth="300.0" text="0/100 joueurs" textFill="WHITE">
+               <font>
+                  <Font name="Lilita One" size="20.0" />
+               </font>
+            </Label>
+         </children></Pane>
+      <MFXProgressSpinner fx:id="loadingIndicator" layoutX="639.0" layoutY="333.0" minHeight="25.0" minWidth="25.0" mouseTransparent="true" prefHeight="20.0" prefWidth="20.0" startingAngle="0.0">
+         <color1>
+            <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
+         </color1>
+         <color2>
+            <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
+         </color2>
+         <color3>
+            <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
+         </color3>
+         <color4>
+            <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
+         </color4>
+      </MFXProgressSpinner>
+      <Label fx:id="loadingText" layoutX="607.0" layoutY="374.0" text="Chargement" textFill="WHITE">
+         <font>
+            <Font name="Lilita One" size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

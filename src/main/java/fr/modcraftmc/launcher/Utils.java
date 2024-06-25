@@ -4,6 +4,8 @@ import com.sun.javafx.application.HostServicesDelegate;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,8 +46,7 @@ public class Utils {
         }
     }
 
-    public static String getFileChecksum(MessageDigest digest, File file) throws IOException
-    {
+    public static String getFileChecksum(MessageDigest digest, File file) throws IOException {
         FileInputStream fis = new FileInputStream(file);
 
         byte[] byteArray = new byte[1024];
@@ -60,11 +61,29 @@ public class Utils {
         byte[] bytes = digest.digest();
 
         StringBuilder sb = new StringBuilder();
-        for(int i=0; i< bytes.length ;i++)
-        {
+        for (int i = 0; i < bytes.length; i++) {
             sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
         }
 
         return sb.toString();
+    }
+
+    /**
+     * Play a sound with a percentage chance of playing it.
+     * @param sound                         The sound file name.
+     * @param percentageChancePlaySound     The percentage chance of playing the sound.
+     */
+    public static void playSound(String sound, Integer percentageChancePlaySound) {
+        if (Math.random() * 100 < percentageChancePlaySound) {
+            try {
+                String path = ModcraftApplication.app.getClass().getResource("/sounds/" + sound).toURI().toString();
+                Media media = new Media(path);
+                MediaPlayer mediaPlayer = new MediaPlayer(media);
+                mediaPlayer.play();
+            } catch (Exception e) {
+                System.out.println("Error with playing sound.");
+                e.printStackTrace();
+            }
+        }
     }
 }
