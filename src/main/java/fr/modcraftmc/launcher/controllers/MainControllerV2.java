@@ -171,10 +171,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
 
             if (process.isPresent() && process.get().isAlive()) {
                 Platform.runLater(() -> setLauncherState(State.PLAYING));
-                try {
-                    process.get().wait();
-                } catch (InterruptedException ignored) {
-                }
+                process.get().onExit().join();
 
                 ModcraftApplication.LOGGER.info("Game process shutdown");
                 Platform.runLater(() -> {
