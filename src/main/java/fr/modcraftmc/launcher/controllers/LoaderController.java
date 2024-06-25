@@ -20,32 +20,23 @@ public class LoaderController extends BaseController {
     @Override
     public void initialize(FXMLLoader loader) {
         super.initialize(loader);
+
+        ModcraftApplication.startupTasksManager.init(loadingMessage);
+        CompletableFuture.runAsync(() -> ModcraftApplication.startupTasksManager.execute());
+
         CompletableFuture.runAsync(() -> {
             AccountManager.AuthResult authResult = AccountManager.validate(loadingMessage);
-            if (authResult.isLoggedIn())  {
+            if (authResult.isLoggedIn()) {
                 Platform.runLater(() -> loadingMessage.setText("Connecté!"));
                 Utils.selfCatchSleep(1500);
-                Platform.runLater(() -> {
-                    ModcraftApplication.getWindow().hide();
-                    ModcraftApplication.getWindow().setWidth(1300);
-                    ModcraftApplication.getWindow().setHeight(700);
-                    Scene scene = MFXMLLoader.loadFxml("main.fxml", false);
-                    ((MainController) scene.getUserData()).updateUserInfos(authResult.getMcProfile());
-                    ModcraftApplication.getWindow().setScene(scene);
-                    ModcraftApplication.getWindow().show();
-                    ModcraftApplication.getWindow().centerOnScreen();
-                });
+
+                ModcraftApplication.accountManager.setCurrentMCProfile(authResult.getMcProfile());
+                Scene scene = MFXMLLoader.loadFxml("main_v2.fxml", false);
+                Platform.runLater(() -> ModcraftApplication.switchScene(1300, 700,  scene));
             } else {
-                    Platform.runLater(() -> {
-                        ModcraftApplication.getWindow().hide();
-                        ModcraftApplication.getWindow().setWidth(1300);
-                        ModcraftApplication.getWindow().setHeight(700);
-                        Scene scene = MFXMLLoader.loadFxml("login.fxml", false);
-                        ModcraftApplication.getWindow().setScene(scene);
-                        ModcraftApplication.getWindow().show();
-                        ModcraftApplication.getWindow().centerOnScreen();
-                    });
-                }
+                Scene scene = MFXMLLoader.loadFxml("login.fxml", false);
+                Platform.runLater(() -> ModcraftApplication.switchScene(1300, 700, scene));
+            }
         });
     }
 }

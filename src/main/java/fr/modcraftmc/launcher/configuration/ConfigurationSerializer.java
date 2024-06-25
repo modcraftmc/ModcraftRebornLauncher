@@ -8,8 +8,8 @@ public class ConfigurationSerializer {
 
     public static JsonSerializer<InstanceProperty> instancePropertyJsonSerializer = (src, typeOfSrc, context) -> {
         JsonObject json = new JsonObject();
-        json.addProperty("useCustomPath", src.isCustomInstance());
-        json.addProperty("customPath", src.getCustomInstancePath());
+        json.addProperty("useCustomPath", src.customInstance());
+        json.addProperty("customPath", src.customInstancePath());
         return json;
     };
 

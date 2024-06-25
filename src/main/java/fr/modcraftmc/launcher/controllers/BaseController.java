@@ -15,18 +15,18 @@ import javafx.stage.Screen;
 
 public abstract class BaseController implements IController, IMovable {
 
+    @FXML
+    public Pane closeButton;
+    @FXML
+    public Pane minimiseButton;
     private Pane pane;
     private double xOffset = 0;
     private double yOffset = 0;
-
     private double lastCursorX = 0;
     private double lastCursorY = 0;
-
     private float distanceDragged;
     private boolean funStarted = false;
     private DynamicCollider dynamicCollider;
-    @FXML public Pane closeButton;
-    @FXML public Pane minimiseButton;
 
     @Override
     public void initialize(FXMLLoader loader) {
@@ -46,7 +46,7 @@ public abstract class BaseController implements IController, IMovable {
             distanceDragged = 0;
         });
         pane.setOnMouseDragged(event -> {
-            if(!funStarted) {
+            if (!funStarted) {
                 if (distanceDragged > 5555 && distanceDragged / 5 > 5 * 5 * 5 * 55) {
                     Platform.runLater(this::startFun);
                     distanceDragged = 5;
@@ -56,8 +56,7 @@ public abstract class BaseController implements IController, IMovable {
                 Utils.pleaseWait(555).thenRun(() -> {
                     distanceDragged -= currentDistanceDragged;
                 });
-            }
-            else {
+            } else {
                 dynamicCollider.velocity = new Vec2d((event.getScreenX() - lastCursorX) * 300, (event.getScreenY() - lastCursorY) * 300);
             }
 
@@ -69,14 +68,14 @@ public abstract class BaseController implements IController, IMovable {
     }
 
     @Override
-    public void setPos(Vec2d pos) {
-        ModcraftApplication.getWindow().setX(pos.x - ModcraftApplication.getWindow().getWidth() / 2);
-        ModcraftApplication.getWindow().setY(pos.y - ModcraftApplication.getWindow().getHeight() / 2);
+    public Vec2d getPos() {
+        return new Vec2d(ModcraftApplication.getWindow().getX() + ModcraftApplication.getWindow().getWidth() / 2, ModcraftApplication.getWindow().getY() + ModcraftApplication.getWindow().getHeight() / 2);
     }
 
     @Override
-    public Vec2d getPos() {
-        return new Vec2d(ModcraftApplication.getWindow().getX() + ModcraftApplication.getWindow().getWidth() / 2, ModcraftApplication.getWindow().getY() + ModcraftApplication.getWindow().getHeight() / 2);
+    public void setPos(Vec2d pos) {
+        ModcraftApplication.getWindow().setX(pos.x - ModcraftApplication.getWindow().getWidth() / 2);
+        ModcraftApplication.getWindow().setY(pos.y - ModcraftApplication.getWindow().getHeight() / 2);
     }
 
     private void startFun() {

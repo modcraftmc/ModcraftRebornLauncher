@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<AnchorPane prefHeight="380.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.settings.UserController">
+    <Pane fx:id="settings" prefHeight="380.0" prefWidth="870.0" styleClass="settings-left" stylesheets="@../../css/main.css">
+        <children>
+            <Label layoutX="17.0" layoutY="14.0" text="COMPTE" textFill="WHITE">
+                <font>
+                    <Font name="Lilita One" size="25.0" />
+                </font>
+            </Label>
+            <Pane layoutX="17.0" layoutY="43.0" prefHeight="2.0" prefWidth="100.0" styleClass="text-underline" stylesheets="@../../css/main.css" />
+            <Pane layoutX="16.0" layoutY="60.0" prefHeight="146.0" prefWidth="837.0" styleClass="settings-content" stylesheets="@../../css/main.css">
+                <children>
+                    <ImageView fx:id="playerHead" fitHeight="100.0" fitWidth="100.0" layoutX="713.0" layoutY="23.0" pickOnBounds="true">
+                        <image>
+                            <Image url="@../../images/baseProfil.png" />
+                        </image>
+                        <clip>
+                            <Rectangle arcHeight="10" arcWidth="10" height="100" width="100" />
+                        </clip>
+                    </ImageView>
+                    <Label fx:id="playerName" layoutX="27.0" layoutY="15.0" text="manugame_" textFill="WHITE">
+                        <font>
+                            <Font name="Lilita One" size="18.0" />
+                        </font>
+                    </Label>
+                    <Label fx:id="playerRank" layoutX="27.0" layoutY="44.0" text="Administrateur" textFill="WHITE">
+                        <font>
+                            <Font name="Lilita One" size="18.0" />
+                        </font>
+                    </Label>
+                    <Button fx:id="logoutBtn" layoutX="27.0" layoutY="99.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="159.0" text="Déconnexion" />
+                </children></Pane>
+            <Pane layoutX="17.0" layoutY="215.0" prefHeight="78.0" prefWidth="837.0" styleClass="settings-content" stylesheets="@../../css/main.css">
+            <children>
+                  <CheckBox fx:id="keepMicrosoftLogin" alignment="CENTER_RIGHT" layoutX="17.0" layoutY="27.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="25.0" prefWidth="804.0" text="Rester connecté au compte Microsoft" textFill="WHITE">
+                      <font>
+                          <Font name="Lilita One" size="18.0" />
+                      </font>
+                  </CheckBox>
+            </children></Pane>
+        </children>
+    </Pane>
+</AnchorPane>
