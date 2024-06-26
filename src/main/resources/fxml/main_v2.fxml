@@ -83,8 +83,8 @@
                <content>
                   <HBox fx:id="hbox" maxWidth="1195.0" minWidth="1180.0" prefHeight="390.0" prefWidth="1189.0" styleClass="hbox" stylesheets="@../css/main.css">
                      <children>
-                        <VBox prefHeight="390.0" prefWidth="601.0" styleClass="vbox" stylesheets="@../css/main.css" />
-                        <VBox prefHeight="390.0" prefWidth="620.0" styleClass="vbox" stylesheets="@../css/main.css" />
+                        <VBox prefHeight="390.0" prefWidth="610.0" styleClass="vbox" stylesheets="@../css/main.css" />
+                        <VBox prefHeight="390.0" prefWidth="610.0" styleClass="vbox" stylesheets="@../css/main.css" />
                      </children>
                   </HBox>
                </content></ScrollPane>

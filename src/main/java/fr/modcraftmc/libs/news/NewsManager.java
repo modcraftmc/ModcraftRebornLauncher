@@ -29,7 +29,7 @@ public class NewsManager {
         try {
             URL newsUrl = new URL("https://api.modcraftmc.fr/v1/news");
              // newsUrl = new URL("http://localhost:3000/v1/news");
-             // newsUrl = new URL("https://download.modcraftmc.fr/news.json");
+            newsUrl = new URL("https://download.modcraftmc.fr/news.json");
             String content = IOUtils.toString(newsUrl, StandardCharsets.UTF_8);
             List<News> newsList = GSON.fromJson(content, listType);
 
