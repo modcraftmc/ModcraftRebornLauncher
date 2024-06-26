@@ -83,7 +83,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
     private StepMCProfile.MCProfile mcProfile;
 
     @Override
-    public void initialize(FXMLLoader loader) {
+    public void initialize(FXMLLoader loader) throws Exception {
         super.initialize(loader);
 
         ModcraftApplication.newsManager.onNewsUpdateCallback(this::buildNewsContainer);
@@ -104,8 +104,8 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
             currentModcraftProfile = ModcraftServiceUserProfile.getProfile(mcProfile.getMcToken().getAccessToken());
             parsePlayerRank(currentModcraftProfile.info.role().name().toLowerCase(), playerRank);
         } catch (Exception e) {
-            ModcraftApplication.LOGGER.severe("Error while getting modcraft profile");
-            ErrorsHandler.handleErrorAndCrashApplication(e);
+            Exception apiError = new Exception("Impossible de récuperer votre profile depuis notre API. Si le problème persiste, contactez-nous sur discord.");
+            throw apiError;
         }
 
         progressBar.setVisible(false);
@@ -171,10 +171,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
 
             if (process.isPresent() && process.get().isAlive()) {
                 Platform.runLater(() -> setLauncherState(State.PLAYING));
-                try {
-                    process.get().wait();
-                } catch (InterruptedException ignored) {
-                }
+                process.get().onExit().join();
 
                 ModcraftApplication.LOGGER.info("Game process shutdown");
                 Platform.runLater(() -> {
@@ -198,6 +195,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                     throw new Exception("nous sommes en en maintenance ! \n" + maintenanceStatus.reason());
                 }
             } catch (Exception e) {
+                Exception apiError = new Exception("Impossible de contacter notre API. Si le problème persiste, contactez-nous sur discord.");
                 ErrorsHandler.handleError(e);
                 setLauncherState(State.IDLE);
                 return;

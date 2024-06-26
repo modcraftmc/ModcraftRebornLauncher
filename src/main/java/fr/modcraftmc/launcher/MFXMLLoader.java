@@ -6,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +26,7 @@ public class MFXMLLoader {
             loadedScenes.put(file, scene);
             return scene;
         } catch (Exception e) {
-            ErrorsHandler.handleError(e);
+            ErrorsHandler.handleErrorAndCrashApplication(e);
         }
         throw new IllegalStateException("Error when loading a fxml scene");
     }
@@ -40,8 +39,8 @@ public class MFXMLLoader {
             pane.setUserData(controller);
             controller.initialize(loader);
             return pane;
-        } catch (IOException e) {
-            ErrorsHandler.handleError(e);
+        } catch (Exception e) {
+            ErrorsHandler.handleErrorAndCrashApplication(e);
         }
         throw new IllegalStateException("Error when loading a fxml pane");
     }

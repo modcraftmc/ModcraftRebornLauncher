@@ -29,7 +29,7 @@ public abstract class BaseController implements IController, IMovable {
     private DynamicCollider dynamicCollider;
 
     @Override
-    public void initialize(FXMLLoader loader) {
+    public void initialize(FXMLLoader loader) throws Exception {
         pane = loader.getRoot();
 
         closeButton.setOnMouseClicked(event -> {

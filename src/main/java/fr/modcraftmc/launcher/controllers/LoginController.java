@@ -42,7 +42,7 @@ public class LoginController extends BaseController {
 
 
     @Override
-    public void initialize(FXMLLoader loader) {
+    public void initialize(FXMLLoader loader) throws Exception {
         super.initialize(loader);
 
         TranslateTransition loginFormContainerLeft = new TranslateTransition(Duration.millis(300), welcomeContainer);
