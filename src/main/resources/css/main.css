@@ -70,6 +70,14 @@
     -fx-stroke: #de0000;
 }
 
+.playButton {
+    -fx-cursor: hand;
+    -fx-background-radius: 10;
+    -fx-border-color: #262020;
+    -fx-border-radius: 10;
+    -fx-border-width: 0.4;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0, 0, 0.5), 4, 0, 0, 0);
+}
 
 .playButton:hover {
     -fx-background-color: #262020;
@@ -239,10 +247,12 @@
 
 .settings-button-main {
     -fx-background-color: #262020;
+    -fx-cursor: hand;
 }
 
 .settings-button, .settings-content {
     -fx-background-color: #302A26;
+    -fx-cursor: hand;
 }
 
 .text-underline {
