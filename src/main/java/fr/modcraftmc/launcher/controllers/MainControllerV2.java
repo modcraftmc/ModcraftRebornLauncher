@@ -82,6 +82,8 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
 
     private StepMCProfile.MCProfile mcProfile;
 
+    private int newsNumber = 0;
+
     @Override
     public void initialize(FXMLLoader loader) throws Exception {
         super.initialize(loader);
@@ -255,6 +257,15 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
     }
 
     public void buildNewsContainer(List<Pane> newsList) {
+        this.newsNumber = newsList.size();
+        if (newsList.isEmpty()) {
+            loadingText.setText("Aucune news");
+            loadingText.setVisible(true);
+            loadingIndicator.setVisible(false);
+            scrollPane.setVisible(false);
+            return;
+        }
+        scrollPane.setVisible(this.newsNumber > 2);
         loadingIndicator.setVisible(false);
         loadingText.setVisible(false);
 
@@ -264,7 +275,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
         leftBox.getChildren().clear();
         rightBox.getChildren().clear();
 
-        for (int i = 0; i < newsList.size(); i++) {
+        for (int i = 0; i < this.newsNumber; i++) {
             Pane newsPane = newsList.get(i);
             if (i % 2 == 0) {
                 leftBox.getChildren().add(newsPane);
@@ -278,12 +289,14 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
         scrollPane.setVisible(false); //TODO: animation
         settingsBtn.setText("Retour");
         settingsPane.setVisible(true);
+        loadingText.setVisible(false);
     }
 
     public void hideSettings() {
-        scrollPane.setVisible(true);
         settingsBtn.setText("Paramètres");
         settingsPane.setVisible(false);
+        loadingText.setVisible(this.newsNumber == 0);
+        scrollPane.setVisible(this.newsNumber > 2);
     }
 
     public void setLauncherState(State state) {
