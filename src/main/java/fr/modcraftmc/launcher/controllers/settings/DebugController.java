@@ -26,7 +26,7 @@ public class DebugController extends BaseController {
         version.setText("Build Time: " + ModcraftApplication.BUILD_TIME);
 
         logBtn.setOnMouseClicked((event) -> {
-            File instance = ModcraftApplication.filesManager.getInstancesPath();
+            File instance = new File( ModcraftApplication.filesManager.getInstancesPath(), "reborn");
             if (ModcraftApplication.launcherConfig.getInstanceProperty().customInstance())
                 instance = new File(ModcraftApplication.launcherConfig.getInstanceProperty().customInstancePath());
 
