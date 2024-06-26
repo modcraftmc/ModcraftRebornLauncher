@@ -5,24 +5,29 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-<AnchorPane fx:id="container" prefHeight="250.0" prefWidth="479.0" styleClass="news-container" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.NewsContainerController">
+<AnchorPane fx:id="container" prefHeight="200.0" prefWidth="575.0" styleClass="news-container" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.NewsContainerController">
    <children>
-      <Pane prefHeight="250.0" prefWidth="575.0" styleClass="news-container" stylesheets="@../css/main.css">
+      <Pane prefHeight="200.0" prefWidth="575.0" styleClass="news-container" stylesheets="@../css/main.css">
          <children>
-            <Label fx:id="title" layoutX="25.0" layoutY="25.0" prefHeight="24.0" prefWidth="526.0" text="OUVERTURE DE LA PHASE 42 " textFill="WHITE">
+            <Label fx:id="title" layoutX="14.0" layoutY="20.0" prefHeight="24.0" prefWidth="526.0" text="OUVERTURE DE LA PHASE 42 " textFill="WHITE">
                <font>
                   <Font name="Lilita One" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="publishDate" layoutX="440.0" layoutY="17.0" prefHeight="15.0" prefWidth="121.0" text="01/01/2024 à 00h00" textFill="WHITE">
+            <Label fx:id="publishDate" alignment="CENTER_RIGHT" layoutX="400.0" layoutY="13.0" prefHeight="15.0" prefWidth="161.0" text="01/01/2024 à 00h00" textFill="WHITE">
                <font>
                   <Font name="Lilita One" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="content" alignment="TOP_LEFT" layoutX="25.0" layoutY="57.0" prefHeight="169.0" prefWidth="540.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." textFill="WHITE" wrapText="true">
+            <Label fx:id="content" alignment="TOP_LEFT" layoutX="25.0" layoutY="57.0" prefHeight="104.0" prefWidth="526.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." textFill="WHITE" wrapText="true">
                <font>
-                  <Font name="Lilita One" size="18.0" />
+                  <Font name="Lilita One" size="16.0" />
                </font></Label>
+            <Label fx:id="newsType" alignment="CENTER_RIGHT" layoutX="445.0" layoutY="169.0" prefHeight="17.0" prefWidth="112.0" text="newsType" textAlignment="RIGHT" textFill="#d77915">
+               <font>
+                  <Font name="Lilita One" size="12.0" />
+               </font>
+            </Label>
          </children>
          <cursor>
             <Cursor fx:constant="HAND" />

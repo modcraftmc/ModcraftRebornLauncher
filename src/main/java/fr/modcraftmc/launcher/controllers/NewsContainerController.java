@@ -21,6 +21,8 @@ public class NewsContainerController extends BaseController {
     private Label content;
     @FXML
     private Label publishDate;
+    @FXML
+    private Label newsType;
 
     private String urlAccess;
 
@@ -33,8 +35,8 @@ public class NewsContainerController extends BaseController {
     }
 
     public void setup(News news) {
-        this.title.setText(news.title());
-        this.content.setText(news.description());
+        this.title.setText(news.title() == null || news.title().isBlank() ? "News#x" : news.title());
+        this.content.setText(news.description() == null || news.description().isBlank() ? "..." : news.description());
         try {
             Instant instant = Instant.parse(news.datePublished());
             SimpleDateFormat dateTimeFormat = new SimpleDateFormat("dd/MM/yyyy 'à' HH'h'mm");
@@ -42,6 +44,7 @@ public class NewsContainerController extends BaseController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        this.urlAccess = news.urlAccess();
+        this.urlAccess = news.urlAccess() == null ? "https://modcraftmc.fr" : news.urlAccess();
+        this.newsType.setText(news.type() == null ? "News" : news.type());
     }
 }
