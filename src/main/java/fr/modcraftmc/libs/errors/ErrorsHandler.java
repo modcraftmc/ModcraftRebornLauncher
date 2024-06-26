@@ -12,6 +12,8 @@ public class ErrorsHandler {
     public static void handleErrorAndCrashApplication(Exception exception) {
         logException(exception);
         Platform.runLater(() -> {
+            ModcraftApplication.getWindow().setWidth(0);
+            ModcraftApplication.getWindow().setHeight(0);
             Alert alert = new Alert(Alert.AlertType.ERROR, exception.getMessage());
             alert.setTitle("ModcraftMC");
             alert.setHeaderText("Une erreur est survenue");

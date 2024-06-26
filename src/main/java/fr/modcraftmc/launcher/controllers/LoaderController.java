@@ -18,7 +18,7 @@ public class LoaderController extends BaseController {
     private Label loadingMessage;
 
     @Override
-    public void initialize(FXMLLoader loader) {
+    public void initialize(FXMLLoader loader) throws Exception {
         super.initialize(loader);
 
         ModcraftApplication.startupTasksManager.init(loadingMessage);
