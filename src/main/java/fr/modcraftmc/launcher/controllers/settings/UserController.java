@@ -38,7 +38,6 @@ public class UserController extends BaseController {
 
         logoutBtn.setOnMouseClicked((event) -> {
             ModcraftApplication.launcherConfig.setRefreshToken("");
-            ModcraftApplication.launcherConfig.setKeeplogin(false);
             ModcraftApplication.launcherConfig.save();
             Scene loginScene = MFXMLLoader.loadFxml("login.fxml", true);
             ModcraftApplication.switchScene(-1, -1, loginScene);
