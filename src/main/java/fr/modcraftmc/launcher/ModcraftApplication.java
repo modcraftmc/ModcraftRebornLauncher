@@ -36,7 +36,7 @@ public class ModcraftApplication extends Application {
 
     //Constants
     public static String BUILD_TIME = "DEV";
-    public static String FORGE_VERSION = "43.3.12";
+    public static String FORGE_VERSION = "43.4.8";
     public static String MC_VERSION = "1.19.2";
     public static String MCP_VERSION = "20220805.130853";
     public static ModcraftApplication app;
