@@ -251,6 +251,8 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
         if (rank.equalsIgnoreCase("administrateur")) {
             finalText = "Administrateur";
             finalColor = Color.rgb(255, 0, 0);
+        } else if (rank != "default") {
+            finalText = rank;
         }
         playerRank.setTextFill(finalColor);
         playerRank.setText(finalText);
