@@ -75,7 +75,7 @@ public class DiscordManager {
     }
 
     public void setPlayersCount(int online, int max) {
-        if (!this.isLoaded)
+        if (!this.isLoaded || online == 0)
             return;
         this.activity.party().size().setCurrentSize(online);
         activity.party().size().setMaxSize(max);
