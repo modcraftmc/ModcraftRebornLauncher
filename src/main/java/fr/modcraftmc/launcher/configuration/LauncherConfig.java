@@ -31,6 +31,7 @@ public class LauncherConfig {
     private int ram = 6;
     private InstanceProperty instanceProperty;
     private long latestGamePid;
+    private boolean discordActivityEnabled = true;
 
     public static LauncherConfig load(File file) {
 
@@ -121,6 +122,14 @@ public class LauncherConfig {
 
     public void setLatestGamePid(long latestGamePid) {
         this.latestGamePid = latestGamePid;
+    }
+
+    public void setDiscordActivityEnabled(boolean discordActivityEnabled) {
+        this.discordActivityEnabled = discordActivityEnabled;
+    }
+
+    public boolean isDiscordActivityEnabled() {
+        return discordActivityEnabled;
     }
 
     public void save() {

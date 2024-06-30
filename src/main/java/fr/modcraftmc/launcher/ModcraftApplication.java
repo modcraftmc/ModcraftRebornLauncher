@@ -8,6 +8,7 @@ import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.launcher.resources.ResourcesManager;
 import fr.modcraftmc.launcher.startup.StartupTasksManager;
 import fr.modcraftmc.libs.auth.AccountManager;
+import fr.modcraftmc.libs.discord.DiscordManager;
 import fr.modcraftmc.libs.news.NewsManager;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -33,6 +34,7 @@ public class ModcraftApplication extends Application {
     public static NewsManager newsManager = new NewsManager();
     public static AccountManager accountManager = new AccountManager();
     public static fr.modcraftmc.api.ModcraftApiClient apiClient = new fr.modcraftmc.api.ModcraftApiClient("https://api.modcraftmc.fr/v1");
+    public static DiscordManager discordManager = new DiscordManager();
 
     //Constants
     public static String BUILD_TIME = "DEV";
@@ -94,6 +96,11 @@ public class ModcraftApplication extends Application {
         stage.setHeight(400);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.getIcons().add(new Image(resourcesManager.getResourceAsStream("favicon.png")));
+
+        discordManager.setOnLoaded(() -> {
+           discordManager.setState("sur le launcher");
+        });
+        AsyncExecutor.runAsync(() -> discordManager.start());
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             LogManager.getFileHandler().flush();

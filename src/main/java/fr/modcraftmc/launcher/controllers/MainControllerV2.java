@@ -144,6 +144,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                         serverStatus.setText("Serveur en ligne");
                     }
                     playersCount.setText(String.format("%s/%s joueurs", minecraftPing.getPlayers().getOnline(), minecraftPing.getPlayers().getMax()));
+                    ModcraftApplication.discordManager.setPlayersCount(minecraftPing.getPlayers().getOnline(), minecraftPing.getPlayers().getMax());
                 });
             } catch (IOException e) {
                 serverColor.setFill(Color.valueOf("#FE0101"));
@@ -151,7 +152,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                 playersCount.setText(String.format("0/100 joueurs"));
                 e.printStackTrace();
             }
-        }, 10);
+        }, 2);
 
         // Check for update every then minutes
         AsyncExecutor.runAsyncAtRate(() -> {
@@ -173,9 +174,11 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
 
             if (process.isPresent() && process.get().isAlive()) {
                 Platform.runLater(() -> setLauncherState(State.PLAYING));
+                ModcraftApplication.discordManager.setState("En jeu");
                 process.get().onExit().join();
 
                 ModcraftApplication.LOGGER.info("Game process shutdown");
+                ModcraftApplication.discordManager.setState("sur le launcher");
                 Platform.runLater(() -> {
                     ModcraftApplication.getWindow().setIconified(false);
                     setLauncherState(State.IDLE);
@@ -211,6 +214,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
             AsyncExecutor.runAsync(() -> {
                 gameUpdater.update(this, () -> {
                     try {
+                        ModcraftApplication.discordManager.setState("En jeu");
                         Process process = LaunchManager.launch(instanceDirectory);
                         ModcraftApplication.launcherConfig.setLatestGamePid(process.pid());
                         ModcraftApplication.launcherConfig.save();
@@ -222,6 +226,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                         process.waitFor();
 
                         ModcraftApplication.LOGGER.info("Game process shutdown");
+                        ModcraftApplication.discordManager.setState("sur le launcher");
                         Platform.runLater(() -> {
                             ModcraftApplication.getWindow().setIconified(false);
                             setLauncherState(State.IDLE);
@@ -251,6 +256,8 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
         if (rank.equalsIgnoreCase("administrateur")) {
             finalText = "Administrateur";
             finalColor = Color.rgb(255, 0, 0);
+        } else if (!rank.equals("default")) {
+            finalText = rank;
         }
         playerRank.setTextFill(finalColor);
         playerRank.setText(finalText);
