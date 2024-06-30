@@ -57,7 +57,7 @@ public class SettingsController extends BaseController {
             switchSettingPage(modsPane, 2);
         });
 
-        Pane discordPane = MFXMLLoader.loadPane("settings/not_implemented.fxml");
+        Pane discordPane = MFXMLLoader.loadPane("settings/discord.fxml");
         settingsContainer.getChildren().add(discordPane);
         discordPane.setVisible(false);
         discordPane.setDisable(true);
