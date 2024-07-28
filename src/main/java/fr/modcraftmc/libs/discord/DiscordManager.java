@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 public class DiscordManager {
 
     public Logger LOGGER = LogManager.createLogger("DiscordManager");
+    private volatile boolean  isRunning;
     private Core core;
     private Activity activity;
     private boolean isLoaded = false;
@@ -49,21 +50,19 @@ public class DiscordManager {
                 core.activityManager().updateActivity(activity);
 
                 this.isLoaded = true;
+                this.isRunning = true;
                 this.LOGGER.info("Discord Activity loaded");
 
                 if (onLoaded != null)
                     onLoaded.run();
-                    while(true) {
+
+                while(isRunning) {
                         core.runCallbacks();
-                        try
-                        {
+                        try {
                             Thread.sleep(12);
                         }
-                        catch(InterruptedException e)
-                        {
-                            e.printStackTrace();
-                        }
-                    }
+                        catch(InterruptedException ignored) {}
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -72,6 +71,11 @@ public class DiscordManager {
 
     public void setOnLoaded(Runnable onLoaded) {
         this.onLoaded = onLoaded;
+    }
+
+    public void stop() {
+        isRunning = false;
+        this.core.close();
     }
 
     public void setPlayersCount(int online, int max) {
@@ -88,6 +92,5 @@ public class DiscordManager {
             return;
         this.activity.setState(state);
         core.activityManager().updateActivity(activity);
-        LOGGER.info("ddeds");
     }
 }
