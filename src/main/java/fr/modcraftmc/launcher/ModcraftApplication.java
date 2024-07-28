@@ -47,6 +47,7 @@ public class ModcraftApplication extends Application {
 
     public static void shutdown(int code) {
         LOGGER.info("Houston, we have a shutdown.");
+        discordManager.stop();
         LogManager.getFileHandler().flush();
         LogManager.getFileHandler().close();
         launcherConfig.save();
