@@ -106,7 +106,8 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
             currentModcraftProfile = ModcraftServiceUserProfile.getProfile(mcProfile.getMcToken().getAccessToken());
             parsePlayerRank(currentModcraftProfile.info.role().name().toLowerCase(), playerRank);
         } catch (Exception e) {
-            Exception apiError = new Exception("Impossible de récuperer votre profile depuis notre API. Si le problème persiste, contactez-nous sur discord.");
+            Exception apiError = new Exception(String.format("Impossible de récuperer votre profile depuis notre API. Si le problème persiste, contactez-nous sur discord. \nErreur: \n(%s)", e.getMessage()));
+            ErrorsHandler.logException(apiError);
             throw apiError;
         }
 
