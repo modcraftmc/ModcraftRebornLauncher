@@ -107,7 +107,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
             parsePlayerRank(currentModcraftProfile.info.role().name().toLowerCase(), playerRank);
         } catch (Exception e) {
             Exception apiError = new Exception(String.format("Impossible de récuperer votre profile depuis notre API. Si le problème persiste, contactez-nous sur discord. \nErreur: \n(%s)", e.getMessage()));
-            ErrorsHandler.logException(apiError);
+            ErrorsHandler.logException(e);
             throw apiError;
         }
 
