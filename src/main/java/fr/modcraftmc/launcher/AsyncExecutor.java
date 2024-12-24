@@ -7,8 +7,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class AsyncExecutor {
 
-    private static final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1, new ModcraftThreadFactory());
-    private static final ExecutorService normalExecutorService = Executors.newFixedThreadPool(5, new ModcraftThreadFactory());
+    private static final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(10, new ModcraftThreadFactory());
+    private static final ExecutorService normalExecutorService = Executors.newFixedThreadPool(10, new ModcraftThreadFactory());
 
     public static Future<?> runAsyncAtRate(Runnable runnable, int rateInMinutes) {
         return runAsyncAtRate(runnable, rateInMinutes, TimeUnit.MINUTES);
