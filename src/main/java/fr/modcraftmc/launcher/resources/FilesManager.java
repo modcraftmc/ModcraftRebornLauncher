@@ -4,6 +4,12 @@ import fr.modcraftmc.launcher.Environment;
 import fr.modcraftmc.launcher.ModcraftApplication;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.PosixFilePermission;
+import java.util.HashSet;
+import java.util.Set;
 
 public class FilesManager {
 
@@ -53,6 +59,47 @@ public class FilesManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        setExecutablePermissions();
+    }
+
+
+    /**
+     * From https://github.com/Arinonia/altiscore-bootstrap/commit/5eb60d0b458de16e308ae10ce7a970fb1885e94f
+     */
+    private static void setExecutablePermissions() {
+        if (ModcraftApplication.ENVIRONMENT.getOS() != Environment.OS.LINUX) {
+            return;
+        }
+        System.out.println("Setting executable permissions for runtime binaries...");
+        final String[] executableFiles = {
+                "bin/java",
+                "bin/keytool",
+                "bin/jpackage",
+                "lib/jspawnhelper"
+        };
+
+        final Set<PosixFilePermission> permissions = new HashSet<>();
+        permissions.add(PosixFilePermission.OWNER_READ);
+        permissions.add(PosixFilePermission.OWNER_WRITE);
+        permissions.add(PosixFilePermission.OWNER_EXECUTE);
+        permissions.add(PosixFilePermission.GROUP_READ);
+        permissions.add(PosixFilePermission.GROUP_EXECUTE);
+        permissions.add(PosixFilePermission.OTHERS_READ);
+        permissions.add(PosixFilePermission.OTHERS_EXECUTE);
+
+        for (final String execFile : executableFiles) {
+            final Path filePath = FilesManager.JAVA_PATH.toPath().resolve(execFile);
+            if (Files.exists(filePath)) {
+                try {
+                    Files.setPosixFilePermissions(filePath, permissions);
+                    System.out.println("Set executable permissions for: " + filePath);
+                } catch (final IOException e) {
+                    System.err.println("Warning: Could not set permissions for " + filePath + ": " + e.getMessage());
+                }
+            }
+        }
+
     }
 
     public File getDefaultPath() {
