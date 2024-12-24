@@ -18,7 +18,6 @@ java {
 repositories {
     mavenLocal()
     mavenCentral()
-    maven { url "https://jitpack.io" }
     jcenter()
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     maven { url = 'https://raw.githubusercontent.com/modcraftmc/ModcraftMaven/master/'}
@@ -31,6 +30,7 @@ repositories {
     maven {
         url "https://maven.modcraftmc.fr/releases"
     }
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -44,7 +44,7 @@ dependencies {
     implementation 'fr.flowarg:flowupdater:1.8.5'
     implementation 'fr.modcraftmc:modcraft-api-client:1.2'
     implementation group: 'net.raphimc', name: 'MinecraftAuth', version: '4.1.0'
-    implementation 'com.github.JnCrMx:discord-game-sdk4j:0.5.5'
+    implementation 'com.github.JnCrMx:discord-game-sdk4j:v0.5.5'
 
     implementation group: 'org.openjfx', name: 'javafx-base', version: 17, classifier: 'win'
     implementation group: 'org.openjfx', name: 'javafx-base', version: 17, classifier: 'mac'
