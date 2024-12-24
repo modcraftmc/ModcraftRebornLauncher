@@ -8,8 +8,6 @@ import java.io.File;
 public class FilesManager {
 
     public static char FP = File.separatorChar;
-
-    public static boolean windows = System.getProperty("os.name").toLowerCase().contains("windows");
     public static String BASE_PATH;
     public static File DEFAULT_PATH;
     public static File LAUNCHER_PATH;
@@ -22,8 +20,8 @@ public class FilesManager {
 
     public void init() {
 
-        BASE_PATH = windows ? System.getenv("appdata") : System.getenv("HOME");
-        DEFAULT_PATH = new File(BASE_PATH + FP + ".modcraftmc" + (ModcraftApplication.ENVIRONMENT == Environment.ENV.DEV ? "-dev" : "") + FP);
+        BASE_PATH = ModcraftApplication.ENVIRONMENT.getOS() == Environment.OS.WINDOWS ? System.getenv("appdata") : System.getenv("HOME");
+        DEFAULT_PATH = new File(BASE_PATH + FP + ".modcraftmc" + (ModcraftApplication.ENVIRONMENT.getEnv() == Environment.ENV.DEV ? "-dev" : "") + FP);
         LAUNCHER_PATH = new File(DEFAULT_PATH, "launcher");
         LAUNCHER_JAR = new File(LAUNCHER_PATH, "launcher.jar");
         LOGS_PATH = new File(LAUNCHER_PATH, "logs");

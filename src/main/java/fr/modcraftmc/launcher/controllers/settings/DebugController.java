@@ -22,7 +22,7 @@ public class DebugController extends BaseController {
 
     @Override
     public void initialize(FXMLLoader loader) {
-        buildType.setText("Build Type: " + ModcraftApplication.ENVIRONMENT.name());
+        buildType.setText("Build Type: " + ModcraftApplication.ENVIRONMENT.getEnv());
         version.setText("Build Time: " + ModcraftApplication.BUILD_TIME);
 
         logBtn.setOnMouseClicked((event) -> {

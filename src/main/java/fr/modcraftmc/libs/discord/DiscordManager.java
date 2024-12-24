@@ -74,6 +74,8 @@ public class DiscordManager {
     }
 
     public void stop() {
+        if (!isLoaded)
+            return;
         isRunning = false;
         this.core.close();
     }

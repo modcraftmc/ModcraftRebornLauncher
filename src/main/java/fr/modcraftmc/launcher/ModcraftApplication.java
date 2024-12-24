@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 
 public class ModcraftApplication extends Application {
 
-    public static Environment.ENV ENVIRONMENT = Environment.ENV.DEV;
+    public static Environment ENVIRONMENT = new Environment(Environment.ENV.DEV, Utils.getOS());
     public static ResourcesManager resourcesManager = new ResourcesManager();
     public static FilesManager filesManager = new FilesManager();
     public static Logger LOGGER;
@@ -73,7 +73,7 @@ public class ModcraftApplication extends Application {
         try {
             Attributes attributes = ModcraftApplication.getManifest().getMainAttributes();
             String buildType = attributes.getValue("Build-Type");
-            ENVIRONMENT = Environment.ENV.valueOf(buildType);
+            ENVIRONMENT = new Environment(Environment.ENV.valueOf(buildType), Utils.getOS());
             BUILD_TIME = attributes.getValue("Build-Time");
         } catch (Exception e) {
             //huh
@@ -82,7 +82,7 @@ public class ModcraftApplication extends Application {
         LogManager.init();
 
         LOGGER = LogManager.createLogger("ModcraftLauncher");
-        LOGGER.info("ModcraftLauncher started in " + ENVIRONMENT + " environment. (" + BUILD_TIME + ")" + "(" + FilesManager.DEFAULT_PATH + ")");
+        LOGGER.info("ModcraftLauncher started in " + ENVIRONMENT + ". (" + BUILD_TIME + ")" + "(" + FilesManager.DEFAULT_PATH + ")");
         launcherConfig = LauncherConfig.load(filesManager.getOptionsPath());
         if (launcherConfig.getInstanceProperty() == null) {
             launcherConfig.setInstanceProperty(new InstanceProperty(false, ""));
