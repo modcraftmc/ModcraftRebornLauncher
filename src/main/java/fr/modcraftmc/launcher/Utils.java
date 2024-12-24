@@ -1,6 +1,7 @@
 package fr.modcraftmc.launcher;
 
 import com.sun.javafx.application.HostServicesDelegate;
+import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
@@ -10,7 +11,12 @@ import javafx.scene.media.MediaPlayer;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.PosixFilePermission;
 import java.security.MessageDigest;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 public class Utils {
@@ -84,6 +90,19 @@ public class Utils {
                 System.out.println("Error with playing sound.");
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static Environment.OS getOS() {
+        final String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("win")) {
+            return Environment.OS.WINDOWS;
+        } else if (os.contains("mac")) {
+            return Environment.OS.MAC;
+        } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
+            return Environment.OS.LINUX;
+        } else {
+            return Environment.OS.OTHERS;
         }
     }
 }
