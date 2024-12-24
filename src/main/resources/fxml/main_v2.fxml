@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.MFXProgressBar?>
-<?import io.github.palexdev.materialfx.controls.MFXProgressSpinner?>
+<?import io.github.palexdev.materialfx.controls.*?>
+<?import java.lang.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
-<?import java.lang.String?>
-<AnchorPane prefHeight="700.0" prefWidth="1300.0" styleClass="appContainer" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.MainControllerV2">
+
+<AnchorPane prefHeight="700.0" prefWidth="1300.0" styleClass="appContainer" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.MainControllerV2">
    <children>
       <Pane prefHeight="94.0" prefWidth="1300.0">
          <children>
@@ -54,28 +54,19 @@
       <Pane fx:id="closeButton" layoutX="1278.0" layoutY="13.0" prefHeight="13.0" prefWidth="13.0" styleClass="closeButton">
          <children>
             <SVGPath content="M35.75 35.75L19.5 19.5M19.5 19.5L3.25 3.25M19.5 19.5L35.75 3.25M19.5 19.5L3.25 35.75" layoutX="-13.0" layoutY="-13.0" scaleX="0.3" scaleY="0.3" stroke="#3e3e3e" strokeLineCap="ROUND" strokeWidth="6.0" styleClass="closeButton" />
-            <ImageView disable="true" fitHeight="150.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true" visible="false">
-               <image>
-                  <Image url="@../images/close.png" />
-               </image>
-            </ImageView>
          </children>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Pane>
-      <Pane fx:id="minimiseButton" layoutX="1250.0" layoutY="13.0" prefHeight="13.0" prefWidth="13.0" styleClass="minimizeButton">
+      <Pane fx:id="minimiseButton" layoutX="1246.0" layoutY="6.0" prefHeight="27.0" prefWidth="15.0">
          <children>
-            <SVGPath content="M3.25 19.5L35.75 19.5" layoutX="-13.0" layoutY="-8.0" scaleX="0.35" scaleY="0.4" scaleZ="0.0" strokeLineCap="ROUND" strokeWidth="6.0" styleClass="minimizeButton" />
-            <ImageView disable="true" fitHeight="15.0" fitWidth="15.0" layoutX="-1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="-1.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/minimise.png" />
                </image>
             </ImageView>
          </children>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
       </Pane>
       <Pane id="top-container" fx:id="topContainer" layoutX="49.0" layoutY="135.0" prefHeight="430.0" prefWidth="1200.0" styleClass="containers" stylesheets="@../css/main.css">
          <children>
