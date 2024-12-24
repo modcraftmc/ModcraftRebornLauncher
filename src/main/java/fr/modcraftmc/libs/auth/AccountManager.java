@@ -92,6 +92,7 @@ public class AccountManager {
                 Platform.runLater(() -> {
                     Exception microsoftApiError = new Exception("Impossible de contacter l'api Microsoft. Si le problème persiste, contactez-nous sur discord.");
                     ErrorsHandler.handleError(microsoftApiError);
+                    ErrorsHandler.logException(e);
                     Scene scene = MFXMLLoader.loadFxml("login.fxml", true);
                     ModcraftApplication.switchScene(-1, -1, scene);
                 });
