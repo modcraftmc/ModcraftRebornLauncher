@@ -132,7 +132,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
 
         AsyncExecutor.runAsyncAtRate(() -> {
             try {
-                MinecraftPingReply minecraftPing = new MinecraftPing().getPing("prodv4.modcraftmc.fr");
+                MinecraftPingReply minecraftPing = new MinecraftPing().getPing("play.modcraftmc.fr");
                 ModcraftApplication.LOGGER.info(String.format("Updating server status (%s/%s)", minecraftPing.getPlayers().getOnline(), minecraftPing.getPlayers().getMax()));
 
                 Platform.runLater(() -> {
