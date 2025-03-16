@@ -4,8 +4,9 @@ import fr.flowarg.flowupdater.FlowUpdater;
 import fr.flowarg.flowupdater.download.json.Mod;
 import fr.flowarg.flowupdater.utils.ModFileDeleter;
 import fr.flowarg.flowupdater.utils.UpdaterOptions;
-import fr.flowarg.flowupdater.versions.AbstractForgeVersion;
 import fr.flowarg.flowupdater.versions.VanillaVersion;
+import fr.flowarg.flowupdater.versions.neoforge.NeoForgeVersion;
+import fr.flowarg.flowupdater.versions.neoforge.NeoForgeVersionBuilder;
 import fr.modcraftmc.api.ModcraftApiRequestsExecutor;
 import fr.modcraftmc.api.exception.ParsingException;
 import fr.modcraftmc.api.exception.RemoteException;
@@ -14,7 +15,6 @@ import fr.modcraftmc.launcher.controllers.MainControllerV2;
 import fr.modcraftmc.launcher.logger.LogManager;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
-import fr.modcraftmc.libs.updater.forge.ModcraftForgeVersionBuilder;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -37,7 +37,7 @@ public class GameUpdater {
 
     public void update(MainControllerV2 controller, Runnable onUpdateFinished) {
         VanillaVersion version = new VanillaVersion.VanillaVersionBuilder().withName(ModcraftApplication.MC_VERSION).build();
-        UpdaterOptions options = new UpdaterOptions.UpdaterOptionsBuilder().withSilentRead(false).withJavaPath(FilesManager.JAVA_EXE.getPath()).build();
+        UpdaterOptions options = new UpdaterOptions.UpdaterOptionsBuilder().withJavaPath(FilesManager.JAVA_EXE.getPath()).build();
 
         List<Mod> mods = new ArrayList<>();
         try {
@@ -50,8 +50,8 @@ public class GameUpdater {
             return;
         }
 
-        AbstractForgeVersion forgeVersion = new ModcraftForgeVersionBuilder()
-                .withForgeVersion(ModcraftApplication.FORGE_VERSION)
+        NeoForgeVersion forgeVersion = new NeoForgeVersionBuilder()
+                .withNeoForgeVersion(ModcraftApplication.NEOFORGE_VERSION)
                 .withMods(mods)
                 .withFileDeleter(new ModFileDeleter())
                 .build();

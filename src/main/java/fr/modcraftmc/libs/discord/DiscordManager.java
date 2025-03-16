@@ -32,7 +32,6 @@ public class DiscordManager {
                 return;
             }
 
-            Core.init(discordLibrary);
 
             // Set parameters for the Core
             try(CreateParams params = new CreateParams())

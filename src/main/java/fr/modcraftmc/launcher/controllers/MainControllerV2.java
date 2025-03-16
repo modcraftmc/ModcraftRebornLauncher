@@ -132,7 +132,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
 
         AsyncExecutor.runAsyncAtRate(() -> {
             try {
-                MinecraftPingReply minecraftPing = new MinecraftPing().getPing("prodv4.modcraftmc.fr");
+                MinecraftPingReply minecraftPing = new MinecraftPing().getPing("play.dev.modcraftmc.fr");
                 ModcraftApplication.LOGGER.info(String.format("Updating server status (%s/%s)", minecraftPing.getPlayers().getOnline(), minecraftPing.getPlayers().getMax()));
 
                 Platform.runLater(() -> {
@@ -147,9 +147,11 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                     ModcraftApplication.discordManager.setPlayersCount(minecraftPing.getPlayers().getOnline(), minecraftPing.getPlayers().getMax());
                 });
             } catch (IOException e) {
-                serverColor.setFill(Color.valueOf("#FE0101"));
-                serverStatus.setText("Serveur hors ligne");
-                playersCount.setText(String.format("0/100 joueurs"));
+                Platform.runLater(() -> {
+                    serverColor.setFill(Color.valueOf("#FE0101"));
+                    serverStatus.setText("Serveur hors ligne");
+                    playersCount.setText(String.format("0/100 joueurs"));
+                });
                 e.printStackTrace();
             }
         }, 2);

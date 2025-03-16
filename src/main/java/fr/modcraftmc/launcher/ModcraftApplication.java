@@ -33,14 +33,13 @@ public class ModcraftApplication extends Application {
     public static StartupTasksManager startupTasksManager = new StartupTasksManager();
     public static NewsManager newsManager = new NewsManager();
     public static AccountManager accountManager = new AccountManager();
-    public static fr.modcraftmc.api.ModcraftApiClient apiClient = new fr.modcraftmc.api.ModcraftApiClient("https://api.modcraftmc.fr/v1");
+    public static fr.modcraftmc.api.ModcraftApiClient apiClient;
     public static DiscordManager discordManager = new DiscordManager();
 
     //Constants
     public static String BUILD_TIME = "DEV";
-    public static String FORGE_VERSION = "43.4.8";
-    public static String MC_VERSION = "1.19.2";
-    public static String MCP_VERSION = "20220805.130853";
+    public static String NEOFORGE_VERSION = "21.1.133";
+    public static String MC_VERSION = "21.1";
     public static ModcraftApplication app;
     private static Stage window;
     public boolean isFirstLaunch;
@@ -78,6 +77,7 @@ public class ModcraftApplication extends Application {
         } catch (Exception e) {
             //huh
         }
+        apiClient = new fr.modcraftmc.api.ModcraftApiClient(ENVIRONMENT.getEnv() == Environment.ENV.PROD ? "https://api.modcraftmc.fr" : "https://api.dev.modcraftmc.fr");
         filesManager.init();
         LogManager.init();
 
