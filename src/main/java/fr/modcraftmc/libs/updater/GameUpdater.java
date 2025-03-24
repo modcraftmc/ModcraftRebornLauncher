@@ -53,7 +53,7 @@ public class GameUpdater {
         NeoForgeVersion forgeVersion = new NeoForgeVersionBuilder()
                 .withNeoForgeVersion(ModcraftApplication.NEOFORGE_VERSION)
                 .withMods(mods)
-                .withFileDeleter(new ModFileDeleter())
+                //.withFileDeleter(new ModFileDeleter())
                 .build();
 
         FlowUpdater updater = new FlowUpdater.FlowUpdaterBuilder()
