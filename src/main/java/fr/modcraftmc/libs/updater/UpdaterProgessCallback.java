@@ -48,7 +48,7 @@ public class UpdaterProgessCallback implements IProgressCallback {
         LIBS("Vérification des libraries", "Téléchargement des libraries"),
         ASSETS("Vérification des assets", "Téléchargement des assets"),
         MODS("Vérification des mods", "Téléchargement des mods"),
-        FORGE("Installation de Forge", "Installation de Forge");
+        FORGE("Installation de Forge", "Installation de NeoForge");
 
         private final String verifText;
         private final String dlText;
