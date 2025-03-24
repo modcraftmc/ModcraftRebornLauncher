@@ -39,7 +39,7 @@ public class ModcraftApplication extends Application {
     //Constants
     public static String BUILD_TIME = "DEV";
     public static String NEOFORGE_VERSION = "21.1.133";
-    public static String MC_VERSION = "21.1";
+    public static String MC_VERSION = "1.21.1";
     public static ModcraftApplication app;
     private static Stage window;
     public boolean isFirstLaunch;
@@ -77,7 +77,7 @@ public class ModcraftApplication extends Application {
         } catch (Exception e) {
             //huh
         }
-        apiClient = new fr.modcraftmc.api.ModcraftApiClient(ENVIRONMENT.getEnv() == Environment.ENV.PROD ? "https://api.modcraftmc.fr" : "https://api.dev.modcraftmc.fr");
+        apiClient = new fr.modcraftmc.api.ModcraftApiClient(ENVIRONMENT.getEnv() == Environment.ENV.PROD ? "https://api.modcraftmc.fr/v1" : "https://api.dev.modcraftmc.fr/v1");
         filesManager.init();
         LogManager.init();
 
