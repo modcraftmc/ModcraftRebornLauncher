@@ -41,7 +41,7 @@ public class DiscordManager {
                 this.core = new Core(params);
                 this.activity = new Activity();
 
-                activity.setDetails("serveur survie moddé 1.19");
+                activity.setDetails("serveur survie moddé " + ModcraftApplication.MC_VERSION);
                 activity.setState("sur le launcher");
                 activity.timestamps().setStart(Instant.now());
                 activity.assets().setLargeImage("logo");
