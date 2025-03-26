@@ -8,5 +8,5 @@ package fr.modcraftmc.launcher.startup;
  */
 public interface IStartupTask<P extends ITaskResult, R extends ITaskResult> {
 
-    R execute(P previousTaskResult);
+    R execute(StartupTasksManager tasksManager, P previousTaskResult);
 }

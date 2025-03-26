@@ -1,13 +1,12 @@
 package fr.modcraftmc.launcher.startup;
 
-import fr.modcraftmc.launcher.AsyncExecutor;
 import fr.modcraftmc.launcher.startup.results.NoopResult;
 import fr.modcraftmc.launcher.startup.tasks.ValidateMicrosoftUserTask;
 import fr.modcraftmc.launcher.startup.tasks.ValidateModcaftUserTask;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 import javafx.scene.control.Label;
+import org.apache.commons.compress.utils.Lists;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -15,24 +14,34 @@ import java.util.List;
  */
 public class StartupTasksManager {
 
-    private final List<IStartupTask> tasks = Arrays.asList(new ValidateMicrosoftUserTask(), new ValidateModcaftUserTask());
+    private final List<IStartupTask> tasks = Lists.newArrayList();
     private Label loadingMessage;
 
     public void init(Label loadingMessage) {
         this.loadingMessage = loadingMessage;
 
+        this.tasks.add(new ValidateMicrosoftUserTask());
+        this.tasks.add(new ValidateModcaftUserTask());
     }
 
-    public void execute() {
-        ITaskResult previousResult = tasks.remove(0).execute(new NoopResult());
+    public ITaskResult execute() {
+        ITaskResult previousResult = tasks.removeFirst().execute(this, new NoopResult());
 
         try {
             for (IStartupTask task : tasks) {
+                if (previousResult.hasFailed()) {
+                    break;
+                }
                 ITaskResult finalPreviousResult = previousResult;
-                previousResult = (ITaskResult) AsyncExecutor.submitAsync(() -> task.execute(finalPreviousResult)).get();
+                previousResult = task.execute(this, finalPreviousResult);
             }
         } catch (Exception e) {
             ErrorsHandler.handleErrorAndCrashApplication(e);
         }
+        return previousResult;
+    }
+
+    public Label getLoadingMessage() {
+        return loadingMessage;
     }
 }

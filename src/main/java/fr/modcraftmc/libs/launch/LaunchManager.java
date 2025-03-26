@@ -24,7 +24,7 @@ public class LaunchManager {
         StepMCProfile.MCProfile currentProfile = ModcraftApplication.accountManager.getCurrentMCProfile();
         ModcraftApplication.LOGGER.info(currentProfile.getName());
         if (currentProfile.isExpired()) {
-            AccountManager.validate(null);
+            AccountManager.validate();
             currentProfile = ModcraftApplication.accountManager.getCurrentMCProfile();
         }
 

@@ -101,11 +101,8 @@ public class AccountManager {
         });
     }
 
-    public static AuthResult validate(Label loadingMessage) {
+    public static AuthResult validate() {
            if (!ModcraftApplication.launcherConfig.isKeeplogin()) return new AuthResult(false, null);
-
-           if (loadingMessage != null )
-               Platform.runLater(() -> loadingMessage.setText("Vérification du compte..."));
 
            try {
                JsonObject json = getLoginJson();

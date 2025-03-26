@@ -5,6 +5,7 @@ import fr.modcraftmc.api.models.MaintenanceStatus;
 import fr.modcraftmc.launcher.*;
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
 import fr.modcraftmc.launcher.resources.FilesManager;
+import fr.modcraftmc.launcher.startup.results.ValidateModcraftUserTaskResult;
 import fr.modcraftmc.libs.api.ModcraftServiceUserProfile;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 import fr.modcraftmc.libs.launch.LaunchManager;
@@ -102,14 +103,6 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
             ErrorsHandler.handleError(e);
         }
 
-        try {
-            currentModcraftProfile = ModcraftServiceUserProfile.getProfile(mcProfile.getMcToken().getAccessToken());
-            parsePlayerRank(currentModcraftProfile.info.role().name().toLowerCase(), playerRank);
-        } catch (Exception e) {
-            Exception apiError = new Exception("Impossible de récuperer votre profile depuis notre API. Si le problème persiste, contactez-nous sur discord.");
-            throw apiError;
-        }
-
         progressBar.setVisible(false);
         progressLabel.setVisible(false);
 
@@ -154,7 +147,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                 });
                 e.printStackTrace();
             }
-        }, 2);
+        }, 2, TimeUnit.MINUTES);
 
         // Check for update every then minutes
         AsyncExecutor.runAsyncAtRate(() -> {
@@ -252,19 +245,6 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
         }
     }
 
-    private void parsePlayerRank(String rank, Label playerRank) {
-        String finalText = "Joueur";
-        Color finalColor = Color.rgb(255, 255, 255);
-        if (rank.equalsIgnoreCase("administrateur")) {
-            finalText = "Administrateur";
-            finalColor = Color.rgb(255, 0, 0);
-        } else if (!rank.equals("default")) {
-            finalText = rank;
-        }
-        playerRank.setTextFill(finalColor);
-        playerRank.setText(finalText);
-    }
-
     public void buildNewsContainer(List<Pane> newsList) {
         this.newsNumber = newsList.size();
         if (newsList.isEmpty()) {
@@ -356,6 +336,13 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                 progressLabel.setText(progress);
             }
         });
+    }
+
+    public void setModcraftUserProfile(ValidateModcraftUserTaskResult result) {
+        this.currentModcraftProfile = result.getServiceUserProfile();
+
+        playerRank.setTextFill(result.getPlayerRankInfos().color());
+        playerRank.setText(result.getPlayerRankInfos().name());
     }
 
     public enum State {
