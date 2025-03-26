@@ -38,9 +38,10 @@ public class LoaderController extends BaseController {
 
             Platform.runLater(() -> loadingMessage.setText("Connecté!"));
 
+            ValidateModcraftUserTaskResult taskResult = ((ValidateModcraftUserTaskResult) result);
+            ModcraftApplication.accountManager.setModcraftServiceUserProfile(taskResult);
             // Success
             Scene scene = MFXMLLoader.loadFxml("main_v2.fxml", false);
-            ((MainControllerV2) scene.getUserData()).setModcraftUserProfile(((ValidateModcraftUserTaskResult) result));
             Platform.runLater(() -> ModcraftApplication.switchScene(1300, 700,  scene));
         });
     }

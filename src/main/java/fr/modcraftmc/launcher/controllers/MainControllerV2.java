@@ -93,6 +93,12 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
 
         this.mcProfile = ModcraftApplication.accountManager.getCurrentMCProfile();
 
+        ValidateModcraftUserTaskResult result = ModcraftApplication.accountManager.getModcraftServiceUserProfile();
+        this.currentModcraftProfile = result.getServiceUserProfile();
+
+        playerRank.setTextFill(result.getPlayerRankInfos().color());
+        playerRank.setText(result.getPlayerRankInfos().name());
+
         ModcraftApplication.LOGGER.warning("account name " + mcProfile.getName());
 
         playerName.setText(mcProfile.getName());
@@ -204,7 +210,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
             InstanceProperty instanceProperty = ModcraftApplication.launcherConfig.getInstanceProperty();
             final File instanceDirectory = instanceProperty.customInstance() ? new File(instanceProperty.customInstancePath()) : new File(FilesManager.INSTANCES_PATH, "reborn");
             if (!instanceDirectory.exists()) instanceDirectory.mkdirs();
-            GameUpdater gameUpdater = new GameUpdater(instanceDirectory.toPath(), this);
+            GameUpdater gameUpdater = new GameUpdater((ModcraftApplication.forceDevApi == true ? instanceDirectory.toPath().getParent().resolve("dev") : instanceDirectory.toPath()), this);
 
             AsyncExecutor.runAsync(() -> {
                 gameUpdater.update(this, () -> {
@@ -336,13 +342,6 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                 progressLabel.setText(progress);
             }
         });
-    }
-
-    public void setModcraftUserProfile(ValidateModcraftUserTaskResult result) {
-        this.currentModcraftProfile = result.getServiceUserProfile();
-
-        playerRank.setTextFill(result.getPlayerRankInfos().color());
-        playerRank.setText(result.getPlayerRankInfos().name());
     }
 
     public enum State {

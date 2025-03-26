@@ -3,7 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane prefHeight="380.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.settings.DebugController">
+
+<AnchorPane prefHeight="380.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.settings.DebugController">
     <Pane fx:id="settings" prefHeight="380.0" prefWidth="870.0" styleClass="settings-left" stylesheets="@../../css/main.css">
         <children>
             <Label layoutX="17.0" layoutY="14.0" text="DEBUG" textFill="WHITE">
@@ -38,6 +39,7 @@
                   </font>
                </Label>
                <Button fx:id="logBtn" layoutX="24.0" layoutY="50.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" text="ouvrir les logs" />
+               <Button fx:id="devApiBtn" layoutX="731.0" layoutY="22.0" mnemonicParsing="false" text="use dev api" />
             </children>
          </Pane>
         </children>

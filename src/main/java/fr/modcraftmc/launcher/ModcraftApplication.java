@@ -43,6 +43,7 @@ public class ModcraftApplication extends Application {
     public static ModcraftApplication app;
     private static Stage window;
     public boolean isFirstLaunch;
+    public static boolean forceDevApi = false;
 
     public static void shutdown(int code) {
         LOGGER.info("Houston, we have a shutdown.");

@@ -5,12 +5,13 @@ import com.google.gson.JsonParser;
 import fr.modcraftmc.launcher.AsyncExecutor;
 import fr.modcraftmc.launcher.MFXMLLoader;
 import fr.modcraftmc.launcher.ModcraftApplication;
+import fr.modcraftmc.launcher.startup.results.ValidateModcraftUserTaskResult;
+import fr.modcraftmc.libs.api.ModcraftServiceUserProfile;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 import fr.modcraftmc.libs.popup.PopupBuilder;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import net.lenni0451.commons.httpclient.HttpClient;
 import net.raphimc.minecraftauth.MinecraftAuth;
 import net.raphimc.minecraftauth.step.java.StepMCProfile;
@@ -26,7 +27,7 @@ import java.util.function.Consumer;
 public class AccountManager {
 
     private StepMCProfile.MCProfile currentMCProfile;
-
+    private ValidateModcraftUserTaskResult modcraftServiceUserProfile;
     private static final StepFullJavaSession deviceCodeAuthStep = MinecraftAuth.builder()
             .withTimeout(300)
             .withClientId(MicrosoftConstants.JAVA_TITLE_ID)
@@ -56,6 +57,14 @@ public class AccountManager {
 
     public void setCurrentMCProfile(StepMCProfile.MCProfile currentMCProfile) {
         this.currentMCProfile = currentMCProfile;
+    }
+
+    public void setModcraftServiceUserProfile(ValidateModcraftUserTaskResult modcraftServiceUserProfile) {
+        this.modcraftServiceUserProfile = modcraftServiceUserProfile;
+    }
+
+    public ValidateModcraftUserTaskResult getModcraftServiceUserProfile() {
+        return modcraftServiceUserProfile;
     }
 
     public StepMCProfile.MCProfile getCurrentMCProfile() {
