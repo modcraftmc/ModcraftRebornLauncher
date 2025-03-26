@@ -15,7 +15,7 @@ public class ValidateModcaftUserTask implements IStartupTask<ValidateMicrosoftUs
 
     @Override
     public ValidateModcraftUserTaskResult execute(StartupTasksManager tasksManager, ValidateMicrosoftUserTaskResult previousResult) {
-        ModcraftApplication.LOGGER.info("Validating Microsoft user profile");
+        ModcraftApplication.LOGGER.info("Validating Modcraft user profile");
         Platform.runLater(() -> tasksManager.getLoadingMessage().setText("Vérification du compte Modcraft..."));
         try {
             ModcraftServiceUserProfile modcraftUser = ModcraftServiceUserProfile.getProfile(previousResult.mcProfile().getMcToken().getAccessToken());
