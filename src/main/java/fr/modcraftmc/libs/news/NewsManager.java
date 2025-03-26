@@ -13,6 +13,8 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -27,9 +29,9 @@ public class NewsManager {
 
         ModcraftApplication.LOGGER.info("Fetching news asynchronously ");
         try {
-            URL newsUrl = new URL("https://api.modcraftmc.fr/v1/news");
+            URL newsUrl = new URI("https://api.modcraftmc.fr/v1/news").toURL();
              // newsUrl = new URL("http://localhost:3000/v1/news");
-            newsUrl = new URL("https://download.modcraftmc.fr/news.json");
+            newsUrl = new URI("https://download.modcraftmc.fr/news.json").toURL();
             String content = IOUtils.toString(newsUrl, StandardCharsets.UTF_8);
             List<News> newsList = GSON.fromJson(content, listType);
 
@@ -44,7 +46,7 @@ public class NewsManager {
             }
             Platform.runLater(() -> newsUpdateCallback.onUpdate(buildedNewsContainers));
 
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
     }
