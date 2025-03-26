@@ -208,7 +208,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
             }
 
             InstanceProperty instanceProperty = ModcraftApplication.launcherConfig.getInstanceProperty();
-            final File instanceDirectory = instanceProperty.customInstance() ? new File(instanceProperty.customInstancePath()) : new File(FilesManager.INSTANCES_PATH, "reborn");
+            final File instanceDirectory = instanceProperty.customInstance() ? new File(instanceProperty.customInstancePath(), "instances") : new File(FilesManager.INSTANCES_PATH, "reborn");
             if (!instanceDirectory.exists()) instanceDirectory.mkdirs();
             GameUpdater gameUpdater = new GameUpdater((ModcraftApplication.forceDevApi == true ? instanceDirectory.toPath().getParent().resolve("dev") : instanceDirectory.toPath()), this);
 
