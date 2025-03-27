@@ -208,15 +208,15 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
             }
 
             InstanceProperty instanceProperty = ModcraftApplication.launcherConfig.getInstanceProperty();
-            final File instanceDirectory = instanceProperty.customInstance() ? new File(instanceProperty.customInstancePath(), "instances") : new File(FilesManager.INSTANCES_PATH, "reborn");
-            if (!instanceDirectory.exists()) instanceDirectory.mkdirs();
-            GameUpdater gameUpdater = new GameUpdater((ModcraftApplication.forceDevApi == true ? instanceDirectory.toPath().getParent().resolve("dev") : instanceDirectory.toPath()), this);
+            final File instanceDirectory = instanceProperty.customInstance() ? new File(instanceProperty.customInstancePath(), "instances") : FilesManager.INSTANCES_PATH;
+            final File modpackDirectory = new File(instanceDirectory, ModcraftApplication.forceDevApi ? "dev" : "reborn");
+            GameUpdater gameUpdater = new GameUpdater(modpackDirectory.toPath(), this);
 
             AsyncExecutor.runAsync(() -> {
                 gameUpdater.update(this, () -> {
                     try {
                         ModcraftApplication.discordManager.setState("En jeu");
-                        Process process = LaunchManager.launch(instanceDirectory);
+                        Process process = LaunchManager.launch(modpackDirectory);
                         ModcraftApplication.launcherConfig.setLatestGamePid(process.pid());
                         ModcraftApplication.launcherConfig.save();
 
