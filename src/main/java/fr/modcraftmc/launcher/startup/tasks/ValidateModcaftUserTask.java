@@ -1,22 +1,21 @@
 package fr.modcraftmc.launcher.startup.tasks;
 
 
-import fr.modcraftmc.launcher.ModcraftApplication;
-import fr.modcraftmc.launcher.startup.IStartupTask;
+import fr.modcraftmc.launcher.startup.RetryableTask;
 import fr.modcraftmc.launcher.startup.StartupTasksManager;
 import fr.modcraftmc.launcher.startup.results.ValidateMicrosoftUserTaskResult;
 import fr.modcraftmc.launcher.startup.results.ValidateModcraftUserTaskResult;
 import fr.modcraftmc.libs.api.ModcraftServiceUserProfile;
-import fr.modcraftmc.libs.errors.ErrorsHandler;
 import javafx.application.Platform;
 import javafx.scene.paint.Color;
 
-public class ValidateModcaftUserTask implements IStartupTask<ValidateMicrosoftUserTaskResult, ValidateModcraftUserTaskResult> {
+public class ValidateModcaftUserTask extends RetryableTask<ValidateMicrosoftUserTaskResult, ValidateModcraftUserTaskResult> {
 
     @Override
     public ValidateModcraftUserTaskResult execute(StartupTasksManager tasksManager, ValidateMicrosoftUserTaskResult previousResult) {
-        ModcraftApplication.LOGGER.info("Validating Modcraft user profile");
-        Platform.runLater(() -> tasksManager.getLoadingMessage().setText("Vérification du compte Modcraft..."));
+        String loadMessageText = "Vérification du compte Modcraft... " + this.getFormatedTryCount();
+        Platform.runLater(() -> tasksManager.getLoadingMessage().setText(loadMessageText));
+
         try {
             ModcraftServiceUserProfile modcraftUser = ModcraftServiceUserProfile.getProfile(previousResult.mcProfile().getMcToken().getAccessToken());
 
@@ -33,8 +32,17 @@ public class ValidateModcaftUserTask implements IStartupTask<ValidateMicrosoftUs
             return new ValidateModcraftUserTaskResult(modcraftUser, new ValidateModcraftUserTaskResult.PlayerRankInfos(finalText, finalColor));
 
         } catch (Exception e) {
-            ErrorsHandler.handleErrorWithCustomHeaderAndCrashApplication("Imposible de contacter notre API.", e);
-            return ValidateModcraftUserTaskResult.createError();
+            return ValidateModcraftUserTaskResult.createError(new Exception("Impossible de contacter notre API." + e));
         }
+    }
+
+    @Override
+    public String getName() {
+        return "Modcraft account validation";
+    }
+
+    @Override
+    public int maxTryCount() {
+        return 3;
     }
 }

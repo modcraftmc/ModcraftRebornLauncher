@@ -3,10 +3,15 @@ package fr.modcraftmc.launcher.startup;
 /**
  * Startup task are used in the popup windows.
  *
- * @param <P> previous task type {@link ITaskResult}.
- * @param <R> result task type {@link ITaskResult}.
+ * @param <Previous>> previous task type {@link ITaskResult}.
+ * @param <Result>> result task type {@link ITaskResult}.
  */
-public interface IStartupTask<P extends ITaskResult, R extends ITaskResult> {
+public interface IStartupTask<Previous extends ITaskResult, Result extends ITaskResult> {
 
-    R execute(StartupTasksManager tasksManager, P previousTaskResult);
+    Result execute(StartupTasksManager tasksManager, Previous previousTaskResult);
+
+    /**
+     * @return the name of the task
+     */
+    String getName();
 }

@@ -17,13 +17,13 @@ public class ValidateModcraftUserTaskResult extends ITaskResult {
         this.playerRankInfos = playerRankInfos;
     }
 
-    public ValidateModcraftUserTaskResult() {
-        super(true, true);
+    public ValidateModcraftUserTaskResult(Exception e) {
+        super(true, true, e);
     }
 
     // Task are responsible for displaying error messages
-    public static ValidateModcraftUserTaskResult createError() {
-        return new ValidateModcraftUserTaskResult();
+    public static ValidateModcraftUserTaskResult createError(Exception e) {
+        return new ValidateModcraftUserTaskResult(e);
     }
 
     public ModcraftServiceUserProfile getServiceUserProfile() {
