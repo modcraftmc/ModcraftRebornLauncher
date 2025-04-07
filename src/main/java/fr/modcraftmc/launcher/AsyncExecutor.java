@@ -44,6 +44,7 @@ public class AsyncExecutor {
         public Thread newThread(@NotNull Runnable r) {
             Thread thread = new Thread(r);
             thread.setName(String.format("ModcraftLauncher Async Runner (%s) # %s", name, COUNTER.getAndIncrement()));
+            thread.setUncaughtExceptionHandler((t, e) -> {ModcraftApplication.LOGGER.severe(e.getMessage());});
             thread.setPriority(Thread.MIN_PRIORITY);
             return thread;
         }
