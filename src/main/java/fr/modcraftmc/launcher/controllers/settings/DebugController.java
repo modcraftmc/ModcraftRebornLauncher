@@ -1,6 +1,7 @@
 package fr.modcraftmc.launcher.controllers.settings;
 
 import fr.modcraftmc.api.ModcraftApiClient;
+import fr.modcraftmc.launcher.AsyncExecutor;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.controllers.BaseController;
 import fr.modcraftmc.libs.api.ModcraftServiceUserProfile;
@@ -13,8 +14,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 public class DebugController extends BaseController {
 
@@ -32,19 +33,17 @@ public class DebugController extends BaseController {
         version.setText("Build Time: " + ModcraftApplication.BUILD_TIME);
 
         logBtn.setOnMouseClicked((event) -> {
-            File instance = new File( ModcraftApplication.filesManager.getInstancesPath(), "reborn");
-            if (ModcraftApplication.launcherConfig.getInstanceProperty().customInstance())
-                instance = new File(ModcraftApplication.launcherConfig.getInstanceProperty().customInstancePath());
+            AsyncExecutor.runAsync(() -> {
+                Path logdirectory = ModcraftApplication.gameInstanceManager.getActiveInstancePath().resolve("logs");
+                if (!logdirectory.toFile().exists()) {}
+                    logdirectory.toFile().mkdirs();
 
-            File logdirectory = new File(instance, "logs");
-            if (!logdirectory.exists())
-                logdirectory.mkdirs();
-
-            try {
-                Desktop.getDesktop().open(logdirectory);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+                try {
+                    Desktop.getDesktop().open(logdirectory.toFile());
+                } catch (IOException e) {
+                    ModcraftApplication.LOGGER.severe(e.getMessage());
+                }
+            });
         });
 
         if (ModcraftApplication.accountManager.getModcraftServiceUserProfile().getServiceUserProfile().info.role().name().equals("default"))

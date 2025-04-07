@@ -11,16 +11,11 @@ import fr.theshark34.openlauncherlib.minecraft.GameFolder;
 import net.raphimc.minecraftauth.step.java.StepMCProfile;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.attribute.PosixFilePermission;
-import java.util.HashSet;
-import java.util.Set;
 
 public class LaunchManager {
 
-    public static Process launch(File dir) throws Exception {
+    public static Process launch(Path dir) throws Exception {
         StepMCProfile.MCProfile currentProfile = ModcraftApplication.accountManager.getCurrentMCProfile();
         ModcraftApplication.LOGGER.info(currentProfile.getName());
         if (currentProfile.isExpired()) {
@@ -35,7 +30,7 @@ public class LaunchManager {
         String clientId = currentProfile.getMcToken().getXblXsts().getUserHash();
 
         AuthInfos authInfos = new AuthInfos(name, accesToken, uuid, xuid, clientId);
-        final NoFramework noFramework = new NoFramework(dir.toPath(), authInfos, GameFolder.FLOW_UPDATER_1_19_SUP);
+        final NoFramework noFramework = new NoFramework(dir, authInfos, GameFolder.FLOW_UPDATER_1_19_SUP);
         if (!(ModcraftApplication.ENVIRONMENT.getEnv() == Environment.ENV.DEV)) {
             if (System.getProperty("os.name").contains("windows")) {
                 JavaUtil.setJavaCommand(new File(FilesManager.JAVA_PATH, "\\bin\\java.exe").getPath());

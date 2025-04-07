@@ -3,8 +3,6 @@ package fr.modcraftmc.launcher.controllers;
 import fr.modcraftmc.api.ModcraftApiRequestsExecutor;
 import fr.modcraftmc.api.models.MaintenanceStatus;
 import fr.modcraftmc.launcher.*;
-import fr.modcraftmc.launcher.configuration.InstanceProperty;
-import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.launcher.startup.results.ValidateModcraftUserTaskResult;
 import fr.modcraftmc.libs.api.ModcraftServiceUserProfile;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
@@ -29,9 +27,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import net.raphimc.minecraftauth.step.java.StepMCProfile;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -206,17 +204,15 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                 setLauncherState(State.IDLE);
                 return;
             }
+            Path gameInstance = ModcraftApplication.gameInstanceManager.getActiveInstancePath();
 
-            InstanceProperty instanceProperty = ModcraftApplication.launcherConfig.getInstanceProperty();
-            final File instanceDirectory = instanceProperty.customInstance() ? new File(instanceProperty.customInstancePath(), "instances") : FilesManager.INSTANCES_PATH;
-            final File modpackDirectory = new File(instanceDirectory, ModcraftApplication.forceDevApi ? "dev" : "reborn");
-            GameUpdater gameUpdater = new GameUpdater(modpackDirectory.toPath(), this);
+            GameUpdater gameUpdater = new GameUpdater(gameInstance, this);
 
             AsyncExecutor.runAsync(() -> {
                 gameUpdater.update(this, () -> {
                     try {
                         ModcraftApplication.discordManager.setState("En jeu");
-                        Process process = LaunchManager.launch(modpackDirectory);
+                        Process process = LaunchManager.launch(gameInstance);
                         ModcraftApplication.launcherConfig.setLatestGamePid(process.pid());
                         ModcraftApplication.launcherConfig.save();
 
@@ -278,6 +274,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                 rightBox.getChildren().add(newsPane);
             }
         }
+        ModcraftApplication.LOGGER.info("News container loaded");
     }
 
     public void showSettings() {

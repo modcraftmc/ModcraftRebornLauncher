@@ -3,6 +3,7 @@ package fr.modcraftmc.launcher;
 
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
 import fr.modcraftmc.launcher.configuration.LauncherConfig;
+import fr.modcraftmc.launcher.instances.GameInstanceManager;
 import fr.modcraftmc.launcher.logger.LogManager;
 import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.launcher.resources.ResourcesManager;
@@ -35,6 +36,7 @@ public class ModcraftApplication extends Application {
     public static AccountManager accountManager = new AccountManager();
     public static fr.modcraftmc.api.ModcraftApiClient apiClient;
     public static DiscordManager discordManager = new DiscordManager();
+    public static GameInstanceManager gameInstanceManager = new GameInstanceManager();
 
     //Constants
     public static String BUILD_TIME = "DEV";
@@ -110,6 +112,7 @@ public class ModcraftApplication extends Application {
             launcherConfig.save();
         }));
 
+        gameInstanceManager.refreshInstances();
         Scene scene = MFXMLLoader.loadFxml("login.fxml", false);
         Scene mainScene = MFXMLLoader.loadFxml("loader.fxml", false);
         stage.setScene(mainScene);

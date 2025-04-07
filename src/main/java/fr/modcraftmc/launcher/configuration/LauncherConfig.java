@@ -2,6 +2,7 @@ package fr.modcraftmc.launcher.configuration;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.logger.LogManager;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 
@@ -106,6 +107,7 @@ public class LauncherConfig {
 
     public void setInstanceProperty(InstanceProperty instanceProperty) {
         this.instanceProperty = instanceProperty;
+        ModcraftApplication.gameInstanceManager.refreshInstances();
     }
 
     public int getRam() {
