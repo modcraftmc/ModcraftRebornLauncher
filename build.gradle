@@ -46,18 +46,18 @@ dependencies {
     implementation group: 'net.raphimc', name: 'MinecraftAuth', version: '4.1.1'
     implementation 'com.github.JnCrMx:discord-game-sdk4j:v1.0.0'
 
-    implementation group: 'org.openjfx', name: 'javafx-base', version: 23, classifier: 'win'
-    implementation group: 'org.openjfx', name: 'javafx-base', version: 23, classifier: 'mac'
-    implementation group: 'org.openjfx', name: 'javafx-base', version: 23, classifier: 'linux'
-    implementation group: 'org.openjfx', name: 'javafx-controls', version: 23, classifier: 'win'
-    implementation group: 'org.openjfx', name: 'javafx-controls', version: 23, classifier: 'mac'
-    implementation group: 'org.openjfx', name: 'javafx-controls', version: 23, classifier: 'linux'
-    implementation group: 'org.openjfx', name: 'javafx-fxml', version: 23, classifier: 'win'
-    implementation group: 'org.openjfx', name: 'javafx-fxml', version: 23, classifier: 'mac'
-    implementation group: 'org.openjfx', name: 'javafx-fxml', version: 23, classifier: 'linux'
-    implementation group: 'org.openjfx', name: 'javafx-graphics', version: 23, classifier: 'win'
-    implementation group: 'org.openjfx', name: 'javafx-graphics', version: 23, classifier: 'mac'
-    implementation group: 'org.openjfx', name: 'javafx-graphics', version: 23, classifier: 'linux'
+    def javafxVersion = '23'
+    def javafxModules = ['base', 'controls', 'fxml', 'graphics', 'web', 'swing', 'media']
+    def platforms = ['win', 'mac', 'linux']
+
+    javafxModules.each { module ->
+        platforms.each { platform ->
+            dependencies {
+                implementation "org.openjfx:javafx-${module}:${javafxVersion}:${platform}"
+            }
+        }
+    }
+
 }
 
 jar {
