@@ -6,7 +6,6 @@ import fr.modcraftmc.launcher.AsyncExecutor;
 import fr.modcraftmc.launcher.MFXMLLoader;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.startup.results.ValidateModcraftUserTaskResult;
-import fr.modcraftmc.libs.api.ModcraftServiceUserProfile;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 import fr.modcraftmc.libs.popup.PopupBuilder;
 import javafx.application.Platform;
@@ -16,26 +15,25 @@ import net.lenni0451.commons.httpclient.HttpClient;
 import net.raphimc.minecraftauth.MinecraftAuth;
 import net.raphimc.minecraftauth.step.java.StepMCProfile;
 import net.raphimc.minecraftauth.step.java.session.StepFullJavaSession;
-import net.raphimc.minecraftauth.step.msa.StepMsaDeviceCode;
+import net.raphimc.minecraftauth.step.msa.StepJfxWebViewMsaCode;
 import net.raphimc.minecraftauth.util.MicrosoftConstants;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeoutException;
-import java.util.function.Consumer;
 
 public class AccountManager {
 
     private StepMCProfile.MCProfile currentMCProfile;
     private ValidateModcraftUserTaskResult modcraftServiceUserProfile;
-    private static final StepFullJavaSession deviceCodeAuthStep = MinecraftAuth.builder()
+    private static final StepFullJavaSession microsoftAccountAuth = MinecraftAuth.builder()
             .withTimeout(300)
             .withClientId(MicrosoftConstants.JAVA_TITLE_ID)
             .withScope(MicrosoftConstants.SCOPE_TITLE_AUTH)
-            .deviceCode()
+            .javaFxWebView()
             .withoutDeviceToken()
             .regularAuthentication(MicrosoftConstants.JAVA_XSTS_RELYING_PARTY)
-            .buildMinecraftJavaProfileStep(false); // for chat signing stuff which we don't implement (yet)
+            .buildMinecraftJavaProfileStep(false);// for chat signing stuff which we don't implement (yet)
 
     public static class AuthResult {
        private final boolean isLoggedIn;
@@ -73,31 +71,31 @@ public class AccountManager {
         return this.currentMCProfile;
     }
 
-    public static CompletableFuture<AuthResult> authenticate(Consumer<StepMsaDeviceCode.MsaDeviceCode> callback) {
+    public static CompletableFuture<AuthResult> authenticate() {
         return CompletableFuture.supplyAsync(() -> {
 
             MinecraftAuth.USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
-            try  {
+            try {
                 HttpClient httpClient = MinecraftAuth.createHttpClient();
-                StepFullJavaSession.FullJavaSession javaSession = deviceCodeAuthStep.getFromInput(httpClient, new StepMsaDeviceCode.MsaDeviceCodeCallback(callback));
-                if (ModcraftApplication.launcherConfig.isKeeplogin()) AsyncExecutor.runAsync(() -> AccountManager.saveLoginInfos(javaSession));
+                StepFullJavaSession.FullJavaSession javaSession = microsoftAccountAuth.getFromInput(httpClient, new StepJfxWebViewMsaCode.JavaFxWebView());
+                if (ModcraftApplication.launcherConfig.isKeeplogin())
+                    AsyncExecutor.runAsync(() -> AccountManager.saveLoginInfos(javaSession));
                 return new AuthResult(true, javaSession.getMcProfile());
+            } catch (TimeoutException exception) {
+                Platform.runLater(() -> {
+                    Alert popup = new PopupBuilder()
+                            .setHeader("Une erreur est survenue")
+                            .setText("Le délai de connexion a été dépassé.")
+                            .build();
+                    popup.show();
+                    ErrorsHandler.logException(exception);
+                    Scene scene = MFXMLLoader.loadFxml("login.fxml", true);
+                    ModcraftApplication.switchScene(-1, -1, scene);
+                });
+                return new AuthResult(false, null);
 
+            } catch (StepJfxWebViewMsaCode.UserClosedWindowException ignored) {
             } catch (Exception e) {
-                if (e instanceof TimeoutException) {
-                    Platform.runLater(() -> {
-                        Alert popup = new PopupBuilder()
-                                        .setHeader("Une erreur est survenue")
-                                        .setText("Le délai de connexion a été dépassé.")
-                                        .build();
-                        popup.show();
-                        ErrorsHandler.logException(e);
-                        Scene scene = MFXMLLoader.loadFxml("login.fxml", true);
-                        ModcraftApplication.switchScene(-1, -1, scene);
-                    });
-                    return new AuthResult(false, null);
-                }
-
                 Platform.runLater(() -> {
                     Exception microsoftApiError = new Exception("Impossible de contacter l'api Microsoft. Si le problème persiste, contactez-nous sur discord.");
                     ErrorsHandler.handleError(microsoftApiError);
@@ -105,8 +103,8 @@ public class AccountManager {
                     Scene scene = MFXMLLoader.loadFxml("login.fxml", true);
                     ModcraftApplication.switchScene(-1, -1, scene);
                 });
-                return new AuthResult(false, null);
             }
+            return new AuthResult(false, null);
         });
     }
 
@@ -117,8 +115,8 @@ public class AccountManager {
                JsonObject json = getLoginJson();
 
                HttpClient httpClient = MinecraftAuth.createHttpClient();
-               StepFullJavaSession.FullJavaSession jsonProfile = deviceCodeAuthStep.fromJson(json);
-               StepFullJavaSession.FullJavaSession javaSession = deviceCodeAuthStep.refresh(httpClient, jsonProfile);
+               StepFullJavaSession.FullJavaSession jsonProfile = microsoftAccountAuth.fromJson(json);
+               StepFullJavaSession.FullJavaSession javaSession = microsoftAccountAuth.refresh(httpClient, jsonProfile);
 
                AsyncExecutor.runAsync(() -> saveLoginInfos(javaSession));
                ModcraftApplication.accountManager.setCurrentMCProfile(javaSession.getMcProfile());
@@ -131,7 +129,7 @@ public class AccountManager {
     }
 
     private static void saveLoginInfos(StepFullJavaSession.FullJavaSession profile) {
-       ModcraftApplication.launcherConfig.setRefreshToken(deviceCodeAuthStep.toJson(profile).toString());
+       ModcraftApplication.launcherConfig.setRefreshToken(microsoftAccountAuth.toJson(profile).toString());
        ModcraftApplication.launcherConfig.save();
     }
 

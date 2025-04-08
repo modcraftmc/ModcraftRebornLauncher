@@ -8,6 +8,7 @@ import fr.modcraftmc.launcher.startup.results.ValidateModcraftUserTaskResult;
 import fr.modcraftmc.libs.api.ModcraftServiceUserProfile;
 import javafx.application.Platform;
 import javafx.scene.paint.Color;
+import net.raphimc.minecraftauth.step.java.StepMCProfile;
 
 public class ValidateModcaftUserTask extends RetryableTask<ValidateMicrosoftUserTaskResult, ValidateModcraftUserTaskResult> {
 
@@ -16,8 +17,14 @@ public class ValidateModcaftUserTask extends RetryableTask<ValidateMicrosoftUser
         String loadMessageText = "Vérification du compte Modcraft... " + this.getFormatedTryCount();
         Platform.runLater(() -> tasksManager.getLoadingMessage().setText(loadMessageText));
 
+        return execute(previousResult.mcProfile());
+
+    }
+
+    // temp workaround; i didn't thought we still need this logic when login-in
+    public static ValidateModcraftUserTaskResult execute(StepMCProfile.MCProfile mcProfile) {
         try {
-            ModcraftServiceUserProfile modcraftUser = ModcraftServiceUserProfile.getProfile(previousResult.mcProfile().getMcToken().getAccessToken());
+            ModcraftServiceUserProfile modcraftUser = ModcraftServiceUserProfile.getProfile(mcProfile.getMcToken().getAccessToken());
 
             String rank = modcraftUser.info.role().name();
             String finalText = "Joueur";
