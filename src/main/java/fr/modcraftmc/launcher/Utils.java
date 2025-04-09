@@ -36,7 +36,7 @@ public class Utils {
                 throw new RuntimeException(e);
             }
             return null;
-        }, AsyncExecutor::runAsync);
+        });
     }
 
     public static void ensureFxThread(Runnable runnable) {
