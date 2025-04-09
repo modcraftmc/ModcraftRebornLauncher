@@ -1,12 +1,12 @@
 package fr.modcraftmc.launcher.controllers;
 
+import fr.modcraftmc.launcher.AsyncExecutor;
 import fr.modcraftmc.launcher.MFXMLLoader;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.launcher.startup.tasks.ValidateModcaftUserTask;
 import fr.modcraftmc.libs.auth.AccountManager;
 import io.github.palexdev.materialfx.controls.MFXProgressSpinner;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -54,7 +54,7 @@ public class LoginController extends BaseController {
 
                         Scene scene = MFXMLLoader.loadFxml("main_v2.fxml", true);
                         ModcraftApplication.switchScene(-1, -1, scene);
-                    }, Platform::runLater);
+                    }, AsyncExecutor::runAsync);
                     return;
                 }
 
@@ -62,7 +62,7 @@ public class LoginController extends BaseController {
                 loadingIndicator.setVisible(false);
                 microsoftText.setVisible(true);
 
-            }, Platform::runLater);
+            }, Utils::ensureFxThread);
         });
     }
 }

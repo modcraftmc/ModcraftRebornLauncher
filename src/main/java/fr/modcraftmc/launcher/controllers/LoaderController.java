@@ -3,9 +3,9 @@ package fr.modcraftmc.launcher.controllers;
 import fr.modcraftmc.launcher.AsyncExecutor;
 import fr.modcraftmc.launcher.MFXMLLoader;
 import fr.modcraftmc.launcher.ModcraftApplication;
+import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.launcher.startup.ITaskResult;
 import fr.modcraftmc.launcher.startup.results.ValidateModcraftUserTaskResult;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -32,17 +32,17 @@ public class LoaderController extends BaseController {
 
             if (result.hasFailed()) {
                 Scene scene = MFXMLLoader.loadFxml("login.fxml", false);
-                Platform.runLater(() -> ModcraftApplication.switchScene(1300, 700,  scene));
+                ModcraftApplication.switchScene(1300, 700,  scene);
                 return;
             }
 
-            Platform.runLater(() -> loadingMessage.setText("Connecté!"));
+            Utils.ensureFxThread(() -> loadingMessage.setText("Connecté!"));
 
             ValidateModcraftUserTaskResult taskResult = ((ValidateModcraftUserTaskResult) result);
             ModcraftApplication.accountManager.setModcraftServiceUserProfile(taskResult);
             // Success
             Scene scene = MFXMLLoader.loadFxml("main_v2.fxml", false);
-            Platform.runLater(() -> ModcraftApplication.switchScene(1300, 700,  scene));
+            ModcraftApplication.switchScene(1300, 700,  scene);
         });
     }
 }

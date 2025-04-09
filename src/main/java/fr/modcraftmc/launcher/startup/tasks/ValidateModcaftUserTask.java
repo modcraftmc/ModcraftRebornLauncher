@@ -1,12 +1,12 @@
 package fr.modcraftmc.launcher.startup.tasks;
 
 
+import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.launcher.startup.RetryableTask;
 import fr.modcraftmc.launcher.startup.StartupTasksManager;
 import fr.modcraftmc.launcher.startup.results.ValidateMicrosoftUserTaskResult;
 import fr.modcraftmc.launcher.startup.results.ValidateModcraftUserTaskResult;
 import fr.modcraftmc.libs.api.ModcraftServiceUserProfile;
-import javafx.application.Platform;
 import javafx.scene.paint.Color;
 import net.raphimc.minecraftauth.step.java.StepMCProfile;
 
@@ -15,7 +15,7 @@ public class ValidateModcaftUserTask extends RetryableTask<ValidateMicrosoftUser
     @Override
     public ValidateModcraftUserTaskResult execute(StartupTasksManager tasksManager, ValidateMicrosoftUserTaskResult previousResult) {
         String loadMessageText = "Vérification du compte Modcraft... " + this.getFormatedTryCount();
-        Platform.runLater(() -> tasksManager.getLoadingMessage().setText(loadMessageText));
+        Utils.ensureFxThread(() -> tasksManager.getLoadingMessage().setText(loadMessageText));
 
         return execute(previousResult.mcProfile());
 

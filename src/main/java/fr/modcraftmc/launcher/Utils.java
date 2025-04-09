@@ -1,8 +1,8 @@
 package fr.modcraftmc.launcher;
 
 import com.sun.javafx.application.HostServicesDelegate;
-import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
+import javafx.application.Platform;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.media.Media;
@@ -11,12 +11,7 @@ import javafx.scene.media.MediaPlayer;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.attribute.PosixFilePermission;
 import java.security.MessageDigest;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 public class Utils {
@@ -41,7 +36,14 @@ public class Utils {
                 throw new RuntimeException(e);
             }
             return null;
-        });
+        }, AsyncExecutor::runAsync);
+    }
+
+    public static void ensureFxThread(Runnable runnable) {
+        if (Platform.isFxApplicationThread())
+            runnable.run();
+        else
+            Platform.runLater(runnable);
     }
 
     public static void selfCatchSleep(int ms) {

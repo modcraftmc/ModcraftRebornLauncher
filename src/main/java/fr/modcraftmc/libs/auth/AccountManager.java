@@ -5,10 +5,10 @@ import com.google.gson.JsonParser;
 import fr.modcraftmc.launcher.AsyncExecutor;
 import fr.modcraftmc.launcher.MFXMLLoader;
 import fr.modcraftmc.launcher.ModcraftApplication;
+import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.launcher.startup.results.ValidateModcraftUserTaskResult;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 import fr.modcraftmc.libs.popup.PopupBuilder;
-import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import net.lenni0451.commons.httpclient.HttpClient;
@@ -82,7 +82,7 @@ public class AccountManager {
                     AsyncExecutor.runAsync(() -> AccountManager.saveLoginInfos(javaSession));
                 return new AuthResult(true, javaSession.getMcProfile());
             } catch (TimeoutException exception) {
-                Platform.runLater(() -> {
+                Utils.ensureFxThread(() -> {
                     Alert popup = new PopupBuilder()
                             .setHeader("Une erreur est survenue")
                             .setText("Le délai de connexion a été dépassé.")
@@ -96,7 +96,7 @@ public class AccountManager {
 
             } catch (StepJfxWebViewMsaCode.UserClosedWindowException ignored) {
             } catch (Exception e) {
-                Platform.runLater(() -> {
+                Utils.ensureFxThread(() -> {
                     Exception microsoftApiError = new Exception("Impossible de contacter l'api Microsoft. Si le problème persiste, contactez-nous sur discord.");
                     ErrorsHandler.handleError(microsoftApiError);
                     ErrorsHandler.logException(e);
@@ -105,7 +105,7 @@ public class AccountManager {
                 });
             }
             return new AuthResult(false, null);
-        });
+        }, AsyncExecutor::runAsync);
     }
 
     public static AuthResult validate() {

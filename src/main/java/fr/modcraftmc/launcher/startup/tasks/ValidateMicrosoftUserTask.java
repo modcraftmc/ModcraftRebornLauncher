@@ -7,13 +7,12 @@ import fr.modcraftmc.launcher.startup.StartupTasksManager;
 import fr.modcraftmc.launcher.startup.results.NoopResult;
 import fr.modcraftmc.launcher.startup.results.ValidateMicrosoftUserTaskResult;
 import fr.modcraftmc.libs.auth.AccountManager;
-import javafx.application.Platform;
 
 public class ValidateMicrosoftUserTask extends RetryableTask<NoopResult, ValidateMicrosoftUserTaskResult> {
 
     @Override
     public ValidateMicrosoftUserTaskResult execute(StartupTasksManager tasksManager, NoopResult unused) {
-        Platform.runLater(() -> tasksManager.getLoadingMessage().setText("Vérification du compte Microsoft... " + this.getFormatedTryCount()));
+        Utils.ensureFxThread(() -> tasksManager.getLoadingMessage().setText("Vérification du compte Microsoft... " + this.getFormatedTryCount()));
         AccountManager.AuthResult authResult = AccountManager.validate();
         if (authResult.isLoggedIn()) {
             Utils.selfCatchSleep(1500);

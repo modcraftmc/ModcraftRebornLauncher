@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class AsyncExecutor {
 
     private static final ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor(new ModcraftThreadFactory("Scheduled task"));
-    private static final ExecutorService normalExecutorService = Executors.newFixedThreadPool(10, new ModcraftThreadFactory("Normal task"));
+    private static final ExecutorService normalExecutorService = Executors.newCachedThreadPool(new ModcraftThreadFactory("Normal task"));
 
     public static Future<?> runAsyncAtRate(Runnable runnable, int rate, TimeUnit unit) {
         return scheduledExecutorService.scheduleAtFixedRate(runnable, 0, rate, unit);

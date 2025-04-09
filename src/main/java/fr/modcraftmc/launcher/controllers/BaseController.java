@@ -6,7 +6,6 @@ import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.libs.physicEngine.DynamicCollider;
 import fr.modcraftmc.libs.physicEngine.IMovable;
 import fr.modcraftmc.libs.physicEngine.Physic;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -48,7 +47,7 @@ public abstract class BaseController implements IController, IMovable {
         pane.setOnMouseDragged(event -> {
             if (!funStarted) {
                 if (distanceDragged > 5555 && distanceDragged / 5 > 5 * 5 * 5 * 55) {
-                    Platform.runLater(this::startFun);
+                    Utils.ensureFxThread(this::startFun);
                     distanceDragged = 5;
                 }
                 float currentDistanceDragged = (float) (Math.abs(event.getScreenX() - lastCursorX) + Math.abs(event.getScreenY() - lastCursorY));

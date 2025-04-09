@@ -3,10 +3,10 @@ package fr.modcraftmc.launcher.controllers.settings;
 import fr.modcraftmc.api.ModcraftApiClient;
 import fr.modcraftmc.launcher.AsyncExecutor;
 import fr.modcraftmc.launcher.ModcraftApplication;
+import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.launcher.controllers.BaseController;
 import fr.modcraftmc.libs.api.ModcraftServiceUserProfile;
 import fr.modcraftmc.libs.popup.PopupBuilder;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -55,8 +55,8 @@ public class DebugController extends BaseController {
                     .setHeader("Attention")
                     .setText("API DEV")
                     .build();
-            Platform.runLater(alert::showAndWait);
-           ModcraftApplication.apiClient = new ModcraftApiClient("https://api.dev.modcraftmc.fr/v1");
+            Utils.ensureFxThread(alert::showAndWait);
+            ModcraftApplication.apiClient = new ModcraftApiClient("https://api.dev.modcraftmc.fr/v1");
             try {
                 ModcraftServiceUserProfile modcraftUser = ModcraftServiceUserProfile.getProfile(ModcraftApplication.accountManager.getCurrentMCProfile().getMcToken().getAccessToken());
             } catch (Exception e) {

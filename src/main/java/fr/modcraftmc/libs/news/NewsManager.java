@@ -44,10 +44,9 @@ public class NewsManager {
                 ((NewsContainerController) newsPane.getUserData()).setup(news);
                 buildedNewsContainers.add(newsPane);
             }
-            Platform.runLater(() -> newsUpdateCallback.onUpdate(buildedNewsContainers));
-
-        } catch (IOException | URISyntaxException e) {
-            throw new RuntimeException(e);
+            Utils.ensureFxThread(() -> newsUpdateCallback.onUpdate(buildedNewsContainers));
+        } catch (Exception e) {
+            ModcraftApplication.LOGGER.warning(e.getMessage());
         }
     }
 

@@ -1,7 +1,7 @@
 package fr.modcraftmc.libs.errors;
 
 import fr.modcraftmc.launcher.ModcraftApplication;
-import javafx.application.Platform;
+import fr.modcraftmc.launcher.Utils;
 import javafx.scene.control.Alert;
 
 import java.io.StringWriter;
@@ -11,7 +11,7 @@ public class ErrorsHandler {
     //TODO: use popup builder
     public static void handleErrorAndCrashApplication(Exception exception) {
         logException(exception);
-        Platform.runLater(() -> {
+        Utils.ensureFxThread(() -> {
             Alert alert = new Alert(Alert.AlertType.ERROR, exception.getMessage());
             alert.setTitle("ModcraftMC");
             alert.setHeaderText("Une erreur est survenue");
@@ -22,7 +22,7 @@ public class ErrorsHandler {
 
     public static void handleErrorWithCustomHeaderAndCrashApplication(String header, Exception exception) {
         logException(exception);
-        Platform.runLater(() -> {
+        Utils.ensureFxThread(() -> {
             Alert alert = new Alert(Alert.AlertType.ERROR, exception.getMessage());
             alert.setTitle("ModcraftMC");
             alert.setHeaderText(header);
@@ -33,7 +33,7 @@ public class ErrorsHandler {
 
     public static void handleError(Exception exception) {
         logException(exception);
-        Platform.runLater(() -> {
+        Utils.ensureFxThread(() -> {
             Alert alert = new Alert(Alert.AlertType.ERROR, exception.getMessage());
             alert.setTitle("ModcraftMC");
             alert.setHeaderText("Une erreur est survenue");
@@ -43,7 +43,7 @@ public class ErrorsHandler {
 
     public static void handleErrorWithCustomHeader(String header, Exception exception) {
         logException(exception);
-        Platform.runLater(() -> {
+        Utils.ensureFxThread(() -> {
             Alert alert = new Alert(Alert.AlertType.ERROR, exception.getMessage());
             alert.setTitle("ModcraftMC");
             alert.setHeaderText(header);

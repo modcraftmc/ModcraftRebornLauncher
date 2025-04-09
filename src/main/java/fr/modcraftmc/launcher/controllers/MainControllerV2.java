@@ -14,7 +14,6 @@ import fr.modcraftmc.libs.updater.GameUpdater;
 import fr.modcraftmc.libs.updater.ProgressCallback;
 import io.github.palexdev.materialfx.controls.MFXProgressBar;
 import io.github.palexdev.materialfx.controls.MFXProgressSpinner;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -132,7 +131,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                 MinecraftPingReply minecraftPing = new MinecraftPing().getPing("play.dev.modcraftmc.fr");
                 ModcraftApplication.LOGGER.info(String.format("Updating server status (%s/%s)", minecraftPing.getPlayers().getOnline(), minecraftPing.getPlayers().getMax()));
 
-                Platform.runLater(() -> {
+                Utils.ensureFxThread(() -> {
                     if (minecraftPing.getDescription().getText().contains("maintenance")) {
                         serverColor.setFill(Color.valueOf("#FE8E01"));
                         serverStatus.setText("Serveur en maintenance");
@@ -144,7 +143,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                     ModcraftApplication.discordManager.setPlayersCount(minecraftPing.getPlayers().getOnline(), minecraftPing.getPlayers().getMax());
                 });
             } catch (IOException e) {
-                Platform.runLater(() -> {
+                Utils.ensureFxThread(() -> {
                     serverColor.setFill(Color.valueOf("#FE0101"));
                     serverStatus.setText("Serveur hors ligne");
                     playersCount.setText(String.format("0/100 joueurs"));
@@ -162,23 +161,23 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                     alert.show();
                     updatePopupAlreadyShowed = true;
                     alert.setOnCloseRequest(dialogEvent -> {
-                        SelfUpdater.doUpdate(selfUpdateResult.bootstrapPath());
+                        AsyncExecutor.runAsync(() -> SelfUpdater.doUpdate(selfUpdateResult.bootstrapPath()));
                     });
                 }
-            }, Platform::runLater);
+            }, Utils::ensureFxThread);
         }, 10, 10, TimeUnit.MINUTES);
 
         AsyncExecutor.runAsync(() -> {
             Optional<ProcessHandle> process = ProcessHandle.of(ModcraftApplication.launcherConfig.latestGamePid());
 
             if (process.isPresent() && process.get().isAlive()) {
-                Platform.runLater(() -> setLauncherState(State.PLAYING));
+                Utils.ensureFxThread(() -> setLauncherState(State.PLAYING));
                 ModcraftApplication.discordManager.setState("En jeu");
                 process.get().onExit().join();
 
                 ModcraftApplication.LOGGER.info("Game process shutdown");
                 ModcraftApplication.discordManager.setState("sur le launcher");
-                Platform.runLater(() -> {
+                Utils.ensureFxThread(() -> {
                     ModcraftApplication.getWindow().setIconified(false);
                     setLauncherState(State.IDLE);
                 });
@@ -217,14 +216,14 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                         ModcraftApplication.launcherConfig.save();
 
                         if (!ModcraftApplication.launcherConfig.isKeepOpen())
-                            Platform.runLater(() -> ModcraftApplication.getWindow().setIconified(true));
+                            Utils.ensureFxThread(() -> ModcraftApplication.getWindow().setIconified(true));
 
-                        Platform.runLater(() -> setLauncherState(State.PLAYING));
+                        Utils.ensureFxThread(() -> setLauncherState(State.PLAYING));
                         process.waitFor();
 
                         ModcraftApplication.LOGGER.info("Game process shutdown");
                         ModcraftApplication.discordManager.setState("sur le launcher");
-                        Platform.runLater(() -> {
+                        Utils.ensureFxThread(() -> {
                             ModcraftApplication.getWindow().setIconified(false);
                             setLauncherState(State.IDLE);
                         });
@@ -328,7 +327,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
 
     @Override
     public void onProgressUpdate(String progress, int current, int max) {
-        Platform.runLater(() -> {
+        Utils.ensureFxThread(() -> {
             if (max > 0) {
                 progressBar.setProgress((double) current / max);
                 progressLabel.setText(progress + " " + current + "/" + max);

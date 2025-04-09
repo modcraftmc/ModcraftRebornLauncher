@@ -41,7 +41,7 @@ public class SelfUpdater {
             ModcraftApplication.LOGGER.info("update found!");
             //we got an update
             return new SelfUpdateResult(true, "1.0.0", "1.0.1", "https://www.youtube.com/watch?v=xvFZjo5PgG0", bootstrapPath);
-        });
+        }, AsyncExecutor::runAsync);
     }
 
     public static void doUpdate(String bootstrapPath) {
@@ -55,7 +55,7 @@ public class SelfUpdater {
             e.printStackTrace();
         }
 
-        System.exit(0);
+        ModcraftApplication.shutdown(0);
     }
 
     private static LauncherInfo getLauncherInfo() {
