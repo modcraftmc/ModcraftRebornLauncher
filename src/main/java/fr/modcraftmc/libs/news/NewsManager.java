@@ -5,16 +5,14 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import fr.modcraftmc.launcher.MFXMLLoader;
 import fr.modcraftmc.launcher.ModcraftApplication;
+import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.launcher.controllers.NewsContainerController;
-import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.io.IOUtils;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
