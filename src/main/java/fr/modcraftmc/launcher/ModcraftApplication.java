@@ -55,9 +55,7 @@ public class ModcraftApplication extends Application {
         launcherConfig.save();
         AsyncExecutor.shutdown();
         Platform.exit();
-        System.exit(code);
-        Runtime.getRuntime().halt(code);
-    }
+&&    }
 
     public static Stage getWindow() {
         return window;
@@ -106,11 +104,9 @@ public class ModcraftApplication extends Application {
         });
         AsyncExecutor.runAsync(() -> discordManager.start());
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            LogManager.getFileHandler().flush();
-            LogManager.getFileHandler().close();
-            launcherConfig.save();
-        }));
+        stage.setOnCloseRequest(event -> {
+            shutdown(0);
+        });
 
         gameInstanceManager.refreshInstances();
         Scene scene = MFXMLLoader.loadFxml(Constants.LOGIN_FXML, false);
