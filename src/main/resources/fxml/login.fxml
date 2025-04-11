@@ -1,103 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.*?>
+<?import io.github.palexdev.materialfx.controls.MFXProgressSpinner?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.*?>
-
-<AnchorPane prefHeight="700" prefWidth="1300" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.LoginController">
-   <children>
-      <Pane prefHeight="700.0" prefWidth="1300.0">
-         <children>
-            <ImageView fitHeight="700.0" fitWidth="1495.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/launcher_background.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="146.0" fitWidth="1300.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/top_background.png" />
-               </image>
-            </ImageView>
-            <Pane fx:id="welcomeContainer" layoutX="400.0" layoutY="196.0" prefHeight="400.0" prefWidth="500.0" styleClass="loginContainer" stylesheets="@../css/main.css">
-               <children>
-                  <Label layoutX="66.0" layoutY="27.0" text="Bienvenue sur ModcraftMC !" textFill="WHITE">
-                     <font>
+<?import java.lang.String?>
+<AnchorPane prefHeight="700.0" prefWidth="1300.0" styleClass="appContainer" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.LoginController">
+    <children>
+        <Pane prefHeight="94.0" prefWidth="1300.0">
+            <children>
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#262020" height="94.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1300.0" />
+                <SVGPath content="M321 17H1220.5L1244 36H1300V93H226L321 17Z" fill="#302a26" />
+                <SVGPath content="M226 93L321 17H330L234 93H226Z" fill="#fe8e01" />
+                <Pane layoutX="4.0" layoutY="11.0" prefHeight="73.0" prefWidth="260.0">
+                    <children>
+                        <Pane layoutY="2.0" prefHeight="70.0" prefWidth="70.0" styleClass="logo" />
+                        <Label layoutX="76.0" layoutY="5.0" prefHeight="45.0" prefWidth="180.0" text="MODCRAFTMC" textFill="#ffae00">
+                            <font>
+                                <Font name="System Bold" size="27.0" />
+                            </font>
+                            <styleClass>
+                                <String fx:value="specialText" />
+                                <String fx:value="lilita" />
+                            </styleClass>
+                        </Label>
+                        <Label layoutX="77.0" layoutY="38.0" prefHeight="33.0" prefWidth="165.0" styleClass="lilita" text="SURVIE MODDÉE 1.21" textFill="#dedede">
+                            <font>
+                                <Font name="System Bold" size="18.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </Pane>
+                <Pane fx:id="discordBtn" layoutX="974.0" layoutY="27.0" prefHeight="56.0" prefWidth="214.0" styleClass="discordBtn" stylesheets="@../css/main.css">
+                    <children>
+                        <ImageView fitHeight="32.0" fitWidth="28.0" layoutX="14.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../images/discord.png" />
+                            </image>
+                        </ImageView>
+                        <Label layoutX="67.0" layoutY="11.0" prefHeight="35.0" prefWidth="133.0" stylesheets="@../css/main.css" text="DISCORD" textFill="WHITE">
+                            <font>
+                                <Font name="Lilita One" size="30.0" />
+                            </font>
+                        </Label>
+                    </children></Pane>
+            </children>
+        </Pane>
+        <Pane fx:id="closeButton" layoutX="1278.0" layoutY="13.0" prefHeight="13.0" prefWidth="13.0" styleClass="closeButton">
+            <children>
+                <SVGPath content="M35.75 35.75L19.5 19.5M19.5 19.5L3.25 3.25M19.5 19.5L35.75 3.25M19.5 19.5L3.25 35.75" layoutX="-13.0" layoutY="-13.0" scaleX="0.3" scaleY="0.3" stroke="#3e3e3e" strokeLineCap="ROUND" strokeWidth="6.0" styleClass="closeButton" />
+            </children>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Pane>
+        <Pane fx:id="minimiseButton" layoutX="1246.0" layoutY="6.0" prefHeight="27.0" prefWidth="15.0">
+            <children>
+                <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="-1.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/minimise.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </Pane>
+        <Pane fx:id="welcomeContainer" layoutX="400.0" layoutY="196.0" prefHeight="400.0" prefWidth="500.0" styleClass="loginContainer" stylesheets="@../css/main.css">
+            <children>
+                <Label layoutX="66.0" layoutY="27.0" text="Bienvenue sur ModcraftMC !" textFill="WHITE">
+                    <font>
                         <Font name="Lilita One" size="30.0" />
-                     </font>
-                  </Label>
-                  <Pane fx:id="microsoftButton" layoutX="50.0" layoutY="311.0" prefHeight="50.0" prefWidth="400.0" styleClass="microsoftButton" stylesheets="@../css/main.css">
-                     <children>
+                    </font>
+                </Label>
+                <Pane fx:id="microsoftButton" layoutX="50.0" layoutY="311.0" prefHeight="50.0" prefWidth="400.0" styleClass="microsoftButton" stylesheets="@../css/main.css">
+                    <children>
                         <MFXProgressSpinner fx:id="loadingIndicator" layoutX="188.0" layoutY="13.0" minHeight="25.0" minWidth="25.0" mouseTransparent="true" prefHeight="20.0" prefWidth="20.0" startingAngle="0.0">
-                           <color1>
-                              <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
-                           </color1>
-                           <color2>
-                              <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
-                           </color2>
-                           <color3>
-                              <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
-                           </color3>
-                           <color4>
-                              <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
-                           </color4>
+                            <color1>
+                                <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
+                            </color1>
+                            <color2>
+                                <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
+                            </color2>
+                            <color3>
+                                <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
+                            </color3>
+                            <color4>
+                                <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
+                            </color4>
                         </MFXProgressSpinner>
                         <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="14.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/microsoft.png" />
-                           </image>
+                            <image>
+                                <Image url="@../images/microsoft.png" />
+                            </image>
                         </ImageView>
                         <Label fx:id="microsoftText" layoutX="99.0" layoutY="13.0" text="Se connecter avec Microsoft" textFill="WHITE">
-                           <font>
-                              <Font name="Lilita One" size="20.0" />
-                           </font>
+                            <font>
+                                <Font name="Lilita One" size="20.0" />
+                            </font>
                         </Label>
-                     </children></Pane>
-               </children></Pane>
-            <Pane fx:id="loadingContainer" layoutX="550.0" layoutY="609.0" opacity="0.0" prefHeight="77.0" prefWidth="200.0">
-               <children>
-                  <Label fx:id="loadingMessage" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="53.0" prefHeight="21.0" prefWidth="171.0" text="Chargement du launcher" textFill="WHITE" wrapText="true">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Label>
-                  <MFXProgressSpinner fx:id="playIndicator" layoutX="86.0" layoutY="6.0" mouseTransparent="true" prefHeight="33.0" prefWidth="28.0" startingAngle="0.0">
-                     <color1>
-                        <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
-                     </color1>
-                     <color2>
-                        <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
-                     </color2>
-                     <color3>
-                        <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
-                     </color3>
-                     <color4>
-                        <Color red="1.0" green="1.0" blue="1.0" opacity="0.800000011920929" />
-                     </color4>
-                  </MFXProgressSpinner>
-               </children>
-            </Pane>
-            <Pane fx:id="closeButton" layoutX="1278.0" layoutY="13.0" prefHeight="13.0" prefWidth="13.0">
-               <children>
-                  <ImageView fitHeight="150.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/close.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </Pane>
-            <Pane fx:id="minimiseButton" layoutX="1246.0" layoutY="6.0" prefHeight="27.0" prefWidth="15.0">
-               <children>
-                  <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="-1.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/minimise.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </Pane>
-         </children>
-      </Pane>
-   </children>
+                    </children>
+                </Pane>
+            </children>
+        </Pane>
+    </children>
 </AnchorPane>
