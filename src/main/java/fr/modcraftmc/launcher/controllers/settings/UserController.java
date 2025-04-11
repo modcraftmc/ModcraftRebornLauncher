@@ -1,5 +1,6 @@
 package fr.modcraftmc.launcher.controllers.settings;
 
+import fr.modcraftmc.launcher.Constants;
 import fr.modcraftmc.launcher.MFXMLLoader;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.controllers.BaseController;
@@ -39,7 +40,7 @@ public class UserController extends BaseController {
         logoutBtn.setOnMouseClicked((event) -> {
             ModcraftApplication.launcherConfig.setRefreshToken("");
             ModcraftApplication.launcherConfig.save();
-            Scene loginScene = MFXMLLoader.loadFxml("login.fxml", true);
+            Scene loginScene = MFXMLLoader.loadFxml(Constants.LOGIN_FXML, true);
             ModcraftApplication.switchScene(-1, -1, loginScene);
         });
 

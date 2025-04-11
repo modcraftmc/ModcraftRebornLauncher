@@ -2,10 +2,7 @@ package fr.modcraftmc.libs.auth;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import fr.modcraftmc.launcher.AsyncExecutor;
-import fr.modcraftmc.launcher.MFXMLLoader;
-import fr.modcraftmc.launcher.ModcraftApplication;
-import fr.modcraftmc.launcher.Utils;
+import fr.modcraftmc.launcher.*;
 import fr.modcraftmc.launcher.startup.results.ValidateModcraftUserTaskResult;
 import fr.modcraftmc.libs.errors.ErrorsHandler;
 import fr.modcraftmc.libs.popup.PopupBuilder;
@@ -89,7 +86,7 @@ public class AccountManager {
                             .build();
                     popup.show();
                     ErrorsHandler.logException(exception);
-                    Scene scene = MFXMLLoader.loadFxml("login.fxml", true);
+                    Scene scene = MFXMLLoader.loadFxml(Constants.LOGIN_FXML, true);
                     ModcraftApplication.switchScene(-1, -1, scene);
                 });
                 return new AuthResult(false, null);
@@ -100,7 +97,7 @@ public class AccountManager {
                     Exception microsoftApiError = new Exception("Impossible de contacter l'api Microsoft. Si le problème persiste, contactez-nous sur discord.");
                     ErrorsHandler.handleError(microsoftApiError);
                     ErrorsHandler.logException(e);
-                    Scene scene = MFXMLLoader.loadFxml("login.fxml", true);
+                    Scene scene = MFXMLLoader.loadFxml(Constants.LOGIN_FXML, true);
                     ModcraftApplication.switchScene(-1, -1, scene);
                 });
             }

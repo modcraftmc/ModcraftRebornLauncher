@@ -1,9 +1,6 @@
 package fr.modcraftmc.launcher.controllers;
 
-import fr.modcraftmc.launcher.AsyncExecutor;
-import fr.modcraftmc.launcher.MFXMLLoader;
-import fr.modcraftmc.launcher.ModcraftApplication;
-import fr.modcraftmc.launcher.Utils;
+import fr.modcraftmc.launcher.*;
 import fr.modcraftmc.launcher.startup.tasks.ValidateModcaftUserTask;
 import fr.modcraftmc.libs.auth.AccountManager;
 import io.github.palexdev.materialfx.controls.MFXProgressSpinner;
@@ -52,7 +49,7 @@ public class LoginController extends BaseController {
 
                         ModcraftApplication.accountManager.setModcraftServiceUserProfile(ValidateModcaftUserTask.execute(authResult.getMcProfile()));
 
-                        Scene scene = MFXMLLoader.loadFxml("main_v2.fxml", true);
+                        Scene scene = MFXMLLoader.loadFxml(Constants.MAIN_FXML, true);
                         ModcraftApplication.switchScene(-1, -1, scene);
                     }, AsyncExecutor::runAsync);
                     return;

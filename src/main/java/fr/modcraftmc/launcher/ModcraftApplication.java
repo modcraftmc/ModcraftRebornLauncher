@@ -113,9 +113,9 @@ public class ModcraftApplication extends Application {
         }));
 
         gameInstanceManager.refreshInstances();
-        Scene scene = MFXMLLoader.loadFxml("login.fxml", false);
-        Scene mainScene = MFXMLLoader.loadFxml("loader.fxml", false);
-        stage.setScene(mainScene);
+        Scene scene = MFXMLLoader.loadFxml(Constants.LOGIN_FXML, false);
+        Scene loaderScene = MFXMLLoader.loadFxml(Constants.LOADER_FXML, false);
+        stage.setScene(loaderScene);
         stage.show();
         stage.centerOnScreen();
     }
