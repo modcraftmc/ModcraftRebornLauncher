@@ -55,7 +55,7 @@ public class ModcraftApplication extends Application {
         launcherConfig.save();
         AsyncExecutor.shutdown();
         Platform.exit();
-&&    }
+   }
 
     public static Stage getWindow() {
         return window;
