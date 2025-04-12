@@ -1,8 +1,6 @@
 plugins {
     id 'java'
     id 'application'
-    id 'org.javamodularity.moduleplugin' version '1.8.12'
-    id 'org.openjfx.javafxplugin' version '0.1.0'
     id 'com.github.johnrengelman.shadow' version '8.1.0'
 }
 
@@ -46,7 +44,7 @@ dependencies {
     implementation group: 'net.raphimc', name: 'MinecraftAuth', version: '4.1.1'
     implementation 'com.github.JnCrMx:discord-game-sdk4j:v1.0.0'
 
-    def javafxVersion = '23'
+    def javafxVersion = '21'
     def javafxModules = ['base', 'controls', 'fxml', 'graphics', 'web', 'swing', 'media']
     def platforms = ['win', 'mac', 'linux']
 
@@ -81,11 +79,4 @@ shadowJar {
 application {
     mainModule = 'fr.modcraftmc.launcher'
     mainClass = 'fr.modcraftmc.launcher.PrimaryLauncher'
-}
-
-javafx {
-    version = '17'
-    modules = [  'javafx.base', 'javafx.graphics', 'javafx.controls', 'javafx.fxml', 'javafx.web']
-    mainClassName = "fr.modcraftmc.launcher.PrimaryLauncher"
-    platform = 'windows'
 }

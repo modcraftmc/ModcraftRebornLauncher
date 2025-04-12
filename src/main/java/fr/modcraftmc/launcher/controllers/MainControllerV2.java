@@ -96,8 +96,6 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
         playerRank.setTextFill(result.getPlayerRankInfos().color());
         playerRank.setText(result.getPlayerRankInfos().name());
 
-        ModcraftApplication.LOGGER.warning("account name " + mcProfile.getName());
-
         playerName.setText(mcProfile.getName());
         try {
             Image image = new Image(new URL("https://minotar.net/avatar/" + mcProfile.getName()).openStream(), 64, 64, false, false);

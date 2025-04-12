@@ -99,9 +99,6 @@ public class ModcraftApplication extends Application {
         stage.initStyle(StageStyle.UNDECORATED);
         stage.getIcons().add(new Image(resourcesManager.getResourceAsStream("favicon.png")));
 
-        discordManager.setOnLoaded(() -> {
-           discordManager.setState("sur le launcher");
-        });
         AsyncExecutor.runAsync(() -> discordManager.start());
 
         stage.setOnCloseRequest(event -> {

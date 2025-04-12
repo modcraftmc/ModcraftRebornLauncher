@@ -18,7 +18,6 @@ public class DiscordManager {
     private Core core;
     private Activity activity;
     private boolean isLoaded = false;
-    private Runnable onLoaded;
 
     public void start() {
         if (!ModcraftApplication.launcherConfig.isDiscordActivityEnabled())
@@ -52,13 +51,10 @@ public class DiscordManager {
                 this.isRunning = true;
                 this.LOGGER.info("Discord Activity loaded");
 
-                if (onLoaded != null)
-                    onLoaded.run();
-
                 while(isRunning) {
                         core.runCallbacks();
                         try {
-                            Thread.sleep(12);
+                            Thread.sleep(16);
                         }
                         catch(InterruptedException ignored) {}
                 }
@@ -68,9 +64,6 @@ public class DiscordManager {
         }
     }
 
-    public void setOnLoaded(Runnable onLoaded) {
-        this.onLoaded = onLoaded;
-    }
 
     public void stop() {
         if (!isLoaded)
