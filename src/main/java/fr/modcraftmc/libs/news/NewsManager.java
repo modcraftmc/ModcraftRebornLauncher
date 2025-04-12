@@ -27,9 +27,9 @@ public class NewsManager {
 
         ModcraftApplication.LOGGER.info("Fetching news asynchronously ");
         try {
-            URL newsUrl = new URI("https://api.modcraftmc.fr/v1/news").toURL();
-             // newsUrl = new URL("http://localhost:3000/v1/news");
-            newsUrl = new URI("https://download.modcraftmc.fr/news.json").toURL();
+            //TODO: define api endpoints in modcraft api client ?
+            // like ModcraftApiClient.instance().getNews()
+            URL newsUrl = new URI(ModcraftApplication.ENVIRONMENT.getApiUrl() + "/news").toURL();
             String content = IOUtils.toString(newsUrl, StandardCharsets.UTF_8);
             List<News> newsList = GSON.fromJson(content, listType);
 
