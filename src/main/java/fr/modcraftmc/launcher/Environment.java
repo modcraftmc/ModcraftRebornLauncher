@@ -14,12 +14,14 @@ public class Environment {
         OTHERS
     }
 
-    private ENV env;
-    private OS os;
+    private final ENV env;
+    private final OS os;
+    private final String apiUrl;
 
-    public Environment(ENV environment, OS operatingSystem) {
+    public Environment(ENV environment, OS operatingSystem, String apiUrl) {
         this.env = environment;
         this.os = operatingSystem;
+        this.apiUrl = apiUrl;
     }
 
     public ENV getEnv() {
@@ -30,8 +32,12 @@ public class Environment {
         return os;
     }
 
+    public String getApiUrl() {
+        return apiUrl;
+    }
+
     @Override
     public String toString() {
-        return "Environment: " + env + ", OS: " + os;
+        return "Environment: " + env + ", OS: " + os + ", API URL: " + apiUrl;
     }
 }

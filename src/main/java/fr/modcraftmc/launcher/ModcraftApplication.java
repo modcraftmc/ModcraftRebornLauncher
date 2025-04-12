@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 
 public class ModcraftApplication extends Application {
 
-    public static Environment ENVIRONMENT = new Environment(Environment.ENV.DEV, Utils.getOS());
+    public static Environment ENVIRONMENT = new Environment(Environment.ENV.DEV, Utils.getOS(), "https://api.dev.modcraftmc.fr/v1");
     public static ResourcesManager resourcesManager = new ResourcesManager();
     public static FilesManager filesManager = new FilesManager();
     public static Logger LOGGER;
@@ -73,12 +73,12 @@ public class ModcraftApplication extends Application {
         try {
             Attributes attributes = ModcraftApplication.getManifest().getMainAttributes();
             String buildType = attributes.getValue("Build-Type");
-            ENVIRONMENT = new Environment(Environment.ENV.valueOf(buildType), Utils.getOS());
+            ENVIRONMENT = new Environment(Environment.ENV.valueOf(buildType), Utils.getOS(), "https://api.modcraftmc.fr/v1");
             BUILD_TIME = attributes.getValue("Build-Time");
         } catch (Exception e) {
             //huh
         }
-        apiClient = new fr.modcraftmc.api.ModcraftApiClient(ENVIRONMENT.getEnv() == Environment.ENV.PROD ? "https://api.modcraftmc.fr/v1" : "https://api.dev.modcraftmc.fr/v1");
+        apiClient = new fr.modcraftmc.api.ModcraftApiClient(ModcraftApplication.ENVIRONMENT.getApiUrl());
         filesManager.init();
         LogManager.init();
 
@@ -127,5 +127,14 @@ public class ModcraftApplication extends Application {
             if (shouldHideAndCenter)
                 ModcraftApplication.getWindow().centerOnScreen();
         });
+    }
+
+    public static void useDevApi() {
+        ENVIRONMENT = new Environment(Environment.ENV.DEV, Utils.getOS(), "https://api.dev.modcraftmc.fr/v1");
+        ModcraftApplication.forceDevApi = true;
+
+        //update stuff related to the api
+        //could cause a race condition if the news update scheduled task run at the same time
+        ModcraftApplication.newsManager.fetchNews();
     }
 }

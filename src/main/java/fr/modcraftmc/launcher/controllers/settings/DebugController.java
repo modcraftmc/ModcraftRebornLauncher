@@ -50,13 +50,13 @@ public class DebugController extends BaseController {
             devApiBtn.setVisible(false);
 
         devApiBtn.setOnMouseClicked((event) -> {
-            ModcraftApplication.forceDevApi = true;
+            ModcraftApplication.useDevApi();
             Alert alert = new PopupBuilder()
                     .setHeader("Attention")
                     .setText("API DEV")
                     .build();
             Utils.ensureFxThread(alert::showAndWait);
-            ModcraftApplication.apiClient = new ModcraftApiClient("https://api.dev.modcraftmc.fr/v1");
+            ModcraftApplication.apiClient = new ModcraftApiClient(ModcraftApplication.ENVIRONMENT.getApiUrl());
             try {
                 ModcraftServiceUserProfile modcraftUser = ModcraftServiceUserProfile.getProfile(ModcraftApplication.accountManager.getCurrentMCProfile().getMcToken().getAccessToken());
             } catch (Exception e) {
