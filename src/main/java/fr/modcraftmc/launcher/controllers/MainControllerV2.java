@@ -295,6 +295,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
             case IDLE -> {
                 progressBar.setVisible(false);
                 progressLabel.setVisible(false);
+                progressLabel.setText(""); // reset test
                 playBtn.setVisible(true);
 //                play.setDisable(false);
 //                progressBarOutAnimation();
