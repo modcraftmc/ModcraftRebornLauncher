@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 
 public class ModcraftApplication extends Application {
 
-    public static Environment ENVIRONMENT = new Environment(Environment.ENV.DEV, Utils.getOS(), "https://api.dev.modcraftmc.fr/v1");
+    public static Environment ENVIRONMENT = new Environment(Utils.getOS(), "https://api.modcraftmc.fr/v1", "https://api.dev.modcraftmc.fr/v1");
     public static ResourcesManager resourcesManager = new ResourcesManager();
     public static FilesManager filesManager = new FilesManager();
     public static Logger LOGGER;
@@ -73,11 +73,12 @@ public class ModcraftApplication extends Application {
         try {
             Attributes attributes = ModcraftApplication.getManifest().getMainAttributes();
             String buildType = attributes.getValue("Build-Type");
-            ENVIRONMENT = new Environment(Environment.ENV.valueOf(buildType), Utils.getOS(), "https://api.modcraftmc.fr/v1");
             BUILD_TIME = attributes.getValue("Build-Time");
+            ModcraftApplication.ENVIRONMENT.setEnv(Environment.ENV.valueOf(buildType));
         } catch (Exception e) {
-            //huh
+            ModcraftApplication.ENVIRONMENT.setEnv(Environment.ENV.DEV); // Running in IDE
         }
+
         apiClient = new fr.modcraftmc.api.ModcraftApiClient(ModcraftApplication.ENVIRONMENT.getApiUrl());
         filesManager.init();
         LogManager.init();
@@ -130,7 +131,7 @@ public class ModcraftApplication extends Application {
     }
 
     public static void useDevApi() {
-        ENVIRONMENT = new Environment(Environment.ENV.DEV, Utils.getOS(), "https://api.dev.modcraftmc.fr/v1");
+        ModcraftApplication.ENVIRONMENT.setEnv(Environment.ENV.DEV);
         ModcraftApplication.forceDevApi = true;
 
         //update stuff related to the api

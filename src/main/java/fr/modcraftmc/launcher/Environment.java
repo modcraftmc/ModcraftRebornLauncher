@@ -14,14 +14,15 @@ public class Environment {
         OTHERS
     }
 
-    private final ENV env;
+    private ENV env;
     private final OS os;
-    private final String apiUrl;
+    private final String prodApiUrl;
+    private final String devApiUrl;
 
-    public Environment(ENV environment, OS operatingSystem, String apiUrl) {
-        this.env = environment;
+    public Environment(OS operatingSystem, String prodApiUrl, String devApiUrl) {
         this.os = operatingSystem;
-        this.apiUrl = apiUrl;
+        this.prodApiUrl = prodApiUrl;
+        this.devApiUrl = devApiUrl;
     }
 
     public ENV getEnv() {
@@ -32,12 +33,19 @@ public class Environment {
         return os;
     }
 
+    public void setEnv(ENV environment) {
+        this.env = environment;
+    }
+
     public String getApiUrl() {
-        return apiUrl;
+        if (this.env == ENV.DEV) {
+            return this.devApiUrl;
+        }
+        return this.prodApiUrl;
     }
 
     @Override
     public String toString() {
-        return "Environment: " + env + ", OS: " + os + ", API URL: " + apiUrl;
+        return "Environment: " + env + ", OS: " + os + "CurrentApiUrl: " + this.getApiUrl();
     }
 }
