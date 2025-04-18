@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.*?>
 <?import java.lang.String?>
-<AnchorPane prefHeight="700.0" prefWidth="1300.0" styleClass="appContainer" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.LoginController">
+<AnchorPane prefHeight="700.0" prefWidth="1300.0" styleClass="appContainer" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/24" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.LoginController">
     <children>
         <Pane prefHeight="94.0" prefWidth="1300.0">
             <children>
@@ -105,5 +105,10 @@
                 </Pane>
             </children>
         </Pane>
+      <Label fx:id="loadingMessage" alignment="CENTER" layoutX="568.0" layoutY="633.0" prefHeight="19.0" prefWidth="165.0" text="login status" textFill="WHITE">
+         <font>
+            <Font name="Lilita One" size="15.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

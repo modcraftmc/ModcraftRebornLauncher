@@ -30,12 +30,14 @@ public class LoginController extends BaseController {
     public void initialize(FXMLLoader loader) throws Exception {
         super.initialize(loader);
         loadingIndicator.setVisible(false);
+        loadingMessage.setText("");
 
         microsoftButton.setOnMouseClicked(event -> {
             microsoftButton.setDisable(true);
 
             loadingIndicator.setVisible(true);
             microsoftText.setVisible(false);
+            loadingMessage.setText("En attente de la connexion...");
 
             AccountManager.authenticate().thenAcceptAsync(authResult -> {
                 if (authResult.isLoggedIn()) {
@@ -58,6 +60,7 @@ public class LoginController extends BaseController {
                 microsoftButton.setDisable(false);
                 loadingIndicator.setVisible(false);
                 microsoftText.setVisible(true);
+                loadingMessage.setText("");
 
             }, Utils::ensureFxThread);
         });
