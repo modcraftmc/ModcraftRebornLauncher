@@ -13,9 +13,11 @@ import fr.modcraftmc.libs.discord.DiscordManager;
 import fr.modcraftmc.libs.news.NewsManager;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -82,10 +84,12 @@ public class ModcraftApplication extends Application {
         apiClient = new fr.modcraftmc.api.ModcraftApiClient(ModcraftApplication.ENVIRONMENT.getApiUrl());
         filesManager.init();
         LogManager.init();
-
         LOGGER = LogManager.createLogger("ModcraftLauncher");
         LOGGER.info("ModcraftLauncher started in " + ENVIRONMENT + ". (" + BUILD_TIME + ")" + "(" + FilesManager.DEFAULT_PATH + ")");
         launcherConfig = LauncherConfig.load(filesManager.getOptionsPath());
+
+        ModcraftApplication.LOGGER.info(ModcraftApplication.ENVIRONMENT.getApiUrl());
+
         if (launcherConfig.getInstanceProperty() == null) {
             launcherConfig.setInstanceProperty(new InstanceProperty(false, ""));
             isFirstLaunch = true;
@@ -111,7 +115,11 @@ public class ModcraftApplication extends Application {
         Scene loaderScene = MFXMLLoader.loadFxml(Constants.LOADER_FXML, false);
         stage.setScene(loaderScene);
         stage.show();
-        stage.centerOnScreen();
+
+        // note: javafx center on screen impl is not the same as swing(bootstrap), so we need to do it manually
+        Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+        stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
+        stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
     }
 
     // if width or height is set to -1, use the last value
