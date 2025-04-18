@@ -1,5 +1,6 @@
 package fr.modcraftmc.launcher.controllers.settings;
 
+import com.sun.management.OperatingSystemMXBean;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.configuration.InstanceProperty;
 import fr.modcraftmc.launcher.controllers.BaseController;
@@ -14,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 
 import java.io.File;
+import java.lang.management.ManagementFactory;
 
 public class GameController extends BaseController {
 
@@ -35,7 +37,7 @@ public class GameController extends BaseController {
     public void initialize(FXMLLoader loader) {
 
         ramSlider.setMin(4);
-        ramSlider.setMax(16);
+        ramSlider.setMax(Math.min(this.getUsableRam(), 16));
         ramSlider.setValue(ModcraftApplication.launcherConfig.getRam());
         ramText.setText(String.format("%s Gb", (int) ramSlider.getValue()));
 
@@ -78,5 +80,13 @@ public class GameController extends BaseController {
             ModcraftApplication.launcherConfig.setKeepOpen(keepLauncherOpen.isSelected());
             ModcraftApplication.launcherConfig.save();
         });
+    }
+
+    private int getUsableRam() {
+        OperatingSystemMXBean osBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+        long totalMemoryBytes = osBean.getTotalPhysicalMemorySize();
+        long totalMemoryGB = totalMemoryBytes / (1024 * 1024 * 1024);
+
+        return (int) totalMemoryGB;
     }
 }
