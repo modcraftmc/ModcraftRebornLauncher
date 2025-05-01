@@ -24,7 +24,7 @@ jobs:
               BUILDPROD: ${{ github.ref_name == 'main' }}
           - name: Upload File to our api (prod)
             if: ${{ github.ref_name == 'main' }}
-            id: upload
+            id: upload-prod
             uses: modcraftmc/upload-artifact-action@1.7
             with:
              url: https://api.modcraftmc.fr/v1/updater/launcher
@@ -32,7 +32,7 @@ jobs:
              fileForms: '{"launcher":"build/libs/launcher.jar"}'
           - name: Upload File to our api (DEV)
             if: ${{ github.ref_name == 'dev' }}
-            id: upload
+            id: upload-dev
             uses: modcraftmc/upload-artifact-action@1.7
             with:
               url: https://api.dev.modcraftmc.fr/v1/updater/launcher
