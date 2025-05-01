@@ -3,6 +3,7 @@ on:
     push:
         branches:
         - main
+        - dev
 jobs:
     build:
         runs-on: ['manu-homelab']
@@ -20,11 +21,20 @@ jobs:
             with:
               arguments: build
             env:
-              BUILDPROD: true
-          - name: Upload File to our api
+              BUILDPROD: ${{ github.ref_name == 'main' }}
+          - name: Upload File to our api (prod)
+            if: ${{ github.ref_name == 'main' }}
             id: upload
             uses: modcraftmc/upload-artifact-action@1.7
             with:
              url: https://api.modcraftmc.fr/v1/updater/launcher
              bearerAuthorization: ${{ secrets.API_KEY }}
              fileForms: '{"launcher":"build/libs/launcher.jar"}'
+          - name: Upload File to our api (DEV)
+            if: ${{ github.ref_name == 'dev' }}
+            id: upload
+            uses: modcraftmc/upload-artifact-action@1.7
+            with:
+              url: https://api.dev.modcraftmc.fr/v1/updater/launcher
+              bearerAuthorization: ${{ secrets.DEV_API_KEY }}
+              fileForms: '{"launcher":"build/libs/launcher.jar"}'
