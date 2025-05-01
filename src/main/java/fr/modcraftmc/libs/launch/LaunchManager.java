@@ -12,6 +12,7 @@ import net.raphimc.minecraftauth.step.java.StepMCProfile;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.List;
 
 public class LaunchManager {
 
@@ -38,10 +39,12 @@ public class LaunchManager {
                 JavaUtil.setJavaCommand(new File(FilesManager.JAVA_PATH, "/bin/java").getPath());
             }
         }
-        ModcraftApplication.LOGGER.info("launching");
+        ModcraftApplication.LOGGER.info("launching ");
         noFramework.getAdditionalVmArgs().add((String.format("-Xmx%sG", ModcraftApplication.launcherConfig.getRam())));
         noFramework.getAdditionalVmArgs().add("-Djava.net.preferIPv4Stack=true");
-        noFramework.getAdditionalArgs().add("-XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true");
+        //TODO: user configurable vm arguments??
+        noFramework.getAdditionalVmArgs().addAll(List.of("-XX:+UseZGC", "-XX:+ZGenerational", "-XX:+UseStringDeduplication"));
+        //noFramework.getAdditionalArgs().add("-XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true");
         return noFramework.launch(ModcraftApplication.MC_VERSION, ModcraftApplication.NEOFORGE_VERSION, NoFramework.ModLoader.NEO_FORGE);
     }
 }
