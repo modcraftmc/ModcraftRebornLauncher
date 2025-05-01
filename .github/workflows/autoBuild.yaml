@@ -9,7 +9,7 @@ jobs:
         runs-on: ['manu-homelab']
         steps:
           - name: Checkout
-            uses: actions/checkout@v2
+            uses: actions/checkout@v4
           - name: Setup Java
             uses: actions/setup-java@v4.7.1
             with:
@@ -17,10 +17,10 @@ jobs:
               java-version: '21'
           - name: Run chmod to make gradlew executable
             run: chmod +x ./gradlew
-          - name: Build
-            uses: gradle/gradle-build-action@v2
-            with:
-              arguments: build
+          - name: Setup Gradle
+            uses: gradle/actions/setup-gradle@v4
+          - name: Build with Gradle
+            run: ./gradlew build
             env:
               BUILDPROD: ${{ github.ref_name == 'main' }}
           - name: Upload File to our api (prod)
