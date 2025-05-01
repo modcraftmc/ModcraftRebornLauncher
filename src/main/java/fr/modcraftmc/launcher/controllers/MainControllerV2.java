@@ -225,6 +225,10 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
                             ModcraftApplication.getWindow().setIconified(false);
                             setLauncherState(State.IDLE);
                         });
+
+                        if (process.exitValue() != 0)
+                            throw new Exception("Erreur lors du lancement du jeu. Code : " + process.exitValue());
+
                     } catch (Exception e) {
                         ErrorsHandler.handleError(e);
                     }
