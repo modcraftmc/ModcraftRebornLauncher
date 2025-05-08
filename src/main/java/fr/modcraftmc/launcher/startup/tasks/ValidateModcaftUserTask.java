@@ -1,6 +1,7 @@
 package fr.modcraftmc.launcher.startup.tasks;
 
 
+import fr.modcraftmc.api.exception.RemoteException;
 import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.launcher.startup.RetryableTask;
 import fr.modcraftmc.launcher.startup.StartupTasksManager;
@@ -39,7 +40,10 @@ public class ValidateModcaftUserTask extends RetryableTask<ValidateMicrosoftUser
             return new ValidateModcraftUserTaskResult(modcraftUser, new ValidateModcraftUserTaskResult.PlayerRankInfos(finalText, finalColor));
 
         } catch (Exception e) {
-            return ValidateModcraftUserTaskResult.createError(new Exception("Impossible de contacter notre API." + e));
+            if(e instanceof RemoteException remoteException)
+                return ValidateModcraftUserTaskResult.createError(new Exception("Erreur de l'API : " + remoteException.getMessage()));
+            else
+                return ValidateModcraftUserTaskResult.createError(new Exception("Impossible de contacter notre API." + e));
         }
     }
 
