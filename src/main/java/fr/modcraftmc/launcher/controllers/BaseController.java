@@ -90,17 +90,19 @@ public abstract class BaseController implements IController, IMovable {
         AsyncExecutor.runAsync(() -> {
             ModcraftApplication.LOGGER.info("Fun started !");
             while (funStarted) {
-                Utils.pleaseWait(1000);
+                Utils.selfCatchSleep(1000);
                 ModcraftApplication.LOGGER.info(String.valueOf(Math.abs(ModcraftApplication.getWindow().getX()) + Math.abs(ModcraftApplication.getWindow().getY())));
                 if(Math.abs(ModcraftApplication.getWindow().getX()) + Math.abs(ModcraftApplication.getWindow().getY()) > 10000){
                     ModcraftApplication.LOGGER.info("You had too much fun, you will now be redirected to the launcher !");
                     Physic.stopEngine();
                     funStarted = false;
                     setPos(new Vec2d(Screen.getPrimary().getBounds().getWidth() / 2, Screen.getPrimary().getBounds().getHeight() / 2));
-                    Alert tooMuchFun = new Alert(Alert.AlertType.ERROR, "You had too much fun, you will now be redirected to the launcher !");
-                    tooMuchFun.setHeaderText("Too much fun !");
-                    tooMuchFun.setTitle("ModcraftMC");
-                    tooMuchFun.showAndWait();
+                    Utils.ensureFxThread(() -> {
+                        Alert tooMuchFun = new Alert(Alert.AlertType.ERROR, "You had too much fun, you will now be redirected to the launcher !");
+                        tooMuchFun.setHeaderText("Too much fun !");
+                        tooMuchFun.setTitle("ModcraftMC");
+                        tooMuchFun.showAndWait();
+                    });
                 }
             }
         });
