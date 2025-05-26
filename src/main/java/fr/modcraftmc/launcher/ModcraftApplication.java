@@ -86,7 +86,7 @@ public class ModcraftApplication extends Application {
         LogManager.init();
         LOGGER = LogManager.createLogger("ModcraftLauncher");
         LOGGER.info("ModcraftLauncher started in " + ENVIRONMENT + ". (" + BUILD_TIME + ")" + "(" + FilesManager.DEFAULT_PATH + ")");
-        launcherConfig = LauncherConfig.load(filesManager.getOptionsPath());
+        launcherConfig = LauncherConfig.load(FilesManager.OPTIONS_FILE.toFile());
 
         ModcraftApplication.LOGGER.info(ModcraftApplication.ENVIRONMENT.getApiUrl());
 

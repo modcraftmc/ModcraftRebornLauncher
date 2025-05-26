@@ -48,8 +48,8 @@ public class SelfUpdater {
         ModcraftApplication.LOGGER.info("launching bootstrap");
         try {
             ProcessBuilder builder = new ProcessBuilder();
-            builder.directory(FilesManager.LAUNCHER_PATH);
-            builder.command(FilesManager.JAVA_PATH.getPath() + "/bin/java", "-jar", bootstrapPath);
+            builder.directory(FilesManager.LAUNCHER_JAR.toFile());
+            builder.command(FilesManager.JAVA_EXE.toString(), "-jar", bootstrapPath);
             builder.start();
         } catch (IOException e) {
             e.printStackTrace();

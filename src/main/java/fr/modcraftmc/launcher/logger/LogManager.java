@@ -2,7 +2,6 @@ package fr.modcraftmc.launcher.logger;
 
 import fr.modcraftmc.launcher.resources.FilesManager;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
@@ -15,7 +14,7 @@ public class LogManager {
 
     public static void init() {
         try {
-            fileHandler = new FileHandler(new File(FilesManager.LOGS_PATH, "launcher.log").getPath());
+            fileHandler = new FileHandler(FilesManager.LOGS_PATH.resolve("launcher.log").toString());
             fileHandler.setFormatter(new FileLogFormatter());
         } catch (IOException e) {
             e.printStackTrace();

@@ -35,10 +35,19 @@ public class AccountManager {
     public static class AuthResult {
        private final boolean isLoggedIn;
        private final StepMCProfile.MCProfile mcProfile;
+       private boolean hasException;
+       private Exception exception;
+
 
        public AuthResult(boolean isLoggedIn, @Nullable StepMCProfile.MCProfile mcProfile) {
            this.isLoggedIn = isLoggedIn;
            this.mcProfile = mcProfile;
+       }
+
+       public AuthResult(Exception exception) {
+           this(false, null);
+           this.exception = exception;
+           this.hasException = true;
        }
 
        public boolean isLoggedIn() {
@@ -48,6 +57,14 @@ public class AccountManager {
        public StepMCProfile.MCProfile getMcProfile() {
            return mcProfile;
        }
+
+         public boolean hasException() {
+              return hasException;
+         }
+
+        public Exception getException() {
+            return exception;
+        }
    }
 
     public void setCurrentMCProfile(StepMCProfile.MCProfile currentMCProfile) {
@@ -120,7 +137,7 @@ public class AccountManager {
                return new AuthResult(true, javaSession.getMcProfile());
 
            } catch (Exception e) {
-               //ErrorsHandler.handleError(e);
+               ModcraftApplication.LOGGER.info("Failed to validate Microsoft account: " + e.getMessage());
                return new AuthResult(false, null);
            }
     }
@@ -132,6 +149,8 @@ public class AccountManager {
 
     private static JsonObject getLoginJson() {
        String authJson = ModcraftApplication.launcherConfig.getRefreshToken();
+       if (authJson.isEmpty())
+           throw new IllegalStateException("refreshToken is null");
        return JsonParser.parseString(authJson).getAsJsonObject();
     }
 }

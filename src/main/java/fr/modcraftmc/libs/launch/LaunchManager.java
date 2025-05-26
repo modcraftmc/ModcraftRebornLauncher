@@ -10,7 +10,6 @@ import fr.theshark34.openlauncherlib.minecraft.AuthInfos;
 import fr.theshark34.openlauncherlib.minecraft.GameFolder;
 import net.raphimc.minecraftauth.step.java.StepMCProfile;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -33,11 +32,7 @@ public class LaunchManager {
         AuthInfos authInfos = new AuthInfos(name, accesToken, uuid, xuid, clientId);
         final NoFramework noFramework = new NoFramework(dir, authInfos, GameFolder.FLOW_UPDATER_1_19_SUP);
         if (!(ModcraftApplication.ENVIRONMENT.getEnv() == Environment.ENV.DEV)) {
-            if (System.getProperty("os.name").contains("windows")) {
-                JavaUtil.setJavaCommand(new File(FilesManager.JAVA_PATH, "\\bin\\java.exe").getPath());
-            } else {
-                JavaUtil.setJavaCommand(new File(FilesManager.JAVA_PATH, "/bin/java").getPath());
-            }
+            JavaUtil.setJavaCommand(FilesManager.JAVA_EXE.toString());
         }
         ModcraftApplication.LOGGER.info("launching ");
         noFramework.getAdditionalVmArgs().add((String.format("-Xmx%sG", ModcraftApplication.launcherConfig.getRam())));

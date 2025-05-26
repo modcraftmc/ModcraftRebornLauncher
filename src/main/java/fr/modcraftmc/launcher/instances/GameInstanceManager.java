@@ -14,7 +14,7 @@ public class GameInstanceManager {
 
     public void refreshInstances() {
         boolean useCustomInstance = ModcraftApplication.launcherConfig.getInstanceProperty().customInstance();
-        Path modcraftRoot = useCustomInstance ? Path.of(ModcraftApplication.launcherConfig.getInstanceProperty().customInstancePath()) : FilesManager.INSTANCES_PATH.toPath();
+        Path modcraftRoot = useCustomInstance ? Path.of(ModcraftApplication.launcherConfig.getInstanceProperty().customInstancePath()) : FilesManager.INSTANCES_PATH;
 
         Path instancesPath = modcraftRoot.resolve("instances");
 

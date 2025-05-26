@@ -54,7 +54,7 @@ public class DownloadNativeLibrary
 
         // Path of Discord's library inside the ZIP
         String zipPath = "lib/"+arch+"/"+name+suffix;
-        File sdk_dir = new File(FilesManager.LAUNCHER_PATH, ".cache");
+        File sdk_dir = FilesManager.LAUNCHER_PATH.resolve(".cache").toFile();
 
         File temp = new File(sdk_dir, name+suffix);
         if (temp.exists()) return temp;

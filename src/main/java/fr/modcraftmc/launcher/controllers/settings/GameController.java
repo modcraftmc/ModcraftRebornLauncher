@@ -49,7 +49,7 @@ public class GameController extends BaseController {
         browseFile.setOnMouseClicked(event -> {
             DirectoryChooser fileChooser = new DirectoryChooser();
             fileChooser.setTitle("Select directory");
-            fileChooser.setInitialDirectory(FilesManager.INSTANCES_PATH);
+            fileChooser.setInitialDirectory(FilesManager.INSTANCES_PATH.toFile());
             File path = fileChooser.showDialog(ModcraftApplication.getWindow());
             if (path != null) {
                 customPath.setText(path.getAbsolutePath());

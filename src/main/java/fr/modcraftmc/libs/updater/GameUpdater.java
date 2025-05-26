@@ -37,7 +37,7 @@ public class GameUpdater {
 
     public void update(MainControllerV2 controller, Runnable onUpdateFinished) {
         VanillaVersion version = new VanillaVersion.VanillaVersionBuilder().withName(ModcraftApplication.MC_VERSION).build();
-        UpdaterOptions options = new UpdaterOptions.UpdaterOptionsBuilder().withJavaPath(FilesManager.JAVA_EXE.getPath()).build();
+        UpdaterOptions options = new UpdaterOptions.UpdaterOptionsBuilder().withJavaPath(FilesManager.JAVA_EXE.toString()).build();
 
         List<Mod> mods = new ArrayList<>();
         try {

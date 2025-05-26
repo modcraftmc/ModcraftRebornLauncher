@@ -13,61 +13,61 @@ import java.util.Set;
 
 public class FilesManager {
 
-    public static char FP = File.separatorChar;
-    public static String BASE_PATH;
-    public static File DEFAULT_PATH;
-    public static File LAUNCHER_PATH;
-    public static File LAUNCHER_JAR;
-    public static File LOGS_PATH;
-    public static File OPTIONS_PATH;
-    public static File INSTANCES_PATH;
-    public static File JAVA_PATH;
-    public static File JAVA_EXE;
+    private final char FP = File.separatorChar;
+    public static Path BASE_PATH;
+    public static Path DEFAULT_PATH;
+    public static Path LAUNCHER_PATH;
+    public static Path LAUNCHER_JAR;
+    public static Path LOGS_PATH;
+    public static Path OPTIONS_FILE;
+    public static Path INSTANCES_PATH;
+    public static Path JAVA_PATH;
+    public static Path JAVA_EXE;
 
     public void init() {
 
-        BASE_PATH = ModcraftApplication.ENVIRONMENT.getOS() == Environment.OS.WINDOWS ? System.getenv("appdata") : System.getenv("HOME");
-        DEFAULT_PATH = new File(BASE_PATH + FP + ".modcraftmc" + (ModcraftApplication.ENVIRONMENT.getEnv() == Environment.ENV.DEV ? "-dev" : "") + FP);
-        LAUNCHER_PATH = new File(DEFAULT_PATH, "launcher");
-        LAUNCHER_JAR = new File(LAUNCHER_PATH, "launcher.jar");
-        LOGS_PATH = new File(LAUNCHER_PATH, "logs");
-        OPTIONS_PATH = new File(LAUNCHER_PATH, "modcraftlauncher.json");
-        INSTANCES_PATH = new File(DEFAULT_PATH, "instances");
-        JAVA_PATH = new File(DEFAULT_PATH, "java");
-        JAVA_EXE = new File(JAVA_PATH, "bin/java");
+        BASE_PATH = this.getBasePath();
+        DEFAULT_PATH = BASE_PATH.resolve(".modcraftmc" + (ModcraftApplication.ENVIRONMENT.getEnv() == Environment.ENV.DEV ? "-dev" : ""));
+        LAUNCHER_PATH = DEFAULT_PATH.resolve("launcher");
+        LAUNCHER_JAR = LAUNCHER_PATH.resolve("launcher.jar");
+        LOGS_PATH = LAUNCHER_PATH.resolve("logs");
+        OPTIONS_FILE = LAUNCHER_PATH.resolve("modcraftlauncher.json");
+        INSTANCES_PATH = DEFAULT_PATH.resolve("instances");
+        JAVA_PATH = DEFAULT_PATH.resolve("java");
+        JAVA_EXE = JAVA_PATH.resolve("bin").resolve("java");
 
         try {
-            if (!DEFAULT_PATH.exists()) {
-                DEFAULT_PATH.mkdirs();
-            }
-            if (!LAUNCHER_PATH.exists()) {
-                LAUNCHER_PATH.mkdirs();
-            }
-            if (!OPTIONS_PATH.exists()) {
-                OPTIONS_PATH.createNewFile();
-            }
-            if (!INSTANCES_PATH.exists()) {
-                INSTANCES_PATH.mkdirs();
-            }
-            if (!JAVA_PATH.exists()) {
-                JAVA_PATH.mkdirs();
-            }
-
-            if (!LOGS_PATH.exists()) {
-                LOGS_PATH.mkdirs();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            Files.createDirectories(BASE_PATH);
+            Files.createDirectories(DEFAULT_PATH);
+            Files.createDirectories(LAUNCHER_PATH);
+            Files.createDirectories(LOGS_PATH);
+            Files.createDirectories(INSTANCES_PATH);
+            Files.createDirectories(JAVA_PATH);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to create necessary directories: " + e.getMessage(), e);
         }
 
         setExecutablePermissions();
     }
 
+    public Path getBasePath() {
+        return switch (ModcraftApplication.ENVIRONMENT.getOS()) {
+            case WINDOWS -> Path.of(System.getenv("appdata"));
+            case LINUX -> {
+                if (System.getenv("XDG_DATA_HOME") != null) {
+                    yield Path.of(System.getenv("XDG_DATA_HOME"));
+                }
+                yield Path.of(System.getenv("HOME")).resolve(".local/share");
+            }
+            case MAC -> Path.of(System.getenv("HOME"));
+            default -> throw new UnsupportedOperationException("Unsupported OS: " + ModcraftApplication.ENVIRONMENT.getOS());
+        };
+    }
 
     /**
      * From https://github.com/Arinonia/altiscore-bootstrap/commit/5eb60d0b458de16e308ae10ce7a970fb1885e94f
      */
-    private static void setExecutablePermissions() {
+    private void setExecutablePermissions() {
         if (ModcraftApplication.ENVIRONMENT.getOS() != Environment.OS.LINUX) {
             return;
         }
@@ -89,7 +89,7 @@ public class FilesManager {
         permissions.add(PosixFilePermission.OTHERS_EXECUTE);
 
         for (final String execFile : executableFiles) {
-            final Path filePath = FilesManager.JAVA_PATH.toPath().resolve(execFile);
+            final Path filePath = JAVA_PATH.resolve(execFile);
             if (Files.exists(filePath)) {
                 try {
                     Files.setPosixFilePermissions(filePath, permissions);
@@ -100,45 +100,5 @@ public class FilesManager {
             }
         }
 
-    }
-
-    public File getDefaultPath() {
-        return DEFAULT_PATH;
-    }
-
-    public void setDefaultPath(File defaultPath) {
-        DEFAULT_PATH = defaultPath;
-    }
-
-    public File getOptionsPath() {
-        return OPTIONS_PATH;
-    }
-
-    public void setOptionsPath(File optionsPath) {
-        OPTIONS_PATH = optionsPath;
-    }
-
-    public File getInstancesPath() {
-        return INSTANCES_PATH;
-    }
-
-    public void setInstancesPath(File instancesPath) {
-        INSTANCES_PATH = instancesPath;
-    }
-
-    public File getJavaPath() {
-        return JAVA_PATH;
-    }
-
-    public static void setJavaPath(File javaPath) {
-        JAVA_PATH = javaPath;
-    }
-
-    public File getLauncherPath() {
-        return LAUNCHER_PATH;
-    }
-
-    public void setLauncherPath(File launcherPath) {
-        LAUNCHER_PATH = launcherPath;
     }
 }

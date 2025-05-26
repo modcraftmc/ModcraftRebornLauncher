@@ -8,9 +8,9 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.util.concurrent.CompletableFuture;
 
@@ -54,8 +54,8 @@ public class Utils {
         }
     }
 
-    public static String getFileChecksum(MessageDigest digest, File file) throws IOException {
-        FileInputStream fis = new FileInputStream(file);
+    public static String getFileChecksum(MessageDigest digest, Path file) throws IOException {
+        FileInputStream fis = new FileInputStream(file.toFile());
 
         byte[] byteArray = new byte[1024];
         int bytesCount = 0;
