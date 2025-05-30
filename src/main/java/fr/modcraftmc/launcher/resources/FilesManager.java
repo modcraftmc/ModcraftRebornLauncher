@@ -18,7 +18,7 @@ public class FilesManager {
     public static Path DEFAULT_PATH;
     public static Path LAUNCHER_PATH;
     public static Path LAUNCHER_JAR;
-    public static Path LOGS_PATH;
+    public static Path LAUNCHER_LOGS_PATH;
     public static Path OPTIONS_FILE;
     public static Path INSTANCES_PATH;
     public static Path JAVA_PATH;
@@ -30,7 +30,7 @@ public class FilesManager {
         DEFAULT_PATH = BASE_PATH.resolve(".modcraftmc" + (ModcraftApplication.ENVIRONMENT.getEnv() == Environment.ENV.DEV ? "-dev" : ""));
         LAUNCHER_PATH = DEFAULT_PATH.resolve("launcher");
         LAUNCHER_JAR = LAUNCHER_PATH.resolve("launcher.jar");
-        LOGS_PATH = LAUNCHER_PATH.resolve("logs");
+        LAUNCHER_LOGS_PATH = LAUNCHER_PATH.resolve("logs");
         OPTIONS_FILE = LAUNCHER_PATH.resolve("modcraftlauncher.json");
         INSTANCES_PATH = DEFAULT_PATH.resolve("instances");
         JAVA_PATH = DEFAULT_PATH.resolve("java");
@@ -40,7 +40,7 @@ public class FilesManager {
             Files.createDirectories(BASE_PATH);
             Files.createDirectories(DEFAULT_PATH);
             Files.createDirectories(LAUNCHER_PATH);
-            Files.createDirectories(LOGS_PATH);
+            Files.createDirectories(LAUNCHER_LOGS_PATH);
             Files.createDirectories(INSTANCES_PATH);
             Files.createDirectories(JAVA_PATH);
         } catch (IOException e) {

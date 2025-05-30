@@ -5,6 +5,7 @@ import fr.modcraftmc.launcher.AsyncExecutor;
 import fr.modcraftmc.launcher.ModcraftApplication;
 import fr.modcraftmc.launcher.Utils;
 import fr.modcraftmc.launcher.controllers.BaseController;
+import fr.modcraftmc.launcher.resources.FilesManager;
 import fr.modcraftmc.libs.api.ModcraftServiceUserProfile;
 import fr.modcraftmc.libs.popup.PopupBuilder;
 import javafx.fxml.FXML;
@@ -24,7 +25,9 @@ public class DebugController extends BaseController {
     @FXML
     private Label version;
     @FXML
-    public Button logBtn;
+    public Button minecraftLogBtn;
+    @FXML
+    public Button launcherLogBtn;
     @FXML
     public Button devApiBtn;
     @Override
@@ -32,7 +35,7 @@ public class DebugController extends BaseController {
         buildType.setText("Build Type: " + ModcraftApplication.ENVIRONMENT.getEnv());
         version.setText("Build Time: " + ModcraftApplication.BUILD_TIME);
 
-        logBtn.setOnMouseClicked((event) -> {
+        minecraftLogBtn.setOnMouseClicked((event) -> {
             AsyncExecutor.runAsync(() -> {
                 Path logdirectory = ModcraftApplication.gameInstanceManager.getActiveInstancePath().resolve("logs");
                 if (!logdirectory.toFile().exists()) {}
@@ -40,6 +43,16 @@ public class DebugController extends BaseController {
 
                 try {
                     Desktop.getDesktop().open(logdirectory.toFile());
+                } catch (IOException e) {
+                    ModcraftApplication.LOGGER.severe(e.getMessage());
+                }
+            });
+        });
+
+        launcherLogBtn.setOnMouseClicked((event) -> {
+            AsyncExecutor.runAsync(() -> {
+                try {
+                    Desktop.getDesktop().open(FilesManager.LAUNCHER_LOGS_PATH.toFile());
                 } catch (IOException e) {
                     ModcraftApplication.LOGGER.severe(e.getMessage());
                 }

@@ -3,7 +3,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-
 <AnchorPane prefHeight="380.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.modcraftmc.launcher.controllers.settings.DebugController">
     <Pane fx:id="settings" prefHeight="380.0" prefWidth="870.0" styleClass="settings-left" stylesheets="@../../css/main.css">
         <children>
@@ -33,13 +32,14 @@
             </children></Pane>
          <Pane layoutX="16.0" layoutY="202.0" prefHeight="124.0" prefWidth="837.0" styleClass="settings-content" stylesheets="@../../css/main.css">
             <children>
-               <Label layoutX="24.0" layoutY="14.0" text="Logs Minecraft" textFill="WHITE">
+               <Label layoutX="24.0" layoutY="14.0" text="Logs" textFill="WHITE">
                   <font>
                      <Font name="Lilita One" size="18.0" />
                   </font>
                </Label>
-               <Button fx:id="logBtn" layoutX="24.0" layoutY="50.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" text="ouvrir les logs" />
+               <Button fx:id="minecraftLogBtn" layoutX="24.0" layoutY="50.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" text="Log Minecraft" />
                <Button fx:id="devApiBtn" layoutX="731.0" layoutY="22.0" mnemonicParsing="false" text="use dev api" />
+               <Button fx:id="launcherLogBtn" layoutX="24.0" layoutY="84.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" text="Log Launcher" />
             </children>
          </Pane>
         </children>

@@ -14,7 +14,7 @@ public class LogManager {
 
     public static void init() {
         try {
-            fileHandler = new FileHandler(FilesManager.LOGS_PATH.resolve("launcher.log").toString());
+            fileHandler = new FileHandler(FilesManager.LAUNCHER_LOGS_PATH.resolve("launcher.log").toString());
             fileHandler.setFormatter(new FileLogFormatter());
         } catch (IOException e) {
             e.printStackTrace();
