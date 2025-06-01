@@ -5,6 +5,7 @@ import fr.modcraftmc.api.exception.ParsingException;
 import fr.modcraftmc.api.exception.RemoteException;
 import fr.modcraftmc.api.models.LauncherInfo;
 import fr.modcraftmc.launcher.resources.FilesManager;
+import javafx.application.Platform;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,12 +47,14 @@ public class SelfUpdater {
 
     public static void doUpdate(String bootstrapPath) {
         ModcraftApplication.LOGGER.info("launching bootstrap");
+        Platform.exit();
         try {
             ProcessBuilder builder = new ProcessBuilder();
-            builder.directory(FilesManager.LAUNCHER_JAR.toFile());
-            builder.command(FilesManager.JAVA_EXE.toString(), "-jar", bootstrapPath);
-            builder.start();
-        } catch (IOException e) {
+            builder.inheritIO();
+            builder.command(bootstrapPath);
+            Process process = builder.start();
+            process.waitFor();
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
 
