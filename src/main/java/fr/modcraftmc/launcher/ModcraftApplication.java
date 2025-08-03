@@ -42,7 +42,7 @@ public class ModcraftApplication extends Application {
 
     //Constants
     public static String BUILD_TIME = "DEV";
-    public static String NEOFORGE_VERSION = "21.1.180";
+    public static String NEOFORGE_VERSION = "21.1.197";
     public static String MC_VERSION = "1.21.1";
     public static ModcraftApplication app;
     private static Stage window;
