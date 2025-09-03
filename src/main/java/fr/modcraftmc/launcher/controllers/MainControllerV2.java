@@ -12,6 +12,7 @@ import fr.modcraftmc.libs.serverpinger.MinecraftPing;
 import fr.modcraftmc.libs.serverpinger.MinecraftPingReply;
 import fr.modcraftmc.libs.updater.GameUpdater;
 import fr.modcraftmc.libs.updater.ProgressCallback;
+import fr.modcraftmc.libs.updater.UpdaterProgessCallback;
 import io.github.palexdev.materialfx.controls.MFXProgressBar;
 import io.github.palexdev.materialfx.controls.MFXProgressSpinner;
 import javafx.fxml.FXML;
@@ -329,13 +330,24 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
         }
     }
 
+    // used to have a better text/progress bar when downloading mods
+    private int beforeMods = -1;
 
     @Override
-    public void onProgressUpdate(String progress, int current, int max) {
+    public void onProgressUpdate(UpdaterProgessCallback.UpdateMessages state, String progress, int current, int max) {
         Utils.ensureFxThread(() -> {
             if (max > 0) {
-                progressBar.setProgress((double) current / max);
-                progressLabel.setText(progress + " " + current + "/" + max);
+                if (state == UpdaterProgessCallback.UpdateMessages.MODS && beforeMods == -1) {
+                    beforeMods = current;
+                }
+
+                int base = (beforeMods != -1) ? beforeMods : 0;
+                int adjCurrent = current - base;
+                int adjMax = max - base;
+
+                progressBar.setProgress((double) adjCurrent / adjMax);
+                progressLabel.setText(progress + " " + adjCurrent + "/" + adjMax);
+
             } else if (current == -1) {
                 progressBar.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
                 progressLabel.setText(progress);
@@ -344,6 +356,7 @@ public class MainControllerV2 extends BaseController implements ProgressCallback
             }
         });
     }
+
 
     public enum State {
         IDLE,

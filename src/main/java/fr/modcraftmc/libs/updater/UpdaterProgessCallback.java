@@ -13,7 +13,7 @@ public class UpdaterProgessCallback implements IProgressCallback {
 
     @Override
     public void update(DownloadList.DownloadInfo info) {
-        GameUpdater.get().getProgressCallback().onProgressUpdate(currentMessage.getString(isDownloading), info.getDownloadedFiles(), info.getTotalToDownloadFiles());
+        GameUpdater.get().getProgressCallback().onProgressUpdate(currentMessage, currentMessage.getString(isDownloading), info.getDownloadedFiles(), info.getTotalToDownloadFiles());
     }
 
     @Override
@@ -31,12 +31,12 @@ public class UpdaterProgessCallback implements IProgressCallback {
             }
             case MOD_LOADER -> {
                 currentMessage = UpdateMessages.FORGE;
-                GameUpdater.get().getProgressCallback().onProgressUpdate(currentMessage.dlText, -1, -1);
+                GameUpdater.get().getProgressCallback().onProgressUpdate(currentMessage, currentMessage.dlText, -1, -1);
                 return;
             }
         }
 
-        GameUpdater.get().getProgressCallback().onProgressUpdate(currentMessage.getString(isDownloading), 0, 0);
+        GameUpdater.get().getProgressCallback().onProgressUpdate(currentMessage, currentMessage.getString(isDownloading), 0, 0);
     }
 
     @Override
